@@ -14,8 +14,8 @@ const BLOCKING = new Set<ImpactValue>(BLOCKING_IMPACTS);
  * nunca la resuelve: la deja en `incomplete`, donde pasaría desapercibida y daría un gate en verde
  * falso. Apagarla deja el límite escrito en el código.
  *
- * **El contraste no se audita aquí.** El DoD de la fase B («el oro #B8974F no se usa para texto
- * pequeño») es verificación manual o de herramienta externa, no de este gate.
+ * **El contraste no se audita aquí**, pero tampoco queda sin cubrir: lo verifica
+ * `src/lib/contrast.ts` sobre los tokens, con sus propios tests.
  */
 export const RUN_OPTIONS: RunOptions = {
   rules: { 'color-contrast': { enabled: false } },

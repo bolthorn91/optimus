@@ -1,0 +1,127 @@
+@import './fonts.css';
+@import './tokens.css';
+@import './primitives.css';
+
+/* Reset acotado: solo lo que estorba, no una hoja de reset entera. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+/*
+ * Sin `scroll-behavior: smooth`: el motor de movimiento conduce el scroll y el suavizado del
+ * navegador pelearía con él (M3).
+ */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  /* El fondo se pinta explícito: el visor no presta el suyo. */
+  background-color: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100svh;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 600;
+  line-height: var(--leading-tight);
+  color: var(--ink-strong);
+  text-wrap: balance;
+}
+
+/* S6: Cinzel solo en h1, h2 y numerales. Su minúscula es versalita y no sirve para leer. */
+h1,
+h2 {
+  font-family: var(--font-display);
+}
+
+h1 {
+  font-size: var(--text-h1);
+}
+h2 {
+  font-size: var(--text-h2);
+}
+h3,
+h4 {
+  font-family: var(--font-body);
+}
+
+h3 {
+  font-size: var(--text-h3);
+}
+
+h4 {
+  font-size: var(--text-h4);
+}
+
+p,
+li {
+  max-width: var(--measure);
+  text-wrap: pretty;
+}
+
+/* Cifras tabulares en todo lo que se lea en columna: tablas y contadores (doc 00 S6). */
+table,
+[data-tabular] {
+  font-variant-numeric: tabular-nums;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+/* Foco siempre visible, y con contraste suficiente en ambos temas. */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-s);
+}
+
+:where(button, [role='button']) {
+  cursor: pointer;
+}

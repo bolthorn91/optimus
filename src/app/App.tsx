@@ -1,8 +1,9 @@
-/** Andamiaje mínimo: da a la build un punto de entrada hasta que exista el shell. */
+import { DesignPage } from '@/pages/DesignPage';
+
+/**
+ * Sin router todavía, la aplicación es la propia página de muestra: es la única superficie que
+ * existe. Pasa a su ruta `/design` cuando el shell la tenga.
+ */
 export function App() {
-  return (
-    <main>
-      <h1>OPTIMVS Capital Protegido</h1>
-    </main>
-  );
+  return <DesignPage />;
 }

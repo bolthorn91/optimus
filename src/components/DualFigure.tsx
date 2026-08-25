@@ -1,0 +1,36 @@
+import { RomanNumeral } from '@/components/RomanNumeral';
+import { NBSP, formatNumber } from '@/lib/format';
+import { ROMAN_MAX, ROMAN_MIN } from '@/lib/roman';
+
+export interface DualFigureProps {
+  value: number;
+  /** Unidad o signo pospuesto: `%`, `ha`, `km²`. */
+  suffix?: string;
+  /** El romano solo cabe para enteros de 1 a 3999; fuera de ese rango se omite. */
+  roman?: boolean;
+  className?: string;
+}
+
+function canRender(value: number): boolean {
+  return Number.isInteger(value) && value >= ROMAN_MIN && value <= ROMAN_MAX;
+}
+
+/**
+ * Cifra ancla con su doble numeral (doc 00 S9): el arábigo es el valor y el romano una marca
+ * secundaria, más pequeña y encima. El romano va `aria-hidden` — nadie debería oír «catorce»
+ * dos veces. La jerarquía visual la fija `[data-dual-figure]` en `src/styles/primitives.css`,
+ * que alcanza el romano por su `aria-hidden`: es lo que lo distingue del valor.
+ */
+export function DualFigure({ value, suffix, roman = true, className }: DualFigureProps) {
+  const showRoman = roman && canRender(value);
+
+  return (
+    <span className={className} data-dual-figure data-tabular>
+      {showRoman ? <RomanNumeral decorative value={value} /> : null}
+      <span data-dual-figure-value>
+        {formatNumber(value)}
+        {suffix === undefined ? null : NBSP + suffix}
+      </span>
+    </span>
+  );
+}

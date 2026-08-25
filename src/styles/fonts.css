@@ -1,0 +1,46 @@
+/*
+ * Fuentes autoalojadas, sin ninguna petición a CDN (doc 00 S6 y §5 de seguridad). Los ficheros
+ * vienen en node_modules vía Fontsource y Vite los emite con hash a `dist/assets/`, así que el
+ * navegador nunca pide nada a un tercero.
+ *
+ * Las `@font-face` de Inter se declaran a mano en vez de importar `wght.css`, que trae siete
+ * subconjuntos (cirílico, griego, vietnamita…) y emitiría cinco ficheros que un sitio en español
+ * no descarga jamás. Cinzel sí tiene entrada por subconjunto y se importa tal cual.
+ */
+
+@import '@fontsource/cinzel/latin-400.css';
+@import '@fontsource/cinzel/latin-600.css';
+
+@font-face {
+  font-family: 'Inter Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('@fontsource-variable/inter/files/inter-latin-wght-normal.woff2')
+    format('woff2-variations');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/*
+ * Métricas de respaldo: mientras la fuente carga, el navegador dibuja la local ajustada a las
+ * métricas de la definitiva, de modo que el intercambio no desplaza el layout (doc 00 §3.6, I9).
+ */
+@font-face {
+  font-family: 'Cinzel Fallback';
+  src: local('Times New Roman'), local('Times');
+  size-adjust: 105%;
+  ascent-override: 92%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Segoe UI'), local('Helvetica Neue'), local('Arial');
+  size-adjust: 107%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}

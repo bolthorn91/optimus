@@ -1,0 +1,123 @@
+/*
+ * Tokens de diseño. Un color, un tamaño o un espacio que no esté aquí no existe (doc 00 S4).
+ * Los valores de color salen literales de content/05-guia-estilo-visual.md, muestreados de los
+ * assets reales de marca.
+ */
+
+:root {
+  /* Base — doc 00 S1 */
+  --color-navy-deep: #102135;
+  --color-navy-mid: #1a2c42;
+  --color-navy-ink: #21293d;
+  --color-ivory: #f7f5f0;
+  --color-white: #ffffff;
+
+  /* Oro — degradado metálico del emblema, doc 00 S1 */
+  --color-gold-high: #ffeeb2;
+  --color-gold: #b8974f;
+  --color-gold-bronze: #8e6d3f;
+  --color-gold-muted: #8a7a55;
+
+  /* Neutros derivados. Aquí y no sueltos en los roles: la paleta es el inventario completo. */
+  --color-slate: #4a5468;
+  --color-slate-light: #a8b0bf;
+  --color-rule-warm: #d9d4c9;
+  --color-rule-cool: #2c3a4d;
+
+  /*
+   * Escala de riesgo — doc 00 S2. Uso EXCLUSIVO en los mapas del acto II.
+   * Prohibido reutilizarlas como colores de interfaz.
+   */
+  --color-risk-extreme: #9b1e22;
+  --color-risk-high: #c6772c;
+  --color-risk-latent: #dfcc4c;
+  --color-risk-stable: #2b498f;
+
+  /* Identificadores de país — doc 00 S3 */
+  --color-country-es: var(--color-gold-muted);
+  --color-country-ar: var(--color-risk-stable);
+
+  /*
+   * Roles semánticos, tema claro.
+   *
+   * `--accent` es DECORATIVO: filetes, bordes, subrayados e iconos. Nunca color de texto — la
+   * guía de estilo lo dice explícitamente y el contraste no da para ello. El texto enfatizado
+   * usa `--ink-strong`.
+   */
+  --surface: var(--color-ivory);
+  --surface-raised: var(--color-white);
+  --ink: var(--color-navy-ink);
+  --ink-strong: var(--color-navy-deep);
+  --ink-muted: var(--color-slate);
+  --accent: var(--color-gold-bronze);
+  --rule: var(--color-rule-warm);
+  --focus: var(--color-risk-stable);
+
+  /* Tipografía — doc 00 S6 y S7 */
+  --font-display: 'Cinzel', 'Cinzel Fallback', 'Times New Roman', serif;
+  --font-body: 'Inter Variable', 'Inter Fallback', system-ui, -apple-system, sans-serif;
+
+  --text-note: clamp(0.875rem, 0.855rem + 0.1vw, 0.9375rem);
+  --text-body: clamp(1.0625rem, 1.03rem + 0.18vw, 1.1875rem);
+  --text-h4: clamp(1.25rem, 1.15rem + 0.5vw, 1.375rem);
+  --text-h3: clamp(1.75rem, 1.5rem + 1.2vw, 2rem);
+  --text-h2: clamp(2.5rem, 2rem + 2.4vw, 3rem);
+  --text-h1: clamp(3.5rem, 2.6rem + 4.4vw, 4.5rem);
+  --text-figure: clamp(4rem, 2.8rem + 6vw, 6rem);
+
+  --leading-tight: 1.1;
+  --leading-body: 1.65;
+  --tracking-caps: 0.08em;
+
+  /* Ancho de lectura: 65–75 caracteres, doc 00 S7 */
+  --measure: 68ch;
+  /* Para bloques a tamaño de titular: 68ch a ese cuerpo sería la línea más ancha de la página. */
+  --measure-tight: 34ch;
+  --container: 75rem;
+
+  /* Espaciado */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-s: 1rem;
+  --space-m: 1.5rem;
+  --space-l: 2.5rem;
+  --space-xl: 4rem;
+  --space-2xl: clamp(4.5rem, 3rem + 7vw, 10rem);
+
+  --radius-s: 2px;
+  --radius-m: 4px;
+
+  /* Puntos de ruptura, para que el documento 08 no los reinvente */
+  --bp-tablet: 48rem;
+  --bp-desktop: 64rem;
+}
+
+/*
+ * Tema oscuro. Solo se redefinen roles: ningún color tiene su única definición dentro de un
+ * bloque de media query (doc 00 S5). Los tres estados: preferencia del sistema, elección
+ * explícita clara y elección explícita oscura.
+ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --surface: var(--color-navy-deep);
+    --surface-raised: var(--color-navy-mid);
+    --ink: var(--color-ivory);
+    --ink-strong: var(--color-white);
+    --ink-muted: var(--color-slate-light);
+    --accent: var(--color-gold);
+    --rule: var(--color-rule-cool);
+    --focus: var(--color-gold-high);
+  }
+}
+
+:root[data-theme='dark'] {
+  --surface: var(--color-navy-deep);
+  --surface-raised: var(--color-navy-mid);
+  --ink: var(--color-ivory);
+  --ink-strong: var(--color-white);
+  --ink-muted: var(--color-slate-light);
+  --accent: var(--color-gold);
+  --rule: var(--color-rule-cool);
+  --focus: var(--color-gold-high);
+}
