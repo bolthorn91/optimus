@@ -44,3 +44,6 @@ yarn-error.log*
 pnpm-debug.log*
 logs/
 *.log
+
+# Informe de chunks para el gate de presupuesto
+.build-report/

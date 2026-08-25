@@ -1,0 +1,12 @@
+dist/
+coverage/
+node_modules/
+package-lock.json
+.claude/
+goal-loop-kit/
+public/assets-origen/
+*.pdf
+
+# Toda la documentación del repositorio lleva tablas markdown alineadas a mano y, en el caso
+# de agent-docs/, es zona protegida (perfil §6). Prettier no las reformatea.
+**/*.md
