@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { memo, type ReactNode } from 'react';
 
 export interface HeroHeadlineProps {
   text: string;
@@ -25,6 +25,7 @@ function emphasizedNodes(text: string, emphasis: readonly string[]): ReactNode[]
   return nodes;
 }
 
-export function HeroHeadline({ text, emphasis }: HeroHeadlineProps) {
-  return <h1>{emphasizedNodes(text, emphasis)}</h1>;
-}
+/** Memo: SplitText wraps this h1; a parent re-render would wipe the line fragments. */
+export const HeroHeadline = memo(function HeroHeadline({ text, emphasis }: HeroHeadlineProps) {
+  return <h1 aria-label={text}>{emphasizedNodes(text, emphasis)}</h1>;
+});

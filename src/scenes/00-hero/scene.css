@@ -1,4 +1,5 @@
 .hero {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -8,10 +9,40 @@
   padding: var(--space-l) var(--space-m);
 }
 
+.hero-veil {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 40%,
+    color-mix(in srgb, var(--color-gold) 18%, transparent),
+    transparent 65%
+  );
+  animation: hero-veil 12s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-veil {
+    animation: none;
+  }
+}
+
+@keyframes hero-veil {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
 .hero-logo {
   display: block;
   inline-size: min(12rem, 40vw);
   block-size: auto;
+  opacity: var(--logo-opacity, 1);
+  transform: translateY(var(--logo-y, 0px));
 }
 
 .hero h1 {
@@ -33,6 +64,7 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-size: var(--text-note);
+  opacity: var(--claim-opacity, 1);
 }
 
 .hero-ctas {
@@ -40,6 +72,7 @@
   flex-wrap: wrap;
   gap: var(--space-s);
   align-items: baseline;
+  opacity: var(--cta-opacity, 1);
 }
 
 .hero-cta--primary {
@@ -57,6 +90,7 @@
   margin: 0;
   color: var(--color-gold-muted);
   font-size: var(--text-note);
+  opacity: var(--hint-opacity, 1);
 }
 
 .hero-intro {

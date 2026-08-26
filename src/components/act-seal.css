@@ -1,0 +1,16 @@
+.act-seal {
+  display: grid;
+  place-items: center;
+  block-size: 8rem;
+  color: var(--color-gold);
+}
+
+.act-seal svg,
+.act-seal [lang='la'] {
+  grid-area: 1 / 1;
+}
+
+.act-seal svg {
+  inline-size: 5rem;
+  block-size: 5rem;
+}
