@@ -7,6 +7,16 @@
  * Oculto a la vista, presente para el lector de pantalla. `<CountUp>` depende de esta clase para
  * cumplir el invariante I4: sin ella la cifra final se vería duplicada en pantalla.
  */
+/* Superficie navy: las primitivas leen --ink* ; el shell no las remapea (M8 es --doc-*). */
+.on-navy {
+  --ink: var(--color-ivory);
+  --ink-strong: var(--color-white);
+  --ink-muted: var(--color-slate-light);
+  --accent: var(--color-gold);
+  --rule: var(--color-rule-cool);
+  color: var(--ink);
+}
+
 .visually-hidden {
   position: absolute;
   inline-size: 1px;

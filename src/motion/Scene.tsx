@@ -7,6 +7,7 @@ export interface SceneProps {
   background?: string;
   fallback?: ReactNode;
   children?: ReactNode;
+  className?: string;
   ref?: Ref<HTMLElement | null>;
 }
 
@@ -14,7 +15,16 @@ export interface SceneProps {
  * Reserva altura antes de montar contenido pesado (M7, M9, I9). El fallback ya lleva el texto
  * completo: el canvas ilustra, el DOM informa. El `ref` es el ancla de useGsapScene.
  */
-export function Scene({ id, act, height, background, fallback, children, ref }: SceneProps) {
+export function Scene({
+  id,
+  act,
+  height,
+  background,
+  fallback,
+  children,
+  className,
+  ref,
+}: SceneProps) {
   const style: CSSProperties = {
     minBlockSize: height,
     background,
@@ -25,6 +35,7 @@ export function Scene({ id, act, height, background, fallback, children, ref }: 
       ref={ref}
       data-scene
       id={id}
+      className={className}
       data-act={typeof act === 'number' ? String(act) : undefined}
       style={style}
     >

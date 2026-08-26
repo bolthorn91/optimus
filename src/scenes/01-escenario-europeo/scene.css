@@ -1,0 +1,33 @@
+.act1 {
+  box-sizing: border-box;
+  min-block-size: 100vh;
+  padding: var(--space-l) var(--space-m);
+}
+
+.act1-intro,
+.factor-panel p:last-child,
+.act1-closing {
+  max-inline-size: 70ch;
+}
+
+.act1-factors {
+  display: grid;
+  gap: var(--space-l);
+}
+
+.factor-panel__index {
+  margin: 0;
+  color: var(--color-gold-muted);
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+}
+
+.factor-panel__scope {
+  margin: 0;
+  color: var(--color-gold);
+  font-size: var(--text-note);
+}
+
+.act1 [data-stat-figure] {
+  margin-block: var(--space-l);
+}
