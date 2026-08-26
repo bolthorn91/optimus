@@ -11,7 +11,7 @@ export default mergeConfig(
   defineConfig({
     test: {
       environment: 'jsdom',
-      setupFiles: ['./src/test/setup.ts'],
+      setupFiles: ['./src/test/env-stubs.ts', './src/test/setup.ts'],
       include: ['src/**/*.{test,spec}.{ts,tsx}', 'tooling/**/*.{test,spec}.ts'],
       restoreMocks: true,
       unstubEnvs: true,

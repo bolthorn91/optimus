@@ -9,6 +9,7 @@ import { RomanNumeral } from '@/components/RomanNumeral';
 import { StatFigure } from '@/components/StatFigure';
 import { formatArea, formatDensity, formatPercent } from '@/lib/format';
 import { COUNTRY_COLOR, PALETTE, RISK_SCALE } from '@/lib/tokens';
+import { SampleScene } from '@/scenes/00-sample/Scene';
 
 import './design-page.css';
 
@@ -126,6 +127,10 @@ export function DesignPage() {
         </p>
 
         <Disclaimer variant="inline" />
+      </Showcase>
+
+      <Showcase act={5} title="Movimiento">
+        <SampleScene />
       </Showcase>
 
       <footer className="design__foot">

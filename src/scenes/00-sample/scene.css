@@ -1,0 +1,9 @@
+#escena-muestra {
+  --sample-opacity: 1;
+  --sample-shift: 0px;
+}
+
+[data-sample-copy] {
+  opacity: var(--sample-opacity);
+  transform: translateY(var(--sample-shift));
+}
