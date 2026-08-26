@@ -46,6 +46,9 @@
    */
   --surface: var(--color-ivory);
   --surface-raised: var(--color-white);
+  --doc-surface: var(--color-navy-deep);
+  --doc-ink: var(--color-ivory);
+  --doc-focus: var(--focus);
   --ink: var(--color-navy-ink);
   --ink-strong: var(--color-navy-deep);
   --ink-muted: var(--color-slate);

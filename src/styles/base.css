@@ -32,10 +32,17 @@ html {
   }
 }
 
+html {
+  scroll-padding-top: 4.5rem;
+}
+
 body {
-  /* El fondo se pinta explícito: el visor no presta el suyo. */
-  background-color: var(--surface);
-  color: var(--ink);
+  /* M8: el fondo del documento sigue --doc-surface, no un cambio de clase. */
+  background-color: var(--doc-surface);
+  color: var(--doc-ink);
+  transition:
+    background-color 400ms ease,
+    color 400ms ease;
   font-family: var(--font-body);
   font-size: var(--text-body);
   line-height: var(--leading-body);
@@ -68,11 +75,12 @@ h3,
 h4 {
   font-weight: 600;
   line-height: var(--leading-tight);
-  color: var(--ink-strong);
+  color: var(--doc-ink);
   text-wrap: balance;
 }
 
 /* S6: Cinzel solo en h1, h2 y numerales. Su minúscula es versalita y no sirve para leer. */
+
 h1,
 h2 {
   font-family: var(--font-display);
@@ -117,7 +125,7 @@ a {
 
 /* Foco siempre visible, y con contraste suficiente en ambos temas. */
 :focus-visible {
-  outline: 2px solid var(--focus);
+  outline: 2px solid var(--doc-focus, var(--focus));
   outline-offset: 3px;
   border-radius: var(--radius-s);
 }

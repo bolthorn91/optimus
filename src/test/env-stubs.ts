@@ -17,6 +17,26 @@ if (typeof window.ResizeObserver !== 'function') {
   };
 }
 
+if (typeof window.IntersectionObserver !== 'function') {
+  window.IntersectionObserver = class {
+    observe(): void {
+      return undefined;
+    }
+    unobserve(): void {
+      return undefined;
+    }
+    disconnect(): void {
+      return undefined;
+    }
+    takeRecords(): IntersectionObserverEntry[] {
+      return [];
+    }
+    readonly root = null;
+    readonly rootMargin = '';
+    readonly thresholds = [];
+  };
+}
+
 if (typeof window.matchMedia !== 'function') {
   window.matchMedia = (query: string) => ({
     matches: false,

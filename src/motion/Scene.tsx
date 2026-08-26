@@ -2,7 +2,7 @@ import type { CSSProperties, ReactNode, Ref } from 'react';
 
 export interface SceneProps {
   id: string;
-  act?: number;
+  act?: number | null;
   height: string;
   background?: string;
   fallback?: ReactNode;
@@ -25,7 +25,7 @@ export function Scene({ id, act, height, background, fallback, children, ref }: 
       ref={ref}
       data-scene
       id={id}
-      data-act={act === undefined ? undefined : String(act)}
+      data-act={typeof act === 'number' ? String(act) : undefined}
       style={style}
     >
       {fallback}

@@ -1,0 +1,41 @@
+.skip-link {
+  position: absolute;
+  inset-inline-start: var(--space-s);
+  inset-block-start: var(--space-s);
+  z-index: 3;
+}
+
+.skip-link:not(:focus) {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.site-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-m);
+  padding: var(--space-s) var(--space-m);
+  background: var(--doc-surface);
+  color: var(--doc-ink);
+}
+
+.site-header[data-past-hero='false'] nav {
+  visibility: hidden;
+}
+
+.cta {
+  position: sticky;
+  margin-inline-start: auto;
+}
+
+[data-milestone] {
+  position: fixed;
+  inset-block: 20%;
+  inset-inline-end: var(--space-s);
+}

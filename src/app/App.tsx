@@ -1,9 +1,20 @@
+import { BrowserRouter, Route, Routes } from 'react-router';
+
+import { HomePage } from '@/app/HomePage';
+import { Layout } from '@/app/Layout';
+import { PlaceholderDetail } from '@/app/PlaceholderDetail';
 import { DesignPage } from '@/pages/DesignPage';
 
-/**
- * Sin router todavía, la aplicación es la propia página de muestra: es la única superficie que
- * existe. Pasa a su ruta `/design` cuando el shell la tenga.
- */
 export function App() {
-  return <DesignPage />;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />} path="/">
+          <Route element={<HomePage />} index />
+          <Route element={<DesignPage />} path="design" />
+          <Route element={<PlaceholderDetail />} path="detalle" />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }

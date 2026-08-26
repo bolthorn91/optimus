@@ -44,6 +44,7 @@
   border: 1px dashed var(--accent);
   border-radius: var(--radius-s);
   background: var(--surface-raised);
+  color: var(--ink);
   font-size: 0.9em;
 }
 
@@ -51,7 +52,7 @@
 [data-disclaimer] {
   max-width: var(--measure);
   font-size: var(--text-note);
-  color: var(--ink-muted);
+  color: var(--doc-ink);
 }
 
 [data-disclaimer='inline'] {

@@ -54,7 +54,7 @@ function Showcase({ act, title, children }: { act: number; title: string; childr
  */
 export function DesignPage() {
   return (
-    <main className="design" id="contenido">
+    <div className="design">
       <header className="design__head">
         <p className="design__eyebrow">Muestrario del sistema de diseño</p>
         <h1>Aa Bb Cc — OPTIMVS</h1>
@@ -136,6 +136,6 @@ export function DesignPage() {
       <footer className="design__foot">
         <Disclaimer variant="footer" />
       </footer>
-    </main>
+    </div>
   );
 }
