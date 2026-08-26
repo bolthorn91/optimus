@@ -65,9 +65,7 @@ describe('DualFigure', () => {
     const { container } = render(<DualFigure value={14} />);
 
     expect(container.querySelector('[data-dual-figure]')).toBeInTheDocument();
-    expect(container.querySelector('[data-dual-figure] > [aria-hidden="true"]')).toHaveTextContent(
-      'XIV',
-    );
+    expect(container.querySelector('[data-dual-figure-roman]')).toHaveTextContent('XIV');
     expect(container.querySelector('[data-dual-figure-value]')).toHaveTextContent('14');
   });
 });

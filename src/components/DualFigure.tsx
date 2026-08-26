@@ -18,15 +18,18 @@ function canRender(value: number): boolean {
 /**
  * Cifra ancla con su doble numeral (doc 00 S9): el arábigo es el valor y el romano una marca
  * secundaria, más pequeña y encima. El romano va `aria-hidden` — nadie debería oír «catorce»
- * dos veces. La jerarquía visual la fija `[data-dual-figure]` en `src/styles/primitives.css`,
- * que alcanza el romano por su `aria-hidden`: es lo que lo distingue del valor.
+ * dos veces. La jerarquía visual la fija `[data-dual-figure-roman]`, no el atributo de a11y.
  */
 export function DualFigure({ value, suffix, roman = true, className }: DualFigureProps) {
   const showRoman = roman && canRender(value);
 
   return (
     <span className={className} data-dual-figure data-tabular>
-      {showRoman ? <RomanNumeral decorative value={value} /> : null}
+      {showRoman ? (
+        <span data-dual-figure-roman>
+          <RomanNumeral decorative value={value} />
+        </span>
+      ) : null}
       <span data-dual-figure-value>
         {formatNumber(value)}
         {suffix === undefined ? null : NBSP + suffix}

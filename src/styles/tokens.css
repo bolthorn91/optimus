@@ -51,7 +51,7 @@
   --ink-muted: var(--color-slate);
   --accent: var(--color-gold-bronze);
   --rule: var(--color-rule-warm);
-  --focus: var(--color-risk-stable);
+  --focus: var(--color-navy-deep);
 
   /* Tipografía — doc 00 S6 y S7 */
   --font-display: 'Cinzel', 'Cinzel Fallback', 'Times New Roman', serif;

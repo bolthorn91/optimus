@@ -51,7 +51,7 @@ export const THEME = {
     inkMuted: PALETTE.slate,
     accent: PALETTE.goldBronze,
     rule: PALETTE.ruleWarm,
-    focus: RISK_SCALE.stable,
+    focus: PALETTE.navyDeep,
   },
   dark: {
     surface: PALETTE.navyDeep,

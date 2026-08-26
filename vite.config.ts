@@ -5,10 +5,9 @@ import { defineConfig } from 'vite';
 
 import { WEBGL_CHUNK_NAME, isWebglModule } from './tooling/bundle-policy.js';
 import { chunkReportPlugin } from './tooling/chunk-report-plugin';
-import { fontPreloadPlugin } from './tooling/font-preload-plugin';
 
 export default defineConfig({
-  plugins: [react(), chunkReportPlugin(), fontPreloadPlugin()],
+  plugins: [react(), chunkReportPlugin()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

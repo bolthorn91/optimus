@@ -31,7 +31,7 @@
  * `--ink-muted` y no `--accent`: el romano es texto visible, y el oro no llega a AA para texto
  * en el tema claro —lo afirma `contrast.test.ts`—. El oro sigue siendo el color de los filetes.
  */
-[data-dual-figure] > [aria-hidden='true'] {
+[data-dual-figure-roman] {
   font-family: var(--font-display);
   font-size: 0.42em;
   letter-spacing: var(--tracking-caps);
