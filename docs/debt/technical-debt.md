@@ -18,7 +18,8 @@ registran aquí para que la decisión sea explícita y no un olvido.
 
 | Id | Historia | Origen | Estado |
 |----|----------|--------|--------|
-| _(vacío — se puebla al cerrar cada goal)_ | | | |
+| E2E-00-HOME | Como visitante, recorro la home de principio a fin y alcanzo el formulario de reserva sin que ninguna escena falle ni pierda contenido | doc 00 §12.1 | abierto |
+| E2E-00-MOTION | Como usuario con `prefers-reduced-motion` activo, recorro la home y recibo el mismo contenido que sin esa preferencia | doc 00 §12.2 | abierto |
 
 ---
 
@@ -65,4 +66,4 @@ Bloqueos que obligan a renderizar un marcador en vez del dato real (perfil §7 I
 
 | Id | Deuda | Origen | Estado |
 |----|-------|--------|--------|
-| _(vacío)_ | | | |
+| A11Y-00-SPA | El sitio es una SPA: sin JavaScript no hay contenido. Afecta al SEO y a la robustez. Mitigación futura: prerenderizado estático de la home y las páginas de detalle | doc 00 §12.3 | abierto |

@@ -107,11 +107,14 @@ describe('findEagerWebglModules', () => {
     expect(offenders).toEqual([]);
   });
 
-  it('delata WebGL dentro del propio chunk de entrada', () => {
-    const chunks = [chunk('index.js', { isEntry: true, moduleIds: [THREE] })];
+  // FND-15
+  it('FND-15 · delata three, @react-three y postprocessing en el chunk de entrada', () => {
+    const fiber = '/repo/node_modules/@react-three/fiber/dist/index.js';
+    const post = '/repo/node_modules/postprocessing/build/index.js';
+    const chunks = [chunk('index.js', { isEntry: true, moduleIds: [THREE, fiber, post] })];
     const offenders = findEagerWebglModules(chunks, staticImportClosure('index.js', chunks));
 
-    expect(offenders).toHaveLength(1);
+    expect(offenders.map((item) => item.moduleId)).toEqual([THREE, fiber, post]);
   });
 
   it('no delata nada cuando no hay WebGL en ninguna parte', () => {

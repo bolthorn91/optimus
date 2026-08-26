@@ -1,7 +1,7 @@
 # Fundación técnica, sistema de diseño y motor de movimiento
 
-**Estado:** especificación canónica (decisiones cerradas 2026-08-17). Pendiente de implementación.
-**Branch de trabajo:** el HEAD actual del worktree (`main`, sin commits todavía).
+**Estado:** hecho en branch `main` (2026-08-26). No fusionado.
+**Branch de trabajo:** `main`.
 **Perfil de proyecto:** [`agent-docs/goal-profile.md`](../../agent-docs/goal-profile.md) — invariantes §7 aplicables: I1, I2, I3, I4, I5, I6, I7, I8, I9.
 **Roadmap:** [`roadmap.md`](roadmap.md) §2, fila 00.
 **Relacionado:** ninguno. Este es el primer documento; todos los demás dependen de él.
@@ -414,16 +414,16 @@ la página. Ningún teléfono ni dominio real renderizado (I2).
 
 ### 8.1 Fundación
 
-- [ ] `npm ci && npm run build` produce un `dist/` desplegable en Render.
-- [ ] Los cinco gates del perfil §5 pasan ejecutados de verdad.
-- [ ] La paleta y la tipografía son las de `content/05-guia-estilo-visual.md`, sin colores
+- [x] `npm ci && npm run build` produce un `dist/` desplegable en Render.
+- [x] Los cinco gates del perfil §5 pasan ejecutados de verdad.
+- [x] La paleta y la tipografía son las de `content/05-guia-estilo-visual.md`, sin colores
       literales fuera de `tokens.css`.
-- [ ] Existen las once primitivas de §3.7 con sus tests.
-- [ ] `useGsapScene` es la única puerta de creación de animaciones con scroll.
-- [ ] Montar y desmontar una escena deja cero ScrollTriggers vivos.
-- [ ] Con `prefers-reduced-motion` activo, toda escena entrega el mismo contenido.
-- [ ] El shell navega, con miliario romano, CTA persistente, footer y enlace de salto.
-- [ ] Los quince tests golden FND-01…FND-15 existen y pasan.
+- [x] Existen las once primitivas de §3.7 con sus tests.
+- [x] `useGsapScene` es la única puerta de creación de animaciones con scroll.
+- [x] Montar y desmontar una escena deja cero ScrollTriggers vivos.
+- [x] Con `prefers-reduced-motion` activo, toda escena entrega el mismo contenido.
+- [x] El shell navega, con miliario romano, CTA persistente, footer y enlace de salto.
+- [x] Los quince tests golden FND-01…FND-15 existen y pasan.
 
 ### 8.2 Segunda feature
 
@@ -431,12 +431,12 @@ la página. Ningún teléfono ni dominio real renderizado (I2).
 
 ### 8.3 Global
 
-- [ ] `docs/product/roadmap.md` fila 00 actualizada a «hecho en branch».
-- [ ] Lo no cubierto → filas honestas en `docs/debt/technical-debt.md`.
-- [ ] Se respetan el idioma y la política de comentarios del perfil §1.
-- [ ] No se modificó ninguna zona protegida del perfil §6 sin autorización de C3.
-- [ ] Todos los gates del perfil §5 en verde, ejecutados de verdad.
-- [ ] Ningún invariante del perfil §7 roto en la superficie tocada.
+- [x] `docs/product/roadmap.md` fila 00 actualizada a «hecho en branch».
+- [x] Lo no cubierto → filas honestas en `docs/debt/technical-debt.md`.
+- [x] Se respetan el idioma y la política de comentarios del perfil §1.
+- [x] No se modificó ninguna zona protegida del perfil §6 sin autorización de C3.
+- [x] Todos los gates del perfil §5 en verde, ejecutados de verdad.
+- [x] Ningún invariante del perfil §7 roto en la superficie tocada.
 
 ---
 

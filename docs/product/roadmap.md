@@ -14,7 +14,7 @@ ejecuta con `/goal docs/product/<slug>-goal-prompt.md`.
 |-------|-------|
 | Fase del producto | v1 — sitio de captación, objetivo único: reservar sesión de diagnóstico patrimonial |
 | Superficie | Home de scroll continuo (actos I–VII) + páginas de detalle + legales |
-| Estado | Andamiaje escrito. Ninguna feature implementada. |
+| Estado | Fundación hecha en branch `main`. Escenas de contenido (01–08) pendientes. |
 
 ---
 
@@ -22,7 +22,7 @@ ejecuta con `/goal docs/product/<slug>-goal-prompt.md`.
 
 | # | Documento | Alcance | Estado |
 |---|-----------|---------|--------|
-| 00 | [`00-fundacion-sistema-diseno.md`](00-fundacion-sistema-diseno.md) | Andamiaje técnico, sistema de diseño, motor de movimiento y shell de aplicación | pendiente |
+| 00 | [`00-fundacion-sistema-diseno.md`](00-fundacion-sistema-diseno.md) | Andamiaje técnico, sistema de diseño, motor de movimiento y shell de aplicación | hecho en branch |
 | 01 | [`01-acto-i-hero-escenario-europeo.md`](01-acto-i-hero-escenario-europeo.md) | Hero a pantalla completa y acto I: los tres factores convergentes | pendiente |
 | 02 | [`02-acto-ii-seguridad-global.md`](02-acto-ii-seguridad-global.md) | Acto II: mapas de riesgo bélico 1985→2050 y factor climático | pendiente |
 | 03 | [`03-acto-iii-asimetria-territorial.md`](03-acto-iii-asimetria-territorial.md) | Acto III: escena satelital día→noche, comparativa territorial y bursátil | pendiente |
