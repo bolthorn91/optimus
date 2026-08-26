@@ -1,9 +1,9 @@
 # Goal loop kit — implementación por fases con dos subagentes de review
 
-Configuración portable para Claude Code que implementa un documento de especificación **fase a
-fase**, y que después de cada fase corre **dos subagentes de review en bucle** hasta que ambos
-devuelven cero hallazgos **sobre la misma foto del código**. Solo entonces se hacen los commits y se
-pasa a la fase siguiente.
+Configuración portable para Grok que implementa un documento de especificación **fase a fase**, y
+que después de cada fase corre **dos subagentes de review en bucle** hasta que ambos devuelven cero
+hallazgos **sobre la misma foto del código**. Solo entonces se hacen los commits y se pasa a la fase
+siguiente.
 
 No contiene nada específico de ningún proyecto: todo lo que es propio de un repositorio vive en un
 único fichero de perfil que se rellena una vez.
@@ -35,7 +35,7 @@ fichero.
 ```
 goal-loop-kit/
 ├── README.md                                   ← este fichero
-├── claude/                                     ← se copia a .claude/ del proyecto destino
+├── grok/                                       ← se copia a .grok/ del proyecto destino
 │   ├── skills/goal/SKILL.md                    ← orquestador: el comando /goal
 │   └── agents/
 │       ├── goal-reviewer.md                    ← persona de corrección
@@ -94,8 +94,8 @@ PowerShell:
 
 ```powershell
 $dest = "C:\ruta\a\mi-proyecto"
-New-Item -ItemType Directory -Force "$dest\.claude" | Out-Null
-Copy-Item -Recurse -Force goal-loop-kit\claude\* "$dest\.claude\"
+New-Item -ItemType Directory -Force "$dest\.grok" | Out-Null
+Copy-Item -Recurse -Force goal-loop-kit\grok\* "$dest\.grok\"
 Copy-Item -Recurse -Force goal-loop-kit\agent-docs "$dest\"
 Copy-Item "$dest\agent-docs\goal-profile.template.md" "$dest\agent-docs\goal-profile.md"
 ```
@@ -104,8 +104,8 @@ bash:
 
 ```bash
 dest=~/ruta/a/mi-proyecto
-mkdir -p "$dest/.claude"
-cp -r goal-loop-kit/claude/. "$dest/.claude/"
+mkdir -p "$dest/.grok"
+cp -r goal-loop-kit/grok/. "$dest/.grok/"
 cp -r goal-loop-kit/agent-docs "$dest/"
 cp "$dest/agent-docs/goal-profile.template.md" "$dest/agent-docs/goal-profile.md"
 ```
@@ -114,7 +114,7 @@ Resultado en el proyecto destino:
 
 ```
 mi-proyecto/
-├── .claude/
+├── .grok/
 │   ├── skills/goal/SKILL.md
 │   └── agents/goal-reviewer.md, goal-code-reviewer.md
 └── agent-docs/
@@ -129,11 +129,10 @@ mi-proyecto/
 Añadir a `.gitignore`:
 
 ```gitignore
-.claude/goal-runs/
-.claude/settings.local.json
+.grok/goal-runs/
 ```
 
-El resto de `.claude/` **sí** se versiona: es configuración compartida del equipo.
+El resto de `.grok/` **sí** se versiona: es configuración compartida del equipo.
 
 ### 4.3 Rellenar el perfil
 
@@ -152,11 +151,11 @@ Después revísalo a mano — es el fichero del que depende todo lo demás.
 
 ### 4.4 Comprobar que la skill está disponible
 
-Reinicia la sesión de Claude Code en el proyecto destino y escribe `/goal`. Debe aparecer la skill
+Reinicia la sesión de Grok en el proyecto destino y escribe `/goal`. Debe aparecer la skill
 con su `argument-hint`. Si no aparece, comprueba que la ruta es exactamente
-`.claude/skills/goal/SKILL.md` y que el frontmatter no se rompió al copiar.
+`.grok/skills/goal/SKILL.md` y que el frontmatter no se rompió al copiar.
 
-Los dos agentes se detectan solos por estar en `.claude/agents/`.
+Los dos agentes se detectan solos por estar en `.grok/agents/`.
 
 ---
 
@@ -191,6 +190,7 @@ SHA base de la fase
   → loop goal-reviewer        hasta ronda limpia
   → loop goal-code-reviewer   hasta ronda limpia
   → puerta de misma foto      (si el segundo loop tocó código, repetir el primero)
+  → puerta humana             (si perfil §9 fases supervisadas)
   → commits (sin push, sin PR)
   → fase siguiente
 ```
@@ -198,8 +198,8 @@ SHA base de la fase
 Una **ronda limpia** es cero hallazgos accionables de cualquier severidad, nits incluidos. Cualquier
 ítem accionable significa aplicarlo entero y relanzar el **mismo** agente.
 
-El estado vive en `.claude/goal-runs/<slug>/state.md`, así que el run sobrevive a la compactación de
-contexto y al reinicio de sesión. Para un run desatendido: `/loop /goal --resume`.
+El estado vive en `.grok/goal-runs/<slug>/state.md`, así que el run sobrevive a la compactación de
+contexto y al reinicio de sesión. Recuperación: `/goal --resume`.
 
 ---
 
@@ -248,12 +248,14 @@ paran el bucle y te lo cuentan en vez de dar vueltas.
 
 ## 8. Requisitos y compatibilidad
 
-- **Claude Code** con soporte de skills (`.claude/skills/`) y subagentes (`.claude/agents/`).
-- **Git**. La recolección del diff usa `git add -A -N` (portable, respeta `.gitignore`); si el perfil
-  §10 prohíbe tocar el índice, la skill usa la variante `--no-index`, que necesita bash.
+- **Grok** con soporte de skills (`.grok/skills/`) y subagentes (`.grok/agents/`).
+- **Git**. La recolección del diff usa `git add -A -N` (respeta `.gitignore`). En PowerShell **no**
+  se usa `>`: escribe UTF-16 y los revisores no pueden leer el parche. En Windows: `cmd /c` para
+  redirigir en UTF-8; en bash, `>`. Si el perfil §10 prohíbe tocar el índice, la skill usa la
+  variante `--no-index`, que necesita bash.
 - **Cualquier lenguaje y stack.** No hay nada atado a TypeScript, Node ni npm: el lenguaje sale del
   perfil §1 y los comandos del §4. El ejemplo usa TypeScript porque hay que usar algo.
-- **Windows, macOS y Linux.** Los bloques de recolección de diff están en forma portable.
+- **Windows, macOS y Linux.** Receta PowerShell (`cmd /c`) y receta bash, ambas UTF-8.
 
 Los revisores son **agentes**, no skills, así que no colisionan con `/review` ni `/code-review`.
 
@@ -263,7 +265,7 @@ Los revisores son **agentes**, no skills, así que no colisionan con `/review` n
 
 | Ficheros | Idioma | Por qué |
 |----------|--------|---------|
-| `claude/skills/goal/SKILL.md`, `claude/agents/*.md` | Inglés | Son prompts que consume el modelo; el contrato de severidades (`bug`, `suggestion`, `nit`) es literal |
+| `grok/skills/goal/SKILL.md`, `grok/agents/*.md` | Inglés | Son prompts que consume el modelo; el contrato de severidades (`bug`, `suggestion`, `nit`) es literal |
 | `agent-docs/*`, `examples/*`, este README | Español | Son para el equipo |
 
 Puedes traducir los prompts de los agentes a tu idioma, pero **no traduzcas** las tres palabras de
@@ -278,5 +280,5 @@ severidad ni las líneas `VERDICT:`: la skill las parsea literalmente.
 - No baja umbrales ni amplía excludes para pasar un gate.
 - No inventa comandos de verificación que no estén en §4.
 - No tiene un tercer revisor sin rúbrica que dé una última pasada con ojos frescos. Añadirlo es un
-  fichero más en `.claude/agents/` y un tercer loop entre la puerta de misma foto y el commit; el
+  fichero más en `.grok/agents/` y un tercer loop entre la puerta de misma foto y el commit; el
   protocolo no necesita ningún otro cambio (ver `agent-docs/goal-loop.md`).

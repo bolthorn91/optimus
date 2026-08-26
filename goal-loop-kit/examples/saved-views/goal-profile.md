@@ -50,7 +50,7 @@ en curso.
 | Registro de deuda técnica | `docs/debt/technical-debt.md` | no |
 | Inventario de historias E2E | `docs/engineering/e2e-user-stories.md` | no |
 | Roadmap a actualizar al cerrar | `docs/product/roadmap.md` | no |
-| Estado de los runs (git-ignored) | `.claude/goal-runs/` | sí |
+| Estado de los runs (git-ignored) | `.grok/goal-runs/` | sí |
 | Plantillas del loop | `agent-docs/templates/` | sí |
 
 ---
@@ -143,6 +143,7 @@ Se comprueban en **todas** las fases, toque lo que toque el diff.
 | Aviso por diff grande | 1 MB | 1 MB |
 | Parada por diff enorme | 10 MB | 10 MB |
 | Orden de subagentes | `goal-reviewer` → `goal-code-reviewer` | igual |
+| Fases supervisadas | no | no |
 
 ---
 

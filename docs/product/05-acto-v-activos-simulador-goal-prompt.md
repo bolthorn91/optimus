@@ -32,9 +32,12 @@ Para **cada** fase, en este orden **estricto**:
 6. **Puerta de misma foto:** si el paso 5 tocó código, la ronda limpia del paso 4 caducó → volver al
    paso 4. Ambos subagentes deben tener su última ronda limpia sobre el **mismo hash** del diff de
    la fase.
-7. **Solo entonces:** crear los **commits** de la fase (Conventional Commits, perfil §10; sin
+7. **Puerta humana** (perfil §9 fases supervisadas): parar, informar del alcance, de la
+   verificación ejecutada y de las rondas, y esperar go-ahead. No commitear hasta que el humano lo
+   diga.
+8. **Solo entonces:** crear los **commits** de la fase (Conventional Commits, perfil §10; sin
    secretos; sin amend de commits ajenos). Sin push, sin PR.
-8. **Solo entonces** iniciar la fase siguiente. **Prohibido** empezar la fase N+1 con hallazgos
+9. **Solo entonces** iniciar la fase siguiente. **Prohibido** empezar la fase N+1 con hallazgos
    abiertos, con un solo subagente limpio, o sin los commits de la fase N.
 
 ### Definición de ronda limpia
@@ -145,14 +148,15 @@ PROTOCOLO OBLIGATORIO AL FINAL DE CADA FASE (A, B, C, D, E)
    - Aplicar TODAS las objeciones, sugerencias y nits devueltas.
    - Re-ejecutar hasta ronda LIMPIA. Máx. 5 rondas; luego escalar.
 5) Si (4) tocó código, repetir (3): ambos deben quedar limpios sobre el MISMO estado del código.
-6) Solo entonces: commits de la fase (Conventional Commits; no push; no PR).
-7) Solo entonces: fase siguiente. Si un re-check posterior encuentra regresión, no avanzar hasta nueva ronda limpia + commits de fix.
+6) Puerta humana (perfil §9 fases supervisadas): parar, informar, esperar go-ahead. No commitear hasta que el humano lo diga.
+7) Solo entonces: commits de la fase (Conventional Commits; no push; no PR).
+8) Solo entonces: fase siguiente. Si un re-check posterior encuentra regresión, no avanzar hasta nueva ronda limpia + commits de fix.
 
 RESTRICCIONES
 - No push, no abrir PR, no force-push, no git reset --hard, no descartar trabajo ajeno.
 - No reabrir decisiones del doc 05 §2.
 - No bajar umbrales de gates ni ampliar excludes.
-- No tocar las zonas protegidas del perfil §6 (content/, public/assets-origen/, el PDF del dossier, goal-loop-kit/, agent-docs/goal-loop.md, agent-docs/templates/, .claude/agents/, .claude/skills/) fuera de lo autorizado por el doc 05 §2 C3.
+- No tocar las zonas protegidas del perfil §6 (content/, public/assets-origen/, el PDF del dossier, goal-loop-kit/, agent-docs/goal-loop.md, agent-docs/templates/, .grok/agents/, .grok/skills/) fuera de lo autorizado por el doc 05 §2 C3.
 - No romper los invariantes del perfil §7: I1, I3, I4, I5, I7, I9.
 - NO publicar ninguna cifra de importe mínimo de inversión (F5, errata E-05, test VEH-03): el dossier no la da. Se renderiza PendingValue con la explicación de que se determina en la sesión de diagnóstico.
 - Las tasas del simulador son SUPUESTOS DECLARADOS del implementador, nunca proyecciones atribuidas a OPTIMVS (S5). Deben MOSTRARSE al usuario junto al resultado (E3, test SIM-11).
@@ -172,7 +176,7 @@ RESTRICCIONES
 - No empezar la fase N+1 sin commits de la fase N tras ambos loops limpios.
 
 CRITERIO DE COMPLETITUD DEL GOAL
-El goal solo está completo cuando las fases A-E están implementadas, cada una pasó (1) implementación+tests, (2) loop goal-reviewer limpio, (3) loop goal-code-reviewer limpio sobre la misma foto, (4) commits; los DoD del doc 05 §8 se cumplen en código y tests; los veinte tests SIM-01 a SIM-20 y los ocho VEH-01 a VEH-08 existen y pasan, y la cobertura de src/lib/projection.ts supera el umbral del perfil §5; los gates del perfil §5 están en verde; y roadmap, deuda y doc 05 reflejan el estado real.
+El goal solo está completo cuando las fases A-E están implementadas, cada una pasó el protocolo de §1 (implementación, tests, dos loops limpios, misma foto, puerta humana, commits); los DoD del doc 05 §8 se cumplen en código y tests; los veinte tests SIM-01 a SIM-20 y los ocho VEH-01 a VEH-08 existen y pasan, y la cobertura de src/lib/projection.ts supera el umbral del perfil §5; los gates del perfil §5 están en verde; y roadmap, deuda y doc 05 reflejan el estado real.
 
 ENTREGABLE FINAL
 Resumen por fase: qué se hizo, commits (hash + mensaje), comandos de verificación ejecutados con su resultado, número de rondas de cada subagente hasta limpio, y residuos o deuda documentada.
@@ -182,37 +186,36 @@ Resumen por fase: qué se hizo, commits (hash + mensaje), comandos de verificaci
 
 ## 3. Variantes cortas (una fase)
 
-Usar solo si el humano pide acotar. **Mismo protocolo:** implementar → tests → loop `goal-reviewer`
-limpio → loop `goal-code-reviewer` limpio → misma foto → commits. No push/PR.
+Usar solo si el humano pide acotar. **Mismo protocolo que §1** (incluida la puerta humana del perfil §9). No push/PR.
 
 ### 3.1 Solo Fase A
 
 ```text
-GOAL: Completar solo la FASE A de docs/product/05-acto-v-activos-simulador.md (motor de proyección puro, con supuestos declarados y cobertura dura). Leer doc 05 §7 Fase A y agent-docs/goal-profile.md. Tests SIM-01 a SIM-10 y SIM-18. Al terminar: loop goal-reviewer hasta limpio (aplicar TODO), luego loop goal-code-reviewer hasta limpio (aplicar TODO), re-verificar goal-reviewer si hubo cambios, luego commits. No push/PR. No implementar interfaz.
+GOAL: Completar solo la FASE A de docs/product/05-acto-v-activos-simulador.md (motor de proyección puro, con supuestos declarados y cobertura dura). Leer doc 05 §7 Fase A y agent-docs/goal-profile.md. Tests SIM-01 a SIM-10 y SIM-18. Al terminar: protocolo de §1. No push/PR. No implementar interfaz.
 ```
 
 ### 3.2 Solo Fase B
 
 ```text
-GOAL: Completar solo la FASE B de docs/product/05-acto-v-activos-simulador.md (los tres vehículos en tarjetas accesibles, sin importe inventado). Leer doc 05 §7 Fase B y agent-docs/goal-profile.md. Tests VEH-01, VEH-02, VEH-03, VEH-06 y VEH-07. Al terminar: loop goal-reviewer hasta limpio (aplicar TODO), luego loop goal-code-reviewer hasta limpio (aplicar TODO), re-verificar goal-reviewer si hubo cambios, luego commits. No push/PR. Puede adelantarse a la Fase A.
+GOAL: Completar solo la FASE B de docs/product/05-acto-v-activos-simulador.md (los tres vehículos en tarjetas accesibles, sin importe inventado). Leer doc 05 §7 Fase B y agent-docs/goal-profile.md. Tests VEH-01, VEH-02, VEH-03, VEH-06 y VEH-07. Al terminar: protocolo de §1. No push/PR. Puede adelantarse a la Fase A.
 ```
 
 ### 3.3 Solo Fase C
 
 ```text
-GOAL: Completar solo la FASE C de docs/product/05-acto-v-activos-simulador.md (simulador interactivo con supuestos visibles, disclaimer adherido y tabla equivalente). Leer doc 05 §7 Fase C y agent-docs/goal-profile.md. Tests SIM-11 a SIM-15, SIM-17, SIM-19, SIM-20, VEH-04 y VEH-05. Al terminar: loop goal-reviewer hasta limpio (aplicar TODO), luego loop goal-code-reviewer hasta limpio (aplicar TODO), re-verificar goal-reviewer si hubo cambios, luego commits. No push/PR. Requiere la Fase A ya en el branch.
+GOAL: Completar solo la FASE C de docs/product/05-acto-v-activos-simulador.md (simulador interactivo con supuestos visibles, disclaimer adherido y tabla equivalente). Leer doc 05 §7 Fase C y agent-docs/goal-profile.md. Tests SIM-11 a SIM-15, SIM-17, SIM-19, SIM-20, VEH-04 y VEH-05. Al terminar: protocolo de §1. No push/PR. Requiere la Fase A ya en el branch.
 ```
 
 ### 3.4 Solo Fase D
 
 ```text
-GOAL: Completar solo la FASE D de docs/product/05-acto-v-activos-simulador.md (modo scroll, persistencia hacia el formulario y cierre). Leer doc 05 §7 Fase D y agent-docs/goal-profile.md. Tests SIM-16 y VEH-08. Al terminar: loop goal-reviewer hasta limpio (aplicar TODO), luego loop goal-code-reviewer hasta limpio (aplicar TODO), re-verificar goal-reviewer si hubo cambios, luego commits. No push/PR. Requiere las Fases A, B y C ya en el branch.
+GOAL: Completar solo la FASE D de docs/product/05-acto-v-activos-simulador.md (modo scroll, persistencia hacia el formulario y cierre). Leer doc 05 §7 Fase D y agent-docs/goal-profile.md. Tests SIM-16 y VEH-08. Al terminar: protocolo de §1. No push/PR. Requiere las Fases A, B y C ya en el branch.
 ```
 
 ### 3.5 Solo Fase E
 
 ```text
-GOAL: Completar solo la FASE E de docs/product/05-acto-v-activos-simulador.md (cierre documental y gates). Leer doc 05 §7 Fase E y agent-docs/goal-profile.md. Ejecutar los cinco gates del perfil §5, con atención a la cobertura de src/lib/projection.ts. Al terminar: loop goal-reviewer hasta limpio (aplicar TODO), luego loop goal-code-reviewer hasta limpio (aplicar TODO), re-verificar goal-reviewer si hubo cambios, luego commits. No push/PR. Requiere las Fases A a D cerradas.
+GOAL: Completar solo la FASE E de docs/product/05-acto-v-activos-simulador.md (cierre documental y gates). Leer doc 05 §7 Fase E y agent-docs/goal-profile.md. Ejecutar los cinco gates del perfil §5, con atención a la cobertura de src/lib/projection.ts. Al terminar: protocolo de §1. No push/PR. Requiere las Fases A a D cerradas.
 ```
 
 ---
@@ -225,8 +228,7 @@ GOAL: Completar solo la FASE E de docs/product/05-acto-v-activos-simulador.md (c
 | Code review de fase | `goal-code-reviewer` | Cero objeciones, sugerencias y nits |
 | Puerta de fase | — | Ambos limpios sobre el mismo hash de diff |
 
-**Orden fijo por fase:** `goal-reviewer` (loop) → `goal-code-reviewer` (loop) → misma foto →
-`git commit`. No invertir el orden. Repetir cada subagente en bucle hasta cero hallazgos accionables,
+**Orden fijo por fase:** el protocolo de §1 (reviewer → code-reviewer → misma foto → puerta humana si perfil §9 → commit). No invertir el orden. Repetir cada subagente en bucle hasta cero hallazgos accionables,
 aplicando **todas** las correcciones en el mismo worktree antes de la siguiente invocación.
 
 ---

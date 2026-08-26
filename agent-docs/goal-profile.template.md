@@ -55,7 +55,7 @@ en curso.
 | Registro de deuda técnica | `<ruta o No aplica>` | no |
 | Inventario de historias E2E | `<ruta o No aplica>` | no |
 | Roadmap a actualizar al cerrar | `<ruta o No aplica>` | no |
-| Estado de los runs (git-ignored) | `.claude/goal-runs/` | sí |
+| Estado de los runs (git-ignored) | `.grok/goal-runs/` | sí |
 | Plantillas del loop | `agent-docs/templates/` | sí |
 
 ---
@@ -146,6 +146,7 @@ Lo que el revisor de mantenibilidad exige. Si el proyecto no las tiene escritas,
 | Aviso por diff grande | 1 MB | `<tamaño>` |
 | Parada por diff enorme | 10 MB | `<tamaño>` |
 | Orden de subagentes | `goal-reviewer` → `goal-code-reviewer` | `<igual>` |
+| Fases supervisadas | no | `<sí / no>` |
 
 Reducir las severidades accionables (p. ej. dejar fuera los `nit`) hace el loop más rápido y más
 laxo. Es la palanca de calibración; el resto de parámetros rara vez se tocan.

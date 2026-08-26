@@ -56,7 +56,7 @@ obligatoria antes de publicar cualquier dato de contacto.
 | Registro de deuda técnica | `docs/debt/technical-debt.md` | sí |
 | Inventario de historias E2E | `No aplica` — sin E2E en v1; las historias se registran como deuda | no |
 | Roadmap a actualizar al cerrar | `docs/product/roadmap.md` | sí |
-| Estado de los runs (git-ignored) | `.claude/goal-runs/` | sí |
+| Estado de los runs (git-ignored) | `.grok/goal-runs/` | sí |
 | Plantillas del loop | `agent-docs/templates/` | sí |
 | Assets originales del dossier | `public/assets-origen/` | sí |
 
@@ -121,7 +121,7 @@ Reglas fijas, no negociables por el agente:
 | `public/assets-origen/**` | Imágenes extraídas del PDF, sin procesar. Se derivan versiones optimizadas a otra ruta | Nunca se editan in situ |
 | `goal-loop-kit/**` | Kit de referencia del loop | Nunca |
 | `agent-docs/goal-loop.md`, `agent-docs/templates/**` | Protocolo y plantillas del loop | Nunca |
-| `.claude/agents/**`, `.claude/skills/**` | Definición del propio loop | Nunca |
+| `.grok/agents/**`, `.grok/skills/**` | Definición del propio loop | Nunca |
 
 Duplicación inevitable causada por una zona protegida → registrarla en
 `docs/debt/technical-debt.md`.
@@ -200,6 +200,7 @@ Se comprueban en **todas** las fases, toque lo que toque el diff. Son lo que imp
 | Aviso por diff grande | 1 MB | 1 MB |
 | Parada por diff enorme | 10 MB | 10 MB |
 | Orden de subagentes | `goal-reviewer` → `goal-code-reviewer` | igual |
+| Fases supervisadas | no | **sí** — puerta humana después de la misma foto y antes del commit |
 
 ---
 
@@ -217,5 +218,5 @@ Se comprueban en **todas** las fases, toque lo que toque el diff. Son lo que imp
 
 ---
 
-*Rellenado por: Claude · Última revisión: 2026-08-17. Mantener este fichero al día es lo que
+*Rellenado por: Grok · Última revisión: 2026-08-25. Mantener este fichero al día es lo que
 mantiene honesto al loop.*

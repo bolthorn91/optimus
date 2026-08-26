@@ -32,9 +32,12 @@ Para **cada** fase, en este orden **estricto**:
 6. **Puerta de misma foto:** si el paso 5 tocó código, la ronda limpia del paso 4 caducó → volver al
    paso 4. Ambos subagentes deben tener su última ronda limpia sobre el **mismo hash** del diff de
    la fase.
-7. **Solo entonces:** crear los **commits** de la fase (Conventional Commits, perfil §10; sin
+7. **Puerta humana** (perfil §9 fases supervisadas): parar, informar del alcance, de la
+   verificación ejecutada y de las rondas, y esperar go-ahead. No commitear hasta que el humano lo
+   diga.
+8. **Solo entonces:** crear los **commits** de la fase (Conventional Commits, perfil §10; sin
    secretos; sin amend de commits ajenos). Sin push, sin PR.
-8. **Solo entonces** iniciar la fase siguiente. **Prohibido** empezar la fase N+1 con hallazgos
+9. **Solo entonces** iniciar la fase siguiente. **Prohibido** empezar la fase N+1 con hallazgos
    abiertos, con un solo subagente limpio, o sin los commits de la fase N.
 
 ### Definición de ronda limpia
@@ -141,14 +144,15 @@ PROTOCOLO OBLIGATORIO AL FINAL DE CADA FASE (A, B, C, D, E)
    - Aplicar TODAS las objeciones, sugerencias y nits devueltas.
    - Re-ejecutar hasta ronda LIMPIA. Máx. 5 rondas; luego escalar.
 5) Si (4) tocó código, repetir (3): ambos deben quedar limpios sobre el MISMO estado del código.
-6) Solo entonces: commits de la fase (Conventional Commits; no push; no PR).
-7) Solo entonces: fase siguiente. Si un re-check posterior encuentra regresión, no avanzar hasta nueva ronda limpia + commits de fix.
+6) Puerta humana (perfil §9 fases supervisadas): parar, informar, esperar go-ahead. No commitear hasta que el humano lo diga.
+7) Solo entonces: commits de la fase (Conventional Commits; no push; no PR).
+8) Solo entonces: fase siguiente. Si un re-check posterior encuentra regresión, no avanzar hasta nueva ronda limpia + commits de fix.
 
 RESTRICCIONES
 - No push, no abrir PR, no force-push, no git reset --hard, no descartar trabajo ajeno.
 - No reabrir decisiones del doc 01 §2.
 - No bajar umbrales de gates ni ampliar excludes.
-- No tocar las zonas protegidas del perfil §6 (content/, public/assets-origen/, el PDF del dossier, goal-loop-kit/, agent-docs/goal-loop.md, agent-docs/templates/, .claude/agents/, .claude/skills/) fuera de lo autorizado por el doc 01 §2 C3.
+- No tocar las zonas protegidas del perfil §6 (content/, public/assets-origen/, el PDF del dossier, goal-loop-kit/, agent-docs/goal-loop.md, agent-docs/templates/, .grok/agents/, .grok/skills/) fuera de lo autorizado por el doc 01 §2 C3.
 - No romper los invariantes del perfil §7: I1, I3, I4, I5, I7, I9.
 - Registro visual ABSTRACTO y cartográfico (doc 01 §2.3 S2-S5 y §2.5 E1): densidad, retícula, desmaterialización y dato. NO implementar iconografía literal de amenaza (embarcaciones migratorias, símbolos de delito, alarmas policiales): queda documentada en E2 como alternativa, no implementada.
 - No corregir el tiempo verbal de las normas europeas en tramitación (errata E-08): se reproduce literal por I1 y la corrección es decisión editorial del cliente.
@@ -163,7 +167,7 @@ RESTRICCIONES
 - No empezar la fase N+1 sin commits de la fase N tras ambos loops limpios.
 
 CRITERIO DE COMPLETITUD DEL GOAL
-El goal solo está completo cuando las fases A-E están implementadas, cada una pasó (1) implementación+tests, (2) loop goal-reviewer limpio, (3) loop goal-code-reviewer limpio sobre la misma foto, (4) commits; los DoD del doc 01 §8 se cumplen en código y tests; los diez tests HERO-01 a HERO-10 y los trece ACT1-01 a ACT1-13 existen y pasan; los gates del perfil §5 están en verde; y roadmap, deuda y doc 01 reflejan el estado real.
+El goal solo está completo cuando las fases A-E están implementadas, cada una pasó el protocolo de §1 (implementación, tests, dos loops limpios, misma foto, puerta humana, commits); los DoD del doc 01 §8 se cumplen en código y tests; los diez tests HERO-01 a HERO-10 y los trece ACT1-01 a ACT1-13 existen y pasan; los gates del perfil §5 están en verde; y roadmap, deuda y doc 01 reflejan el estado real.
 
 ENTREGABLE FINAL
 Resumen por fase: qué se hizo, commits (hash + mensaje), comandos de verificación ejecutados con su resultado, número de rondas de cada subagente hasta limpio, y residuos o deuda documentada.
@@ -173,37 +177,36 @@ Resumen por fase: qué se hizo, commits (hash + mensaje), comandos de verificaci
 
 ## 3. Variantes cortas (una fase)
 
-Usar solo si el humano pide acotar. **Mismo protocolo:** implementar → tests → loop `goal-reviewer`
-limpio → loop `goal-code-reviewer` limpio → misma foto → commits. No push/PR.
+Usar solo si el humano pide acotar. **Mismo protocolo que §1** (incluida la puerta humana del perfil §9). No push/PR.
 
 ### 3.1 Solo Fase A
 
 ```text
-GOAL: Completar solo la FASE A de docs/product/01-acto-i-hero-escenario-europeo.md (contenido tipado y hero y acto I estáticos y accesibles). Leer doc 01 §7 Fase A y agent-docs/goal-profile.md. Tests HERO-01, HERO-02, HERO-06, HERO-07, HERO-08, ACT1-01, ACT1-02, ACT1-06, ACT1-07, ACT1-11 y ACT1-12. Al terminar: loop goal-reviewer hasta limpio (aplicar TODO), luego loop goal-code-reviewer hasta limpio (aplicar TODO), re-verificar goal-reviewer si hubo cambios, luego commits. No push/PR. No implementar animación ni ilustraciones.
+GOAL: Completar solo la FASE A de docs/product/01-acto-i-hero-escenario-europeo.md (contenido tipado y hero y acto I estáticos y accesibles). Leer doc 01 §7 Fase A y agent-docs/goal-profile.md. Tests HERO-01, HERO-02, HERO-06, HERO-07, HERO-08, ACT1-01, ACT1-02, ACT1-06, ACT1-07, ACT1-11 y ACT1-12. Al terminar: protocolo de §1. No push/PR. No implementar animación ni ilustraciones.
 ```
 
 ### 3.2 Solo Fase B
 
 ```text
-GOAL: Completar solo la FASE B de docs/product/01-acto-i-hero-escenario-europeo.md (animación de entrada del hero y sello de transición). Leer doc 01 §7 Fase B y agent-docs/goal-profile.md. Tests HERO-03, HERO-04, HERO-05, HERO-09 y HERO-10. Al terminar: loop goal-reviewer hasta limpio (aplicar TODO), luego loop goal-code-reviewer hasta limpio (aplicar TODO), re-verificar goal-reviewer si hubo cambios, luego commits. No push/PR. Requiere la Fase A ya en el branch.
+GOAL: Completar solo la FASE B de docs/product/01-acto-i-hero-escenario-europeo.md (animación de entrada del hero y sello de transición). Leer doc 01 §7 Fase B y agent-docs/goal-profile.md. Tests HERO-03, HERO-04, HERO-05, HERO-09 y HERO-10. Al terminar: protocolo de §1. No push/PR. Requiere la Fase A ya en el branch.
 ```
 
 ### 3.3 Solo Fase C
 
 ```text
-GOAL: Completar solo la FASE C de docs/product/01-acto-i-hero-escenario-europeo.md (escena anclada del acto I con scrub y fondo por acto). Leer doc 01 §7 Fase C y agent-docs/goal-profile.md. Tests ACT1-03, ACT1-04, ACT1-05 y ACT1-13. Al terminar: loop goal-reviewer hasta limpio (aplicar TODO), luego loop goal-code-reviewer hasta limpio (aplicar TODO), re-verificar goal-reviewer si hubo cambios, luego commits. No push/PR. Requiere las Fases A y B ya en el branch.
+GOAL: Completar solo la FASE C de docs/product/01-acto-i-hero-escenario-europeo.md (escena anclada del acto I con scrub y fondo por acto). Leer doc 01 §7 Fase C y agent-docs/goal-profile.md. Tests ACT1-03, ACT1-04, ACT1-05 y ACT1-13. Al terminar: protocolo de §1. No push/PR. Requiere las Fases A y B ya en el branch.
 ```
 
 ### 3.4 Solo Fase D
 
 ```text
-GOAL: Completar solo la FASE D de docs/product/01-acto-i-hero-escenario-europeo.md (las tres ilustraciones cableadas a su progreso). Leer doc 01 §7 Fase D y agent-docs/goal-profile.md. Tests ACT1-08, ACT1-09 y ACT1-10. Al terminar: loop goal-reviewer hasta limpio (aplicar TODO), luego loop goal-code-reviewer hasta limpio (aplicar TODO), re-verificar goal-reviewer si hubo cambios, luego commits. No push/PR. Requiere las Fases A, B y C ya en el branch.
+GOAL: Completar solo la FASE D de docs/product/01-acto-i-hero-escenario-europeo.md (las tres ilustraciones cableadas a su progreso). Leer doc 01 §7 Fase D y agent-docs/goal-profile.md. Tests ACT1-08, ACT1-09 y ACT1-10. Al terminar: protocolo de §1. No push/PR. Requiere las Fases A, B y C ya en el branch.
 ```
 
 ### 3.5 Solo Fase E
 
 ```text
-GOAL: Completar solo la FASE E de docs/product/01-acto-i-hero-escenario-europeo.md (cierre documental y gates). Leer doc 01 §7 Fase E y agent-docs/goal-profile.md. Ejecutar los cinco gates del perfil §5. Al terminar: loop goal-reviewer hasta limpio (aplicar TODO), luego loop goal-code-reviewer hasta limpio (aplicar TODO), re-verificar goal-reviewer si hubo cambios, luego commits. No push/PR. Requiere las Fases A a D cerradas.
+GOAL: Completar solo la FASE E de docs/product/01-acto-i-hero-escenario-europeo.md (cierre documental y gates). Leer doc 01 §7 Fase E y agent-docs/goal-profile.md. Ejecutar los cinco gates del perfil §5. Al terminar: protocolo de §1. No push/PR. Requiere las Fases A a D cerradas.
 ```
 
 ---
@@ -216,8 +219,7 @@ GOAL: Completar solo la FASE E de docs/product/01-acto-i-hero-escenario-europeo.
 | Code review de fase | `goal-code-reviewer` | Cero objeciones, sugerencias y nits |
 | Puerta de fase | — | Ambos limpios sobre el mismo hash de diff |
 
-**Orden fijo por fase:** `goal-reviewer` (loop) → `goal-code-reviewer` (loop) → misma foto →
-`git commit`. No invertir el orden. Repetir cada subagente en bucle hasta cero hallazgos accionables,
+**Orden fijo por fase:** el protocolo de §1 (reviewer → code-reviewer → misma foto → puerta humana si perfil §9 → commit). No invertir el orden. Repetir cada subagente en bucle hasta cero hallazgos accionables,
 aplicando **todas** las correcciones en el mismo worktree antes de la siguiente invocación.
 
 ---

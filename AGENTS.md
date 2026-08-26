@@ -113,7 +113,8 @@ Conventional Commits. Sin push y sin PR salvo petición explícita. Perfil §10.
 
 ## Loop de goals
 
-Este repo se implementa con la skill `/goal`: una fase cada vez, dos subagentes de review que
-deben devolver limpio sobre la misma foto del código antes de cualquier commit. Protocolo en
+Este repo se implementa con la skill `/goal` de Grok (`.grok/skills/goal/`): una fase cada vez,
+dos subagentes de review que deben devolver limpio sobre la misma foto del código, luego puerta
+humana, luego commit. El estado vive en `.grok/goal-runs/` (git-ignored). Protocolo en
 [`agent-docs/goal-loop.md`](agent-docs/goal-loop.md); orden de las features en
 [`docs/product/roadmap.md`](docs/product/roadmap.md).

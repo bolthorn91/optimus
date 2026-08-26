@@ -57,7 +57,7 @@ Bloqueos que obligan a renderizar un marcador en vez del dato real (perfil §7 I
 
 | Id | Duplicación | Zona protegida implicada | Origen |
 |----|-------------|--------------------------|--------|
-| _(vacío)_ | | | |
+| LOOP-01 | `agent-docs/templates/goal-prompt.template.md` y `goal-prompt.metaprompt.md` (y las copias en `goal-loop-kit/agent-docs/templates/`) siguen emitiendo el protocolo sin puerta humana. Los nueve `docs/product/*-goal-prompt.md` y la skill `/goal` §5 pasos 8–10 ya la insertan. `--make-prompt` regeneraría prompts viejos. | `agent-docs/templates/**` (perfil §6) | migración Grok 2026-08-25 |
 
 ---
 

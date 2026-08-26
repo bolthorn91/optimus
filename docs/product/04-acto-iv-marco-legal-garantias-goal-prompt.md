@@ -32,9 +32,12 @@ Para **cada** fase, en este orden **estricto**:
 6. **Puerta de misma foto:** si el paso 5 tocó código, la ronda limpia del paso 4 caducó → volver al
    paso 4. Ambos subagentes deben tener su última ronda limpia sobre el **mismo hash** del diff de
    la fase.
-7. **Solo entonces:** crear los **commits** de la fase (Conventional Commits, perfil §10; sin
+7. **Puerta humana** (perfil §9 fases supervisadas): parar, informar del alcance, de la
+   verificación ejecutada y de las rondas, y esperar go-ahead. No commitear hasta que el humano lo
+   diga.
+8. **Solo entonces:** crear los **commits** de la fase (Conventional Commits, perfil §10; sin
    secretos; sin amend de commits ajenos). Sin push, sin PR.
-8. **Solo entonces** iniciar la fase siguiente. **Prohibido** empezar la fase N+1 con hallazgos
+9. **Solo entonces** iniciar la fase siguiente. **Prohibido** empezar la fase N+1 con hallazgos
    abiertos, con un solo subagente limpio, o sin los commits de la fase N.
 
 ### Definición de ronda limpia
@@ -144,14 +147,15 @@ PROTOCOLO OBLIGATORIO AL FINAL DE CADA FASE (A, B, C, D, E)
    - Aplicar TODAS las objeciones, sugerencias y nits devueltas.
    - Re-ejecutar hasta ronda LIMPIA. Máx. 5 rondas; luego escalar.
 5) Si (4) tocó código, repetir (3): ambos deben quedar limpios sobre el MISMO estado del código.
-6) Solo entonces: commits de la fase (Conventional Commits; no push; no PR).
-7) Solo entonces: fase siguiente. Si un re-check posterior encuentra regresión, no avanzar hasta nueva ronda limpia + commits de fix.
+6) Puerta humana (perfil §9 fases supervisadas): parar, informar, esperar go-ahead. No commitear hasta que el humano lo diga.
+7) Solo entonces: commits de la fase (Conventional Commits; no push; no PR).
+8) Solo entonces: fase siguiente. Si un re-check posterior encuentra regresión, no avanzar hasta nueva ronda limpia + commits de fix.
 
 RESTRICCIONES
 - No push, no abrir PR, no force-push, no git reset --hard, no descartar trabajo ajeno.
 - No reabrir decisiones del doc 04 §2.
 - No bajar umbrales de gates ni ampliar excludes.
-- No tocar las zonas protegidas del perfil §6 (content/, public/assets-origen/, el PDF del dossier, goal-loop-kit/, agent-docs/goal-loop.md, agent-docs/templates/, .claude/agents/, .claude/skills/) fuera de lo autorizado por el doc 04 §2 C3.
+- No tocar las zonas protegidas del perfil §6 (content/, public/assets-origen/, el PDF del dossier, goal-loop-kit/, agent-docs/goal-loop.md, agent-docs/templates/, .grok/agents/, .grok/skills/) fuera de lo autorizado por el doc 04 §2 C3.
 - No romper los invariantes del perfil §7: I1, I3, I4, I5, I6, I7, I9.
 - El disclaimer en línea es OBLIGATORIO en el bloque de marco fiscal y en el de garantías (I7, E2, test CDI-10). Esta es la sección con más afirmaciones absolutas del dossier.
 - La aclaración de que «Capital Protegido» protege la TITULARIDAD REGISTRAL del activo y no el valor de la inversión es obligatoria y explícita (S3, test CDI-11).
@@ -169,7 +173,7 @@ RESTRICCIONES
 - No empezar la fase N+1 sin commits de la fase N tras ambos loops limpios.
 
 CRITERIO DE COMPLETITUD DEL GOAL
-El goal solo está completo cuando las fases A-E están implementadas, cada una pasó (1) implementación+tests, (2) loop goal-reviewer limpio, (3) loop goal-code-reviewer limpio sobre la misma foto, (4) commits; los DoD del doc 04 §8 se cumplen en código y tests; los diecisiete tests CDI-01 a CDI-17 existen y pasan; los gates del perfil §5 están en verde; y roadmap, deuda y doc 04 reflejan el estado real.
+El goal solo está completo cuando las fases A-E están implementadas, cada una pasó el protocolo de §1 (implementación, tests, dos loops limpios, misma foto, puerta humana, commits); los DoD del doc 04 §8 se cumplen en código y tests; los diecisiete tests CDI-01 a CDI-17 existen y pasan; los gates del perfil §5 están en verde; y roadmap, deuda y doc 04 reflejan el estado real.
 
 ENTREGABLE FINAL
 Resumen por fase: qué se hizo, commits (hash + mensaje), comandos de verificación ejecutados con su resultado, número de rondas de cada subagente hasta limpio, y residuos o deuda documentada.
@@ -179,37 +183,36 @@ Resumen por fase: qué se hizo, commits (hash + mensaje), comandos de verificaci
 
 ## 3. Variantes cortas (una fase)
 
-Usar solo si el humano pide acotar. **Mismo protocolo:** implementar → tests → loop `goal-reviewer`
-limpio → loop `goal-code-reviewer` limpio → misma foto → commits. No push/PR.
+Usar solo si el humano pide acotar. **Mismo protocolo que §1** (incluida la puerta humana del perfil §9). No push/PR.
 
 ### 3.1 Solo Fase A
 
 ```text
-GOAL: Completar solo la FASE A de docs/product/04-acto-iv-marco-legal-garantias.md (contenido tipado y bloque estático con lista de pasos, garantías y disclaimer). Leer doc 04 §7 Fase A y agent-docs/goal-profile.md. Tests CDI-05, CDI-08, CDI-09, CDI-10, CDI-11, CDI-12, CDI-15 y CDI-16. Al terminar: loop goal-reviewer hasta limpio (aplicar TODO), luego loop goal-code-reviewer hasta limpio (aplicar TODO), re-verificar goal-reviewer si hubo cambios, luego commits. No push/PR. No implementar el diagrama ni la animación.
+GOAL: Completar solo la FASE A de docs/product/04-acto-iv-marco-legal-garantias.md (contenido tipado y bloque estático con lista de pasos, garantías y disclaimer). Leer doc 04 §7 Fase A y agent-docs/goal-profile.md. Tests CDI-05, CDI-08, CDI-09, CDI-10, CDI-11, CDI-12, CDI-15 y CDI-16. Al terminar: protocolo de §1. No push/PR. No implementar el diagrama ni la animación.
 ```
 
 ### 3.2 Solo Fase B
 
 ```text
-GOAL: Completar solo la FASE B de docs/product/04-acto-iv-marco-legal-garantias.md (diagrama del CDI en SVG, genérico y reutilizable). Leer doc 04 §7 Fase B y agent-docs/goal-profile.md. Tests CDI-06 y CDI-13. Al terminar: loop goal-reviewer hasta limpio (aplicar TODO), luego loop goal-code-reviewer hasta limpio (aplicar TODO), re-verificar goal-reviewer si hubo cambios, luego commits. No push/PR. Requiere la Fase A ya en el branch.
+GOAL: Completar solo la FASE B de docs/product/04-acto-iv-marco-legal-garantias.md (diagrama del CDI en SVG, genérico y reutilizable). Leer doc 04 §7 Fase B y agent-docs/goal-profile.md. Tests CDI-06 y CDI-13. Al terminar: protocolo de §1. No push/PR. Requiere la Fase A ya en el branch.
 ```
 
 ### 3.3 Solo Fase C
 
 ```text
-GOAL: Completar solo la FASE C de docs/product/04-acto-iv-marco-legal-garantias.md (coreografía del trazado y garantías escalonadas). Leer doc 04 §7 Fase C y agent-docs/goal-profile.md. Tests CDI-01, CDI-02, CDI-03, CDI-04, CDI-07 y CDI-14. Al terminar: loop goal-reviewer hasta limpio (aplicar TODO), luego loop goal-code-reviewer hasta limpio (aplicar TODO), re-verificar goal-reviewer si hubo cambios, luego commits. No push/PR. Requiere las Fases A y B ya en el branch.
+GOAL: Completar solo la FASE C de docs/product/04-acto-iv-marco-legal-garantias.md (coreografía del trazado y garantías escalonadas). Leer doc 04 §7 Fase C y agent-docs/goal-profile.md. Tests CDI-01, CDI-02, CDI-03, CDI-04, CDI-07 y CDI-14. Al terminar: protocolo de §1. No push/PR. Requiere las Fases A y B ya en el branch.
 ```
 
 ### 3.4 Solo Fase D
 
 ```text
-GOAL: Completar solo la FASE D de docs/product/04-acto-iv-marco-legal-garantias.md (dato ancla, comparación de superficies, fondo y cierre). Leer doc 04 §7 Fase D y agent-docs/goal-profile.md. Test CDI-17. Al terminar: loop goal-reviewer hasta limpio (aplicar TODO), luego loop goal-code-reviewer hasta limpio (aplicar TODO), re-verificar goal-reviewer si hubo cambios, luego commits. No push/PR. Requiere las Fases A, B y C ya en el branch.
+GOAL: Completar solo la FASE D de docs/product/04-acto-iv-marco-legal-garantias.md (dato ancla, comparación de superficies, fondo y cierre). Leer doc 04 §7 Fase D y agent-docs/goal-profile.md. Test CDI-17. Al terminar: protocolo de §1. No push/PR. Requiere las Fases A, B y C ya en el branch.
 ```
 
 ### 3.5 Solo Fase E
 
 ```text
-GOAL: Completar solo la FASE E de docs/product/04-acto-iv-marco-legal-garantias.md (cierre documental y gates). Leer doc 04 §7 Fase E y agent-docs/goal-profile.md. Ejecutar los cinco gates del perfil §5. Al terminar: loop goal-reviewer hasta limpio (aplicar TODO), luego loop goal-code-reviewer hasta limpio (aplicar TODO), re-verificar goal-reviewer si hubo cambios, luego commits. No push/PR. Requiere las Fases A a D cerradas.
+GOAL: Completar solo la FASE E de docs/product/04-acto-iv-marco-legal-garantias.md (cierre documental y gates). Leer doc 04 §7 Fase E y agent-docs/goal-profile.md. Ejecutar los cinco gates del perfil §5. Al terminar: protocolo de §1. No push/PR. Requiere las Fases A a D cerradas.
 ```
 
 ---
@@ -222,8 +225,7 @@ GOAL: Completar solo la FASE E de docs/product/04-acto-iv-marco-legal-garantias.
 | Code review de fase | `goal-code-reviewer` | Cero objeciones, sugerencias y nits |
 | Puerta de fase | — | Ambos limpios sobre el mismo hash de diff |
 
-**Orden fijo por fase:** `goal-reviewer` (loop) → `goal-code-reviewer` (loop) → misma foto →
-`git commit`. No invertir el orden. Repetir cada subagente en bucle hasta cero hallazgos accionables,
+**Orden fijo por fase:** el protocolo de §1 (reviewer → code-reviewer → misma foto → puerta humana si perfil §9 → commit). No invertir el orden. Repetir cada subagente en bucle hasta cero hallazgos accionables,
 aplicando **todas** las correcciones en el mismo worktree antes de la siguiente invocación.
 
 ---

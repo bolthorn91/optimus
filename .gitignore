@@ -15,6 +15,7 @@ build/
 !.env.example
 
 # Estado de los runs del goal loop
+.grok/goal-runs/
 .claude/goal-runs/
 
 # Caches de herramientas

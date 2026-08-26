@@ -26,7 +26,7 @@ ninguna escena de contenido**: crea el suelo sobre el que los documentos 01–08
 | Assets originales | `public/assets-origen/` | 13 PNG extraídos del PDF: logotipo, mapas de riesgo, imagen satelital, fotografía. Zona protegida. |
 | Guía de estilo visual | `content/05-guia-estilo-visual.md` | Paleta muestreada de los assets reales, tipografía, componentes recurrentes, movimiento. |
 | Requisitos funcionales | `content/06-requisitos-funcionales.md` | Navegación, SEO, WCAG 2.1 AA, rendimiento, cookies. |
-| Loop de implementación | `agent-docs/`, `.claude/` | Perfil, protocolo, plantillas y subagentes. Zona protegida. |
+| Loop de implementación | `agent-docs/`, `.grok/` | Perfil, protocolo, plantillas y subagentes. Zona protegida. |
 
 **No existe** ningún fichero de código, ni `package.json`, ni `src/`. El repositorio está en
 `main` sin commits.
@@ -49,7 +49,7 @@ ninguna escena de contenido**: crea el suelo sobre el que los documentos 01–08
 |---|------|----------|
 | C1 | Idioma | Textos de usuario en español de España con tratamiento de usted; identificadores y código en inglés (perfil §1). |
 | C2 | Tests | Cobertura ≥ 80 % en `src/lib/**` y `src/hooks/**` (perfil §5). Las primitivas de `src/motion/` quedan fuera del umbral pero exigen test de contenido, de `prefers-reduced-motion` y de limpieza al desmontar. Sin E2E en v1: deuda explícita en §12. |
-| C3 | Zonas protegidas | No se toca `content/`, `public/assets-origen/`, `goal-loop-kit/`, `agent-docs/goal-loop.md`, `agent-docs/templates/` ni `.claude/agents|skills/` (perfil §6). Este documento autoriza crear `src/`, `public/` (fuera de `assets-origen/`), `index.html`, ficheros de configuración en la raíz y `docs/`. |
+| C3 | Zonas protegidas | No se toca `content/`, `public/assets-origen/`, `goal-loop-kit/`, `agent-docs/goal-loop.md`, `agent-docs/templates/` ni `.grok/agents|skills/` (perfil §6). Este documento autoriza crear `src/`, `public/` (fuera de `assets-origen/`), `index.html`, ficheros de configuración en la raíz y `docs/`. |
 | C4 | Invariantes | Aplican los nueve del perfil §7. Este documento **crea los mecanismos** que los hacen cumplibles: `useReducedMotionSafe` (I3), `<Disclaimer>` (I7), `.env.example` (I8), división de chunks (I9), constantes marcadas como pendientes (I2). |
 | C5 | Fundación ≠ contenido | Este documento no renderiza ni una frase del dossier salvo en la página de muestra del sistema de diseño, que usa texto de relleno explícitamente marcado. El contenido real lo montan los documentos 01–08. |
 

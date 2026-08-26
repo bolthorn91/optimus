@@ -6,14 +6,14 @@ haga ningún commit.
 
 | Pieza | Ruta |
 |-------|------|
-| Skill orquestadora | [`.claude/skills/goal/SKILL.md`](../.claude/skills/goal/SKILL.md) |
-| Revisor de corrección | [`.claude/agents/goal-reviewer.md`](../.claude/agents/goal-reviewer.md) |
-| Revisor de mantenibilidad | [`.claude/agents/goal-code-reviewer.md`](../.claude/agents/goal-code-reviewer.md) |
+| Skill orquestadora | [`.grok/skills/goal/SKILL.md`](../.grok/skills/goal/SKILL.md) |
+| Revisor de corrección | [`.grok/agents/goal-reviewer.md`](../.grok/agents/goal-reviewer.md) |
+| Revisor de mantenibilidad | [`.grok/agents/goal-code-reviewer.md`](../.grok/agents/goal-code-reviewer.md) |
 | **Perfil del proyecto** | [`goal-profile.md`](./goal-profile.md) |
 | Plantilla de documento | [`templates/goal-doc.template.md`](./templates/goal-doc.template.md) |
 | Plantilla de prompt de handover | [`templates/goal-prompt.template.md`](./templates/goal-prompt.template.md) |
 | Meta-prompt del prompt | [`templates/goal-prompt.metaprompt.md`](./templates/goal-prompt.metaprompt.md) |
-| Estado de los runs (git-ignored) | `.claude/goal-runs/<slug>/` |
+| Estado de los runs (git-ignored) | `.grok/goal-runs/<slug>/` |
 
 ## El seam: perfil del proyecto
 
@@ -47,7 +47,7 @@ corre «unprofiled» y pregunta solo por los comandos de verificación.
 2. **Prompt de handover** — `<basename>-goal-prompt.md`, generado desde el documento con
    `goal-prompt.metaprompt.md` + `goal-prompt.template.md` (o con `/goal --make-prompt <doc>`).
    Lleva el bloque `GOAL:` copiable y el protocolo de fases. **Nunca** sustituye al documento.
-3. **Run** — `/goal <ruta>` lo ejecuta. El estado vive en `.claude/goal-runs/<slug>/state.md`, de
+3. **Run** — `/goal <ruta>` lo ejecuta. El estado vive en `.grok/goal-runs/<slug>/state.md`, de
    modo que el run sobrevive a la compactación de contexto y al reinicio de sesión
    (`/goal --resume`).
 
@@ -61,6 +61,7 @@ SHA base de la fase
   → loop goal-reviewer        hasta ronda limpia
   → loop goal-code-reviewer   hasta ronda limpia
   → puerta de misma foto      (si el segundo loop tocó código, repetir el primero)
+  → puerta humana             (si perfil §9 fases supervisadas)
   → commits (sin push, sin PR)
   → fase siguiente
 ```
@@ -112,7 +113,7 @@ nunca.
 
 ## Aislamiento de contexto
 
-Cada llamada `Agent` arranca con su propio contexto y devuelve solo su informe final, así que un
+Cada llamada `spawn_subagent` arranca con su propio contexto y devuelve solo su informe final, así que un
 review le cuesta al orquestador una línea de veredicto en vez de una transcripción entera. Los
 prompts llevan **rutas** — diff, lista de ficheros, fichero de salida, perfil — nunca contenidos. A
 `goal-code-reviewer` no se le dan los hallazgos de `goal-reviewer`, ni al revés: las dos personas
@@ -120,21 +121,20 @@ son deliberadamente independientes.
 
 ## Notas de harness
 
-| Concepto | En Claude Code |
-|----------|----------------|
-| Lanzar subagente | herramienta `Agent` con `subagent_type` y `run_in_background: false` |
-| Definición de persona | `.claude/agents/<name>.md` (frontmatter + cuerpo) |
-| Contexto propio por agente | nativo: cada llamada `Agent` tiene el suyo |
-| Esfuerzo de razonamiento | `effort: high` en el frontmatter del agente |
-| Permisos | `tools:` / `disallowedTools:` / `permissionMode:` |
+| Concepto | En Grok |
+|----------|---------|
+| Lanzar subagente | `spawn_subagent` con `subagent_type`, `background: false`, `capability_mode: all` |
+| Definición de persona | `.grok/agents/<name>.md` (frontmatter + cuerpo) |
+| Contexto propio por agente | nativo: cada `spawn_subagent` tiene el suyo |
+| Modelo | `model: inherit` en el frontmatter del agente |
+| Permisos | el cuerpo del agente prohíbe editar fuente; `capability_mode: all` solo porque el informe necesita write y git necesita shell |
 | Entradas y salidas | rutas en el prompt + contrato de salida en el cuerpo del agente |
 
-Los revisores son **agentes**, no skills, así que no colisionan con los comandos `/review` y
-`/code-review` que ya trae Claude Code.
+Los revisores son **agentes**, no skills, así que no colisionan con `/review`.
 
 ## Hueco conocido
 
 Los dos revisores son personas opinadas. No hay un revisor agnóstico a la especificación — sin
 rúbrica, con ojos frescos, al que solo se le pregunte «¿esto cumple el DoD y qué está mal?» — dando
-una última pasada. Añadirlo significa un tercer fichero en `.claude/agents/` y un tercer loop entre
+una última pasada. Añadirlo significa un tercer fichero en `.grok/agents/` y un tercer loop entre
 la puerta de misma foto y el commit; el protocolo no necesita ningún otro cambio.
