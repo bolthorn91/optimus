@@ -1,7 +1,12 @@
 import axeCore from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { BLOCKING_IMPACTS, RUN_OPTIONS, expectNoBlockingAxeViolations } from './axe';
+import {
+  BLOCKING_IMPACTS,
+  RUN_OPTIONS,
+  expectNoBlockingAxeViolations,
+  installAxeJsdomStubs,
+} from './axe';
 
 function render(html: string): HTMLElement {
   const host = document.createElement('div');
@@ -12,6 +17,10 @@ function render(html: string): HTMLElement {
 
 // `cleanup()` de RTL solo retira lo que renderizó RTL: lo que se añade a mano hay que quitarlo,
 // o una violación de un test se cuela en el siguiente.
+beforeEach(() => {
+  installAxeJsdomStubs();
+});
+
 afterEach(() => {
   document.body.replaceChildren();
   document.documentElement.lang = 'es-ES';
@@ -97,7 +106,7 @@ describe('gate de accesibilidad de página, que es el contexto por defecto', () 
     const { violations, incomplete } = await axeCore.run(document, RUN_OPTIONS);
 
     expect(violations.map((v) => v.id)).toContain('landmark-one-main');
-    // Si el stub de setup.ts desapareciera, la regla caería a incomplete en vez de a violations.
+    // Si el stub de axe.ts desapareciera, la regla caería a incomplete en vez de a violations.
     expect(incomplete.map((v) => v.id)).not.toContain('landmark-one-main');
   });
 

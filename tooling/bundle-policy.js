@@ -26,8 +26,14 @@
  * @property {ChunkEntry[]} chunks
  */
 
-/** Paquetes que nunca pueden llegar a la primera carga. */
-export const WEBGL_PATTERNS = /** @type {const} */ (['three', '@react-three/', 'postprocessing']);
+/**
+ * Paquetes WebGL por identidad de paquete npm, no por substring de ruta.
+ * `three-stdlib` entra porque drei lo arrastra; no se infiere de `three`.
+ */
+export const WEBGL_PACKAGES = /** @type {const} */ (['three', 'three-stdlib', 'postprocessing']);
+
+/** Scopes cuyo árbol entero es WebGL (`@react-three/fiber`, `/drei`, …). */
+export const WEBGL_SCOPES = /** @type {const} */ (['@react-three']);
 
 /** Nombre del chunk diferido donde acaban. */
 export const WEBGL_CHUNK_NAME = 'webgl';
@@ -39,15 +45,42 @@ export const ENTRY_BUDGET_GZIP_BYTES = 250 * 1024;
 export const CHUNK_REPORT_PATH = '.build-report/chunk-report.json';
 
 /**
+ * Nombre de paquete npm del módulo (`three`, `@react-three/fiber`), o `null` si no viene de
+ * `node_modules`. Usa el último `/node_modules/` para pnpm y anidamientos.
+ *
+ * @param {string} moduleId
+ * @returns {string | null}
+ */
+export function nodeModulePackage(moduleId) {
+  const normalised = moduleId.replaceAll('\\', '/');
+  const marker = '/node_modules/';
+  const at = normalised.lastIndexOf(marker);
+  if (at === -1) return null;
+
+  const rest = normalised.slice(at + marker.length);
+  if (rest.length === 0) return null;
+
+  if (rest.startsWith('@')) {
+    const slash = rest.indexOf('/');
+    if (slash === -1) return null;
+    const next = rest.indexOf('/', slash + 1);
+    const name = next === -1 ? rest : rest.slice(0, next);
+    return name.includes('/') ? name : null;
+  }
+
+  const slash = rest.indexOf('/');
+  return slash === -1 ? rest : rest.slice(0, slash);
+}
+
+/**
  * @param {string} moduleId
  * @returns {boolean} si el módulo pertenece a un paquete WebGL.
- *
- * Se ancla a `node_modules/` para que un fichero propio llamado `three-column.ts` no acabe
- * arrastrado al chunk diferido.
  */
 export function isWebglModule(moduleId) {
-  const normalised = moduleId.replaceAll('\\', '/');
-  return WEBGL_PATTERNS.some((pattern) => normalised.includes(`/node_modules/${pattern}`));
+  const pkg = nodeModulePackage(moduleId);
+  if (pkg === null) return false;
+  if (WEBGL_PACKAGES.some((name) => name === pkg)) return true;
+  return WEBGL_SCOPES.some((scope) => pkg.startsWith(`${scope}/`));
 }
 
 /** @param {unknown} value @returns {value is string[]} */

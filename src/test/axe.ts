@@ -44,11 +44,20 @@ function summarise(results: Result[]): string {
  * foco) y `color-contrast` (desactivada explícitamente, ver `RUN_OPTIONS`).
  *
  * `landmark-one-main` y `page-has-heading-one` solo se evalúan gracias al stub de
- * `document.elementFromPoint` de `setup.ts`.
+ * `document.elementFromPoint` instalado aquí, no en el setup global.
  */
+
+/** jsdom no implementa `elementFromPoint`; sin él, axe aborta reglas de landmark a `incomplete`. */
+export function installAxeJsdomStubs(): void {
+  if (typeof document === 'undefined') return;
+  if (typeof document.elementFromPoint === 'function') return;
+  document.elementFromPoint = () => null;
+}
+
 export async function expectNoBlockingAxeViolations(
   target: Element | Document = document,
 ): Promise<void> {
+  installAxeJsdomStubs();
   const results = await axeCore.run(target, RUN_OPTIONS);
   const scope = target === document ? 'la página' : 'la sección';
 

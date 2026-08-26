@@ -3,9 +3,11 @@ import { describe, expect, it } from 'vitest';
 import {
   ENTRY_BUDGET_GZIP_BYTES,
   WEBGL_CHUNK_NAME,
-  WEBGL_PATTERNS,
+  WEBGL_PACKAGES,
+  WEBGL_SCOPES,
   findEagerWebglModules,
   isWebglModule,
+  nodeModulePackage,
   parseChunkReport,
   staticImportClosure,
   type ChunkEntry,
@@ -23,6 +25,7 @@ describe('isWebglModule', () => {
     '/repo/node_modules/@react-three/fiber/dist/index.js',
     '/repo/node_modules/@react-three/drei/core/Html.js',
     '/repo/node_modules/postprocessing/build/index.js',
+    '/repo/node_modules/three-stdlib/index.js',
   ])('reconoce %s como módulo WebGL', (id) => {
     expect(isWebglModule(id)).toBe(true);
   });
@@ -36,6 +39,7 @@ describe('isWebglModule', () => {
     '/repo/src/lib/three-column-layout.ts',
     '/repo/node_modules/react/index.js',
     '/repo/node_modules/gsap/ScrollTrigger.js',
+    '/repo/node_modules/three-mesh-bvh/index.js',
   ])('no marca %s como módulo WebGL', (id) => {
     expect(isWebglModule(id)).toBe(false);
   });
@@ -156,8 +160,17 @@ describe('constantes de la política', () => {
     expect(ENTRY_BUDGET_GZIP_BYTES).toBe(250 * 1024);
   });
 
-  it('expone la lista de patrones y el nombre del chunk diferido', () => {
-    expect(WEBGL_PATTERNS).toEqual(['three', '@react-three/', 'postprocessing']);
+  it('expone paquetes, scopes y el nombre del chunk diferido', () => {
+    expect([...WEBGL_PACKAGES]).toEqual(['three', 'three-stdlib', 'postprocessing']);
+    expect([...WEBGL_SCOPES]).toEqual(['@react-three']);
     expect(WEBGL_CHUNK_NAME).toBe('webgl');
+  });
+
+  it('extrae el paquete npm, no un prefijo de ruta', () => {
+    expect(nodeModulePackage('/repo/node_modules/three/build/three.module.js')).toBe('three');
+    expect(nodeModulePackage('/repo/node_modules/@react-three/fiber/dist/index.js')).toBe(
+      '@react-three/fiber',
+    );
+    expect(nodeModulePackage('/repo/src/lib/three-column-layout.ts')).toBeNull();
   });
 });

@@ -5,7 +5,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
-import { WEBGL_PATTERNS } from './tooling/bundle-policy.js';
+import { WEBGL_PACKAGES, WEBGL_SCOPES } from './tooling/bundle-policy.js';
 
 const IMPORT_ORDER = {
   groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
@@ -30,7 +30,8 @@ const asImportGlobs = (pkg) => (pkg.endsWith('/') ? [`${pkg}*`] : [pkg, `${pkg}/
  */
 const NO_ENGINES = {
   group: [
-    ...WEBGL_PATTERNS.flatMap(asImportGlobs),
+    ...WEBGL_PACKAGES.flatMap(asImportGlobs),
+    ...WEBGL_SCOPES.map((scope) => `${scope}/*`),
     ...['gsap', '@gsap', 'lenis'].flatMap(asImportGlobs),
   ],
   message:
@@ -53,7 +54,16 @@ const allowsEngines = (files) => ({
 });
 
 export default tseslint.config(
-  { ignores: ['dist/**', 'coverage/**', 'node_modules/**', '.claude/**', '.grok/goal-runs/**', 'goal-loop-kit/**'] },
+  {
+    ignores: [
+      'dist/**',
+      'coverage/**',
+      'node_modules/**',
+      '.claude/**',
+      '.grok/goal-runs/**',
+      'goal-loop-kit/**',
+    ],
+  },
 
   js.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
