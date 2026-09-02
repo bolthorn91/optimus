@@ -8,7 +8,10 @@ import { formatPercent } from '@/lib/format';
 import { Scene } from '@/motion/Scene';
 import { useGsapScene } from '@/motion/useGsapScene';
 import { ACT1 } from '@/scenes/01-escenario-europeo/content';
+import { DematerialisingNote } from '@/scenes/01-escenario-europeo/DematerialisingNote';
+import { DensityIllustration } from '@/scenes/01-escenario-europeo/DensityIllustration';
 import { FactorPanel } from '@/scenes/01-escenario-europeo/FactorPanel';
+import { SurveillanceGrid } from '@/scenes/01-escenario-europeo/SurveillanceGrid';
 import { choreographAct1, type Act1State } from '@/scenes/01-escenario-europeo/timeline';
 
 import './scene.css';
@@ -35,13 +38,24 @@ function applyAct1(node: HTMLElement, state: Act1State): void {
   }
 }
 
+function sameProgress(
+  left: Act1State['factorProgress'],
+  right: Act1State['factorProgress'],
+): boolean {
+  return left[0] === right[0] && left[1] === right[1] && left[2] === right[2];
+}
+
 export function Act1Scene() {
   const ref = useRef<HTMLElement>(null);
   const [statProgress, setStatProgress] = useState(0);
+  const [factorProgress, setFactorProgress] = useState<Act1State['factorProgress']>([0, 0, 0]);
 
   const apply = useCallback((state: Act1State) => {
     if (ref.current) applyAct1(ref.current, state);
     setStatProgress((current) => (current === state.statProgress ? current : state.statProgress));
+    setFactorProgress((current) =>
+      sameProgress(current, state.factorProgress) ? current : state.factorProgress,
+    );
   }, []);
 
   useGsapScene({
@@ -68,9 +82,37 @@ export function Act1Scene() {
         </h2>
         <p className="act1-intro">{ACT1.intro}</p>
         <div className="act1-factors">
-          {ACT1.factors.map((factor) => (
-            <FactorPanel factor={factor} key={factor.index} />
-          ))}
+          {ACT1.factors.map((factor, index) => {
+            const progress = factorProgress[index] ?? 0;
+            const body = <p>{factor.body}</p>;
+            if (factor.illustration === 'density') {
+              return (
+                <FactorPanel
+                  factor={factor}
+                  illustration={<DensityIllustration progress={progress} />}
+                  key={factor.index}
+                >
+                  {body}
+                </FactorPanel>
+              );
+            }
+            if (factor.illustration === 'surveillance') {
+              return (
+                <FactorPanel factor={factor} key={factor.index}>
+                  <SurveillanceGrid progress={progress}>{body}</SurveillanceGrid>
+                </FactorPanel>
+              );
+            }
+            return (
+              <FactorPanel
+                factor={factor}
+                illustration={<DematerialisingNote progress={progress} />}
+                key={factor.index}
+              >
+                {body}
+              </FactorPanel>
+            );
+          })}
         </div>
         <div className="act1-stat">
           <StatFigure

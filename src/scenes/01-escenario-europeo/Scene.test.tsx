@@ -2,13 +2,16 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 import { render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { App } from '@/app/App';
 import { easeInOut } from '@/lib/interpolate';
 import { ScrollTrigger } from '@/motion/gsapSetup';
 import { ACT1 } from '@/scenes/01-escenario-europeo/content';
+import { DematerialisingNote } from '@/scenes/01-escenario-europeo/DematerialisingNote';
+import { DensityIllustration } from '@/scenes/01-escenario-europeo/DensityIllustration';
 import { Act1Scene } from '@/scenes/01-escenario-europeo/Scene';
+import { SurveillanceGrid } from '@/scenes/01-escenario-europeo/SurveillanceGrid';
 import { choreographAct1 } from '@/scenes/01-escenario-europeo/timeline';
 import { expectNoBlockingAxeViolations } from '@/test/axe';
 
@@ -19,9 +22,25 @@ const CANON = readFileSync(
 
 const nativeMatchMedia = window.matchMedia.bind(window);
 
+const canvasContext = {
+  clearRect: vi.fn(),
+  beginPath: vi.fn(),
+  arc: vi.fn(),
+  fill: vi.fn(),
+  fillStyle: '',
+  globalAlpha: 1,
+};
+
 describe('Act1Scene', () => {
+  beforeEach(() => {
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(
+      canvasContext as unknown as CanvasRenderingContext2D,
+    );
+  });
+
   afterEach(() => {
     window.matchMedia = nativeMatchMedia;
+    vi.restoreAllMocks();
     for (const trigger of ScrollTrigger.getAll()) trigger.kill();
   });
 
@@ -82,9 +101,20 @@ describe('Act1Scene', () => {
     }
   });
 
-  it('no tiene violaciones de accesibilidad bloqueantes', async () => {
+  // ACT1-09
+  it('ACT1-09 · no tiene violaciones de accesibilidad bloqueantes', async () => {
     const { container } = render(<Act1Scene />);
     await expectNoBlockingAxeViolations(container);
+  });
+
+  // ACT1-08
+  it('ACT1-08 · el párrafo bajo la retícula sigue siendo texto seleccionable', () => {
+    const { container } = render(<Act1Scene />);
+    const copy = container.querySelector('[data-surveillance-grid] .surveillance__copy p');
+    expect(copy).toBeInstanceOf(HTMLParagraphElement);
+    const surveillanceBody = ACT1.factors[1].body;
+    expect(copy).toHaveTextContent(surveillanceBody);
+    expect(copy?.closest('svg')).toBeNull();
   });
 
   // ACT1-03
@@ -166,11 +196,56 @@ describe('Act1Scene', () => {
     expect(ScrollTrigger.getAll()).toEqual([]);
   });
 
-  it('desmontar deja cero ScrollTrigger', () => {
+  // ACT1-10
+  it('ACT1-10 · desmontar deja cero ScrollTrigger', () => {
     const { unmount } = render(<Act1Scene />);
     expect(ScrollTrigger.getAll().length).toBeGreaterThan(0);
     unmount();
     expect(ScrollTrigger.getAll()).toEqual([]);
+  });
+
+  it('las tres ilustraciones están en el DOM y responden al progreso', () => {
+    const { container } = render(<Act1Scene />);
+    expect(container.querySelector('[data-density-illustration]')).toHaveAttribute(
+      'aria-hidden',
+      'true',
+    );
+    expect(container.querySelector('[data-surveillance-grid]')).not.toBeNull();
+    expect(container.querySelector('[data-dematerialising-note]')).toHaveAttribute(
+      'aria-hidden',
+      'true',
+    );
+
+    canvasContext.arc.mockClear();
+    const { rerender: rerenderDensity } = render(<DensityIllustration progress={0} />);
+    const xAt0 = Number(canvasContext.arc.mock.calls[0]?.[0]);
+    canvasContext.arc.mockClear();
+    rerenderDensity(<DensityIllustration progress={1} />);
+    expect(Number(canvasContext.arc.mock.calls[0]?.[0])).not.toBe(xAt0);
+
+    const { container: gridRoot, rerender: rerenderGrid } = render(
+      <SurveillanceGrid progress={0}>
+        <p>copy</p>
+      </SurveillanceGrid>,
+    );
+    const grid = gridRoot.querySelector('[data-surveillance-grid]');
+    expect(grid).toBeInstanceOf(HTMLElement);
+    expect((grid as HTMLElement).style.getPropertyValue('--illustration-progress')).toBe('0');
+    rerenderGrid(
+      <SurveillanceGrid progress={0.8}>
+        <p>copy</p>
+      </SurveillanceGrid>,
+    );
+    expect((grid as HTMLElement).style.getPropertyValue('--illustration-progress')).toBe('0.8');
+
+    const { container: noteRoot, rerender: rerenderNote } = render(
+      <DematerialisingNote progress={0} />,
+    );
+    const note = noteRoot.querySelector('[data-dematerialising-note]');
+    expect(note).toBeInstanceOf(SVGElement);
+    expect((note as SVGElement).style.getPropertyValue('--illustration-progress')).toBe('0');
+    rerenderNote(<DematerialisingNote progress={1} />);
+    expect((note as SVGElement).style.getPropertyValue('--illustration-progress')).toBe('1');
   });
 
   // ACT1-13

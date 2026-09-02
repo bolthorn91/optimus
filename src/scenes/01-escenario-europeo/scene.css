@@ -24,7 +24,8 @@
   pointer-events: var(--factor-pointer, auto);
 }
 
-.factor-panel p:last-child {
+.factor-panel p:last-child,
+.surveillance__copy p {
   max-inline-size: 70ch;
 }
 
@@ -74,4 +75,47 @@
 .act1-closing {
   max-inline-size: 70ch;
   opacity: var(--closing-opacity, 1);
+}
+
+.surveillance {
+  position: relative;
+}
+
+.surveillance__grid {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  color: var(--color-gold-muted);
+  transform: scaleY(var(--illustration-progress, 0));
+  transform-origin: top;
+}
+
+.surveillance__scan {
+  transform: translateX(calc(var(--illustration-progress, 0) * 100%));
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+
+.surveillance__copy {
+  position: relative;
+}
+
+.note-grid {
+  color: var(--color-gold-high);
+}
+
+.note-grid__bill {
+  opacity: calc(1 - var(--illustration-progress, 0));
+}
+
+.note-grid g {
+  opacity: clamp(0, calc((var(--illustration-progress, 0) - var(--cell-delay, 0)) / 0.4), 1);
+}
+
+[data-density-illustration] {
+  display: block;
+  inline-size: min(20rem, 100%);
+  block-size: auto;
 }
