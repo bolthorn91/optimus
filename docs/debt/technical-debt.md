@@ -20,6 +20,7 @@ registran aquí para que la decisión sea explícita y no un olvido.
 |----|----------|--------|--------|
 | E2E-00-HOME | Como visitante, recorro la home de principio a fin y alcanzo el formulario de reserva sin que ninguna escena falle ni pierda contenido | doc 00 §12.1 | abierto |
 | E2E-00-MOTION | Como usuario con `prefers-reduced-motion` activo, recorro la home y recibo el mismo contenido que sin esa preferencia | doc 00 §12.2 | abierto |
+| E2E-01-ACT1 | Como visitante, recorro el hero y el acto I completos y llego al CTA intermedio habiendo visto los tres factores y la cifra ancla | doc 01 §12.1 | abierto |
 
 ---
 
@@ -33,8 +34,8 @@ registran aquí para que la decisión sea explícita y no un olvido.
 
 ## §3 Contenido pendiente del cliente
 
-Bloqueos que obligan a renderizar un marcador en vez del dato real (perfil §7 I1, I2). Origen:
-[`content/08-notas-editoriales.md`](../../content/08-notas-editoriales.md).
+Bloqueos y decisiones editoriales que el cliente aún no ha cerrado (perfil §7 I1, I2). Origen:
+[`content/08-notas-editoriales.md`](../../content/08-notas-editoriales.md) y los documentos de goal.
 
 | Id | Pendiente | Afecta a | Estado |
 |----|-----------|----------|--------|
@@ -48,7 +49,8 @@ Bloqueos que obligan a renderizar un marcador en vez del dato real (perfil §7 I
 | E-02 | Redacción correcta de la frase incompleta en la conclusión del acto III | doc 03 | abierto |
 | E-05 | Importe mínimo de inversión, o explicación de cómo se determina | doc 05, doc 06 | abierto |
 | E-07 | Decisión sobre el apartado de modificación climática: mantener con fuente, reformular o suprimir | doc 02 | abierto |
-| E-08 | Tiempo verbal de las normas europeas aún en tramitación (Chat Control, Euro Digital) | doc 01 | abierto |
+| E-08 | Tiempo verbal de las normas europeas aún en tramitación (Chat Control, Euro Digital). Reproducido literal (I1); la corrección es decisión editorial del cliente | doc 01 §12.3 / `content/08-notas-editoriales.md` E-08 | abierto |
+| VIS-01 | El cliente pidió iconografía literal de amenaza (E2); v1 implementa la variante abstracta y cartográfica (E1). Falta confirmación del cliente | doc 01 §2.5 / §12.2 | abierto |
 | — | Nombre publicable de las entidades ALyC y ESI/agencia aliadas | doc 06 | abierto |
 | — | Licencia y atribución de los mapas de riesgo, la imagen satelital y la foto del Obelisco | doc 02, doc 03, doc 04 | abierto |
 

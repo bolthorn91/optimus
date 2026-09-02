@@ -1,6 +1,6 @@
 # Acto I — Hero y el nuevo escenario europeo
 
-**Estado:** especificación canónica (decisiones cerradas 2026-08-17). Pendiente de implementación.
+**Estado:** hecho en branch `main` (2026-09-02). No fusionado.
 **Branch de trabajo:** el HEAD actual del worktree.
 **Perfil de proyecto:** [`agent-docs/goal-profile.md`](../../agent-docs/goal-profile.md) — invariantes §7 aplicables: I1, I3, I4, I5, I7, I9.
 **Roadmap:** [`roadmap.md`](roadmap.md) §2, fila 01.
@@ -423,32 +423,32 @@ bucle de animación.
 
 ### 8.1 Hero
 
-- [ ] El titular es literal y es el único `h1` de la página.
-- [ ] El claim está reconstruido en CSS, no como imagen.
-- [ ] Los dos CTA usan los textos canónicos y llevan a su destino.
-- [ ] No hay enlaces a redes sociales.
-- [ ] La animación de entrada dura ≤ 1,2 s y respeta el movimiento reducido.
-- [ ] El lector de pantalla anuncia el titular como una sola frase.
-- [ ] Los diez tests HERO-01…HERO-10 existen y pasan.
+- [x] El titular es literal y es el único `h1` de la página.
+- [x] El claim está reconstruido en CSS, no como imagen.
+- [x] Los dos CTA usan los textos canónicos y llevan a su destino.
+- [x] No hay enlaces a redes sociales.
+- [x] La animación de entrada dura ≤ 1,2 s y respeta el movimiento reducido.
+- [x] El lector de pantalla anuncia el titular como una sola frase.
+- [x] Los diez tests HERO-01…HERO-10 existen y pasan.
 
 ### 8.2 Acto I
 
-- [ ] Los tres factores se recorren con el scroll, uno visible cada vez.
-- [ ] El texto de los tres coincide carácter a carácter con `content/`.
-- [ ] El 14 % está en el DOM desde el primer render y cita su fuente.
-- [ ] El texto bajo la retícula de vigilancia sigue siendo seleccionable.
-- [ ] Con movimiento reducido, los tres factores se ven a la vez y completos.
-- [ ] Desmontar la escena deja cero animaciones vivas.
-- [ ] Los trece tests ACT1-01…ACT1-13 existen y pasan.
+- [x] Los tres factores se recorren con el scroll, uno visible cada vez.
+- [x] El texto de los tres coincide carácter a carácter con `content/`.
+- [x] El 14 % está en el DOM desde el primer render y cita su fuente.
+- [x] El texto bajo la retícula de vigilancia sigue siendo seleccionable.
+- [x] Con movimiento reducido, los tres factores se ven a la vez y completos.
+- [x] Desmontar la escena deja cero animaciones vivas.
+- [x] Los trece tests ACT1-01…ACT1-13 existen y pasan.
 
 ### 8.3 Global
 
-- [ ] `docs/product/roadmap.md` fila 01 actualizada a «hecho en branch».
-- [ ] Lo no cubierto → filas honestas en `docs/debt/technical-debt.md`.
-- [ ] Se respetan el idioma y la política de comentarios del perfil §1.
-- [ ] No se modificó ninguna zona protegida del perfil §6 sin autorización de C3.
-- [ ] Todos los gates del perfil §5 en verde, ejecutados de verdad.
-- [ ] Ningún invariante del perfil §7 roto en la superficie tocada.
+- [x] `docs/product/roadmap.md` fila 01 actualizada a «hecho en branch».
+- [x] Lo no cubierto → filas honestas en `docs/debt/technical-debt.md`.
+- [x] Se respetan el idioma y la política de comentarios del perfil §1.
+- [x] No se modificó ninguna zona protegida del perfil §6 sin autorización de C3.
+- [x] Todos los gates del perfil §5 en verde, ejecutados de verdad.
+- [x] Ningún invariante del perfil §7 roto en la superficie tocada.
 
 ---
 
