@@ -22,3 +22,9 @@ export function lerp(from: number, to: number, progress: number): number {
   if (p <= 0) return from;
   return from + (to - from) * p;
 }
+
+/** Smoothstep 0→1, estrictamente creciente en (0, 1). */
+export function easeInOut(progress: number): number {
+  const p = clamp01(progress);
+  return p * p * (3 - 2 * p);
+}

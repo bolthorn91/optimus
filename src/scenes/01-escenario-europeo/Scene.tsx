@@ -1,20 +1,66 @@
+import { useCallback, useRef, useState } from 'react';
+
+import { CountUp } from '@/components/CountUp';
 import { DualFigure } from '@/components/DualFigure';
 import { RomanNumeral } from '@/components/RomanNumeral';
 import { StatFigure } from '@/components/StatFigure';
+import { formatPercent } from '@/lib/format';
 import { Scene } from '@/motion/Scene';
+import { useGsapScene } from '@/motion/useGsapScene';
 import { ACT1 } from '@/scenes/01-escenario-europeo/content';
 import { FactorPanel } from '@/scenes/01-escenario-europeo/FactorPanel';
+import { choreographAct1, type Act1State } from '@/scenes/01-escenario-europeo/timeline';
 
 import './scene.css';
 
+const HEIGHT = '100vh';
+const PIN_END = '+=300vh';
+const SCENE_BACKGROUND =
+  'color-mix(in srgb, var(--color-navy-deep) calc((1 - var(--surface-mix, 0)) * 100%), var(--color-navy-mid) calc(var(--surface-mix, 0) * 100%))';
+
+function applyAct1(node: HTMLElement, state: Act1State): void {
+  node.style.setProperty('--surface-mix', String(state.surfaceMix));
+  node.style.setProperty('--intro-opacity', String(state.introOpacity));
+  node.style.setProperty('--intro-y', `${String(state.introY)}px`);
+  node.style.setProperty('--closing-opacity', String(state.closingOpacity));
+  node.style.setProperty('--stat-opacity', String(state.statProgress));
+  for (let i = 0; i < 3; i += 1) {
+    const panel = node.querySelector<HTMLElement>(`[data-factor="${String(i + 1)}"]`);
+    if (!panel) continue;
+    const opacity = state.factorOpacity[i] ?? 0;
+    panel.style.setProperty('--factor-opacity', String(opacity));
+    panel.style.setProperty('--factor-y', `${String(state.factorY[i] ?? 0)}px`);
+    panel.style.setProperty('--factor-visibility', opacity === 0 ? 'hidden' : 'visible');
+    panel.style.setProperty('--factor-pointer', opacity === 0 ? 'none' : 'auto');
+  }
+}
+
 export function Act1Scene() {
+  const ref = useRef<HTMLElement>(null);
+  const [statProgress, setStatProgress] = useState(0);
+
+  const apply = useCallback((state: Act1State) => {
+    if (ref.current) applyAct1(ref.current, state);
+    setStatProgress((current) => (current === state.statProgress ? current : state.statProgress));
+  }, []);
+
+  useGsapScene({
+    ref,
+    choreograph: choreographAct1,
+    apply,
+    pin: true,
+    scrub: true,
+    end: PIN_END,
+  });
+
   return (
     <Scene
       act={ACT1.act}
-      background="var(--color-navy-deep)"
+      background={SCENE_BACKGROUND}
       className="on-navy"
-      height="100vh"
+      height={HEIGHT}
       id="escenario"
+      ref={ref}
     >
       <div className="act1">
         <h2>
@@ -26,11 +72,22 @@ export function Act1Scene() {
             <FactorPanel factor={factor} key={factor.index} />
           ))}
         </div>
-        <StatFigure
-          label={ACT1.stat.label}
-          source={ACT1.stat.source}
-          value={<DualFigure roman suffix={ACT1.stat.unit} value={ACT1.stat.value} />}
-        />
+        <div className="act1-stat">
+          <StatFigure
+            label={ACT1.stat.label}
+            source={ACT1.stat.source}
+            value={
+              <DualFigure
+                arabic={
+                  <CountUp format={formatPercent} progress={statProgress} to={ACT1.stat.value} />
+                }
+                roman
+                suffix={ACT1.stat.unit}
+                value={ACT1.stat.value}
+              />
+            }
+          />
+        </div>
         <p className="act1-closing">{ACT1.closing}</p>
         <a href={ACT1.cta.href}>{ACT1.cta.label}</a>
       </div>

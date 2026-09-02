@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 import { RomanNumeral } from '@/components/RomanNumeral';
 import { NBSP, formatNumber } from '@/lib/format';
 import { ROMAN_MAX, ROMAN_MIN } from '@/lib/roman';
@@ -8,6 +10,8 @@ export interface DualFigureProps {
   suffix?: string;
   /** El romano solo cabe para enteros de 1 a 3999; fuera de ese rango se omite. */
   roman?: boolean;
+  /** Si se pasa, sustituye el arábigo formateado (p. ej. un `<CountUp>`). */
+  arabic?: ReactNode;
   className?: string;
 }
 
@@ -20,7 +24,7 @@ function canRender(value: number): boolean {
  * secundaria, más pequeña y encima. El romano va `aria-hidden` — nadie debería oír «catorce»
  * dos veces. La jerarquía visual la fija `[data-dual-figure-roman]`, no el atributo de a11y.
  */
-export function DualFigure({ value, suffix, roman = true, className }: DualFigureProps) {
+export function DualFigure({ value, suffix, roman = true, arabic, className }: DualFigureProps) {
   const showRoman = roman && canRender(value);
 
   return (
@@ -31,8 +35,12 @@ export function DualFigure({ value, suffix, roman = true, className }: DualFigur
         </span>
       ) : null}
       <span data-dual-figure-value>
-        {formatNumber(value)}
-        {suffix === undefined ? null : NBSP + suffix}
+        {arabic ?? (
+          <>
+            {formatNumber(value)}
+            {suffix === undefined ? null : NBSP + suffix}
+          </>
+        )}
       </span>
     </span>
   );

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { clamp01, lerp } from './interpolate';
+import { clamp01, easeInOut, lerp } from './interpolate';
 
 describe('clamp01', () => {
   it.each([
@@ -47,5 +47,21 @@ describe('lerp', () => {
 
   it('funciona hacia abajo', () => {
     expect(lerp(100, 0, 0.25)).toBe(75);
+  });
+});
+
+describe('easeInOut', () => {
+  it('cierra en 0 y 1', () => {
+    expect(easeInOut(0)).toBe(0);
+    expect(easeInOut(1)).toBe(1);
+  });
+
+  it('es estrictamente creciente en (0, 1)', () => {
+    let previous = easeInOut(0);
+    for (let i = 1; i <= 20; i += 1) {
+      const current = easeInOut(i / 20);
+      expect(current).toBeGreaterThan(previous);
+      previous = current;
+    }
   });
 });
