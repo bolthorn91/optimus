@@ -29,6 +29,8 @@ export const RISK_SCALE = {
   stable: '#2B498F',
 } as const;
 
+export type RiskLevel = keyof typeof RISK_SCALE;
+
 /** Identificadores de país, consistentes en todo el sitio (doc 00 S3). */
 export const COUNTRY_COLOR = {
   es: PALETTE.goldMuted,

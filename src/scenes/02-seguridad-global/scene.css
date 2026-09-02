@@ -1,0 +1,48 @@
+.risk-legend {
+  display: grid;
+  gap: var(--space-s);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.risk-legend__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--tracking-caps);
+}
+
+.risk-legend__item svg {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  flex: none;
+  color: var(--color-navy-deep);
+}
+
+.risk-table {
+  border-collapse: collapse;
+  inline-size: 100%;
+  font-size: var(--text-note);
+}
+
+.risk-table caption {
+  text-align: start;
+  margin-block-end: var(--space-s);
+  font-weight: 600;
+}
+
+.risk-table th,
+.risk-table td {
+  border: 1px solid var(--rule);
+  padding: var(--space-xs) var(--space-s);
+  text-align: start;
+}
+
+.risk-table__projection {
+  display: block;
+  font-weight: 400;
+  font-size: var(--text-note);
+  color: var(--ink-muted);
+}
