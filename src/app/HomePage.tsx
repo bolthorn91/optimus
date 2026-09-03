@@ -6,10 +6,12 @@ import { ActThreshold } from '@/motion/ActThreshold';
 import { Scene } from '@/motion/Scene';
 import { HeroScene } from '@/scenes/00-hero/Scene';
 import { Act1Scene } from '@/scenes/01-escenario-europeo/Scene';
+import { Act2Scene } from '@/scenes/02-seguridad-global/Scene';
 
 const HOME_SCENES: Partial<Record<Section['id'], ComponentType>> = {
   hero: HeroScene,
   escenario: Act1Scene,
+  seguridad: Act2Scene,
 };
 
 function PlaceholderScene({ section }: { section: Section }) {

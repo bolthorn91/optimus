@@ -1,3 +1,47 @@
+.act2 {
+  box-sizing: border-box;
+  min-block-size: 100vh;
+  padding: var(--space-l) var(--space-m);
+}
+
+.act2 > p {
+  max-inline-size: 70ch;
+}
+
+.period-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+  margin-block: var(--space-m);
+}
+
+.period-selector button {
+  font: inherit;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--rule);
+  padding: var(--space-2xs) var(--space-s);
+  cursor: pointer;
+}
+
+.period-selector button[aria-pressed='true'] {
+  border-color: var(--accent);
+  color: var(--color-gold-high);
+}
+
+.risk-map {
+  display: block;
+  inline-size: min(100%, 75rem);
+  max-inline-size: 100%;
+  block-size: auto;
+  margin-block: var(--space-m);
+  color: var(--ink);
+}
+
+.risk-map__projection {
+  font-size: 8px;
+}
+
 .risk-legend {
   display: grid;
   gap: var(--space-s);

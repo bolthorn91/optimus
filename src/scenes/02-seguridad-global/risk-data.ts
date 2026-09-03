@@ -153,7 +153,11 @@ const REGIONS_2026: RiskSnapshot = {
   oceania: 'stable',
 };
 
-export const RISK_PERIODS: readonly RiskPeriod[] = [
+export type PeriodIndex = 0 | 1 | 2 | 3;
+
+export type RiskSeries = readonly [RiskPeriod, RiskPeriod, RiskPeriod, RiskPeriod];
+
+export const RISK_PERIODS: RiskSeries = [
   {
     id: '1985',
     year: 1985,
