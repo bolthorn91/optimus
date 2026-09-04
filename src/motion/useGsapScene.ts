@@ -1,4 +1,4 @@
-import { type RefObject, useLayoutEffect } from 'react';
+import { type RefObject, useLayoutEffect, useRef } from 'react';
 
 import { ScrollTrigger, gsap } from '@/motion/gsapSetup';
 import type { Choreograph, SceneState } from '@/motion/types';
@@ -31,8 +31,10 @@ export function useGsapScene<T>({
   setup,
   start = 'top top',
   end,
-}: UseGsapSceneOptions<T>): void {
+}: UseGsapSceneOptions<T>): { seek: (progress: number) => void } {
   const reduced = useReducedMotionSafe();
+  const triggerRef = useRef<ScrollTrigger | null>(null);
+  const silent = useRef(false);
 
   useLayoutEffect(() => {
     const triggerEl = ref.current;
@@ -59,13 +61,14 @@ export function useGsapScene<T>({
         return;
       }
 
-      ScrollTrigger.create({
+      triggerRef.current = ScrollTrigger.create({
         trigger: triggerEl,
         start,
         end: end ?? (() => `+=${String(triggerEl.offsetHeight)}`),
         pin,
         scrub,
         onUpdate: (self) => {
+          if (silent.current) return;
           apply(choreograph(self.progress));
         },
       });
@@ -73,7 +76,18 @@ export function useGsapScene<T>({
     }, triggerEl);
 
     return () => {
+      triggerRef.current = null;
       ctx.revert();
     };
   }, [apply, choreograph, duration, end, pin, reduced, ref, scrub, setup, start]);
+
+  return {
+    seek(progress: number) {
+      const trigger = triggerRef.current;
+      if (!trigger) return;
+      silent.current = true;
+      trigger.scroll(trigger.start + (trigger.end - trigger.start) * progress);
+      silent.current = false;
+    },
+  };
 }

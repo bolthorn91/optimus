@@ -1,3 +1,5 @@
+import { useId } from 'react';
+
 import { RiskPatternDefs, riskPatternId } from '@/components/RiskPattern';
 import { RISK_SCALE } from '@/lib/tokens';
 import {
@@ -21,9 +23,11 @@ export function RiskMap({
   southAmericaGlow: number;
   projectionNote: string;
 }) {
+  const uid = useId();
   const active = periods[activeIndex];
-  const titleId = 'act2-map-title';
-  const descId = 'act2-map-desc';
+  const titleId = `${uid}-title`;
+  const descId = `${uid}-desc`;
+  const patternPrefix = `${uid}-pattern`;
 
   return (
     <svg
@@ -35,9 +39,9 @@ export function RiskMap({
     >
       <title id={titleId}>{active.label}</title>
       <desc id={descId}>{active.isProjection ? projectionNote : active.shortLabel}</desc>
-      <RiskPatternDefs />
-      <g fill="currentColor" id="land" opacity="0.45">
-        <path d={WORLD_LAND_D} id="continents" />
+      <RiskPatternDefs prefix={patternPrefix} />
+      <g fill="currentColor" opacity="0.45">
+        <path d={WORLD_LAND_D} />
       </g>
       {([0, 1, 2, 3] as const).map((index) => {
         const period = periods[index];
@@ -58,7 +62,7 @@ export function RiskMap({
                   <ellipse
                     cx={blob.cx}
                     cy={blob.cy}
-                    fill={`url(#${riskPatternId(level)})`}
+                    fill={`url(#${riskPatternId(level, patternPrefix)})`}
                     rx={blob.rx}
                     ry={blob.ry}
                   />

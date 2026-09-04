@@ -4,8 +4,30 @@
   padding: var(--space-l) var(--space-m);
 }
 
-.act2 > p {
+.act2-intro {
   max-inline-size: 70ch;
+  opacity: var(--intro-opacity, 1);
+}
+
+.act2-year {
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+}
+
+.act2-maps {
+  display: grid;
+  gap: var(--space-l);
+}
+
+.act2-maps figcaption {
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--tracking-caps);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .act2-intro {
+    opacity: 1;
+  }
 }
 
 .period-selector {

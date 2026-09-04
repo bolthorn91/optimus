@@ -11,8 +11,8 @@ export const RISK_PATTERN_KIND: Record<RiskLevel, RiskPatternKind> = {
   stable: 'bars',
 };
 
-export function riskPatternId(level: RiskLevel): string {
-  return `risk-pattern-${level}`;
+export function riskPatternId(level: RiskLevel, prefix: string): string {
+  return `${prefix}-${level}`;
 }
 
 function DualStroke({ d }: { d: string }) {
@@ -48,13 +48,13 @@ function PatternTiles({ kind }: { kind: RiskPatternKind }) {
 }
 
 /** Definiciones SVG estables para mapa y leyenda (doc 02 §3.4). */
-export function RiskPatternDefs() {
+export function RiskPatternDefs({ prefix }: { prefix: string }) {
   return (
     <defs>
       {(Object.keys(RISK_PATTERN_KIND) as RiskLevel[]).map((level) => (
         <pattern
           height="8"
-          id={riskPatternId(level)}
+          id={riskPatternId(level, prefix)}
           key={level}
           patternUnits="userSpaceOnUse"
           width="8"
@@ -68,7 +68,7 @@ export function RiskPatternDefs() {
 
 export function RiskPattern({ level }: { level: RiskLevel }) {
   const uid = useId();
-  const patternId = `${uid}-${riskPatternId(level)}`;
+  const patternId = riskPatternId(level, uid);
 
   return (
     <svg
