@@ -1,6 +1,6 @@
 # Acto II — Seguridad global
 
-**Estado:** especificación canónica (decisiones cerradas 2026-08-17). Pendiente de implementación.
+**Estado:** hecho en branch `main` (2026-09-04). No fusionado.
 **Branch de trabajo:** el HEAD actual del worktree.
 **Perfil de proyecto:** [`agent-docs/goal-profile.md`](../../agent-docs/goal-profile.md) — invariantes §7 aplicables: I1, I3, I4, I5, I6, I9.
 **Roadmap:** [`roadmap.md`](roadmap.md) §2, fila 02.
@@ -381,31 +381,31 @@ contador; la cita de cierre aparece una sola vez en todo el sitio.
 
 ### 8.1 Serie de mapas
 
-- [ ] Los cuatro estados son SVG vectorial nítido a pantalla completa, no los PNG originales.
-- [ ] La transición entre estados nunca deja el mapa lavado ni doblemente pintado.
-- [ ] El año salta entre los cuatro valores reales, sin interpolar años inexistentes.
-- [ ] Sudamérica permanece en azul de estabilidad y se realza progresivamente.
-- [ ] Los cuatro niveles se distinguen por trama además de por color.
-- [ ] La tabla equivalente está siempre en el DOM.
-- [ ] La escena es usable sin hacer scroll, con teclado.
-- [ ] El estado 2050 se presenta como proyección, nunca como dato.
-- [ ] Los quince tests MAP-01…MAP-15 existen y pasan.
+- [x] Los cuatro estados son SVG vectorial nítido a pantalla completa, no los PNG originales.
+- [x] La transición entre estados nunca deja el mapa lavado ni doblemente pintado.
+- [x] El año salta entre los cuatro valores reales, sin interpolar años inexistentes.
+- [x] Sudamérica permanece en azul de estabilidad y se realza progresivamente.
+- [x] Los cuatro niveles se distinguen por trama además de por color.
+- [x] La tabla equivalente está siempre en el DOM.
+- [x] La escena es usable sin hacer scroll, con teclado.
+- [x] El estado 2050 se presenta como proyección, nunca como dato.
+- [x] Los quince tests MAP-01…MAP-15 existen y pasan.
 
 ### 8.2 Factor climático
 
-- [ ] Las doce regiones aparecen como etiquetas, con China marcada como principal.
-- [ ] Se destaca que Sudamérica no figura.
-- [ ] Las fuentes se citan como texto, sin logotipos.
-- [ ] Los cinco tests CLI-01…CLI-05 existen y pasan.
+- [x] Las doce regiones aparecen como etiquetas, con China marcada como principal.
+- [x] Se destaca que Sudamérica no figura.
+- [x] Las fuentes se citan como texto, sin logotipos.
+- [x] Los cinco tests CLI-01…CLI-05 existen y pasan.
 
 ### 8.3 Global
 
-- [ ] `docs/product/roadmap.md` fila 02 actualizada a «hecho en branch».
-- [ ] Lo no cubierto → filas honestas en `docs/debt/technical-debt.md`.
-- [ ] Se respetan el idioma y la política de comentarios del perfil §1.
-- [ ] No se modificó ninguna zona protegida del perfil §6 sin autorización de C3.
-- [ ] Todos los gates del perfil §5 en verde, ejecutados de verdad.
-- [ ] Ningún invariante del perfil §7 roto en la superficie tocada.
+- [x] `docs/product/roadmap.md` fila 02 actualizada a «hecho en branch».
+- [x] Lo no cubierto → filas honestas en `docs/debt/technical-debt.md`.
+- [x] Se respetan el idioma y la política de comentarios del perfil §1.
+- [x] No se modificó ninguna zona protegida del perfil §6 sin autorización de C3.
+- [x] Todos los gates del perfil §5 en verde, ejecutados de verdad.
+- [x] Ningún invariante del perfil §7 roto en la superficie tocada.
 
 ---
 

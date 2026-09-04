@@ -16,12 +16,12 @@ import {
 } from '@/scenes/02-seguridad-global/risk-data';
 import { RiskLegend } from '@/scenes/02-seguridad-global/RiskLegend';
 import { RiskTable } from '@/scenes/02-seguridad-global/RiskTable';
+import { WORLD_BASE_SVG as WORLD } from '@/scenes/02-seguridad-global/worldLand';
 
 const CANON = readFileSync(
   resolve(process.cwd(), 'content/secciones/02-seguridad-global.md'),
   'utf8',
 );
-const WORLD = readFileSync(resolve(process.cwd(), 'public/maps/world-base.svg'), 'utf8');
 
 describe('superficies accesibles del acto II', () => {
   // MAP-06
