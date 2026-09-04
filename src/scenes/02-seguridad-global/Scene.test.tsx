@@ -1,3 +1,6 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+
 import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
@@ -12,6 +15,10 @@ import { expectNoBlockingAxeViolations } from '@/test/axe';
 
 const YEARS = [1985, 2015, 2026, 2050] as const;
 const nativeMatchMedia = window.matchMedia.bind(window);
+const CANON = readFileSync(
+  resolve(process.cwd(), 'content/secciones/02-seguridad-global.md'),
+  'utf8',
+);
 
 describe('Act2Scene', () => {
   afterEach(() => {
@@ -145,9 +152,9 @@ describe('Act2Scene', () => {
         dispatchEvent: () => false,
       }) as MediaQueryList;
     render(<Act2Scene />);
-    const captions = screen
-      .getAllByRole('figure')
-      .map((figure) => figure.querySelector('figcaption')?.textContent);
+    const captions = [...document.querySelectorAll('.act2-maps figcaption')].map(
+      (node) => node.textContent,
+    );
     expect(captions).toEqual(ACT2.periods.map((period) => period.label));
     expect(document.querySelectorAll('[data-risk-map]')).toHaveLength(4);
     expect(ScrollTrigger.getAll()).toEqual([]);
@@ -169,5 +176,86 @@ describe('Act2Scene', () => {
       screen.getByRole('heading', { level: 2, name: new RegExp(ACT1.title) }),
     ).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 2, name: /Seguridad global/ })).toBeInTheDocument();
+  });
+
+  // CLI-01
+  it('CLI-01 · las doce regiones están en el DOM y China es la principal', () => {
+    const { container } = render(<Act2Scene />);
+    const chips = container.querySelectorAll('[data-climate-region]');
+    expect(chips).toHaveLength(12);
+    expect(container.querySelector('[data-climate-region="China"]')).toHaveAttribute(
+      'data-primary',
+      'true',
+    );
+    expect(container.querySelector('[data-climate-region="China"]')).toHaveTextContent(
+      'la principal',
+    );
+  });
+
+  // CLI-02
+  it('CLI-02 · Sudamérica no figura entre las doce regiones', () => {
+    const { container } = render(<Act2Scene />);
+    const names = [...container.querySelectorAll('[data-climate-region]')].map((node) =>
+      node.getAttribute('data-climate-region'),
+    );
+    expect(names).not.toContain('Sudamérica');
+    expect(names).not.toContain('América del Sur');
+  });
+
+  // CLI-03
+  it('CLI-03 · con movimiento reducido las doce etiquetas son visibles', () => {
+    window.matchMedia = (query: string) =>
+      ({
+        matches: query.includes('prefers-reduced-motion'),
+        media: query,
+        onchange: null,
+        addEventListener: () => undefined,
+        removeEventListener: () => undefined,
+        addListener: () => undefined,
+        removeListener: () => undefined,
+        dispatchEvent: () => false,
+      }) as MediaQueryList;
+    const { container } = render(<Act2Scene />);
+    for (const region of ACT2.climate.regions) {
+      expect(container.querySelector(`[data-climate-region="${region.name}"]`)).toBeInTheDocument();
+    }
+    expect(container.querySelector('[data-climate-section]')).toBeInTheDocument();
+    expect(container.querySelector('.climate-counter')).toHaveTextContent(ACT2.climate.counter);
+    expect(container.querySelector('[data-climate-region="China"]')).toHaveTextContent(
+      ACT2.climate.primaryMark,
+    );
+  });
+
+  // CLI-04
+  it('CLI-04 · las fuentes se citan como texto, sin logotipos de organismos', () => {
+    const { container } = render(<Act2Scene />);
+    const sources = container.querySelector('.climate-sources');
+    expect(sources).toHaveTextContent('ACLED');
+    expect(sources).toHaveTextContent('NASA');
+    expect(container.querySelectorAll('img')).toHaveLength(0);
+  });
+
+  // CLI-05
+  it('CLI-05 · el texto climático coincide con content/', () => {
+    const unwrapped = CANON.replace(/\r\n/g, '\n')
+      .replace(/^>\s?/gm, '')
+      .replace(/\n+/g, ' ')
+      .replace(/\s+/g, ' ');
+    expect(unwrapped).toContain(ACT2.climate.intro);
+    expect(unwrapped).toContain(ACT2.climate.southAmerica);
+    for (const region of ACT2.climate.regions) {
+      expect(unwrapped).toContain(region.name);
+    }
+    const scene = render(<Act2Scene />);
+    expect(screen.getByText(ACT2.climate.counter)).toBeInTheDocument();
+    expect(screen.getByText(ACT2.climate.intro)).toBeInTheDocument();
+    expect(screen.getByText(ACT2.climate.southAmerica)).toBeInTheDocument();
+    expect(unwrapped).toContain(ACT2.closingQuote);
+    expect(scene.container.querySelector('[data-pull-quote]')).toHaveTextContent(ACT2.closingQuote);
+    expect(screen.getAllByText(ACT2.closingQuote)).toHaveLength(1);
+    scene.unmount();
+    const app = render(<App />);
+    expect(screen.getAllByText(ACT2.closingQuote)).toHaveLength(1);
+    app.unmount();
   });
 });

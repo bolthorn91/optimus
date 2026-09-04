@@ -14,11 +14,15 @@ export interface ClimateRegion {
 }
 
 export interface ClimateContent {
+  heading: string;
   intro: string;
   split: readonly [string, string];
   regions: readonly ClimateRegion[];
   southAmerica: string;
   sourceNote: string;
+  sources: readonly string[];
+  counter: string;
+  primaryMark: string;
 }
 
 export interface Act2Content {
@@ -35,10 +39,11 @@ export interface Act2Content {
   sources: readonly string[];
   copy: typeof RISK_COPY & {
     periodSelector: string;
-    sourcesLabel: string;
-    climateCounter: string;
   };
 }
+
+const CLIMATE_HEADING = 'Factor climático';
+const CLIMATE_SOURCES = ['ACLED', 'Global Guardian', 'Crisis24', 'NASA'] as const;
 
 /** Literales de `content/secciones/02-seguridad-global.md` y `content/03-datos-y-tablas.md`. */
 export const ACT2: Act2Content = {
@@ -59,6 +64,7 @@ export const ACT2: Act2Content = {
     'Posición históricamente neutral',
   ],
   climate: {
+    heading: CLIMATE_HEADING,
     intro:
       'Hace algunos años las principales potencias mundiales dieron inicio a la etapa de ejecución de programas de modificación del clima en algunas regiones del planeta. Estos programas se dividen en modificación local del tiempo y modificación de la radiación solar.',
     split: ['modificación local del tiempo', 'modificación de la radiación solar'],
@@ -79,14 +85,15 @@ export const ACT2: Act2Content = {
     southAmerica:
       'América del Sur cuenta en la actualidad únicamente con políticas preventivas, manteniendo el valor natural de la región, sin riesgos de medianas o grandes modificaciones en el futuro, influyendo positivamente en su proyección de estabilidad.',
     sourceNote: 'Fuentes de esta sección',
+    sources: CLIMATE_SOURCES,
+    counter: '12 regiones · Sudamérica no figura',
+    primaryMark: 'la principal',
   },
   closingQuote:
     '¿Por qué es tan importante destacar la «zona de paz» en la que se encuentra Argentina, el eje del Cono Sur? Porque, si bien el desafío de este país es alcanzar una estabilidad política interna que impacte en los aspectos socioeconómico y de seguridad ciudadana para afianzar su sistema de vida, es un reto mucho más alcanzable que el que le toca enfrentar a Europa, en el que consultores políticos, sociales y económicos vaticinan el fin de Occidente como lo conocemos, pronosticando como efecto una nueva ola migratoria hacia América del Sur durante los próximos años.',
-  sources: ['ACLED', 'Global Guardian', 'Crisis24', 'NASA'],
+  sources: CLIMATE_SOURCES,
   copy: {
     ...RISK_COPY,
     periodSelector: 'Seleccionar período',
-    sourcesLabel: 'Fuentes de esta sección',
-    climateCounter: '12 regiones · Sudamérica no figura',
   },
 };

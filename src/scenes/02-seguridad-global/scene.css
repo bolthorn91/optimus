@@ -24,8 +24,53 @@
   letter-spacing: var(--tracking-caps);
 }
 
+.act2-climate {
+  margin-block-start: var(--space-l);
+}
+
+.climate-regions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.climate-regions li {
+  border: 1px solid var(--rule);
+  padding: var(--space-2xs) var(--space-s);
+  opacity: clamp(
+    0,
+    calc(var(--climate-progress, 1) * var(--region-count, 12) - var(--region-index, 0)),
+    1
+  );
+}
+
+.climate-counter {
+  opacity: clamp(
+    0,
+    calc(var(--climate-progress, 1) * var(--region-count, 12) - (var(--region-count, 12) - 1)),
+    1
+  );
+}
+
+.climate-regions [data-primary='true'] {
+  border-color: var(--accent);
+  color: var(--color-gold-high);
+}
+
+.act2-quote {
+  opacity: var(--quote-opacity, 1);
+  max-inline-size: var(--measure-tight);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .act2-intro {
+  .act2-intro,
+  .act2-climate,
+  .act2-climate li,
+  .climate-counter,
+  .act2-quote {
     opacity: 1;
   }
 }

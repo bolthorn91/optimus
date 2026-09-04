@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { CountUp } from '@/components/CountUp';
+import { PullQuote } from '@/components/PullQuote';
 import { RomanNumeral } from '@/components/RomanNumeral';
 import { formatNumber } from '@/lib/format';
 import { gsap } from '@/motion/gsapSetup';
 import { Scene } from '@/motion/Scene';
 import { useGsapScene } from '@/motion/useGsapScene';
 import { useReducedMotionSafe } from '@/motion/useReducedMotionSafe';
+import { ClimateSection } from '@/scenes/02-seguridad-global/ClimateSection';
 import { ACT2 } from '@/scenes/02-seguridad-global/content';
 import { PeriodSelector } from '@/scenes/02-seguridad-global/PeriodSelector';
 import type { PeriodIndex } from '@/scenes/02-seguridad-global/risk-data';
@@ -31,6 +33,7 @@ const SCENE_BACKGROUND =
 function applyChrome(node: HTMLElement, state: Act2State): void {
   node.style.setProperty('--surface-mix', String(state.surfaceMix));
   node.style.setProperty('--intro-opacity', String(state.introOpacity));
+  node.style.setProperty('--quote-opacity', String(state.quoteOpacity));
 }
 
 export function Act2Scene() {
@@ -146,6 +149,8 @@ export function Act2Scene() {
           periods={ACT2.periods}
           regions={ACT2.regions}
         />
+        <ClimateSection content={ACT2.climate} progress={visual.climateOpacity} />
+        <PullQuote className="act2-quote">{ACT2.closingQuote}</PullQuote>
       </div>
     </Scene>
   );
