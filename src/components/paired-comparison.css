@@ -1,0 +1,36 @@
+.paired-comparison {
+  border-collapse: collapse;
+  inline-size: 100%;
+  font-variant-numeric: tabular-nums;
+}
+
+.paired-comparison caption {
+  text-align: start;
+  margin-block-end: var(--space-s);
+  font-weight: 600;
+}
+
+.paired-comparison th,
+.paired-comparison td {
+  border: 1px solid var(--rule);
+  padding: var(--space-xs) var(--space-s);
+  text-align: start;
+  color: var(--ink);
+}
+
+.paired-comparison th:nth-child(2),
+.paired-comparison td:nth-child(2) {
+  border-block-start: 2px solid var(--paired-left);
+}
+
+.paired-comparison th:nth-child(3),
+.paired-comparison td:nth-child(3) {
+  border-block-start: 2px solid var(--paired-right);
+}
+
+.paired-comparison__detail {
+  display: block;
+  font-weight: 400;
+  font-size: var(--text-note);
+  color: var(--ink-muted);
+}
