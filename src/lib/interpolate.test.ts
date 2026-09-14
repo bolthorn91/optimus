@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { clamp01, easeInOut, lerp } from './interpolate';
+import { clamp01, easeInOut, easeOut, lerp, smoothstep } from './interpolate';
 
 describe('clamp01', () => {
   it.each([
@@ -63,5 +63,20 @@ describe('easeInOut', () => {
       expect(current).toBeGreaterThan(previous);
       previous = current;
     }
+  });
+});
+
+describe('easeOut', () => {
+  it('cierra en 0 y 1', () => {
+    expect(easeOut(0)).toBe(0);
+    expect(easeOut(1)).toBe(1);
+  });
+});
+
+describe('smoothstep', () => {
+  it('está en 0 antes del borde y en 1 después', () => {
+    expect(smoothstep(0.25, 0.9, 0)).toBe(0);
+    expect(smoothstep(0.25, 0.9, 1)).toBe(1);
+    expect(smoothstep(0, 1, 0.5)).toBe(0.5);
   });
 });

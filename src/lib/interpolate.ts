@@ -28,3 +28,14 @@ export function easeInOut(progress: number): number {
   const p = clamp01(progress);
   return p * p * (3 - 2 * p);
 }
+
+/** Ease-out cuadrático. Cierra en 0 y 1. */
+export function easeOut(progress: number): number {
+  const p = clamp01(progress);
+  return 1 - (1 - p) * (1 - p);
+}
+
+/** Hermite smoothstep entre `edge0` y `edge1`. */
+export function smoothstep(edge0: number, edge1: number, x: number): number {
+  return easeInOut((x - edge0) / (edge1 - edge0));
+}

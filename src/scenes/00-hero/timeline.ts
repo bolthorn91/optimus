@@ -1,4 +1,4 @@
-import { clamp01, lerp } from '@/lib/interpolate';
+import { clamp01, easeOut, lerp } from '@/lib/interpolate';
 
 export interface HeroIntroState {
   logoOpacity: number;
@@ -9,11 +9,6 @@ export interface HeroIntroState {
   claimOpacity: number;
   ctaOpacity: number;
   hintOpacity: number;
-}
-
-function easeOut(progress: number): number {
-  const p = clamp01(progress);
-  return 1 - (1 - p) * (1 - p);
 }
 
 /** Coreografía de entrada del hero. `t` es tiempo 0→1, no progreso de scroll (F4). */
