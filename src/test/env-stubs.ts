@@ -37,6 +37,10 @@ if (typeof window.IntersectionObserver !== 'function') {
   };
 }
 
+if (typeof HTMLCanvasElement !== 'undefined') {
+  HTMLCanvasElement.prototype.getContext = () => null;
+}
+
 if (typeof window.matchMedia !== 'function') {
   window.matchMedia = (query: string) => ({
     matches: false,

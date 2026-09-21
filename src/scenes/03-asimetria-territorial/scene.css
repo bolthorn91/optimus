@@ -4,6 +4,56 @@
   padding: var(--space-l) var(--space-m);
 }
 
+.act3-nightfall {
+  display: grid;
+  gap: var(--space-m);
+  margin-block-end: var(--space-l);
+}
+
+.act3-nightfall-visual {
+  position: relative;
+  inline-size: 100%;
+  block-size: min(70vh, 36rem);
+  overflow: hidden;
+  background: #000;
+}
+
+.act3-nightfall-visual figure {
+  margin: 0;
+  block-size: 100%;
+}
+
+.act3-nightfall-visual img,
+.act3-nightfall-canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+
+.act3-nightfall-note {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: var(--text-note);
+}
+
+.act3-nightfall-figures {
+  display: grid;
+  gap: var(--space-l);
+}
+
+.act3-nightfall-country {
+  margin: 0;
+  font-family: var(--font-display);
+  letter-spacing: var(--tracking-caps);
+}
+
+@media (min-width: 48rem) {
+  .act3-nightfall-figures {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 .act3-intro {
   display: grid;
   gap: var(--space-l);

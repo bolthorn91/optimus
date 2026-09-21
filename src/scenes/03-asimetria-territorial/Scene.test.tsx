@@ -1,3 +1,6 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
@@ -96,6 +99,34 @@ describe('Act3Scene', () => {
     render(<Act3Scene />);
     const cta = screen.getByRole('link', { name: ACT3.cta.label });
     expect(cta).toHaveAttribute('href', '#contacto');
+  });
+
+  // SAT-09
+  it('SAT-09 · sin WebGL se renderiza el fallback con las cifras completas, sin reintentos', () => {
+    const { container } = render(<Act3Scene />);
+    const fallback = container.querySelector('[data-nightfall-fallback]');
+    expect(fallback).not.toBeNull();
+    expect(container.querySelector('[data-nightfall-stage]')).toBeNull();
+    expect(container.querySelector('canvas')).toBeNull();
+    expect(screen.getByText(ACT3.copy.fallbackNote)).toBeInTheDocument();
+    expect(screen.getByAltText(ACT3.copy.canvasAlt)).toBeInTheDocument();
+    const picture = fallback?.querySelector('picture');
+    expect(picture?.querySelector('source')?.getAttribute('type')).toBe('image/webp');
+    expect(picture?.querySelector('img')?.getAttribute('src')).toMatch(/\.jpg$/);
+    const [spain, argentina] = ACT3.countries;
+    expect(fallback).toHaveTextContent(visible(formatArea(spain.areaKm2, 'km²')));
+    expect(fallback).toHaveTextContent(visible(formatArea(argentina.areaKm2, 'km²')));
+    expect(fallback).toHaveTextContent(visible(formatNumber(spain.population)));
+    expect(fallback).toHaveTextContent(visible(formatNumber(argentina.population)));
+    expect(fallback).toHaveTextContent(visible(formatDensity(spain.densityPerKm2)));
+    expect(fallback).toHaveTextContent(visible(formatDensity(argentina.densityPerKm2)));
+    expect(container.querySelectorAll('[data-country-figures]')).toHaveLength(2);
+    const stageSource = readFileSync(
+      resolve(process.cwd(), 'src/scenes/03-asimetria-territorial/NightfallStage.tsx'),
+      'utf8',
+    );
+    expect(stageSource).not.toMatch(/setInterval/);
+    expect(stageSource).toMatch(/useState\(\(\) => detectWebgl\(\)\)/);
   });
 
   // CMP-09

@@ -1,10 +1,17 @@
+import { existsSync, readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { gzipSync } from 'node:zlib';
+
 import { describe, expect, it } from 'vitest';
 
 import {
+  CHUNK_REPORT_PATH,
   ENTRY_BUDGET_GZIP_BYTES,
   WEBGL_CHUNK_NAME,
   WEBGL_PACKAGES,
   WEBGL_SCOPES,
+  WEBGL_SCENE_BUDGET_GZIP_BYTES,
+  deferredWebglChunkFiles,
   findEagerWebglModules,
   isWebglModule,
   nodeModulePackage,
@@ -12,6 +19,21 @@ import {
   staticImportClosure,
   type ChunkEntry,
 } from './bundle-policy.js';
+
+const REPORT = resolve(process.cwd(), CHUNK_REPORT_PATH);
+const DIST = resolve(process.cwd(), 'dist');
+const hasReport = existsSync(REPORT) && existsSync(DIST);
+
+function deferredWebglFromReport(): string[] {
+  if (!hasReport) return [];
+  const report = parseChunkReport(JSON.parse(readFileSync(REPORT, 'utf8')));
+  return deferredWebglChunkFiles(
+    report.chunks,
+    staticImportClosure(report.entryFile, report.chunks),
+  );
+}
+
+const hasDeferredWebgl = deferredWebglFromReport().length > 0;
 
 function chunk(file: string, over: Partial<ChunkEntry> = {}): ChunkEntry {
   return { file, isEntry: false, moduleIds: [], imports: [], dynamicImports: [], ...over };
@@ -158,10 +180,50 @@ describe('parseChunkReport', () => {
   });
 });
 
+describe('deferredWebglChunkFiles', () => {
+  it('ignora WebGL en la primera carga y recoge el chunk nombrado y los módulos diferidos', () => {
+    const chunks = [
+      chunk('index.js', { isEntry: true, dynamicImports: ['assets/webgl-aa.js'] }),
+      chunk('assets/webgl-aa.js', { moduleIds: [THREE] }),
+      chunk('assets/other.js', { moduleIds: ['/repo/src/main.tsx'] }),
+    ];
+    const eager = staticImportClosure('index.js', chunks);
+    expect(deferredWebglChunkFiles(chunks, eager)).toEqual(['assets/webgl-aa.js']);
+  });
+});
+
 describe('constantes de la política', () => {
   it('declara el presupuesto exacto del perfil §5', () => {
     expect(ENTRY_BUDGET_GZIP_BYTES).toBe(250 * 1024);
   });
+
+  it('declara el presupuesto de la escena WebGL del doc 03 F10', () => {
+    expect(WEBGL_SCENE_BUDGET_GZIP_BYTES).toBe(400 * 1024);
+  });
+
+  it.skipIf(!hasReport)(
+    'SAT-11 · el cierre estático de la entrada no contiene three ni R3F',
+    () => {
+      const report = parseChunkReport(JSON.parse(readFileSync(REPORT, 'utf8')));
+      const eager = staticImportClosure(report.entryFile, report.chunks);
+      expect(findEagerWebglModules(report.chunks, eager)).toEqual([]);
+    },
+  );
+
+  it.skipIf(!hasDeferredWebgl)(
+    'SAT-12 · el chunk diferido de la escena no supera 400 KB gzip',
+    () => {
+      const report = parseChunkReport(JSON.parse(readFileSync(REPORT, 'utf8')));
+      const eager = staticImportClosure(report.entryFile, report.chunks);
+      const files = deferredWebglChunkFiles(report.chunks, eager);
+      expect(files.length).toBeGreaterThan(0);
+      let bytes = 0;
+      for (const file of files) {
+        bytes += gzipSync(readFileSync(resolve(DIST, file)), { level: 9 }).byteLength;
+      }
+      expect(bytes).toBeLessThanOrEqual(WEBGL_SCENE_BUDGET_GZIP_BYTES);
+    },
+  );
 
   it('expone paquetes, scopes y el nombre del chunk diferido', () => {
     expect([...WEBGL_PACKAGES]).toEqual(['three', 'three-stdlib', 'postprocessing']);

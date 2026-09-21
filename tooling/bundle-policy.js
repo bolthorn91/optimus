@@ -41,6 +41,9 @@ export const WEBGL_CHUNK_NAME = 'webgl';
 /** Presupuesto del chunk de entrada, en bytes ya comprimidos con gzip. */
 export const ENTRY_BUDGET_GZIP_BYTES = 250 * 1024;
 
+/** Presupuesto del chunk diferido de la escena WebGL (doc 03 F10), gzip. */
+export const WEBGL_SCENE_BUDGET_GZIP_BYTES = 400 * 1024;
+
 /** Ruta relativa del informe de chunks. Fuera de `dist/`: no debe publicarse. */
 export const CHUNK_REPORT_PATH = '.build-report/chunk-report.json';
 
@@ -182,4 +185,27 @@ export function findEagerWebglModules(chunks, eagerFiles) {
   }
 
   return offenders;
+}
+
+/**
+ * Chunks diferidos que portan el motor WebGL: el chunk nombrado `webgl` o cualquiera que
+ * contenga módulos de la lista. La entrada ya se filtró; lo que queda es el peso de SAT-12.
+ *
+ * @param {ChunkEntry[]} chunks
+ * @param {Set<string>} eagerFiles
+ * @returns {string[]}
+ */
+export function deferredWebglChunkFiles(chunks, eagerFiles) {
+  /** @type {string[]} */
+  const files = [];
+
+  for (const chunk of chunks) {
+    if (eagerFiles.has(chunk.file)) continue;
+    const base = (chunk.file.replaceAll('\\', '/').split('/').pop() ?? '').toLowerCase();
+    const named =
+      base.startsWith(`${WEBGL_CHUNK_NAME}-`) || base.startsWith(`${WEBGL_CHUNK_NAME}.`);
+    if (named || chunk.moduleIds.some(isWebglModule)) files.push(chunk.file);
+  }
+
+  return files;
 }

@@ -15,6 +15,8 @@ import { gzipSync } from 'node:zlib';
 import {
   CHUNK_REPORT_PATH,
   ENTRY_BUDGET_GZIP_BYTES,
+  WEBGL_SCENE_BUDGET_GZIP_BYTES,
+  deferredWebglChunkFiles,
   findEagerWebglModules,
   parseChunkReport,
   staticImportClosure,
@@ -87,6 +89,30 @@ if (offenders.length > 0) {
   );
 }
 
+// 3 · El chunk diferido de la escena no supera 400 KB gzip (doc 03 F10, SAT-12).
+const webglFiles = deferredWebglChunkFiles(report.chunks, eagerFiles);
+let webglBytes = 0;
+if (webglFiles.length === 0) {
+  problems.push(
+    'no hay chunk diferido de WebGL. three, R3F y postprocessing deben entrar por import ' +
+      'dinámico (I9, F10).',
+  );
+} else {
+  for (const file of webglFiles) {
+    const asset = path.join(DIST, file);
+    if (!existsSync(asset)) {
+      fail(`el informe apunta a ${file}, que no existe en dist/. Rehaga la build.`);
+    }
+    webglBytes += gzipSync(await readFile(asset), { level: 9 }).byteLength;
+  }
+  if (webglBytes > WEBGL_SCENE_BUDGET_GZIP_BYTES) {
+    problems.push(
+      `el chunk WebGL pesa ${formatKb(webglBytes)} gzip en ${webglFiles.length} fichero(s) y el ` +
+        `presupuesto de la escena es ${formatKb(WEBGL_SCENE_BUDGET_GZIP_BYTES)}.`,
+    );
+  }
+}
+
 if (problems.length > 0) {
   fail(problems.join('\n  '));
 }
@@ -95,5 +121,6 @@ const deferred = report.chunks.filter((chunk) => !eagerFiles.has(chunk.file)).le
 console.log(
   `✔ Presupuesto de bundle: primera carga ${formatKb(eagerBytes)} gzip en ${eagerFiles.size} ` +
     `chunk(s) de ${formatKb(ENTRY_BUDGET_GZIP_BYTES)} · ${deferred} chunk(s) diferido(s) · ` +
-    'sin WebGL en la primera carga.',
+    'sin WebGL en la primera carga · escena WebGL ' +
+    `${formatKb(webglBytes)} gzip de ${formatKb(WEBGL_SCENE_BUDGET_GZIP_BYTES)}.`,
 );
