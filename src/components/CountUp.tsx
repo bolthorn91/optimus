@@ -1,8 +1,7 @@
-import { lerp } from '@/lib/interpolate';
+import { displayedValue } from '@/lib/counter';
 
 export interface CountUpProps {
   to: number;
-  from?: number;
   /** El formateador canónico del valor. Siempre uno de `src/lib/format.ts`. */
   format: (value: number) => string;
   /** Progreso 0→1 que conduce el contador. Sin él, se muestra el valor final. */
@@ -17,8 +16,8 @@ export interface CountUpProps {
  * cambia con el scroll es el número que se ve, no el que se lee. Sin esa separación, un lector
  * de pantalla o un buscador vería un cero donde hay un dato.
  */
-export function CountUp({ to, from = 0, format, progress, className }: CountUpProps) {
-  const shown = progress === undefined ? to : lerp(from, to, progress);
+export function CountUp({ to, format, progress, className }: CountUpProps) {
+  const shown = progress === undefined ? to : displayedValue(progress, to);
 
   return (
     <span aria-live="off" className={className} data-tabular>

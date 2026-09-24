@@ -40,6 +40,8 @@ function navyPair(surface: string): SectionBackground {
   return { surface, ink: NAVY_INK, focus: NAVY_FOCUS };
 }
 
+export const TERRITORIO_PAIR = navyPair('var(--color-navy-ink)');
+
 function ivoryPair(surface: string): SectionBackground {
   return { surface, ink: IVORY_INK, focus: IVORY_FOCUS };
 }
@@ -49,6 +51,24 @@ export const DOCUMENT_PAIR_OFF_HOME: DocumentPair = {
   surface: 'var(--surface)',
   ink: 'var(--ink)',
 };
+
+export function applyDocumentPair(background: DocumentPair): void {
+  const root = document.documentElement.style;
+  root.setProperty('--doc-surface', background.surface);
+  root.setProperty('--doc-ink', background.ink);
+  if (background.focus) {
+    root.setProperty('--doc-focus', background.focus);
+  } else {
+    root.removeProperty('--doc-focus');
+  }
+}
+
+export function clearDocumentPair(): void {
+  const root = document.documentElement.style;
+  root.removeProperty('--doc-surface');
+  root.removeProperty('--doc-ink');
+  root.removeProperty('--doc-focus');
+}
 
 /** Manifiesto de la home. Añadir un acto es añadir una fila (D4). */
 export const SECTIONS: readonly Section[] = [
@@ -86,7 +106,7 @@ export const SECTIONS: readonly Section[] = [
     href: '/#territorio',
     order: 3,
     navGroup: 'Estrategia',
-    background: navyPair('var(--color-navy-ink)'),
+    background: TERRITORIO_PAIR,
   },
   {
     id: 'marco',

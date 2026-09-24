@@ -3,11 +3,12 @@ import { Outlet, useLocation } from 'react-router';
 
 import { RouteErrorBoundary } from '@/app/RouteErrorBoundary';
 import {
+  applyDocumentPair,
+  clearDocumentPair,
   DOCUMENT_PAIR_OFF_HOME,
   milestoneMarks,
   navEntries,
   sectionAt,
-  type DocumentPair,
 } from '@/app/sections';
 import { Disclaimer } from '@/components/Disclaimer';
 import { Milestone } from '@/components/Milestone';
@@ -15,24 +16,6 @@ import { PendingValue } from '@/components/PendingValue';
 import { useScrollProgress } from '@/motion/useScrollProgress';
 
 import './shell.css';
-
-function applyDocumentPair(background: DocumentPair): void {
-  const root = document.documentElement.style;
-  root.setProperty('--doc-surface', background.surface);
-  root.setProperty('--doc-ink', background.ink);
-  if (background.focus) {
-    root.setProperty('--doc-focus', background.focus);
-  } else {
-    root.removeProperty('--doc-focus');
-  }
-}
-
-function clearDocumentPair(): void {
-  const root = document.documentElement.style;
-  root.removeProperty('--doc-surface');
-  root.removeProperty('--doc-ink');
-  root.removeProperty('--doc-focus');
-}
 
 export function Layout() {
   const location = useLocation();

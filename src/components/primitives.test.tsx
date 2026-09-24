@@ -85,10 +85,10 @@ describe('CountUp', () => {
 
   it('interpola el valor visible según el progreso', () => {
     const { container } = render(
-      <CountUp format={(n) => formatNumber(n)} from={0} progress={0.5} to={100} />,
+      <CountUp format={(n) => formatNumber(n)} progress={0.5} to={100} />,
     );
 
-    expect(container.querySelector('[aria-hidden="true"]')).toHaveTextContent('50');
+    expect(container.querySelector('[aria-hidden="true"]')).toHaveTextContent('75');
   });
 
   it('acota el progreso fuera de rango en vez de extrapolar', () => {

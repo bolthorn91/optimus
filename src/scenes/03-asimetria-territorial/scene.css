@@ -1,3 +1,25 @@
+#territorio {
+  --act3-day: color-mix(in srgb, var(--color-ivory) 78%, var(--color-navy-mid) 22%);
+  --act3-sky: color-mix(
+    in srgb,
+    color-mix(
+        in srgb,
+        var(--act3-day) calc((1 - var(--night-amount, 0)) * 100%),
+        black calc(var(--night-amount, 0) * 100%)
+      )
+      calc((1 - var(--night-release, 0)) * 100%),
+    var(--color-navy-ink) calc(var(--night-release, 0) * 100%)
+  );
+}
+
+#territorio[data-chrome='day'] {
+  --doc-ink: var(--color-navy-ink);
+  --ink: var(--color-navy-ink);
+  --ink-strong: var(--color-navy-deep);
+  --ink-muted: var(--color-slate);
+  color: var(--color-navy-ink);
+}
+
 .act3 {
   box-sizing: border-box;
   min-block-size: 100vh;

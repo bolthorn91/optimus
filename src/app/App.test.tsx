@@ -8,6 +8,11 @@ import { Layout } from '@/app/Layout';
 import { milestoneMarks, sectionAt } from '@/app/sections';
 import { Milestone } from '@/components/Milestone';
 import { PENDING_LABEL } from '@/components/PendingValue';
+import { ScrollTrigger } from '@/motion/gsapSetup';
+import { HERO } from '@/scenes/00-hero/content';
+import { ACT1 } from '@/scenes/01-escenario-europeo/content';
+import { ACT2 } from '@/scenes/02-seguridad-global/content';
+import { ACT3 } from '@/scenes/03-asimetria-territorial/content';
 import { expectNoBlockingAxeViolations } from '@/test/axe';
 
 function Bomb(): ReactNode {
@@ -17,6 +22,7 @@ function Bomb(): ReactNode {
 describe('shell', () => {
   afterEach(() => {
     window.history.pushState({}, '', '/');
+    for (const trigger of ScrollTrigger.getAll()) trigger.kill();
   });
 
   // FND-13
@@ -98,5 +104,19 @@ describe('shell', () => {
   it('no tiene violaciones de accesibilidad bloqueantes en el shell', async () => {
     const { container } = render(<App />);
     await expectNoBlockingAxeViolations(container);
+  });
+
+  // CMP-10
+  it('CMP-10 · hero y actos I y II siguen en el DOM con el acto III montado', () => {
+    const { container, unmount } = render(<App />);
+    expect(screen.getByText(HERO.claim)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: new RegExp(ACT1.title, 'i') })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: new RegExp(ACT2.title, 'i') })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: new RegExp(ACT3.title, 'i') })).toBeInTheDocument();
+    const seals = container.querySelectorAll('[data-act-seal]');
+    expect(seals.length).toBeGreaterThanOrEqual(4);
+    expect([...seals].some((seal) => seal.textContent.includes('IV'))).toBe(true);
+    unmount();
+    expect(ScrollTrigger.getAll()).toEqual([]);
   });
 });

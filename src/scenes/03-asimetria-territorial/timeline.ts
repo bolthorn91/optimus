@@ -7,6 +7,8 @@ export interface CountryNight {
   cityGlow: number;
 }
 
+export type Act3Chrome = 'day' | 'night' | 'released';
+
 export interface Act3State {
   nightAmount: Record<CountryId, number>;
   terminatorX: Record<CountryId, number>;
@@ -15,6 +17,9 @@ export interface Act3State {
   popProgress: number;
   densityProgress: number;
   nightRelease: number;
+  chrome: Act3Chrome;
+  /** max(es, ar) para el cielo y el par M8. */
+  skyNight: number;
 }
 
 const OFFSET: Record<CountryId, number> = { es: 0, ar: 0.18 };
@@ -39,6 +44,10 @@ export function choreographAct3(progress: number): Act3State {
   const es = countryNight(sweep, 'es');
   const ar = countryNight(sweep, 'ar');
 
+  const nightRelease = ramp(p, 0.82, 0.18);
+  const skyNight = Math.max(es.nightAmount, ar.nightAmount);
+  const chrome: Act3Chrome = nightRelease >= 1 ? 'released' : skyNight < 0.4 ? 'day' : 'night';
+
   return {
     nightAmount: { es: es.nightAmount, ar: ar.nightAmount },
     terminatorX: { es: es.terminatorX, ar: ar.terminatorX },
@@ -49,6 +58,8 @@ export function choreographAct3(progress: number): Act3State {
     // 0.66–0.80  densidad, revelación final
     densityProgress: ramp(p, 0.66, 0.14),
     // 0.82–1.00  se recupera el fondo del sistema
-    nightRelease: ramp(p, 0.82, 0.18),
+    nightRelease,
+    chrome,
+    skyNight,
   };
 }

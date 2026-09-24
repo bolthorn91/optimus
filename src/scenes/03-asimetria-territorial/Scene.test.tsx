@@ -2,16 +2,37 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 
 import { formatArea, formatDensity, formatNumber, NBSP } from '@/lib/format';
+import { ScrollTrigger } from '@/motion/gsapSetup';
 import { ACT3 } from '@/scenes/03-asimetria-territorial/content';
 import { Act3Scene } from '@/scenes/03-asimetria-territorial/Scene';
 import { expectNoBlockingAxeViolations } from '@/test/axe';
 
 const visible = (text: string) => text.replaceAll(NBSP, ' ');
+const nativeMatchMedia = window.matchMedia.bind(window);
+
+function reduceMotion(): void {
+  window.matchMedia = (query: string) =>
+    ({
+      matches: query.includes('prefers-reduced-motion'),
+      media: query,
+      onchange: null,
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
+      addListener: () => undefined,
+      removeListener: () => undefined,
+      dispatchEvent: () => false,
+    }) as MediaQueryList;
+}
 
 describe('Act3Scene', () => {
+  afterEach(() => {
+    window.matchMedia = nativeMatchMedia;
+    for (const trigger of ScrollTrigger.getAll()) trigger.kill();
+  });
+
   it('monta la entradilla, el modelo territorial y el diagrama', () => {
     render(<Act3Scene />);
     expect(screen.getByText(ACT3.intro.europe)).toBeInTheDocument();
@@ -127,6 +148,112 @@ describe('Act3Scene', () => {
     );
     expect(stageSource).not.toMatch(/setInterval/);
     expect(stageSource).toMatch(/useState\(\(\) => detectWebgl\(\)\)/);
+  });
+
+  // SAT-06
+  it('SAT-06 · las seis cifras están en el DOM desde el primer render', () => {
+    const { container } = render(<Act3Scene />);
+    const figures = container.querySelectorAll('[data-country-figures]');
+    expect(figures).toHaveLength(2);
+    const hidden = [...container.querySelectorAll('.visually-hidden')]
+      .map((node) => visible(node.textContent))
+      .join(' ');
+    const [spain, argentina] = ACT3.countries;
+    expect(hidden).toContain(visible(formatArea(spain.areaKm2, 'km²')));
+    expect(hidden).toContain(visible(formatArea(argentina.areaKm2, 'km²')));
+    expect(hidden).toContain(visible(formatNumber(spain.population)));
+    expect(hidden).toContain(visible(formatNumber(argentina.population)));
+    expect(hidden).toContain(visible(formatDensity(spain.densityPerKm2)));
+    expect(hidden).toContain(visible(formatDensity(argentina.densityPerKm2)));
+  });
+
+  // SAT-07
+  it('SAT-07 · las cifras del nightfall usan el formato español exacto', () => {
+    const { container } = render(<Act3Scene />);
+    const nightfall = container.querySelector('.act3-nightfall-figures');
+    expect(nightfall).toHaveTextContent(visible(formatArea(505990, 'km²')));
+    expect(nightfall).toHaveTextContent(visible(formatArea(2780400, 'km²')));
+    expect(nightfall).toHaveTextContent(visible(formatDensity(96.05)));
+    expect(nightfall).toHaveTextContent(visible(formatDensity(16.51)));
+  });
+
+  // SAT-08
+  it('SAT-08 · con movimiento reducido no hay canvas y el contenido es completo', () => {
+    reduceMotion();
+    const { container } = render(<Act3Scene />);
+    expect(container.querySelector('canvas')).toBeNull();
+    expect(container.querySelector('[data-nightfall-stage]')).toBeNull();
+    expect(container.querySelector('[data-nightfall-fallback]')).not.toBeNull();
+    expect(ScrollTrigger.getAll()).toEqual([]);
+    expect(screen.getByRole('table', { name: ACT3.copy.territorialCaption })).toBeInTheDocument();
+    expect(screen.getByRole('table', { name: ACT3.copy.marketCaption })).toBeInTheDocument();
+    expect(screen.getByText(ACT3.conclusion)).toBeInTheDocument();
+    const [spain, argentina] = ACT3.countries;
+    const nightfall = container.querySelector('.act3-nightfall-figures');
+    expect(nightfall).toHaveTextContent(visible(formatArea(spain.areaKm2, 'km²')));
+    expect(nightfall).toHaveTextContent(visible(formatDensity(argentina.densityPerKm2)));
+    const scene = container.querySelector('#territorio');
+    expect(scene).toBeInstanceOf(HTMLElement);
+    expect((scene as HTMLElement).classList.contains('on-navy')).toBe(true);
+    expect((scene as HTMLElement).dataset.chrome).toBe('released');
+    expect(document.documentElement.style.getPropertyValue('--doc-surface')).toBe(
+      'var(--color-navy-ink)',
+    );
+    expect(document.documentElement.style.getPropertyValue('--doc-ink')).toBe('var(--color-ivory)');
+  });
+
+  it('D1 · de día la tinta es navy y el documento cede el par M8', () => {
+    const { container, unmount } = render(<Act3Scene />);
+    const scene = container.querySelector('#territorio');
+    expect(scene).toBeInstanceOf(HTMLElement);
+    expect((scene as HTMLElement).classList.contains('on-navy')).toBe(false);
+    expect((scene as HTMLElement).dataset.chrome).toBe('day');
+    expect(document.documentElement.style.getPropertyValue('--doc-ink')).toBe('var(--color-ivory)');
+    expect(document.documentElement.style.getPropertyValue('--doc-surface')).toBe(
+      'var(--color-navy-ink)',
+    );
+    const css = readFileSync(
+      resolve(process.cwd(), 'src/scenes/03-asimetria-territorial/scene.css'),
+      'utf8',
+    );
+    expect(css).toMatch(/#territorio\[data-chrome='day'\]/);
+    expect(css).toMatch(/--doc-ink:\s*var\(--color-navy-ink\)/);
+    unmount();
+  });
+
+  it('ancla 100vh con scrub +=500vh', () => {
+    const source = readFileSync(
+      resolve(process.cwd(), 'src/scenes/03-asimetria-territorial/Scene.tsx'),
+      'utf8',
+    );
+    expect(source).toMatch(/const HEIGHT = '100vh'/);
+    expect(source).toMatch(/const PIN_END = '\+=500vh'/);
+    expect(source).toMatch(/pin:\s*true/);
+    expect(source).toMatch(/scrub:\s*true/);
+  });
+
+  // SAT-10
+  it('SAT-10 · desmontar deja cero ScrollTrigger y dispone el compositor WebGL', () => {
+    const { container, unmount } = render(<Act3Scene />);
+    expect(ScrollTrigger.getAll().length).toBeGreaterThan(0);
+    unmount();
+    expect(ScrollTrigger.getAll()).toEqual([]);
+    expect(container.querySelector('canvas')).toBeNull();
+    const canvasSource = readFileSync(
+      resolve(process.cwd(), 'src/scenes/03-asimetria-territorial/NightfallCanvas.tsx'),
+      'utf8',
+    );
+    expect(canvasSource).toMatch(/composer\.dispose\(\)/);
+  });
+
+  // SAT-13
+  it('SAT-13 · axe sin violaciones bloqueantes; el equivalente del canvas está fuera', async () => {
+    const { container } = render(<Act3Scene />);
+    await expectNoBlockingAxeViolations(container);
+    expect(container.querySelector('canvas')).toBeNull();
+    expect(screen.getByAltText(ACT3.copy.canvasAlt)).toBeInTheDocument();
+    const lazy = readFileSync(resolve(process.cwd(), 'src/three/LazyCanvas.tsx'), 'utf8');
+    expect(lazy).toMatch(/setAttribute\('aria-hidden', 'true'\)/);
   });
 
   // CMP-09

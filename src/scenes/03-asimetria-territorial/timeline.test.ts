@@ -20,6 +20,8 @@ describe('choreographAct3', () => {
     expect(start.popProgress).toBe(0);
     expect(start.densityProgress).toBe(0);
     expect(start.nightRelease).toBe(0);
+    expect(start.chrome).toBe('day');
+    expect(start.skyNight).toBe(0);
 
     const end = choreographAct3(1);
     expect(end.nightAmount).toEqual({ es: 1, ar: 1 });
@@ -29,6 +31,8 @@ describe('choreographAct3', () => {
     expect(end.popProgress).toBe(1);
     expect(end.densityProgress).toBe(1);
     expect(end.nightRelease).toBe(1);
+    expect(end.chrome).toBe('released');
+    expect(end.skyNight).toBe(1);
 
     const midEarly = choreographAct3(0.25);
     expect(midEarly.densityProgress).toBe(0);
@@ -42,6 +46,7 @@ describe('choreographAct3', () => {
     expect(mid.popProgress).toBeLessThan(1);
     expect(mid.nightRelease).toBe(0);
     expect(mid.nightAmount.es).toBeGreaterThan(mid.nightAmount.ar);
+    expect(mid.chrome).toBe('night');
 
     const late = choreographAct3(0.75);
     expect(late.nightAmount).toEqual({ es: 1, ar: 1 });
