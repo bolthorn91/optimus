@@ -1,14 +1,15 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { afterEach, describe, expect, it } from 'vitest';
 
 import { DISCLAIMER_TEXT } from '@/components/Disclaimer';
 import { formatArea, NBSP } from '@/lib/format';
 import { AnchorStat } from '@/scenes/04-marco-legal/AnchorStat';
 import { ACT4 } from '@/scenes/04-marco-legal/content';
 import { Act4Scene } from '@/scenes/04-marco-legal/Scene';
+import { expectNoBlockingAxeViolations } from '@/test/axe';
 
 const visible = (text: string) => text.replaceAll(NBSP, ' ');
 const CANON = readFileSync(
@@ -17,8 +18,26 @@ const CANON = readFileSync(
 );
 const TABLES = readFileSync(resolve(process.cwd(), 'content/03-datos-y-tablas.md'), 'utf8');
 const FIGURE = visible(formatArea(ACT4.anchorStat.hectares, 'ha'));
+const nativeMatchMedia = window.matchMedia.bind(window);
+
+function stubMatchMedia(matchesNarrow: boolean): void {
+  window.matchMedia = (query: string) =>
+    ({
+      matches: matchesNarrow && query.includes('max-width: 47.99rem'),
+      media: query,
+      onchange: null,
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
+      addListener: () => undefined,
+      removeListener: () => undefined,
+      dispatchEvent: () => false,
+    }) as MediaQueryList;
+}
 
 describe('Act4Scene', () => {
+  afterEach(() => {
+    window.matchMedia = nativeMatchMedia;
+  });
   it('monta la entradilla, los factores y el CTA', () => {
     render(<Act4Scene />);
     expect(screen.getByText(ACT4.intro)).toBeInTheDocument();
@@ -37,13 +56,68 @@ describe('Act4Scene', () => {
     const list = container.querySelector('[data-fiscal] ol');
     expect(list).not.toBeNull();
     expect(list?.tagName).toBe('OL');
-    const items = container.querySelectorAll('[data-cdi-step]');
+    const items = container.querySelectorAll('[data-process-step]');
     expect(items).toHaveLength(5);
     for (const step of ACT4.cdiSteps) {
-      const item = container.querySelector(`[data-cdi-step="${String(step.index)}"]`);
+      const item = container.querySelector(`[data-process-step="${String(step.index)}"]`);
       expect(item).toHaveTextContent(step.title);
       expect(item).toHaveTextContent(step.body);
     }
+  });
+
+  it('CDI-06 · el SVG es aria-hidden y el texto es texto real, no trazado a curvas', () => {
+    const { container } = render(<Act4Scene />);
+    const svg = container.querySelector('[data-process-diagram]');
+    expect(svg).not.toBeNull();
+    expect(svg).toHaveAttribute('aria-hidden', 'true');
+    expect(svg?.querySelectorAll('text').length).toBeGreaterThan(0);
+    expect(svg).toHaveTextContent(ACT4.copy.diagramFrom);
+    expect(svg).toHaveTextContent(ACT4.copy.diagramTo);
+    for (const step of ACT4.cdiSteps) {
+      expect(svg).toHaveTextContent(step.title);
+    }
+    const strokes = svg?.querySelectorAll('path[data-process-stroke]');
+    expect(strokes?.length).toBe(ACT4.cdiSteps.length);
+    expect(svg?.querySelectorAll('path:not([data-process-stroke])')).toHaveLength(0);
+    expect(svg).toHaveAttribute('viewBox');
+    expect(svg).not.toHaveAttribute('width');
+    expect(svg).toHaveClass('process-diagram');
+  });
+
+  it('en viewport estrecho el diagrama refluye a vertical y conserva el texto real', () => {
+    stubMatchMedia(true);
+    const { container } = render(<Act4Scene />);
+    const svg = container.querySelector('[data-process-diagram]');
+    expect(svg).toHaveAttribute('data-orientation', 'vertical');
+    expect(svg).toHaveAttribute('aria-hidden', 'true');
+    expect(svg?.querySelectorAll('text').length).toBeGreaterThan(0);
+    for (const step of ACT4.cdiSteps) {
+      expect(svg).toHaveTextContent(step.title);
+    }
+  });
+
+  it('CDI-13 · axe sin violaciones bloqueantes', async () => {
+    const { container } = render(<Act4Scene />);
+    await expectNoBlockingAxeViolations(container);
+  });
+
+  it('el diagrama se recorre paso a paso y las notas de retención y asesoramiento están tras él', () => {
+    const { container } = render(<Act4Scene />);
+    expect(screen.getByText(ACT4.withholdingNote)).toBeInTheDocument();
+    expect(screen.getByText(ACT4.taxAdviceNote)).toBeInTheDocument();
+    const buttons = screen.getAllByRole('button');
+    expect(buttons).toHaveLength(5);
+    const first = buttons[0];
+    const last = buttons[4];
+    expect(first).toBeDefined();
+    expect(last).toBeDefined();
+    fireEvent.click(first);
+    expect(first).toHaveAttribute('aria-pressed', 'true');
+    expect(last).toHaveAttribute('aria-pressed', 'false');
+    expect(container.querySelector('[data-process-diagram]')).toHaveAttribute(
+      'data-draw',
+      '1 0 0 0 0',
+    );
   });
 
   it('CDI-08 · el dato ancla cierra en 13.243.219 ha con la equivalencia en el mismo bloque', () => {

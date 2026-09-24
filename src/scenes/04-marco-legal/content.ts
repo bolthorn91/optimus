@@ -57,6 +57,8 @@ export interface Act4Content {
   copy: {
     cdiTitle: string;
     cdiStepLabel: string;
+    diagramFrom: string;
+    diagramTo: string;
   };
 }
 
@@ -210,5 +212,7 @@ export const ACT4: Act4Content = {
   copy: {
     cdiTitle: 'Cómo funciona el Convenio de Doble Imposición',
     cdiStepLabel: 'Paso',
+    diagramFrom: 'Argentina',
+    diagramTo: 'España',
   },
 };

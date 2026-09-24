@@ -1,13 +1,40 @@
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
+
 import { Disclaimer } from '@/components/Disclaimer';
+import { ProcessDiagram } from '@/components/ProcessDiagram';
+import { ProcessStepList } from '@/components/ProcessStepList';
 import { RomanNumeral } from '@/components/RomanNumeral';
+import { paintProcessDiagram } from '@/motion/paintProcessDiagram';
 import { Scene } from '@/motion/Scene';
+import { useProcessOrientation } from '@/motion/useProcessOrientation';
 import { AnchorStat } from '@/scenes/04-marco-legal/AnchorStat';
 import { AreaComparison } from '@/scenes/04-marco-legal/AreaComparison';
 import { ACT4 } from '@/scenes/04-marco-legal/content';
+import { stepVisual } from '@/scenes/04-marco-legal/stepVisual';
 
 import './scene.css';
 
 export function Act4Scene() {
+  const diagramRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(ACT4.cdiSteps.length - 1);
+  const orientation = useProcessOrientation();
+  const visual = useMemo(() => stepVisual(ACT4.cdiSteps.length, active), [active]);
+  const steps = useMemo(
+    () =>
+      ACT4.cdiSteps.map((step) => ({
+        id: String(step.index),
+        title: step.title,
+        body: step.body,
+      })),
+    [],
+  );
+
+  useLayoutEffect(() => {
+    const root = diagramRef.current;
+    if (!root) return undefined;
+    return paintProcessDiagram(root, visual.drawProgress, visual.stepGlow);
+  }, [orientation, visual]);
+
   return (
     <Scene
       act={ACT4.act}
@@ -48,17 +75,26 @@ export function Act4Scene() {
             <p key={paragraph}>{paragraph}</p>
           ))}
           <h4>{ACT4.copy.cdiTitle}</h4>
-          <ol>
-            {ACT4.cdiSteps.map((step) => (
-              <li data-cdi-step={step.index} data-side={step.side} key={step.index}>
-                <span>
-                  {ACT4.copy.cdiStepLabel} {step.index}
-                </span>
-                <strong>{step.title}</strong>
-                <p>{step.body}</p>
-              </li>
-            ))}
-          </ol>
+          <div ref={diagramRef}>
+            <ProcessDiagram
+              drawProgress={visual.drawProgress}
+              fromLabel={ACT4.copy.diagramFrom}
+              orientation={orientation}
+              stepGlow={visual.stepGlow}
+              steps={steps}
+              toLabel={ACT4.copy.diagramTo}
+            />
+          </div>
+          <p data-withholding>{ACT4.withholdingNote}</p>
+          <p data-tax-advice role="note">
+            {ACT4.taxAdviceNote}
+          </p>
+          <ProcessStepList
+            activeIndex={active}
+            onSelect={setActive}
+            stepLabel={ACT4.copy.cdiStepLabel}
+            steps={steps}
+          />
           <Disclaimer variant="inline" />
         </section>
         <section data-guarantees>

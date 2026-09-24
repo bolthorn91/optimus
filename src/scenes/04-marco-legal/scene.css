@@ -10,8 +10,7 @@
 }
 
 .act4-factors,
-.act4-guarantees,
-.act4 ol {
+.act4-guarantees {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -64,18 +63,19 @@
   font-size: var(--text-note);
 }
 
-.act4 [data-fiscal] ol {
-  display: grid;
-  gap: var(--space-m);
+.act4 [data-fiscal] .process-diagram {
   margin-block: var(--space-m);
-  counter-reset: cdi;
 }
 
-.act4 [data-fiscal] li {
-  display: grid;
-  gap: var(--space-2xs);
-  padding-inline-start: var(--space-s);
-  border-inline-start: 2px solid var(--accent);
+.act4 [data-withholding],
+.act4 [data-tax-advice] {
+  max-inline-size: var(--measure);
+  font-size: var(--text-note);
+  color: var(--ink-muted);
+}
+
+.act4 [data-fiscal] .process-step-list {
+  margin-block: var(--space-m);
 }
 
 .act4-guarantees {
