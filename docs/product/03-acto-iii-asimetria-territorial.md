@@ -1,6 +1,6 @@
 # Acto III — La asimetría territorial
 
-**Estado:** especificación canónica (decisiones cerradas 2026-08-17). Pendiente de implementación.
+**Estado:** hecho en branch `main` (2026-09-24). No fusionado.
 **Branch de trabajo:** el HEAD actual del worktree.
 **Perfil de proyecto:** [`agent-docs/goal-profile.md`](../../agent-docs/goal-profile.md) — invariantes §7 aplicables: I1, I3, I4, I5, I9.
 **Roadmap:** [`roadmap.md`](roadmap.md) §2, fila 03.
@@ -416,34 +416,34 @@ respecto al cierre del documento 02.
 
 ### 8.1 Escena satelital
 
-- [ ] El scroll no desplaza la escena: la transforma de día a noche.
-- [ ] Argentina se muestra 5,5 veces mayor que España; la escala no se normaliza.
-- [ ] España anochece antes que Argentina.
-- [ ] Las luces urbanas emergen escaladas y con bloom.
-- [ ] Las tres cifras están en el DOM desde el primer render y cierran en su valor exacto.
-- [ ] La densidad se revela al final, cuando la diferencia lumínica ya es evidente.
-- [ ] Sin WebGL o con movimiento reducido, el contenido es idéntico.
-- [ ] El chunk WebGL está aislado y no supera 400 KB gzip.
-- [ ] Desmontar libera el contexto WebGL y todos los bucles.
-- [ ] Los quince tests SAT-01…SAT-15 existen y pasan.
+- [x] El scroll no desplaza la escena: la transforma de día a noche.
+- [x] Argentina se muestra 5,5 veces mayor que España; la escala no se normaliza.
+- [x] España anochece antes que Argentina.
+- [x] Las luces urbanas emergen escaladas y con bloom.
+- [x] Las tres cifras están en el DOM desde el primer render y cierran en su valor exacto.
+- [x] La densidad se revela al final, cuando la diferencia lumínica ya es evidente.
+- [x] Sin WebGL o con movimiento reducido, el contenido es idéntico.
+- [x] El chunk WebGL está aislado y no supera 400 KB gzip.
+- [x] Desmontar libera el contexto WebGL y todos los bucles.
+- [x] Los quince tests SAT-01…SAT-15 existen y pasan.
 
 ### 8.2 Comparativas
 
-- [ ] `<PairedComparison>` existe en `src/components/` y es reutilizable por los documentos 04 y 06.
-- [ ] España y Argentina se identifican por etiqueta, no solo por color.
-- [ ] Las cifras de la comparativa son las mismas instancias que alimentan los contadores.
-- [ ] La conclusión reproduce la frase de E-02 sin completarla.
-- [ ] Las tablas tienen encabezados de fila y columna correctos.
-- [ ] Los diez tests CMP-01…CMP-10 existen y pasan.
+- [x] `<PairedComparison>` existe en `src/components/` y es reutilizable por los documentos 04 y 06.
+- [x] España y Argentina se identifican por etiqueta, no solo por color.
+- [x] Las cifras de la comparativa son las mismas instancias que alimentan los contadores.
+- [x] La conclusión reproduce la frase de E-02 sin completarla.
+- [x] Las tablas tienen encabezados de fila y columna correctos.
+- [x] Los diez tests CMP-01…CMP-10 existen y pasan.
 
 ### 8.3 Global
 
-- [ ] `docs/product/roadmap.md` fila 03 actualizada a «hecho en branch».
-- [ ] Lo no cubierto → filas honestas en `docs/debt/technical-debt.md`.
-- [ ] Se respetan el idioma y la política de comentarios del perfil §1.
-- [ ] No se modificó ninguna zona protegida del perfil §6 sin autorización de C3.
-- [ ] Todos los gates del perfil §5 en verde, ejecutados de verdad.
-- [ ] Ningún invariante del perfil §7 roto en la superficie tocada.
+- [x] `docs/product/roadmap.md` fila 03 actualizada a «hecho en branch».
+- [x] Lo no cubierto → filas honestas en `docs/debt/technical-debt.md`.
+- [x] Se respetan el idioma y la política de comentarios del perfil §1.
+- [x] No se modificó ninguna zona protegida del perfil §6 sin autorización de C3.
+- [x] Todos los gates del perfil §5 en verde, ejecutados de verdad.
+- [x] Ningún invariante del perfil §7 roto en la superficie tocada.
 
 ---
 

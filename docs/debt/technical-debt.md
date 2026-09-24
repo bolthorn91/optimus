@@ -22,6 +22,8 @@ registran aquí para que la decisión sea explícita y no un olvido.
 | E2E-00-MOTION | Como usuario con `prefers-reduced-motion` activo, recorro la home y recibo el mismo contenido que sin esa preferencia | doc 00 §12.2 | abierto |
 | E2E-01-ACT1 | Como visitante, recorro el hero y el acto I completos y llego al CTA intermedio habiendo visto los tres factores y la cifra ancla | doc 01 §12.1 | abierto |
 | E2E-02-ACT2 | Como visitante, recorro el acto II y veo los cuatro estados de riesgo en orden cronológico, con Sudamérica destacada al final | doc 02 §12.1 | abierto |
+| E2E-03-ACT3 | Como visitante, recorro el acto III y veo caer la noche sobre ambos países mientras los contadores cierran en sus valores reales | doc 03 §12.1 | abierto |
+| E2E-03-WEBGL | Como visitante en un dispositivo sin WebGL, recibo el mismo contenido del acto III en forma estática | doc 03 §12.2 | abierto |
 
 ---
 
@@ -47,14 +49,15 @@ Bloqueos y decisiones editoriales que el cliente aún no ha cerrado (perfil §7 
 | B-05 | Datos registrales de la sociedad española y de la argentina | doc 07 | abierto |
 | B-06 | Retrato profesional de Carlos Carbajal | doc 06 | abierto |
 | B-07 | URLs de los perfiles de Instagram, TikTok, Facebook y LinkedIn | doc 06 | abierto |
-| E-02 | Redacción correcta de la frase incompleta en la conclusión del acto III | doc 03 | abierto |
+| E-02 | Redacción correcta de la frase incompleta en la conclusión del acto III. Se reproduce literal por I1; falta una conjunción o un verbo | doc 03 §12.3 | abierto |
 | E-05 | Importe mínimo de inversión, o explicación de cómo se determina | doc 05, doc 06 | abierto |
 | E-07 | Decisión sobre el apartado de modificación climática: se reproduce literal por I1. Cliente: mantener con fuente, reformular o suprimir | doc 02 §12.3 | abierto |
 | E-08 | Tiempo verbal de las normas europeas aún en tramitación (Chat Control, Euro Digital). Reproducido literal (I1); la corrección es decisión editorial del cliente | doc 01 §12.3 / `content/08-notas-editoriales.md` E-08 | abierto |
 | VIS-01 | El cliente pidió iconografía literal de amenaza (E2); v1 implementa la variante abstracta y cartográfica (E1). Falta confirmación del cliente | doc 01 §2.5 / §12.2 | abierto |
 | — | Nombre publicable de las entidades ALyC y ESI/agencia aliadas | doc 06 | abierto |
 | MAP-LIC-02 | Verificar que la clasificación de riesgo por región no reproduce un producto con licencia de ACLED, Global Guardian o Crisis24. Los SVG se redibujaron desde cero (F1) | doc 02 §12.4 | abierto |
-| — | Licencia y atribución de la imagen satelital y la foto del Obelisco | doc 03, doc 04 | abierto |
+| SAT-LIC-03 | La textura nocturna deriva de `p09-X36.png`, de estética compatible con *Earth at Night* de la NASA. Verificar procedencia y forma de atribución antes de publicar. Sin logotipo de la NASA (I6) | doc 03 §12.4 | abierto |
+| — | Licencia y atribución de la foto del Obelisco | doc 04 | abierto |
 
 ---
 
@@ -71,3 +74,5 @@ Bloqueos y decisiones editoriales que el cliente aún no ha cerrado (perfil §7 
 | Id | Deuda | Origen | Estado |
 |----|-------|--------|--------|
 | A11Y-00-SPA | El sitio es una SPA: sin JavaScript no hay contenido. Afecta al SEO y a la robustez. Mitigación futura: prerenderizado estático de la home y las páginas de detalle | doc 00 §12.3 | abierto |
+| PERF-03-GPU | La escena WebGL se optimiza para escritorio. Falta medir en portátiles con gráfica integrada y decidir el umbral por debajo del cual se sirve directamente el fallback | doc 03 §12.5 / §3.6 | abierto |
+| ASSET-03-WEBP | F8 pide WebP con respaldo. El picture estático lo cubre (`nightfall-static.jpg`); el canvas carga solo WebP vía TextureLoader. Los PNG de país (~2 MB) no se servían y se retiraron | doc 03 F8 / §7 E | abierto |

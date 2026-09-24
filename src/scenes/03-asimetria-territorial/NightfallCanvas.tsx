@@ -140,8 +140,8 @@ function CountryNight({
   cityGlow: number;
 }) {
   const mesh = COUNTRY_MESH[country];
-  const dayMap = useLoader(TextureLoader, NIGHTFALL_TEXTURES[country].day.webp);
-  const nightMap = useLoader(TextureLoader, NIGHTFALL_TEXTURES[country].night.webp);
+  const dayMap = useLoader(TextureLoader, NIGHTFALL_TEXTURES[country].day);
+  const nightMap = useLoader(TextureLoader, NIGHTFALL_TEXTURES[country].night);
   const uniforms = useMemo(
     () => ({
       uDay: { value: dayMap },

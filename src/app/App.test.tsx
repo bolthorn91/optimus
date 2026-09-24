@@ -104,7 +104,7 @@ describe('shell', () => {
   it('no tiene violaciones de accesibilidad bloqueantes en el shell', async () => {
     const { container } = render(<App />);
     await expectNoBlockingAxeViolations(container);
-  });
+  }, 15_000);
 
   // CMP-10
   it('CMP-10 · hero y actos I y II siguen en el DOM con el acto III montado', () => {

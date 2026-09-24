@@ -14,7 +14,7 @@ ejecuta con `/goal docs/product/<slug>-goal-prompt.md`.
 |-------|-------|
 | Fase del producto | v1 — sitio de captación, objetivo único: reservar sesión de diagnóstico patrimonial |
 | Superficie | Home de scroll continuo (actos I–VII) + páginas de detalle + legales |
-| Estado | Fundación y actos I–II hechos en branch `main`. Escenas 03–08 pendientes. |
+| Estado | Fundación y actos I–III hechos en branch `main`. Escenas 04–08 pendientes. |
 
 ---
 
@@ -25,7 +25,7 @@ ejecuta con `/goal docs/product/<slug>-goal-prompt.md`.
 | 00 | [`00-fundacion-sistema-diseno.md`](00-fundacion-sistema-diseno.md) | Andamiaje técnico, sistema de diseño, motor de movimiento y shell de aplicación | hecho en branch |
 | 01 | [`01-acto-i-hero-escenario-europeo.md`](01-acto-i-hero-escenario-europeo.md) | Hero a pantalla completa y acto I: los tres factores convergentes | hecho en branch |
 | 02 | [`02-acto-ii-seguridad-global.md`](02-acto-ii-seguridad-global.md) | Acto II: mapas de riesgo bélico 1985→2050 y factor climático | hecho en branch |
-| 03 | [`03-acto-iii-asimetria-territorial.md`](03-acto-iii-asimetria-territorial.md) | Acto III: escena satelital día→noche, comparativa territorial y bursátil | pendiente |
+| 03 | [`03-acto-iii-asimetria-territorial.md`](03-acto-iii-asimetria-territorial.md) | Acto III: escena satelital día→noche, comparativa territorial y bursátil | hecho en branch |
 | 04 | [`04-acto-iv-marco-legal-garantias.md`](04-acto-iv-marco-legal-garantias.md) | Acto IV: diagrama del CDI, las cuatro garantías, el dato de las 13.243.219 ha | pendiente |
 | 05 | [`05-acto-v-activos-simulador.md`](05-acto-v-activos-simulador.md) | Acto V: los tres vehículos de inversión y el simulador de proyección | pendiente |
 | 06 | [`06-acto-vi-firma-cierre-contacto.md`](06-acto-vi-firma-cierre-contacto.md) | Actos VI–VII: la firma, las dos vías, cierre y formulario de reserva | pendiente |
