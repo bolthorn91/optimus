@@ -13,6 +13,7 @@ import { HERO } from '@/scenes/00-hero/content';
 import { ACT1 } from '@/scenes/01-escenario-europeo/content';
 import { ACT2 } from '@/scenes/02-seguridad-global/content';
 import { ACT3 } from '@/scenes/03-asimetria-territorial/content';
+import { ACT4 } from '@/scenes/04-marco-legal/content';
 import { expectNoBlockingAxeViolations } from '@/test/axe';
 
 function Bomb(): ReactNode {
@@ -113,6 +114,7 @@ describe('shell', () => {
     expect(screen.getByRole('heading', { name: new RegExp(ACT1.title, 'i') })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: new RegExp(ACT2.title, 'i') })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: new RegExp(ACT3.title, 'i') })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: new RegExp(ACT4.title, 'i') })).toBeInTheDocument();
     const seals = container.querySelectorAll('[data-act-seal]');
     expect(seals.length).toBeGreaterThanOrEqual(4);
     expect([...seals].some((seal) => seal.textContent.includes('IV'))).toBe(true);
