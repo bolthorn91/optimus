@@ -24,6 +24,7 @@ registran aquí para que la decisión sea explícita y no un olvido.
 | E2E-02-ACT2 | Como visitante, recorro el acto II y veo los cuatro estados de riesgo en orden cronológico, con Sudamérica destacada al final | doc 02 §12.1 | abierto |
 | E2E-03-ACT3 | Como visitante, recorro el acto III y veo caer la noche sobre ambos países mientras los contadores cierran en sus valores reales | doc 03 §12.1 | abierto |
 | E2E-03-WEBGL | Como visitante en un dispositivo sin WebGL, recibo el mismo contenido del acto III en forma estática | doc 03 §12.2 | abierto |
+| E2E-04-CDI | Como visitante, recorro el acto IV y veo los cinco pasos del convenio trazarse en orden, terminando en la afirmación de que no se tributa dos veces | doc 04 §12.1 | abierto |
 
 ---
 
@@ -57,7 +58,9 @@ Bloqueos y decisiones editoriales que el cliente aún no ha cerrado (perfil §7 
 | — | Nombre publicable de las entidades ALyC y ESI/agencia aliadas | doc 06 | abierto |
 | MAP-LIC-02 | Verificar que la clasificación de riesgo por región no reproduce un producto con licencia de ACLED, Global Guardian o Crisis24. Los SVG se redibujaron desde cero (F1) | doc 02 §12.4 | abierto |
 | SAT-LIC-03 | La textura nocturna deriva de `p09-X36.png`, de estética compatible con *Earth at Night* de la NASA. Verificar procedencia y forma de atribución antes de publicar. Sin logotipo de la NASA (I6) | doc 03 §12.4 | abierto |
-| — | Licencia y atribución de la foto del Obelisco | doc 04 | abierto |
+| E-04 | Matización de siete afirmaciones absolutas del acto IV («garantizando máxima seguridad jurídica», «elimina de raíz», «jamás se tributen dos veces», etc.). Se reproduce el literal por I1; la matización requiere la asesoría legal del cliente | doc 04 §12.2 / E4 | abierto |
+| PHOTO-04 | Fotografía profesional con licencia para el acto IV. `p11-X43.png` (Obelisco) se descarta por calidad (G2); no se usa | doc 04 §12.3 / G2 | abierto |
+| DET-04 | Página de detalle del marco fiscal: créditos, topes de retención, acreditación ante la AEAT, desinversión | doc 04 §12.4 · doc 07 | abierto |
 
 ---
 

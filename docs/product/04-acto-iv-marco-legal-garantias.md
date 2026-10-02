@@ -1,6 +1,6 @@
 # Acto IV — Marco legal y garantías
 
-**Estado:** especificación canónica (decisiones cerradas 2026-08-17). Pendiente de implementación.
+**Estado:** hecho en branch `main` (2026-10-02). No fusionado.
 **Branch de trabajo:** el HEAD actual del worktree.
 **Perfil de proyecto:** [`agent-docs/goal-profile.md`](../../agent-docs/goal-profile.md) — invariantes §7 aplicables: I1, I3, I4, I5, I6, I7, I9.
 **Roadmap:** [`roadmap.md`](roadmap.md) §2, fila 04.
@@ -358,32 +358,32 @@ progresivamente; los actos previos siguen intactos.
 
 ### 8.1 Diagrama del CDI
 
-- [ ] Los cinco pasos se trazan en orden con el scroll, siempre exactamente uno activo.
-- [ ] Un paso ya trazado nunca se destraza al avanzar.
-- [ ] El texto del SVG es texto real, no trazado a curvas.
-- [ ] La `<ol>` con los cinco pasos completos está siempre en el DOM.
-- [ ] El diagrama reflúye a vertical en viewport estrecho sin perder el orden.
-- [ ] Con movimiento reducido, los cinco pasos aparecen trazados a la vez.
-- [ ] `<ProcessDiagram>` es genérico y lo puede reutilizar el documento 06.
+- [x] Los cinco pasos se trazan en orden con el scroll, siempre exactamente uno activo.
+- [x] Un paso ya trazado nunca se destraza al avanzar.
+- [x] El texto del SVG es texto real, no trazado a curvas.
+- [x] La `<ol>` con los cinco pasos completos está siempre en el DOM.
+- [x] El diagrama reflúye a vertical en viewport estrecho sin perder el orden.
+- [x] Con movimiento reducido, los cinco pasos aparecen trazados a la vez.
+- [x] `<ProcessDiagram>` es genérico y lo puede reutilizar el documento 06.
 
 ### 8.2 Garantías y marco legal
 
-- [ ] Las cuatro garantías están con su pilar y su mecanismo literales.
-- [ ] La aclaración de que se protege la titularidad y no el valor es explícita y visible.
-- [ ] El disclaimer en línea acompaña al marco fiscal y a las garantías.
-- [ ] La nota de asesoramiento independiente acompaña al diagrama.
-- [ ] El dato de 13.243.219 ha cierra exacto y nunca aparece sin su equivalencia.
-- [ ] La conversión derivada a km² no aparece en ninguna parte.
-- [ ] Los diecisiete tests CDI-01…CDI-17 existen y pasan.
+- [x] Las cuatro garantías están con su pilar y su mecanismo literales.
+- [x] La aclaración de que se protege la titularidad y no el valor es explícita y visible.
+- [x] El disclaimer en línea acompaña al marco fiscal y a las garantías.
+- [x] La nota de asesoramiento independiente acompaña al diagrama.
+- [x] El dato de 13.243.219 ha cierra exacto y nunca aparece sin su equivalencia.
+- [x] La conversión derivada a km² no aparece en ninguna parte.
+- [x] Los diecisiete tests CDI-01…CDI-17 existen y pasan.
 
 ### 8.3 Global
 
-- [ ] `docs/product/roadmap.md` fila 04 actualizada a «hecho en branch».
-- [ ] Lo no cubierto → filas honestas en `docs/debt/technical-debt.md`.
-- [ ] Se respetan el idioma y la política de comentarios del perfil §1.
-- [ ] No se modificó ninguna zona protegida del perfil §6 sin autorización de C3.
-- [ ] Todos los gates del perfil §5 en verde, ejecutados de verdad.
-- [ ] Ningún invariante del perfil §7 roto en la superficie tocada.
+- [x] `docs/product/roadmap.md` fila 04 actualizada a «hecho en branch».
+- [x] Lo no cubierto → filas honestas en `docs/debt/technical-debt.md`.
+- [x] Se respetan el idioma y la política de comentarios del perfil §1.
+- [x] No se modificó ninguna zona protegida del perfil §6 sin autorización de C3.
+- [x] Todos los gates del perfil §5 en verde, ejecutados de verdad.
+- [x] Ningún invariante del perfil §7 roto en la superficie tocada.
 
 ---
 
