@@ -31,7 +31,7 @@ export function useGsapScene<T>({
   setup,
   start = 'top top',
   end,
-}: UseGsapSceneOptions<T>): { seek: (progress: number) => void } {
+}: UseGsapSceneOptions<T>): { seek: (progress: number, mode?: 'apply' | 'silent') => void } {
   const reduced = useReducedMotionSafe();
   const triggerRef = useRef<ScrollTrigger | null>(null);
   const silent = useRef(false);
@@ -82,12 +82,13 @@ export function useGsapScene<T>({
   }, [apply, choreograph, duration, end, pin, reduced, ref, scrub, setup, start]);
 
   return {
-    seek(progress: number) {
+    seek(progress: number, mode: 'apply' | 'silent' = 'apply') {
       const trigger = triggerRef.current;
       if (!trigger) return;
       silent.current = true;
       trigger.scroll(trigger.start + (trigger.end - trigger.start) * progress);
       silent.current = false;
+      if (mode === 'apply') apply(choreograph(progress));
     },
   };
 }

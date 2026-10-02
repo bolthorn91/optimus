@@ -5,12 +5,16 @@
 }
 
 .act4 > p,
-.act4 section p {
+.act4 section p,
+.act4-intro p {
   max-inline-size: var(--measure);
 }
 
-.act4-factors,
-.act4-guarantees {
+.act4-intro {
+  opacity: var(--intro-opacity, 1);
+}
+
+.act4-factors {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -78,24 +82,20 @@
   margin-block: var(--space-m);
 }
 
-.act4-guarantees {
-  display: grid;
-  gap: var(--space-l);
-  margin-block: var(--space-m);
-}
-
-@media (min-width: 48rem) {
-  .act4-guarantees {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.act4-guarantees li {
-  padding-inline-start: var(--space-s);
-  border-inline-start: 2px solid var(--accent);
-}
-
 .act4 [data-capital-protection] {
   max-inline-size: var(--measure);
   font-weight: 600;
+  opacity: var(--closing-opacity, 1);
+}
+
+.act4 > a {
+  opacity: var(--closing-opacity, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .act4-intro,
+  .act4 [data-capital-protection],
+  .act4 > a {
+    opacity: 1;
+  }
 }

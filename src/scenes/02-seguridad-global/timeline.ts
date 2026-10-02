@@ -1,4 +1,4 @@
-import { clamp01, easeInOut, lerp } from '@/lib/interpolate';
+import { clamp01, easeInOut, lerp, peakWindow } from '@/lib/interpolate';
 import { RISK_PERIODS, type PeriodIndex } from '@/scenes/02-seguridad-global/risk-data';
 
 export interface Act2State {
@@ -11,12 +11,6 @@ export interface Act2State {
   climateOpacity: number;
   quoteOpacity: number;
   surfaceMix: number;
-}
-
-function peakWindow(x: number, enter: number, exit: number): number {
-  if (x < enter) return x / enter;
-  if (x > exit) return (1 - x) / (1 - exit);
-  return 1;
 }
 
 export function progressForPeriod(index: PeriodIndex): number {

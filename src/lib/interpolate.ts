@@ -39,3 +39,22 @@ export function easeOut(progress: number): number {
 export function smoothstep(edge0: number, edge1: number, x: number): number {
   return easeInOut((x - edge0) / (edge1 - edge0));
 }
+
+/**
+ * Rampa 0→1 desde `start` durante `duration`. En `start + duration` y después, 1 exacto.
+ */
+export function ramp(progress: number, start: number, duration: number): number {
+  if (duration <= 0) return progress >= start ? 1 : 0;
+  const t = (progress - start) / duration;
+  if (t >= 1 - 1e-12) return 1;
+  return clamp01(t);
+}
+
+/**
+ * Ventana con subida hasta `enter` y bajada desde `exit`. `x` ya va acotado a [0, 1] del tramo.
+ */
+export function peakWindow(x: number, enter: number, exit: number): number {
+  if (x < enter) return x / enter;
+  if (x > exit) return (1 - x) / (1 - exit);
+  return 1;
+}

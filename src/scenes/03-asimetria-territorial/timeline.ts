@@ -1,4 +1,4 @@
-import { clamp01, lerp, smoothstep } from '@/lib/interpolate';
+import { clamp01, lerp, ramp, smoothstep } from '@/lib/interpolate';
 import type { CountryId } from '@/scenes/03-asimetria-territorial/content';
 
 export interface CountryNight {
@@ -23,10 +23,6 @@ export interface Act3State {
 }
 
 const OFFSET: Record<CountryId, number> = { es: 0, ar: 0.18 };
-
-function ramp(progress: number, start: number, duration: number): number {
-  return clamp01((progress - start) / duration);
-}
 
 function countryNight(sweep: number, country: CountryId): CountryNight {
   const local = ramp(sweep, OFFSET[country], 1 - OFFSET[country]);

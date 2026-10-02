@@ -6,6 +6,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 
 import { DISCLAIMER_TEXT } from '@/components/Disclaimer';
 import { formatArea, NBSP } from '@/lib/format';
+import { ScrollTrigger } from '@/motion/gsapSetup';
 import { AnchorStat } from '@/scenes/04-marco-legal/AnchorStat';
 import { ACT4 } from '@/scenes/04-marco-legal/content';
 import { Act4Scene } from '@/scenes/04-marco-legal/Scene';
@@ -20,10 +21,10 @@ const TABLES = readFileSync(resolve(process.cwd(), 'content/03-datos-y-tablas.md
 const FIGURE = visible(formatArea(ACT4.anchorStat.hectares, 'ha'));
 const nativeMatchMedia = window.matchMedia.bind(window);
 
-function stubMatchMedia(matchesNarrow: boolean): void {
+function stubMatchMedia(queryNeedle: string): void {
   window.matchMedia = (query: string) =>
     ({
-      matches: matchesNarrow && query.includes('max-width: 47.99rem'),
+      matches: query.includes(queryNeedle),
       media: query,
       onchange: null,
       addEventListener: () => undefined,
@@ -37,6 +38,7 @@ function stubMatchMedia(matchesNarrow: boolean): void {
 describe('Act4Scene', () => {
   afterEach(() => {
     window.matchMedia = nativeMatchMedia;
+    for (const trigger of ScrollTrigger.getAll()) trigger.kill();
   });
   it('monta la entradilla, los factores y el CTA', () => {
     render(<Act4Scene />);
@@ -85,7 +87,7 @@ describe('Act4Scene', () => {
   });
 
   it('en viewport estrecho el diagrama refluye a vertical y conserva el texto real', () => {
-    stubMatchMedia(true);
+    stubMatchMedia('max-width: 47.99rem');
     const { container } = render(<Act4Scene />);
     const svg = container.querySelector('[data-process-diagram]');
     expect(svg).toHaveAttribute('data-orientation', 'vertical');
@@ -109,15 +111,43 @@ describe('Act4Scene', () => {
     expect(buttons).toHaveLength(5);
     const first = buttons[0];
     const last = buttons[4];
-    expect(first).toBeDefined();
-    expect(last).toBeDefined();
+    expect(first).toBeInstanceOf(HTMLButtonElement);
+    expect(last).toBeInstanceOf(HTMLButtonElement);
+    if (!(first instanceof HTMLButtonElement) || !(last instanceof HTMLButtonElement)) {
+      return;
+    }
     fireEvent.click(first);
     expect(first).toHaveAttribute('aria-pressed', 'true');
     expect(last).toHaveAttribute('aria-pressed', 'false');
+    const drawn =
+      container.querySelector('[data-process-diagram]')?.getAttribute('data-draw') ?? '';
+    const parts = drawn.split(' ').map(Number);
+    expect(parts[0] ?? 0).toBeGreaterThan(0.9);
+    expect(parts.slice(1)).toEqual([0, 0, 0, 0]);
+  });
+
+  it('CDI-07 · con movimiento reducido los cinco pasos están trazados y no hay ScrollTrigger', () => {
+    stubMatchMedia('prefers-reduced-motion');
+    const { container } = render(<Act4Scene />);
+    expect(ScrollTrigger.getAll()).toEqual([]);
     expect(container.querySelector('[data-process-diagram]')).toHaveAttribute(
       'data-draw',
-      '1 0 0 0 0',
+      '1 1 1 1 1',
     );
+    expect(container.querySelectorAll('[data-process-step]')).toHaveLength(5);
+    for (const item of ACT4.guarantees.pillars) {
+      const card = container.querySelector(`[data-guarantee="${String(item.index)}"]`);
+      expect(card).toBeInstanceOf(HTMLElement);
+      if (!(card instanceof HTMLElement)) return;
+      expect(card.style.getPropertyValue('--card-progress')).toBe('1');
+    }
+  });
+
+  it('CDI-14 · desmontar deja cero ScrollTrigger', () => {
+    const { unmount } = render(<Act4Scene />);
+    expect(ScrollTrigger.getAll().length).toBeGreaterThan(0);
+    unmount();
+    expect(ScrollTrigger.getAll()).toEqual([]);
   });
 
   it('CDI-08 · el dato ancla cierra en 13.243.219 ha con la equivalencia en el mismo bloque', () => {

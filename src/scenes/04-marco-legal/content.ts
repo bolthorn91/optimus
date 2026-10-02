@@ -1,3 +1,5 @@
+import type { GuaranteeIconId } from '@/components/GuaranteeCards';
+
 export type ProcessSide = 'ar' | 'es';
 
 export interface ProcessStep {
@@ -7,7 +9,7 @@ export interface ProcessStep {
   side: ProcessSide;
 }
 
-export type GuaranteeIcon = 'title' | 'apostille' | 'channel' | 'compliance';
+export type GuaranteeIcon = GuaranteeIconId;
 
 export interface Guarantee {
   index: 1 | 2 | 3 | 4;

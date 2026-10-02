@@ -1,4 +1,4 @@
-import { clamp01, easeInOut, lerp } from '@/lib/interpolate';
+import { clamp01, easeInOut, lerp, peakWindow, ramp } from '@/lib/interpolate';
 
 export interface Act1State {
   introOpacity: number;
@@ -9,17 +9,6 @@ export interface Act1State {
   statProgress: number;
   closingOpacity: number;
   surfaceMix: number;
-}
-
-function peakWindow(x: number, enter: number, exit: number): number {
-  if (x < enter) return x / enter;
-  if (x > exit) return (1 - x) / (1 - exit);
-  return 1;
-}
-
-function ramp(progress: number, start: number, duration: number): number {
-  if (progress >= start + duration) return 1;
-  return clamp01((progress - start) / duration);
 }
 
 export function choreographAct1(progress: number): Act1State {

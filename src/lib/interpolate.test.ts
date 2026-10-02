@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { clamp01, easeInOut, easeOut, lerp, smoothstep } from './interpolate';
+import { clamp01, easeInOut, easeOut, lerp, peakWindow, ramp, smoothstep } from './interpolate';
 
 describe('clamp01', () => {
   it.each([
@@ -70,6 +70,23 @@ describe('easeOut', () => {
   it('cierra en 0 y 1', () => {
     expect(easeOut(0)).toBe(0);
     expect(easeOut(1)).toBe(1);
+  });
+});
+
+describe('ramp', () => {
+  it('cierra en 1 exacto al terminar el tramo', () => {
+    expect(ramp(0.16, 0.16, 0.14)).toBe(0);
+    expect(ramp(0.3, 0.16, 0.14)).toBe(1);
+    expect(ramp(0.72, 0.34, 0.38)).toBe(1);
+  });
+});
+
+describe('peakWindow', () => {
+  it('sube, se mantiene y baja', () => {
+    expect(peakWindow(0, 0.25, 0.85)).toBe(0);
+    expect(peakWindow(0.25, 0.25, 0.85)).toBe(1);
+    expect(peakWindow(0.5, 0.25, 0.85)).toBe(1);
+    expect(peakWindow(1, 0.25, 0.85)).toBe(0);
   });
 });
 

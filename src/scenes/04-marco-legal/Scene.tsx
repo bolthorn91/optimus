@@ -1,24 +1,49 @@
-import { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import { Disclaimer } from '@/components/Disclaimer';
+import { GuaranteeCards } from '@/components/GuaranteeCards';
 import { ProcessDiagram } from '@/components/ProcessDiagram';
 import { ProcessStepList } from '@/components/ProcessStepList';
 import { RomanNumeral } from '@/components/RomanNumeral';
 import { paintProcessDiagram } from '@/motion/paintProcessDiagram';
 import { Scene } from '@/motion/Scene';
+import { useGsapScene } from '@/motion/useGsapScene';
 import { useProcessOrientation } from '@/motion/useProcessOrientation';
+import { useReducedMotionSafe } from '@/motion/useReducedMotionSafe';
 import { AnchorStat } from '@/scenes/04-marco-legal/AnchorStat';
 import { AreaComparison } from '@/scenes/04-marco-legal/AreaComparison';
 import { ACT4 } from '@/scenes/04-marco-legal/content';
-import { stepVisual } from '@/scenes/04-marco-legal/stepVisual';
+import { choreographAct4, progressForStep, type Act4State } from '@/scenes/04-marco-legal/timeline';
 
 import './scene.css';
 
+const HEIGHT = '100vh';
+const PIN_END = '+=450vh';
+
+type Act4View = Pick<Act4State, 'pasoActivo' | 'drawProgress' | 'stepGlow' | 'guaranteeProgress'>;
+
+function viewOf(state: Act4State): Act4View {
+  return {
+    drawProgress: state.drawProgress,
+    guaranteeProgress: state.guaranteeProgress,
+    pasoActivo: state.pasoActivo,
+    stepGlow: state.stepGlow,
+  };
+}
+
+function applyChrome(node: HTMLElement, state: Act4State): void {
+  node.style.setProperty('--intro-opacity', String(state.introOpacity));
+  node.style.setProperty('--closing-opacity', String(state.closingOpacity));
+  node.style.setProperty('--surface-mix', String(state.surfaceMix));
+}
+
 export function Act4Scene() {
+  const ref = useRef<HTMLElement>(null);
   const diagramRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(ACT4.cdiSteps.length - 1);
+  const reduced = useReducedMotionSafe();
   const orientation = useProcessOrientation();
-  const visual = useMemo(() => stepVisual(ACT4.cdiSteps.length, active), [active]);
+  const [visual, setVisual] = useState(() => viewOf(choreographAct4(reduced ? 1 : 0)));
+  const visualRef = useRef(visual);
   const steps = useMemo(
     () =>
       ACT4.cdiSteps.map((step) => ({
@@ -28,26 +53,64 @@ export function Act4Scene() {
       })),
     [],
   );
+  const guarantees = useMemo(
+    () =>
+      ACT4.guarantees.pillars.map((item) => ({
+        id: String(item.index),
+        pillar: item.pillar,
+        mechanism: item.mechanism,
+        icon: item.icon,
+      })),
+    [],
+  );
+
+  const apply = useCallback((state: Act4State) => {
+    const view = viewOf(state);
+    visualRef.current = view;
+    if (ref.current) applyChrome(ref.current, state);
+    if (diagramRef.current) {
+      paintProcessDiagram(diagramRef.current, state.drawProgress, state.stepGlow);
+    }
+    setVisual(view);
+  }, []);
+
+  const { seek } = useGsapScene({
+    ref,
+    choreograph: choreographAct4,
+    apply,
+    pin: true,
+    scrub: true,
+    end: PIN_END,
+  });
 
   useLayoutEffect(() => {
     const root = diagramRef.current;
-    if (!root) return undefined;
-    return paintProcessDiagram(root, visual.drawProgress, visual.stepGlow);
-  }, [orientation, visual]);
+    if (!root) return;
+    const current = visualRef.current;
+    paintProcessDiagram(root, current.drawProgress, current.stepGlow);
+  }, [orientation]);
+
+  function onSelect(index: number): void {
+    if (reduced) return;
+    seek(progressForStep(index));
+  }
 
   return (
     <Scene
       act={ACT4.act}
       background="var(--color-navy-deep)"
       className="on-navy"
-      height="100vh"
+      height={HEIGHT}
       id="marco"
+      ref={ref}
     >
       <div className="act4">
         <h2>
           <RomanNumeral value={ACT4.act} />. {ACT4.title}
         </h2>
-        <p>{ACT4.intro}</p>
+        <div className="act4-intro">
+          <p>{ACT4.intro}</p>
+        </div>
         <h3>{ACT4.whyArgentina.heading}</h3>
         {ACT4.whyArgentina.paragraphs.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
@@ -90,8 +153,8 @@ export function Act4Scene() {
             {ACT4.taxAdviceNote}
           </p>
           <ProcessStepList
-            activeIndex={active}
-            onSelect={setActive}
+            activeIndex={visual.pasoActivo}
+            onSelect={onSelect}
             stepLabel={ACT4.copy.cdiStepLabel}
             steps={steps}
           />
@@ -102,14 +165,7 @@ export function Act4Scene() {
           {ACT4.guarantees.intro.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
-          <ul className="act4-guarantees">
-            {ACT4.guarantees.pillars.map((item) => (
-              <li data-guarantee={item.index} data-icon={item.icon} key={item.index}>
-                <h4>{item.pillar}</h4>
-                <p>{item.mechanism}</p>
-              </li>
-            ))}
-          </ul>
+          <GuaranteeCards guarantees={guarantees} progress={visual.guaranteeProgress} />
           <p data-capital-protection>{ACT4.capitalProtectionNote}</p>
           <Disclaimer variant="inline" />
         </section>

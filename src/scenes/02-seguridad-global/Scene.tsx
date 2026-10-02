@@ -66,7 +66,7 @@ export function Act2Scene() {
   function onSelect(index: PeriodIndex): void {
     tween.current?.kill();
     const from = visual.periodoActivo;
-    seek(progressForPeriod(index));
+    seek(progressForPeriod(index), 'silent');
     if (from === index) {
       paint(stateForPeriod(index));
       return;
