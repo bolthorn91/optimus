@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react';
 
-import { isAct, SECTIONS, type Section } from '@/app/sections';
+import { isAct, SECTIONS, sealOnNavy, type Section } from '@/app/sections';
 import { RomanNumeral } from '@/components/RomanNumeral';
 import { ActThreshold } from '@/motion/ActThreshold';
 import { Scene } from '@/motion/Scene';
@@ -47,7 +47,7 @@ export function HomePage() {
           <ActThreshold
             act={next.act}
             key={`seal-${String(next.act)}`}
-            onNavy={section.background.surface !== 'var(--color-ivory)'}
+            onNavy={sealOnNavy(section, next)}
           />,
         ];
       })}

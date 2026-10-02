@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { isAct, milestoneMarks, navEntries, sectionAt, SECTIONS } from '@/app/sections';
+import { isAct, milestoneMarks, navEntries, sealOnNavy, sectionAt, SECTIONS } from '@/app/sections';
 
 describe('sections', () => {
   it('deriva cinco entradas de navegación del manifiesto', () => {
@@ -23,6 +23,24 @@ describe('sections', () => {
     expect(sectionAt(0).id).toBe('hero');
     expect(sectionAt(1).id).toBe('contacto');
     expect(sectionAt(0.5).id).toBe('marco');
+  });
+
+  it('sealOnNavy solo es navy cuando ambos lados lo son', () => {
+    const hero = SECTIONS[0];
+    const escenario = SECTIONS[1];
+    const marco = SECTIONS[4];
+    const activos = SECTIONS[5];
+    const firma = SECTIONS[6];
+    expect(hero).toBeDefined();
+    expect(escenario).toBeDefined();
+    expect(marco).toBeDefined();
+    expect(activos).toBeDefined();
+    expect(firma).toBeDefined();
+    if (!hero || !escenario || !marco || !activos || !firma) return;
+    expect(sealOnNavy(hero, escenario)).toBe(true);
+    expect(sealOnNavy(marco, activos)).toBe(false);
+    expect(sealOnNavy(activos, firma)).toBe(false);
+    expect(sealOnNavy(activos, activos)).toBe(false);
   });
 
   it('milestoneMarks deriva el alcanzado del orden del acto actual', () => {

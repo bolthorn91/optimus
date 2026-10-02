@@ -1,3 +1,14 @@
+#marco[data-chrome='ivory'] {
+  --doc-ink: var(--color-navy-deep);
+  --doc-focus: var(--color-navy-deep);
+  --ink: var(--color-navy-ink);
+  --ink-strong: var(--color-navy-deep);
+  --ink-muted: var(--color-slate);
+  --accent: var(--color-gold-bronze);
+  --rule: var(--color-rule-warm);
+  color: var(--ink);
+}
+
 .act4 {
   box-sizing: border-box;
   min-block-size: 100vh;
@@ -37,6 +48,11 @@
   display: grid;
   gap: var(--space-m);
   margin-block: var(--space-l);
+}
+
+.act4 [data-anchor-stat] [data-dual-figure] {
+  font-size: var(--text-h3);
+  font-family: var(--font-display);
 }
 
 .act4-areas {

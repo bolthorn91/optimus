@@ -4,9 +4,15 @@ import { resolve } from 'node:path';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 
+import { App } from '@/app/App';
+import { IVORY_PAIR, NAVY_DEEP_PAIR } from '@/app/sections';
 import { DISCLAIMER_TEXT } from '@/components/Disclaimer';
 import { formatArea, NBSP } from '@/lib/format';
+import { toRoman } from '@/lib/roman';
 import { ScrollTrigger } from '@/motion/gsapSetup';
+import { ACT1 } from '@/scenes/01-escenario-europeo/content';
+import { ACT2 } from '@/scenes/02-seguridad-global/content';
+import { ACT3 } from '@/scenes/03-asimetria-territorial/content';
 import { AnchorStat } from '@/scenes/04-marco-legal/AnchorStat';
 import { ACT4 } from '@/scenes/04-marco-legal/content';
 import { Act4Scene } from '@/scenes/04-marco-legal/Scene';
@@ -141,6 +147,15 @@ describe('Act4Scene', () => {
       if (!(card instanceof HTMLElement)) return;
       expect(card.style.getPropertyValue('--card-progress')).toBe('1');
     }
+    const scene = container.querySelector('#marco');
+    expect(scene).toBeInstanceOf(HTMLElement);
+    if (!(scene instanceof HTMLElement)) return;
+    expect(scene.classList.contains('on-navy')).toBe(false);
+    expect(scene.dataset.chrome).toBe('ivory');
+    expect(document.documentElement.style.getPropertyValue('--doc-surface')).toBe(
+      IVORY_PAIR.surface,
+    );
+    expect(document.documentElement.style.getPropertyValue('--doc-ink')).toBe(IVORY_PAIR.ink);
   });
 
   it('CDI-14 · desmontar deja cero ScrollTrigger', () => {
@@ -244,5 +259,68 @@ describe('Act4Scene', () => {
     expect(container.textContent).not.toContain('4,76');
     expect(JSON.stringify(ACT4)).not.toContain('132.432,19');
     expect(JSON.stringify(ACT4)).not.toContain('4.76');
+  });
+
+  it('el CountUp del dato ancla sigue anchorProgress y la cifra final ya está en el DOM', () => {
+    const { container } = render(<Act4Scene />);
+    const figure = container.querySelector('[data-stat-figure]');
+    expect(figure?.querySelector('.visually-hidden')).toHaveTextContent(FIGURE);
+    expect(figure?.querySelector('[aria-hidden="true"]')?.textContent).not.toBe(FIGURE);
+  });
+
+  it('DualFigure muestra MMXXIV / 2024 junto al dato ancla', () => {
+    const { container } = render(<Act4Scene />);
+    const year = container.querySelector('[data-anchor-stat] time');
+    expect(year).toHaveAttribute('datetime', String(ACT4.anchorStat.since));
+    const dual = year?.querySelector('[data-dual-figure]');
+    expect(dual?.querySelector('[data-dual-figure-roman]')).toHaveTextContent('MMXXIV');
+    expect(dual?.querySelector('[data-dual-figure-value]')).toHaveTextContent('2024');
+  });
+
+  it('las dos superficies se pintan a la misma escala', () => {
+    const { container } = render(<Act4Scene />);
+    const primary = container.querySelector('[data-area="primary"]');
+    const reference = container.querySelector('[data-area="reference"]');
+    expect(primary).toBeInstanceOf(HTMLElement);
+    expect(reference).toBeInstanceOf(HTMLElement);
+    if (!(primary instanceof HTMLElement) || !(reference instanceof HTMLElement)) return;
+    expect(primary.style.getPropertyValue('--area-scale')).toBe('1');
+    expect(reference.style.getPropertyValue('--area-scale')).toBe('1');
+  });
+
+  it('el fondo mezcla navy y marfil; al montar el acto está en navy', () => {
+    const { container } = render(<Act4Scene />);
+    const scene = container.querySelector('#marco');
+    expect(scene).toBeInstanceOf(HTMLElement);
+    if (!(scene instanceof HTMLElement)) return;
+    expect(scene.style.background).toContain('color-mix');
+    expect(scene.style.background).toContain('--color-navy-deep');
+    expect(scene.style.background).toContain('--color-ivory');
+    expect(scene.classList.contains('on-navy')).toBe(true);
+    expect(scene.dataset.chrome).toBe('navy');
+    expect(document.documentElement.style.getPropertyValue('--doc-surface')).toBe(
+      NAVY_DEEP_PAIR.surface,
+    );
+    expect(document.documentElement.style.getPropertyValue('--doc-ink')).toBe(NAVY_DEEP_PAIR.ink);
+  });
+
+  it('CDI-17 · los actos I a III siguen funcionando con el acto IV montado', () => {
+    const { container } = render(<App />);
+    expect(screen.getByRole('heading', { name: new RegExp(ACT1.title, 'i') })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: new RegExp(ACT2.title, 'i') })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: new RegExp(ACT3.title, 'i') })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: new RegExp(ACT4.title, 'i') })).toBeInTheDocument();
+    const seals = [...container.querySelectorAll('[data-act-seal]')];
+    const numerals = seals.map((seal) => seal.querySelector('[lang="la"]')?.textContent);
+    expect(numerals).toContain(toRoman(4));
+    expect(numerals).toContain(toRoman(5));
+    const sealV = seals.find(
+      (seal) => seal.querySelector('[lang="la"]')?.textContent === toRoman(5),
+    );
+    expect(sealV).toBeInstanceOf(HTMLElement);
+    if (!(sealV instanceof HTMLElement) || !(sealV.parentElement instanceof HTMLElement)) return;
+    expect(sealV.parentElement.classList.contains('on-navy')).toBe(false);
+    const cta = screen.getAllByRole('link', { name: ACT4.cta.label });
+    expect(cta[0]).toHaveAttribute('href', ACT4.cta.href);
   });
 });

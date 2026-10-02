@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
+import { easeInOut } from '@/lib/interpolate';
 import { choreographAct4 } from '@/scenes/04-marco-legal/timeline';
 
 describe('choreographAct4', () => {
@@ -40,6 +41,32 @@ describe('choreographAct4', () => {
       expect(choreographAct4(start + 0.09).guaranteeProgress[g]).toBe(1);
     }
     expect(choreographAct4(1).guaranteeProgress).toEqual([1, 1, 1, 1]);
+  });
+
+  it('el dato ancla rampa en 0.16–0.30 y cierra en 1', () => {
+    expect(choreographAct4(0).anchorProgress).toBe(0);
+    expect(choreographAct4(0.16).anchorProgress).toBe(0);
+    expect(choreographAct4(0.3).anchorProgress).toBe(1);
+    expect(choreographAct4(1).anchorProgress).toBe(1);
+  });
+
+  it('surfaceMix recorre navy→marfil de forma estrictamente creciente', () => {
+    expect(choreographAct4(0).surfaceMix).toBe(0);
+    expect(choreographAct4(1).surfaceMix).toBe(1);
+    let previous = -1;
+    for (let i = 0; i <= 20; i += 1) {
+      const mix = choreographAct4(i / 20).surfaceMix;
+      expect(mix).toBeCloseTo(easeInOut(i / 20));
+      expect(mix).toBeGreaterThan(previous);
+      previous = mix;
+    }
+  });
+
+  it('chrome pasa a marfil cuando surfaceMix llega a 0.5', () => {
+    expect(choreographAct4(0).chrome).toBe('navy');
+    expect(choreographAct4(0.49).chrome).toBe('navy');
+    expect(choreographAct4(0.5).chrome).toBe('ivory');
+    expect(choreographAct4(1).chrome).toBe('ivory');
   });
 
   it('CDI-04 · drawProgress es monótona no decreciente; un paso trazado no se destraza', () => {

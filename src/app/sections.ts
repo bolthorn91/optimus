@@ -46,6 +46,9 @@ function ivoryPair(surface: string): SectionBackground {
   return { surface, ink: IVORY_INK, focus: IVORY_FOCUS };
 }
 
+export const NAVY_DEEP_PAIR = navyPair('var(--color-navy-deep)');
+export const IVORY_PAIR = ivoryPair('var(--color-ivory)');
+
 /** Par del documento fuera de la home: el tema de página, sin tapar `--focus` de S5. */
 export const DOCUMENT_PAIR_OFF_HOME: DocumentPair = {
   surface: 'var(--surface)',
@@ -115,7 +118,7 @@ export const SECTIONS: readonly Section[] = [
     href: '/#marco',
     order: 4,
     navGroup: 'Estrategia',
-    background: navyPair('var(--color-navy-deep)'),
+    background: NAVY_DEEP_PAIR,
   },
   {
     id: 'activos',
@@ -124,7 +127,7 @@ export const SECTIONS: readonly Section[] = [
     href: '/#activos',
     order: 5,
     navGroup: 'Activos',
-    background: ivoryPair('var(--color-ivory)'),
+    background: IVORY_PAIR,
   },
   {
     id: 'firma',
@@ -157,6 +160,13 @@ export const SECTIONS: readonly Section[] = [
 
 export function isAct(section: Section): section is ActSection {
   return section.act !== null;
+}
+
+/** El sello entre actos va sobre navy solo si ninguno de los dos lados es marfil. */
+export function sealOnNavy(from: Section, to: Section): boolean {
+  return (
+    from.background.surface !== IVORY_PAIR.surface && to.background.surface !== IVORY_PAIR.surface
+  );
 }
 
 export function sectionAt(progress: number, sections: readonly Section[] = SECTIONS): Section {

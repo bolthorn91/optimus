@@ -1,5 +1,7 @@
 import { clamp01, easeInOut, peakWindow, ramp } from '@/lib/interpolate';
 
+export type Act4Chrome = 'navy' | 'ivory';
+
 export interface Act4State {
   introOpacity: number;
   anchorProgress: number;
@@ -9,6 +11,7 @@ export interface Act4State {
   guaranteeProgress: readonly [number, number, number, number];
   closingOpacity: number;
   surfaceMix: number;
+  chrome: Act4Chrome;
 }
 
 const CDI_START = 0.34;
@@ -49,6 +52,8 @@ export function choreographAct4(progress: number): Act4State {
     guaranteeProgress[g] = ramp(p, 0.74 + g * 0.045, 0.09);
   }
 
+  const surfaceMix = easeInOut(p);
+
   return {
     // 0.00–0.14  entradilla
     introOpacity: peakWindow(clamp01(p / 0.14), 0.25, 0.85),
@@ -60,6 +65,7 @@ export function choreographAct4(progress: number): Act4State {
     guaranteeProgress,
     // 0.94–1.00  aclaración y CTA
     closingOpacity: ramp(p, 0.94, 0.06),
-    surfaceMix: easeInOut(p),
+    surfaceMix,
+    chrome: surfaceMix >= 0.5 ? 'ivory' : 'navy',
   };
 }

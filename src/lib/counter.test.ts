@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { displayedValue } from '@/lib/counter';
 import { easeOut } from '@/lib/interpolate';
 
-const DESTINATIONS = [505990, 2780400, 48600000, 45900000, 16.51] as const;
+const DESTINATIONS = [505990, 2780400, 48600000, 45900000, 16.51, 13243219] as const;
 
 describe('displayedValue', () => {
   // SAT-04

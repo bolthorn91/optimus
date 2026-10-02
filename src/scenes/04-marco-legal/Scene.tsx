@@ -1,6 +1,8 @@
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
+import { applyDocumentPair, IVORY_PAIR, NAVY_DEEP_PAIR } from '@/app/sections';
 import { Disclaimer } from '@/components/Disclaimer';
+import { DualFigure } from '@/components/DualFigure';
 import { GuaranteeCards } from '@/components/GuaranteeCards';
 import { ProcessDiagram } from '@/components/ProcessDiagram';
 import { ProcessStepList } from '@/components/ProcessStepList';
@@ -19,11 +21,18 @@ import './scene.css';
 
 const HEIGHT = '100vh';
 const PIN_END = '+=450vh';
+const SCENE_BACKGROUND =
+  'color-mix(in srgb, var(--color-navy-deep) calc((1 - var(--surface-mix, 0)) * 100%), var(--color-ivory) calc(var(--surface-mix, 0) * 100%))';
 
-type Act4View = Pick<Act4State, 'pasoActivo' | 'drawProgress' | 'stepGlow' | 'guaranteeProgress'>;
+type Act4View = Pick<
+  Act4State,
+  'pasoActivo' | 'drawProgress' | 'stepGlow' | 'guaranteeProgress' | 'anchorProgress' | 'chrome'
+>;
 
 function viewOf(state: Act4State): Act4View {
   return {
+    anchorProgress: state.anchorProgress,
+    chrome: state.chrome,
     drawProgress: state.drawProgress,
     guaranteeProgress: state.guaranteeProgress,
     pasoActivo: state.pasoActivo,
@@ -35,6 +44,8 @@ function applyChrome(node: HTMLElement, state: Act4State): void {
   node.style.setProperty('--intro-opacity', String(state.introOpacity));
   node.style.setProperty('--closing-opacity', String(state.closingOpacity));
   node.style.setProperty('--surface-mix', String(state.surfaceMix));
+  node.dataset.chrome = state.chrome;
+  applyDocumentPair(state.chrome === 'ivory' ? IVORY_PAIR : NAVY_DEEP_PAIR);
 }
 
 export function Act4Scene() {
@@ -98,8 +109,8 @@ export function Act4Scene() {
   return (
     <Scene
       act={ACT4.act}
-      background="var(--color-navy-deep)"
-      className="on-navy"
+      background={SCENE_BACKGROUND}
+      className={visual.chrome === 'ivory' ? '' : 'on-navy'}
       height={HEIGHT}
       id="marco"
       ref={ref}
@@ -124,10 +135,14 @@ export function Act4Scene() {
           ))}
         </ul>
         <div data-anchor-stat>
+          <time dateTime={String(ACT4.anchorStat.since)}>
+            <DualFigure value={ACT4.anchorStat.since} />
+          </time>
           <AnchorStat
             equivalence={ACT4.anchorStat.equivalence}
             hectares={ACT4.anchorStat.hectares}
             label={ACT4.anchorStat.label}
+            progress={visual.anchorProgress}
             source={ACT4.anchorStat.source}
           />
           <AreaComparison primary={ACT4.areas.primary} reference={ACT4.areas.reference} />
