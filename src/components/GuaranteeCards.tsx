@@ -18,6 +18,22 @@ const ICON_PATH: Record<GuaranteeIconId, string> = {
   compliance: 'M6 6h12M6 12h12M6 18h8M5 6l1.5 1.5L9 5M5 12l1.5 1.5L9 11',
 };
 
+export function toGuaranteeCardItems(
+  pillars: readonly {
+    index: number;
+    pillar: string;
+    mechanism: string;
+    icon: GuaranteeIconId;
+  }[],
+): GuaranteeCardItem[] {
+  return pillars.map((item) => ({
+    id: String(item.index),
+    icon: item.icon,
+    mechanism: item.mechanism,
+    pillar: item.pillar,
+  }));
+}
+
 export function GuaranteeCards({
   guarantees,
   progress,

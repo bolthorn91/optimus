@@ -3,7 +3,7 @@ import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { applyDocumentPair, IVORY_PAIR, NAVY_DEEP_PAIR } from '@/app/sections';
 import { Disclaimer } from '@/components/Disclaimer';
 import { DualFigure } from '@/components/DualFigure';
-import { GuaranteeCards } from '@/components/GuaranteeCards';
+import { GuaranteeCards, toGuaranteeCardItems } from '@/components/GuaranteeCards';
 import { ProcessDiagram } from '@/components/ProcessDiagram';
 import { ProcessStepList } from '@/components/ProcessStepList';
 import { RomanNumeral } from '@/components/RomanNumeral';
@@ -64,16 +64,7 @@ export function Act4Scene() {
       })),
     [],
   );
-  const guarantees = useMemo(
-    () =>
-      ACT4.guarantees.pillars.map((item) => ({
-        id: String(item.index),
-        pillar: item.pillar,
-        mechanism: item.mechanism,
-        icon: item.icon,
-      })),
-    [],
-  );
+  const guarantees = useMemo(() => toGuaranteeCardItems(ACT4.guarantees.pillars), []);
 
   const apply = useCallback((state: Act4State) => {
     const view = viewOf(state);

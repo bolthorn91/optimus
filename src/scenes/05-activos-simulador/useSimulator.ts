@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 import {
   coerceProjectionInput,
@@ -53,7 +53,7 @@ export function useSimulator(initial: Partial<ProjectionInput> = {}): {
     takeover.current = horizonLocked;
     setInput((current) => {
       const next = commit(current, patch);
-      persist(next, horizonLocked);
+      if (next !== current) persist(next, horizonLocked);
       return next;
     });
   }, []);
@@ -89,10 +89,6 @@ export function useSimulator(initial: Partial<ProjectionInput> = {}): {
     },
     [patchInput],
   );
-
-  useEffect(() => {
-    persist(input, takeover.current);
-  }, [input]);
 
   return { input, result, setCapital, setYears, syncYears, setScenario, setVehicle };
 }

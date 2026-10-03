@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   clearSimulatorSession,
   readSimulatorSession,
+  subscribeSimulatorSession,
   writeSimulatorSession,
 } from '@/scenes/05-activos-simulador/simulatorSession';
 import { DEFAULT_SIMULATOR_INPUT } from '@/scenes/05-activos-simulador/useSimulator';
@@ -40,5 +41,17 @@ describe('simulatorSession', () => {
     });
     clearSimulatorSession();
     expect(readSimulatorSession()).toBeNull();
+  });
+
+  it('notifica a los suscriptores al escribir y al vaciar', () => {
+    const listener = vi.fn();
+    const unsubscribe = subscribeSimulatorSession(listener);
+    writeSimulatorSession({ horizonLocked: false, input: DEFAULT_SIMULATOR_INPUT });
+    expect(listener).toHaveBeenCalledTimes(1);
+    clearSimulatorSession();
+    expect(listener).toHaveBeenCalledTimes(2);
+    unsubscribe();
+    writeSimulatorSession({ horizonLocked: true, input: DEFAULT_SIMULATOR_INPUT });
+    expect(listener).toHaveBeenCalledTimes(2);
   });
 });

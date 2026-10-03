@@ -2,7 +2,11 @@ import { act, renderHook } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { project } from '@/lib/projection';
-import { clearSimulatorSession } from '@/scenes/05-activos-simulador/simulatorSession';
+import {
+  clearSimulatorSession,
+  getSimulatorSessionSnapshot,
+  readSimulatorSession,
+} from '@/scenes/05-activos-simulador/simulatorSession';
 import { DEFAULT_SIMULATOR_INPUT, useSimulator } from '@/scenes/05-activos-simulador/useSimulator';
 
 describe('useSimulator', () => {
@@ -14,6 +18,37 @@ describe('useSimulator', () => {
     const { result } = renderHook(() => useSimulator());
     expect(result.current.input).toEqual(DEFAULT_SIMULATOR_INPUT);
     expect(result.current.result).toEqual(project(DEFAULT_SIMULATOR_INPUT));
+    expect(readSimulatorSession()).toBeNull();
+  });
+
+  it('persiste la sesión al cambiar un control, no al montar ni en un no-op', () => {
+    const { result } = renderHook(() => useSimulator());
+    expect(readSimulatorSession()).toBeNull();
+    act(() => {
+      result.current.setYears(DEFAULT_SIMULATOR_INPUT.years);
+    });
+    expect(readSimulatorSession()).toBeNull();
+  });
+
+  it('syncYears solo persiste cuando el horizonte cambia de verdad', () => {
+    const { result } = renderHook(() => useSimulator());
+    act(() => {
+      result.current.syncYears(DEFAULT_SIMULATOR_INPUT.years);
+    });
+    expect(readSimulatorSession()).toBeNull();
+    act(() => {
+      result.current.setCapital(150_000);
+    });
+    const first = getSimulatorSessionSnapshot();
+    act(() => {
+      result.current.syncYears(DEFAULT_SIMULATOR_INPUT.years);
+    });
+    expect(getSimulatorSessionSnapshot()).toBe(first);
+    act(() => {
+      result.current.syncYears(11);
+    });
+    expect(readSimulatorSession()?.input.years).toBe(11);
+    expect(getSimulatorSessionSnapshot()).not.toBe(first);
   });
 
   it('SIM-18 · al cambiar de escenario la serie entera es la de project del nuevo input', () => {

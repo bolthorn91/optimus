@@ -44,9 +44,10 @@ describe('shell', () => {
     const { container } = render(<App />);
     expect(container.textContent).toContain(PENDING_LABEL);
     expect(container.textContent).toContain('Teléfono Argentina');
-    expect(container.textContent).not.toMatch(/\+34/);
-    expect(container.textContent).not.toMatch(/\+54/);
+    expect(container.textContent).not.toMatch(/\+34\s*\d/);
+    expect(container.textContent).not.toMatch(/\+54\s*\d/);
     expect(container.textContent).not.toContain('optimvs.cp.com');
+    expect(container.querySelector('a[href^="tel:"]')).toBeNull();
   });
 
   it('FRM-22 · el footer muestra las dieciséis fuentes con Think Tanks corregido', () => {

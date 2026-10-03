@@ -22,3 +22,20 @@
   padding-inline-start: var(--space-s);
   border-inline-start: 2px solid var(--accent);
 }
+
+.act-contact__layout {
+  display: grid;
+  gap: var(--space-l);
+  align-items: start;
+}
+
+@media (min-width: 48rem) {
+  .act-contact__layout {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  }
+}
+
+[data-conversion] {
+  display: grid;
+  gap: var(--space-m);
+}
