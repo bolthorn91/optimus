@@ -1,15 +1,18 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { DISCLAIMER_TEXT } from '@/components/Disclaimer';
 import { PENDING_LABEL } from '@/components/PendingValue';
+import { formatCurrency, NBSP } from '@/lib/format';
+import { project } from '@/lib/projection';
 import { ScrollTrigger } from '@/motion/gsapSetup';
 import { contactHref } from '@/scenes/05-activos-simulador/contactHref';
 import { ACT5 } from '@/scenes/05-activos-simulador/content';
 import { Act5Scene } from '@/scenes/05-activos-simulador/Scene';
+import { DEFAULT_SIMULATOR_INPUT } from '@/scenes/05-activos-simulador/useSimulator';
 import { expectNoBlockingAxeViolations } from '@/test/axe';
 
 const CANON = readFileSync(
@@ -18,6 +21,7 @@ const CANON = readFileSync(
 );
 const TABLES = readFileSync(resolve(process.cwd(), 'content/03-datos-y-tablas.md'), 'utf8');
 
+const visible = (text: string): string => text.replaceAll(NBSP, ' ');
 const MIN_INVESTMENT = /\d[\d.]{2,}\s*(US\$|USD|€|EUR|euros?)/i;
 const nativeMatchMedia = window.matchMedia.bind(window);
 const CSS = readFileSync(
@@ -85,7 +89,7 @@ describe('Act5Scene', () => {
       ACT5.entryFloor.debtId,
     );
     expect(block).toHaveTextContent(PENDING_LABEL);
-    expect(container.textContent).not.toMatch(MIN_INVESTMENT);
+    expect(block?.textContent).not.toMatch(MIN_INVESTMENT);
     expect(JSON.stringify(ACT5)).not.toMatch(MIN_INVESTMENT);
   });
 
@@ -93,7 +97,7 @@ describe('Act5Scene', () => {
     stubNarrowViewport();
     expect(window.matchMedia('(min-width: 48rem)').matches).toBe(false);
     const { container } = render(<Act5Scene />);
-    expect(container.querySelector('table')).toBeNull();
+    expect(container.querySelector('.vehicle-cards table')).toBeNull();
     const cards = container.querySelectorAll('[data-vehicle]');
     expect(cards).toHaveLength(3);
     for (const card of cards) {
@@ -117,7 +121,26 @@ describe('Act5Scene', () => {
     await expectNoBlockingAxeViolations(container);
   });
 
-  it('cada vehículo enlaza al formulario con su tipo como contexto', () => {
+  it('VEH-04 · seleccionar una tarjeta cambia el vehículo del simulador y mueve el foco', () => {
+    const { container } = render(<Act5Scene />);
+    const equities = container.querySelector('[data-vehicle="equities"] button');
+    expect(equities).toBeInstanceOf(HTMLButtonElement);
+    if (!(equities instanceof HTMLButtonElement)) return;
+    fireEvent.click(equities);
+    expect(equities).toHaveAttribute('aria-pressed', 'true');
+    expect(container.querySelector('[data-vehicle="equities"]')).toHaveAttribute(
+      'data-selected',
+      'true',
+    );
+    const simulator = container.querySelector('[data-simulator]');
+    expect(simulator).toHaveFocus();
+    const expected = project({ ...DEFAULT_SIMULATOR_INPUT, vehicle: 'equities' });
+    expect(
+      visible(container.querySelector('[data-simulator-result]')?.textContent ?? ''),
+    ).toContain(visible(formatCurrency(expected.finalValue, 'USD', 2)));
+  });
+
+  it('VEH-05 · el CTA de cada tarjeta lleva al formulario con el vehículo como contexto', () => {
     const { container } = render(<Act5Scene />);
     for (const vehicle of ACT5.vehicles) {
       const card = container.querySelector(`[data-vehicle="${vehicle.id}"]`);

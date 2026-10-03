@@ -1,3 +1,4 @@
+import type { VehicleId } from '@/lib/projection-assumptions';
 import { contactHref } from '@/scenes/05-activos-simulador/contactHref';
 import { ACT5, type Vehicle, type VehicleIcon } from '@/scenes/05-activos-simulador/content';
 
@@ -21,31 +22,56 @@ function VehicleGlyph({ icon }: { icon: VehicleIcon }) {
   );
 }
 
-export function VehicleCards({ vehicles }: { vehicles: readonly Vehicle[] }) {
+export function VehicleCards({
+  vehicles,
+  selectedId,
+  onSelect,
+}: {
+  vehicles: readonly Vehicle[];
+  selectedId: VehicleId;
+  onSelect: (id: VehicleId) => void;
+}) {
   return (
     <ul className="vehicle-cards">
-      {vehicles.map((vehicle) => (
-        <li data-vehicle={vehicle.id} key={vehicle.id}>
-          <VehicleGlyph icon={vehicle.icon} />
-          <h3>{vehicle.name}</h3>
-          <dl>
-            <div>
-              <dt>{ACT5.copy.advantage}</dt>
-              <dd>{vehicle.advantage}</dd>
-            </div>
-            <div>
-              <dt>{ACT5.copy.performance}</dt>
-              <dd>{vehicle.performance}</dd>
-            </div>
-          </dl>
-          {vehicle.glossary ? (
-            <p data-pozo-gloss>
-              <abbr title={vehicle.glossary}>{ACT5.copy.pozoTerm}</abbr>: {vehicle.glossary}
-            </p>
-          ) : null}
-          <a href={contactHref(vehicle.id)}>{ACT5.cta.label}</a>
-        </li>
-      ))}
+      {vehicles.map((vehicle) => {
+        const selected = vehicle.id === selectedId;
+        return (
+          <li
+            data-selected={selected ? 'true' : 'false'}
+            data-vehicle={vehicle.id}
+            key={vehicle.id}
+          >
+            <VehicleGlyph icon={vehicle.icon} />
+            <h3>
+              <button
+                aria-pressed={selected}
+                onClick={() => {
+                  onSelect(vehicle.id);
+                }}
+                type="button"
+              >
+                {vehicle.name}
+              </button>
+            </h3>
+            <dl>
+              <div>
+                <dt>{ACT5.copy.advantage}</dt>
+                <dd>{vehicle.advantage}</dd>
+              </div>
+              <div>
+                <dt>{ACT5.copy.performance}</dt>
+                <dd>{vehicle.performance}</dd>
+              </div>
+            </dl>
+            {vehicle.glossary ? (
+              <p data-pozo-gloss>
+                <abbr title={vehicle.glossary}>{ACT5.copy.pozoTerm}</abbr>: {vehicle.glossary}
+              </p>
+            ) : null}
+            <a href={contactHref(vehicle.id)}>{ACT5.cta.label}</a>
+          </li>
+        );
+      })}
     </ul>
   );
 }

@@ -54,12 +54,17 @@ export function formatPercent(value: number, maximumFractionDigits = 0): string 
  * España/Argentina se lee como peso. El canon exige explicitar siempre la divisa
  * (`content/01-identidad-y-tono.md`, reglas de escritura).
  */
-export function formatCurrency(value: number, currency: 'USD' | 'EUR' = 'USD'): string {
+export function formatCurrency(
+  value: number,
+  currency: 'USD' | 'EUR' = 'USD',
+  maximumFractionDigits = 0,
+): string {
   assertFinite(value, 'formatCurrency');
   return new Intl.NumberFormat(LOCALE, {
     style: 'currency',
     currency,
     currencyDisplay: 'symbol',
-    maximumFractionDigits: 0,
+    minimumFractionDigits: maximumFractionDigits,
+    maximumFractionDigits,
   }).format(value);
 }

@@ -55,6 +55,10 @@ describe('formato de cifras en convención española', () => {
     expect(formatCurrency(250000)).not.toContain(',00');
   });
 
+  it('formatCurrency acepta dos decimales cuando se piden', () => {
+    expect(formatCurrency(1234.56, 'USD', 2)).toBe(`1234,56${NBSP}US$`);
+  });
+
   it('separa cifra y unidad con espacio duro, no con espacio normal', () => {
     expect(formatPercent(14)).not.toContain(' %');
     expect(formatArea(1)).not.toContain(' ha');

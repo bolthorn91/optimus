@@ -1,4 +1,16 @@
-import type { VehicleId } from '@/lib/projection-assumptions';
+import type { Scenario, VehicleId } from '@/lib/projection-assumptions';
+
+export const SCENARIO_LABELS: Record<Scenario, string> = {
+  conservative: 'Conservador',
+  base: 'Base',
+  favourable: 'Favorable',
+};
+
+export const VEHICLE_LABELS: Record<VehicleId, string> = {
+  'real-estate': 'Bienes raíces / inmuebles',
+  equities: 'Acciones y títulos locales',
+  development: 'Proyectos de desarrollo (al pozo)',
+};
 
 export type VehicleIcon = 'property' | 'equities' | 'crane';
 
@@ -25,6 +37,25 @@ export interface Act5Content {
     performance: string;
     pozoGloss: string;
     pozoTerm: string;
+    simulatorTitle: string;
+    capitalLabel: string;
+    horizonLabel: string;
+    horizonUnit: string;
+    scenarioLabel: string;
+    scenarioConservative: string;
+    scenarioBase: string;
+    scenarioFavourable: string;
+    finalValue: string;
+    totalGain: string;
+    rentalIncome: string;
+    assumptionsTitle: string;
+    tableCaption: string;
+    tableYear: string;
+    tableValue: string;
+    tableGain: string;
+    tableRent: string;
+    rateLabel: string;
+    rentYieldLabel: string;
   };
 }
 
@@ -37,7 +68,7 @@ export const ACT5: Act5Content = {
   vehicles: [
     {
       id: 'real-estate',
-      name: 'Bienes raíces / inmuebles',
+      name: VEHICLE_LABELS['real-estate'],
       advantage:
         'Ubicaciones prime con precios por metro cuadrado históricamente bajos respecto a Europa. Mercado cotizado y transaccionado en USD.',
       performance:
@@ -46,7 +77,7 @@ export const ACT5: Act5Content = {
     },
     {
       id: 'equities',
-      name: 'Acciones y títulos locales',
+      name: VEHICLE_LABELS.equities,
       advantage:
         'Empresas del sector energético, agroindustrial y tecnológico liderando la recuperación económica. Entrada en punto de inflexión.',
       performance:
@@ -55,7 +86,7 @@ export const ACT5: Act5Content = {
     },
     {
       id: 'development',
-      name: 'Proyectos de desarrollo (al pozo)',
+      name: VEHICLE_LABELS.development,
       advantage:
         'Ingreso directo en etapas tempranas de desarrollo urbano y residencial con estructura jurídico-fiscal optimizada (fideicomisos).',
       performance: 'Retornos optimizados y resguardo patrimonial tangible.',
@@ -75,5 +106,24 @@ export const ACT5: Act5Content = {
     performance: 'Perfil de rendimiento',
     pozoGloss: 'Compra en fase temprana de obra',
     pozoTerm: 'al pozo',
+    simulatorTitle: 'Escenario ilustrativo',
+    capitalLabel: 'Capital inicial',
+    horizonLabel: 'Horizonte',
+    horizonUnit: 'años',
+    scenarioLabel: 'Escenario',
+    scenarioConservative: SCENARIO_LABELS.conservative,
+    scenarioBase: SCENARIO_LABELS.base,
+    scenarioFavourable: SCENARIO_LABELS.favourable,
+    finalValue: 'Valor proyectado',
+    totalGain: 'Plusvalía acumulada',
+    rentalIncome: 'Renta acumulada',
+    assumptionsTitle: 'Supuestos aplicados',
+    tableCaption: 'Evolución año a año del escenario ilustrativo',
+    tableYear: 'Año',
+    tableValue: 'Valor',
+    tableGain: 'Plusvalía',
+    tableRent: 'Renta',
+    rateLabel: 'Tasa anual aplicada',
+    rentYieldLabel: 'Renta anual sobre capital inicial',
   },
 };
