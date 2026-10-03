@@ -1,11 +1,12 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 
 import { PENDING_LABEL } from '@/components/PendingValue';
+import { ScrollTrigger } from '@/motion/gsapSetup';
 import { ACT67 } from '@/scenes/06-firma/content';
 import { Act67Scene } from '@/scenes/06-firma/Scene';
 import { expectNoBlockingAxeViolations } from '@/test/axe';
@@ -25,6 +26,22 @@ function foldedCanon(markdown: string): string {
   return markdown.replace(/^>\s?/gm, '').replace(/\s+/g, ' ').trim();
 }
 
+const nativeMatchMedia = window.matchMedia.bind(window);
+
+function stubMatchMedia(queryNeedle: string): void {
+  window.matchMedia = (query: string) =>
+    ({
+      matches: query.includes(queryNeedle),
+      media: query,
+      onchange: null,
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
+      addListener: () => undefined,
+      removeListener: () => undefined,
+      dispatchEvent: () => false,
+    }) as MediaQueryList;
+}
+
 function renderScene() {
   return render(
     <MemoryRouter>
@@ -33,7 +50,23 @@ function renderScene() {
   );
 }
 
+function driveAct67(progress: number): void {
+  const trigger = ScrollTrigger.getAll().find((item) => {
+    const node = item.trigger;
+    return node instanceof HTMLElement && node.id === 'firma';
+  });
+  expect(trigger).toBeDefined();
+  act(() => {
+    trigger?.vars.onUpdate?.({ progress } as ScrollTrigger);
+  });
+}
+
 describe('Act67Scene', () => {
+  afterEach(() => {
+    window.matchMedia = nativeMatchMedia;
+    for (const trigger of ScrollTrigger.getAll()) trigger.kill();
+  });
+
   it('FIR-03 · el retrato es un marcador con iniciales, sin imagen', () => {
     const { container } = renderScene();
     const portrait = screen.getByRole('img', { name: ACT67.copy.portraitPending });
@@ -162,8 +195,52 @@ describe('Act67Scene', () => {
     expect(range).not.toHaveTextContent(/\d/);
   });
 
-  it('axe sin violaciones bloqueantes', async () => {
+  it('FIR-11 · con movimiento reducido el contenido está visible y no hay ScrollTrigger', () => {
+    stubMatchMedia('prefers-reduced-motion');
+    const { container } = renderScene();
+    expect(ScrollTrigger.getAll()).toEqual([]);
+    expect(screen.getByText(ACT67.firmSummary)).toBeInTheDocument();
+    expect(screen.getByText(ACT67.founder.bio[0])).toBeInTheDocument();
+    expect(screen.getByText(ACT67.cdiDisambiguation)).toBeInTheDocument();
+    const diagrams = container.querySelectorAll('[data-process-diagram]');
+    expect(diagrams).toHaveLength(2);
+    expect(diagrams[0]).toHaveAttribute(
+      'data-draw',
+      ACT67.intermediationChain.conventional.map(() => '1').join(' '),
+    );
+    expect(diagrams[1]).toHaveAttribute(
+      'data-draw',
+      ACT67.intermediationChain.optimvs.map(() => '1').join(' '),
+    );
+    const founder = container.querySelector('[data-founder-card]');
+    expect(founder).toBeInstanceOf(HTMLElement);
+    if (!(founder instanceof HTMLElement)) return;
+    expect(founder.style.getPropertyValue('--founder-progress')).toBe('1');
+  });
+
+  it('FIR-12 · axe sin violaciones bloqueantes', async () => {
     const { container } = renderScene();
     await expectNoBlockingAxeViolations(container);
+  });
+
+  it('FIR-13 · desmontar deja cero ScrollTrigger', () => {
+    const { unmount } = renderScene();
+    expect(ScrollTrigger.getAll().length).toBeGreaterThan(0);
+    unmount();
+    expect(ScrollTrigger.getAll()).toEqual([]);
+  });
+
+  it('FIR-02 · en el DOM la cadena convencional se traza antes que la de OPTIMVS', () => {
+    const { container } = renderScene();
+    driveAct67(0.48);
+    const diagrams = container.querySelectorAll('[data-process-diagram]');
+    expect(diagrams[0]).toHaveAttribute(
+      'data-draw',
+      ACT67.intermediationChain.conventional.map(() => '1').join(' '),
+    );
+    expect(diagrams[1]).toHaveAttribute(
+      'data-draw',
+      ACT67.intermediationChain.optimvs.map(() => '0').join(' '),
+    );
   });
 });

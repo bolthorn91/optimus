@@ -4,6 +4,20 @@
   padding: var(--space-l) var(--space-m);
 }
 
+.act67-firm {
+  opacity: var(--firm-opacity, 1);
+}
+
+.act67 [data-pull-quote] {
+  opacity: var(--quote-opacity, 1);
+}
+
+[data-intermediation] {
+  display: grid;
+  gap: var(--space-m);
+  margin-block: var(--space-l);
+}
+
 .act67 > p,
 .act67 section p {
   max-inline-size: var(--measure);
@@ -14,6 +28,8 @@
   gap: var(--space-m);
   margin-block: var(--space-l);
   align-items: start;
+  opacity: var(--founder-progress, 1);
+  transform: translateY(calc((1 - var(--founder-progress, 1)) * 0.75rem));
 }
 
 @media (min-width: 48rem) {
@@ -55,6 +71,8 @@
   padding: var(--space-m);
   border: 1px solid var(--rule);
   background: var(--surface-raised);
+  opacity: var(--card-progress, 1);
+  transform: translateY(calc((1 - var(--card-progress, 1)) * 0.75rem));
 }
 
 .dept-cards__icon {
@@ -119,4 +137,17 @@
 [data-routes] {
   display: grid;
   gap: var(--space-m);
+  opacity: var(--routes-progress, 1);
+  transform: translateY(calc((1 - var(--routes-progress, 1)) * 0.75rem));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .act67-firm,
+  .act67 [data-pull-quote],
+  [data-founder-card],
+  [data-routes],
+  .dept-cards li {
+    opacity: 1;
+    transform: none;
+  }
 }

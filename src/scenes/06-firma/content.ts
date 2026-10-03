@@ -59,6 +59,8 @@ export interface Act67Content {
     glossaryHeading: string;
     routesCaption: string;
     routesMetric: string;
+    chainConventional: string;
+    chainOptimvs: string;
   };
 }
 
@@ -205,5 +207,7 @@ export const ACT67: Act67Content = {
     glossaryHeading: 'Glosario',
     routesCaption: 'Las dos vías operativas',
     routesMetric: 'Paso',
+    chainConventional: 'Broker / sociedad de valores convencional',
+    chainOptimvs: 'OPTIMVS Capital Protegido',
   },
 };
