@@ -15,6 +15,7 @@ import { ACT1 } from '@/scenes/01-escenario-europeo/content';
 import { ACT2 } from '@/scenes/02-seguridad-global/content';
 import { ACT3 } from '@/scenes/03-asimetria-territorial/content';
 import { ACT4 } from '@/scenes/04-marco-legal/content';
+import { ACT5 } from '@/scenes/05-activos-simulador/content';
 import { ACT67 } from '@/scenes/06-firma/content';
 import { CONTACT_SCENE } from '@/scenes/07-contacto/content';
 import { expectNoBlockingAxeViolations } from '@/test/axe';
@@ -139,16 +140,18 @@ describe('shell', () => {
     await expectNoBlockingAxeViolations(container);
   }, 15_000);
 
-  // CMP-10
-  it('CMP-10 · hero y actos I y II siguen en el DOM con el acto III montado', () => {
+  // CMP-10 · FRM-24
+  it('CMP-10 · FRM-24 · los actos I a V siguen con VI–VII y el contacto montados', () => {
     const { container, unmount } = render(<App />);
     expect(screen.getByText(HERO.claim)).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: new RegExp(ACT1.title, 'i') })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: new RegExp(ACT2.title, 'i') })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: new RegExp(ACT3.title, 'i') })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: new RegExp(ACT4.title, 'i') })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: new RegExp(ACT5.title, 'i') })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: new RegExp(ACT67.title, 'i') })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: CONTACT_SCENE.title })).toBeInTheDocument();
+    expect(container.querySelector('#contacto')).not.toBeNull();
     const seals = container.querySelectorAll('[data-act-seal]');
     expect(seals.length).toBeGreaterThanOrEqual(4);
     expect([...seals].some((seal) => seal.textContent.includes('IV'))).toBe(true);

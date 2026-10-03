@@ -1,14 +1,11 @@
-export interface SimulatorContextRow {
-  label: string;
-  value: string;
-}
+import type { ContactContextRow } from '@/lib/contact-form';
 
 export function SimulatorContext({
   notice,
   rows,
 }: {
   notice: string;
-  rows: readonly SimulatorContextRow[];
+  rows: readonly ContactContextRow[];
 }) {
   return (
     <aside data-simulator-context>

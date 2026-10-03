@@ -1,4 +1,11 @@
-import { useId, useRef, useState, type ChangeEvent, type SyntheticEvent } from 'react';
+import {
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type SyntheticEvent,
+} from 'react';
 
 import {
   CAPITAL_BANDS,
@@ -8,15 +15,17 @@ import {
   PHONE_PREFIXES,
   TAX_RESIDENCES,
   decideSubmission,
+  type ContactContextRow,
   type ContactErrorCode,
   type ContactField,
   type ContactValues,
 } from '@/lib/contact-form';
+import { sendContactEmail, type SendResult } from '@/lib/email';
 import type { VehicleId } from '@/lib/projection-assumptions';
 import { ConsentFields } from '@/scenes/07-contacto/ConsentFields';
 import { CONTACT_SCENE } from '@/scenes/07-contacto/content';
 import { Field } from '@/scenes/07-contacto/Field';
-import { SimulatorContext, type SimulatorContextRow } from '@/scenes/07-contacto/SimulatorContext';
+import { SimulatorContext } from '@/scenes/07-contacto/SimulatorContext';
 
 import './contact-form.css';
 
@@ -24,19 +33,29 @@ function errorText(code: ContactErrorCode | undefined): string | undefined {
   return code === undefined ? undefined : CONTACT_SCENE.errors[code];
 }
 
+type FormStatus = 'idle' | 'sending' | 'success' | 'error' | 'rateLimited';
+
 export function ContactForm({
   initialInterest,
+  send = sendContactEmail,
   simulatorContext,
 }: {
   initialInterest?: VehicleId | undefined;
-  simulatorContext?: readonly SimulatorContextRow[] | undefined;
+  send?: typeof sendContactEmail;
+  simulatorContext?: readonly ContactContextRow[] | undefined;
 }) {
   const formId = useId();
   const attempts = useRef<number[]>([]);
+  const busy = useRef(false);
+  const successRef = useRef<HTMLParagraphElement>(null);
   const [values, setValues] = useState<ContactValues>(() => ({ ...EMPTY_CONTACT_VALUES }));
   const [errors, setErrors] = useState<Partial<Record<ContactField, ContactErrorCode>>>({});
-  const [rateLimited, setRateLimited] = useState(false);
+  const [status, setStatus] = useState<FormStatus>('idle');
   const interest = values.interest !== '' ? values.interest : (initialInterest ?? '');
+
+  useLayoutEffect(() => {
+    if (status === 'success') successRef.current?.focus();
+  }, [status]);
 
   function fieldId(name: ContactField): string {
     return `${formId}-${name}`;
@@ -58,31 +77,61 @@ export function ContactForm({
     };
   }
 
+  function applySend(result: SendResult): void {
+    busy.current = false;
+    setStatus(result.ok ? 'success' : 'error');
+  }
+
   function onSubmit(event: SyntheticEvent<HTMLFormElement>): void {
     event.preventDefault();
-    const decision = decideSubmission({ ...values, interest }, attempts.current, Date.now());
+    if (busy.current || status === 'sending') return;
+    const payload = { ...values, interest };
+    const decision = decideSubmission(payload, attempts.current, Date.now());
     switch (decision.kind) {
       case 'honeypot':
         setErrors({});
-        setRateLimited(false);
+        setStatus('success');
         return;
       case 'invalid':
         setErrors(decision.errors);
-        setRateLimited(false);
+        setStatus('idle');
         return;
       case 'rateLimited':
         setErrors({});
-        setRateLimited(true);
+        setStatus('rateLimited');
         return;
       case 'accepted':
         attempts.current = decision.attempts;
+        busy.current = true;
         setErrors({});
-        setRateLimited(false);
+        setStatus('sending');
+        void send(payload, simulatorContext === undefined ? {} : { simulatorContext }).then(
+          applySend,
+          () => {
+            applySend({ ok: false, reason: 'network' });
+          },
+        );
     }
   }
 
+  if (status === 'success') {
+    return (
+      <div className="contact-form" data-contact-form>
+        <p data-form-status="success" ref={successRef} role="status" tabIndex={-1}>
+          {CONTACT_SCENE.copy.success}
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <form className="contact-form" data-contact-form noValidate onSubmit={onSubmit}>
+    <form
+      aria-busy={status === 'sending'}
+      className="contact-form"
+      data-contact-form
+      noValidate
+      onSubmit={onSubmit}
+    >
       <Field
         error={errorText(errors.fullName)}
         field="fullName"
@@ -267,12 +316,24 @@ export function ContactForm({
           value={values.honeypot}
         />
       </div>
-      {rateLimited ? (
+      {status === 'sending' ? (
+        <p data-form-status="sending" role="status">
+          {CONTACT_SCENE.copy.sending}
+        </p>
+      ) : null}
+      {status === 'error' ? (
+        <p data-form-status="error" role="alert">
+          {CONTACT_SCENE.copy.errorNetwork}
+        </p>
+      ) : null}
+      {status === 'rateLimited' ? (
         <p data-error="rate" role="alert">
           {CONTACT_SCENE.copy.rateLimited}
         </p>
       ) : null}
-      <button type="submit">{CONTACT_SCENE.copy.submit}</button>
+      <button disabled={status === 'sending'} type="submit">
+        {status === 'sending' ? CONTACT_SCENE.copy.sending : CONTACT_SCENE.copy.submit}
+      </button>
     </form>
   );
 }

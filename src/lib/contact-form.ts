@@ -60,6 +60,11 @@ export interface ContactValues {
   honeypot: string;
 }
 
+export interface ContactContextRow {
+  label: string;
+  value: string;
+}
+
 export type ContactField = keyof ContactValues;
 
 export interface ContactValidation {

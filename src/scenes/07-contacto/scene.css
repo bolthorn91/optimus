@@ -2,6 +2,13 @@
   box-sizing: border-box;
   min-block-size: 100vh;
   padding: var(--space-l) var(--space-m);
+  transform: translateY(calc(var(--contact-rise, 0) * 0.75rem));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .act-contact {
+    transform: none;
+  }
 }
 
 .act-contact > p,

@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 
 import { RATE_MAX } from '@/lib/contact-form';
 import { ContactForm } from '@/scenes/07-contacto/ContactForm';
@@ -7,7 +7,11 @@ import { CONTACT_SCENE, consentDataSentence } from '@/scenes/07-contacto/content
 import { expectNoBlockingAxeViolations } from '@/test/axe';
 
 function submit(): void {
-  fireEvent.click(screen.getByRole('button', { name: CONTACT_SCENE.copy.submit }));
+  fireEvent.click(
+    screen.getByRole('button', {
+      name: (label) => label === CONTACT_SCENE.copy.submit || label === CONTACT_SCENE.copy.sending,
+    }),
+  );
 }
 
 function fillValid(): void {
@@ -137,24 +141,86 @@ describe('ContactForm', () => {
     expect(document.querySelector('[data-honeypot] input')).toHaveAttribute('tabIndex', '-1');
   });
 
-  it('FRM-06 · honeypot relleno se descarta sin errores visibles', () => {
-    const { container } = render(<ContactForm />);
+  it('FRM-06 · honeypot relleno se descarta con éxito aparente', () => {
+    const send = vi.fn();
+    const { container } = render(<ContactForm send={send} />);
     fillValid();
     const honey = container.querySelector('[data-honeypot] input');
     expect(honey).toBeInstanceOf(HTMLInputElement);
     if (!(honey instanceof HTMLInputElement)) return;
     fireEvent.change(honey, { target: { value: 'http://spam.test' } });
     submit();
+    expect(send).not.toHaveBeenCalled();
     expect(container.querySelector('[data-error]')).toBeNull();
+    expect(screen.getByRole('status')).toHaveTextContent(CONTACT_SCENE.copy.success);
   });
 
-  it('D6 · el cuarto envío válido pide esperar', () => {
-    render(<ContactForm />);
+  it('D6 · el cuarto envío válido pide esperar', async () => {
+    const send = vi.fn().mockResolvedValue({ ok: false, reason: 'network' });
+    render(<ContactForm send={send} />);
     fillValid();
-    for (let i = 0; i < RATE_MAX; i += 1) submit();
+    for (let i = 0; i < RATE_MAX; i += 1) {
+      submit();
+      await waitFor(() => {
+        expect(send).toHaveBeenCalledTimes(i + 1);
+      });
+    }
     expect(screen.queryByText(CONTACT_SCENE.copy.rateLimited)).toBeNull();
     submit();
     expect(screen.getByRole('alert')).toHaveTextContent(CONTACT_SCENE.copy.rateLimited);
+    expect(send).toHaveBeenCalledTimes(RATE_MAX);
+  });
+
+  it('FRM-12 · el éxito mueve el foco a la confirmación anunciada', async () => {
+    const send = vi.fn().mockResolvedValue({ ok: true });
+    render(<ContactForm send={send} />);
+    fillValid();
+    submit();
+    const status = await screen.findByText(CONTACT_SCENE.copy.success);
+    expect(status).toHaveAttribute('role', 'status');
+    expect(status).toHaveTextContent('48 horas laborables');
+    expect(document.activeElement).toBe(status);
+  });
+
+  it('FRM-13 · un error de red conserva lo escrito y permite reintentar', async () => {
+    const send = vi.fn().mockResolvedValue({ ok: false, reason: 'network' });
+    render(<ContactForm send={send} />);
+    fillValid();
+    submit();
+    expect(await screen.findByRole('alert')).toHaveTextContent(CONTACT_SCENE.copy.errorNetwork);
+    expect(screen.getByLabelText(CONTACT_SCENE.copy.fullName)).toHaveValue('Ana Pérez');
+    expect(screen.getByLabelText(CONTACT_SCENE.copy.email)).toHaveValue('ana@example.com');
+    expect(screen.getByRole('button', { name: CONTACT_SCENE.copy.submit })).toBeEnabled();
+  });
+
+  it('FRM-14 · sin EmailJS el formulario sigue operativo y da error honesto', async () => {
+    const send = vi.fn().mockResolvedValue({ ok: false, reason: 'unconfigured' });
+    render(<ContactForm send={send} />);
+    expect(screen.getByRole('button', { name: CONTACT_SCENE.copy.submit })).toBeEnabled();
+    fillValid();
+    submit();
+    expect(await screen.findByRole('alert')).toHaveTextContent(CONTACT_SCENE.copy.errorNetwork);
+    expect(screen.getByLabelText(CONTACT_SCENE.copy.fullName)).toHaveValue('Ana Pérez');
+    expect(screen.getByRole('button', { name: CONTACT_SCENE.copy.submit })).toBeEnabled();
+  });
+
+  it('FRM-15 · el botón se bloquea y un doble clic no duplica el envío', async () => {
+    let release!: (value: { ok: true }) => void;
+    const send = vi.fn(
+      () =>
+        new Promise<{ ok: true }>((resolve) => {
+          release = resolve;
+        }),
+    );
+    render(<ContactForm send={send} />);
+    fillValid();
+    submit();
+    expect(await screen.findByRole('button', { name: CONTACT_SCENE.copy.sending })).toBeDisabled();
+    submit();
+    submit();
+    expect(send).toHaveBeenCalledTimes(1);
+    release({ ok: true });
+    expect(await screen.findByText(CONTACT_SCENE.copy.success)).toHaveAttribute('role', 'status');
   });
 
   it('FRM-18 · axe sin violaciones bloqueantes', async () => {

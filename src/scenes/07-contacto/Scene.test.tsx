@@ -1,4 +1,4 @@
-import { act, render, renderHook, screen } from '@testing-library/react';
+import { act, fireEvent, render, renderHook, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { afterEach, describe, expect, it } from 'vitest';
 
@@ -6,6 +6,7 @@ import { DISCLAIMER_TEXT } from '@/components/Disclaimer';
 import { PENDING_LABEL } from '@/components/PendingValue';
 import { CONTACT } from '@/content/contact';
 import { formatCurrency } from '@/lib/format';
+import { ScrollTrigger } from '@/motion/gsapSetup';
 import { ACT4 } from '@/scenes/04-marco-legal/content';
 import { SCENARIO_LABELS, VEHICLE_LABELS } from '@/scenes/05-activos-simulador/content';
 import {
@@ -17,6 +18,22 @@ import { CONTACT_SCENE } from '@/scenes/07-contacto/content';
 import { ContactScene } from '@/scenes/07-contacto/Scene';
 import { expectNoBlockingAxeViolations } from '@/test/axe';
 
+const nativeMatchMedia = window.matchMedia.bind(window);
+
+function stubMatchMedia(queryNeedle: string): void {
+  window.matchMedia = (query: string) =>
+    ({
+      matches: query.includes(queryNeedle),
+      media: query,
+      onchange: null,
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
+      addListener: () => undefined,
+      removeListener: () => undefined,
+      dispatchEvent: () => false,
+    }) as MediaQueryList;
+}
+
 function renderScene(path = '/#contacto') {
   return render(
     <MemoryRouter initialEntries={[path]}>
@@ -27,7 +44,9 @@ function renderScene(path = '/#contacto') {
 
 describe('ContactScene', () => {
   afterEach(() => {
+    window.matchMedia = nativeMatchMedia;
     clearSimulatorSession();
+    for (const trigger of ScrollTrigger.getAll()) trigger.kill();
   });
 
   it('FRM-19 · teléfonos y dominio son PendingValue, sin cifras plausibles', () => {
@@ -114,6 +133,28 @@ describe('ContactScene', () => {
     hook.unmount();
   });
 
+  it('FRM-13 · el error conserva valores y el bloque de conversión ofrece contacto', async () => {
+    const { container } = renderScene();
+    fireEvent.change(screen.getByLabelText(CONTACT_SCENE.copy.fullName), {
+      target: { value: 'Ana Pérez' },
+    });
+    fireEvent.change(screen.getByLabelText(CONTACT_SCENE.copy.email), {
+      target: { value: 'ana@example.com' },
+    });
+    fireEvent.change(screen.getByLabelText(CONTACT_SCENE.copy.phoneNational), {
+      target: { value: '612345678' },
+    });
+    fireEvent.change(screen.getByLabelText(CONTACT_SCENE.copy.interest), {
+      target: { value: 'real-estate' },
+    });
+    fireEvent.click(screen.getByRole('checkbox', { name: /He leído y acepto/ }));
+    fireEvent.click(screen.getByRole('button', { name: CONTACT_SCENE.copy.submit }));
+    expect(await screen.findByRole('alert')).toHaveTextContent(CONTACT_SCENE.copy.errorNetwork);
+    expect(screen.getByLabelText(CONTACT_SCENE.copy.fullName)).toHaveValue('Ana Pérez');
+    expect(container.querySelector('[data-conversion] [data-contact-details]')).not.toBeNull();
+    expect(screen.getByRole('button', { name: CONTACT_SCENE.copy.submit })).toBeEnabled();
+  });
+
   it('FRM-20 · el bloque de conversión lleva Disclaimer inline', () => {
     const { container } = renderScene();
     const conversion = container.querySelector('[data-conversion]');
@@ -127,5 +168,26 @@ describe('ContactScene', () => {
   it('axe sin violaciones bloqueantes', async () => {
     const { container } = renderScene();
     await expectNoBlockingAxeViolations(container);
+  });
+
+  it('con movimiento reducido el cierre está visible y no ancla', () => {
+    stubMatchMedia('prefers-reduced-motion');
+    const { container, unmount } = renderScene();
+    expect(screen.getByText(CONTACT_SCENE.title)).toBeInTheDocument();
+    expect(screen.getByText(CONTACT_SCENE.subtitle)).toBeInTheDocument();
+    for (const benefit of CONTACT_SCENE.benefits) {
+      expect(screen.getByText(benefit)).toBeInTheDocument();
+    }
+    expect(container.querySelector('#contacto')).toHaveStyle({ minBlockSize: '100vh' });
+    expect(ScrollTrigger.getAll()).toEqual([]);
+    unmount();
+    expect(ScrollTrigger.getAll()).toEqual([]);
+  });
+
+  it('limpia los ScrollTrigger al desmontar', () => {
+    const { unmount } = renderScene();
+    expect(ScrollTrigger.getAll().length).toBeGreaterThan(0);
+    unmount();
+    expect(ScrollTrigger.getAll()).toEqual([]);
   });
 });

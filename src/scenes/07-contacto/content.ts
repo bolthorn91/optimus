@@ -35,6 +35,10 @@ export const CONTACT_SCENE = {
     consentMarketing: 'Deseo recibir comunicaciones comerciales de OPTIMVS Capital Protegido',
     honeypot: 'Empresa',
     submit: 'Reservar sesión privada',
+    sending: 'Enviando…',
+    success: 'Solicitud recibida. Le responderemos en un plazo de 48 horas laborables.',
+    errorNetwork:
+      'No hemos podido enviar su solicitud. Puede reintentarlo o escribirnos directamente.',
     simulatorContext: 'Se enviará también el escenario que ha configurado',
     rateLimited: 'Ha enviado demasiadas solicitudes. Espere unos minutos antes de reintentar.',
     messageCount: (used: number, max: number) => `${String(used)} / ${String(max)}`,
