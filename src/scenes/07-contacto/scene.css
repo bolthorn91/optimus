@@ -1,0 +1,24 @@
+.act-contact {
+  box-sizing: border-box;
+  min-block-size: 100vh;
+  padding: var(--space-l) var(--space-m);
+}
+
+.act-contact > p,
+.act-contact address {
+  max-inline-size: var(--measure);
+}
+
+.act-contact ul {
+  display: grid;
+  gap: var(--space-s);
+  max-inline-size: var(--measure);
+  margin-block: var(--space-l);
+  padding: 0;
+  list-style: none;
+}
+
+.act-contact li {
+  padding-inline-start: var(--space-s);
+  border-inline-start: 2px solid var(--accent);
+}

@@ -8,12 +8,15 @@ import { Layout } from '@/app/Layout';
 import { milestoneMarks, sectionAt } from '@/app/sections';
 import { Milestone } from '@/components/Milestone';
 import { PENDING_LABEL } from '@/components/PendingValue';
+import { CONTACT } from '@/content/contact';
 import { ScrollTrigger } from '@/motion/gsapSetup';
 import { HERO } from '@/scenes/00-hero/content';
 import { ACT1 } from '@/scenes/01-escenario-europeo/content';
 import { ACT2 } from '@/scenes/02-seguridad-global/content';
 import { ACT3 } from '@/scenes/03-asimetria-territorial/content';
 import { ACT4 } from '@/scenes/04-marco-legal/content';
+import { ACT67 } from '@/scenes/06-firma/content';
+import { CONTACT_SCENE } from '@/scenes/07-contacto/content';
 import { expectNoBlockingAxeViolations } from '@/test/axe';
 
 function Bomb(): ReactNode {
@@ -44,6 +47,34 @@ describe('shell', () => {
     expect(container.textContent).not.toMatch(/\+34/);
     expect(container.textContent).not.toMatch(/\+54/);
     expect(container.textContent).not.toContain('optimvs.cp.com');
+  });
+
+  it('FRM-22 · el footer muestra las dieciséis fuentes con Think Tanks corregido', () => {
+    const { container } = render(<App />);
+    const sources = container.querySelector('[data-sources]');
+    expect(sources).not.toBeNull();
+    expect(CONTACT.sources).toHaveLength(16);
+    expect(CONTACT.sources).toContain('Think Tanks');
+    expect(CONTACT.sources).not.toContain('Think Thanks');
+    for (const source of CONTACT.sources) {
+      expect(sources).toHaveTextContent(source);
+    }
+    expect(container.textContent).not.toContain('Think Thanks');
+  });
+
+  it('FRM-23 · el footer no renderiza iconos de red social sin destino', () => {
+    const { container } = render(<App />);
+    const footer = container.querySelector('footer');
+    expect(footer).not.toBeNull();
+    expect(footer).toHaveTextContent(CONTACT.socials.label);
+    expect(footer).toHaveTextContent(PENDING_LABEL);
+    expect(footer?.querySelector('[data-social]')).toBeNull();
+    expect(
+      footer?.querySelectorAll(
+        'a[href*="instagram"], a[href*="tiktok"], a[href*="facebook"], a[href*="linkedin"]',
+      ),
+    ).toHaveLength(0);
+    expect(screen.queryByRole('link', { name: /instagram|tiktok|facebook|linkedin/i })).toBeNull();
   });
 
   it('muestra el CTA canónico y cinco grupos de navegación', () => {
@@ -115,6 +146,8 @@ describe('shell', () => {
     expect(screen.getByRole('heading', { name: new RegExp(ACT2.title, 'i') })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: new RegExp(ACT3.title, 'i') })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: new RegExp(ACT4.title, 'i') })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: new RegExp(ACT67.title, 'i') })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: CONTACT_SCENE.title })).toBeInTheDocument();
     const seals = container.querySelectorAll('[data-act-seal]');
     expect(seals.length).toBeGreaterThanOrEqual(4);
     expect([...seals].some((seal) => seal.textContent.includes('IV'))).toBe(true);

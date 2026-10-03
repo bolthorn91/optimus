@@ -10,6 +10,8 @@ import { Act2Scene } from '@/scenes/02-seguridad-global/Scene';
 import { Act3Scene } from '@/scenes/03-asimetria-territorial/Scene';
 import { Act4Scene } from '@/scenes/04-marco-legal/Scene';
 import { Act5Scene } from '@/scenes/05-activos-simulador/Scene';
+import { Act67Scene } from '@/scenes/06-firma/Scene';
+import { ContactScene } from '@/scenes/07-contacto/Scene';
 
 const HOME_SCENES: Partial<Record<Section['id'], ComponentType>> = {
   hero: HeroScene,
@@ -18,6 +20,8 @@ const HOME_SCENES: Partial<Record<Section['id'], ComponentType>> = {
   territorio: Act3Scene,
   marco: Act4Scene,
   activos: Act5Scene,
+  firma: Act67Scene,
+  contacto: ContactScene,
 };
 
 function PlaceholderScene({ section }: { section: Section }) {
@@ -36,6 +40,7 @@ export function HomePage() {
   return (
     <>
       {SECTIONS.flatMap((section, index) => {
+        if (section.hostedBy) return [];
         const Slot = HOME_SCENES[section.id];
         const scene = Slot ? (
           <Slot key={section.id} />
@@ -43,7 +48,7 @@ export function HomePage() {
           <PlaceholderScene key={section.id} section={section} />
         );
         const next = SECTIONS[index + 1];
-        if (!next || !isAct(next)) return [scene];
+        if (!next || !isAct(next) || next.hostedBy) return [scene];
         return [
           scene,
           <ActThreshold

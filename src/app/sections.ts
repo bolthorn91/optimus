@@ -27,6 +27,8 @@ export interface Section {
   order: number;
   navGroup: string | null;
   background: SectionBackground;
+  /** Si está, esta fila no monta escena propia: vive dentro de la escena `hostedBy` (C5). */
+  hostedBy?: string;
 }
 
 export type ActSection = Section & { act: number };
@@ -146,6 +148,7 @@ export const SECTIONS: readonly Section[] = [
     order: 7,
     navGroup: 'Nosotros',
     background: navyPair('var(--color-navy-deep)'),
+    hostedBy: 'firma',
   },
   {
     id: 'contacto',

@@ -39,3 +39,13 @@
   inset-block: 20%;
   inset-inline-end: var(--space-s);
 }
+
+footer [data-sources] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-body);
+}

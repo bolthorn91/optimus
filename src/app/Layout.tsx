@@ -10,9 +10,11 @@ import {
   navEntries,
   sectionAt,
 } from '@/app/sections';
+import { ContactDetails } from '@/components/ContactDetails';
 import { Disclaimer } from '@/components/Disclaimer';
 import { Milestone } from '@/components/Milestone';
 import { PendingValue } from '@/components/PendingValue';
+import { CONTACT } from '@/content/contact';
 import { useScrollProgress } from '@/motion/useScrollProgress';
 
 import './shell.css';
@@ -90,20 +92,22 @@ export function Layout() {
           <a href="/detalle">Privacidad</a>
           <a href="/detalle">Cookies</a>
         </nav>
+        <ContactDetails />
         <p>
-          <PendingValue debtId="B-01" label="Teléfono España" />
+          <PendingValue debtId={CONTACT.socials.debtId} label={CONTACT.socials.label} />
         </p>
         <p>
-          <PendingValue debtId="B-01" label="Teléfono Argentina" />
-        </p>
-        <p>
-          <PendingValue debtId="B-02" label="Correo" />
-        </p>
-        <p>
-          <PendingValue debtId="B-07" label="Redes" />
+          <PendingValue debtId={CONTACT.registry.debtId} label={CONTACT.registry.label} />
         </p>
         <p>Todos los derechos reservados.</p>
-        <p>Fuentes</p>
+        <section aria-labelledby="fuentes-heading" id="fuentes">
+          <h2 id="fuentes-heading">Fuentes</h2>
+          <ul data-sources>
+            {CONTACT.sources.map((source) => (
+              <li key={source}>{source}</li>
+            ))}
+          </ul>
+        </section>
         <Disclaimer variant="footer" />
       </footer>
     </>

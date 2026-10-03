@@ -19,6 +19,11 @@ describe('sections', () => {
     expect(SECTIONS.filter(isAct)).toHaveLength(7);
   });
 
+  it('C5 · el acto VII se hospeda en la escena de la firma', () => {
+    const row = SECTIONS.find((section) => section.id === 'asesoramiento');
+    expect(row?.hostedBy).toBe('firma');
+  });
+
   it('sectionAt recorre el manifiesto con el progreso 0→1', () => {
     expect(sectionAt(0).id).toBe('hero');
     expect(sectionAt(1).id).toBe('contacto');
