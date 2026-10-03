@@ -1,17 +1,33 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 
+import { App } from '@/app/App';
 import { DISCLAIMER_TEXT } from '@/components/Disclaimer';
 import { PENDING_LABEL } from '@/components/PendingValue';
 import { formatCurrency, NBSP } from '@/lib/format';
 import { project } from '@/lib/projection';
+import { toRoman } from '@/lib/roman';
 import { ScrollTrigger } from '@/motion/gsapSetup';
+import { ACT1 } from '@/scenes/01-escenario-europeo/content';
+import { ACT2 } from '@/scenes/02-seguridad-global/content';
+import { ACT3 } from '@/scenes/03-asimetria-territorial/content';
+import { ACT4 } from '@/scenes/04-marco-legal/content';
 import { contactHref } from '@/scenes/05-activos-simulador/contactHref';
 import { ACT5 } from '@/scenes/05-activos-simulador/content';
 import { Act5Scene } from '@/scenes/05-activos-simulador/Scene';
+import {
+  clearSimulatorSession,
+  readSimulatorSession,
+} from '@/scenes/05-activos-simulador/simulatorSession';
+import { CAPITAL_MIN } from '@/scenes/05-activos-simulador/sliderBounds';
+import {
+  AUTO_HORIZON_DURATION,
+  AUTO_HORIZON_START,
+  choreographAct5,
+} from '@/scenes/05-activos-simulador/timeline';
 import { DEFAULT_SIMULATOR_INPUT } from '@/scenes/05-activos-simulador/useSimulator';
 import { expectNoBlockingAxeViolations } from '@/test/axe';
 
@@ -43,9 +59,35 @@ function stubNarrowViewport(): void {
     }) as MediaQueryList;
 }
 
+function stubMatchMedia(queryNeedle: string): void {
+  window.matchMedia = (query: string) =>
+    ({
+      matches: query.includes(queryNeedle),
+      media: query,
+      onchange: null,
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
+      addListener: () => undefined,
+      removeListener: () => undefined,
+      dispatchEvent: () => false,
+    }) as MediaQueryList;
+}
+
+function driveAct5(progress: number): void {
+  const trigger = ScrollTrigger.getAll().find((item) => {
+    const node = item.trigger;
+    return node instanceof HTMLElement && node.id === 'activos';
+  });
+  expect(trigger).toBeDefined();
+  act(() => {
+    trigger?.vars.onUpdate?.({ progress } as ScrollTrigger);
+  });
+}
+
 describe('Act5Scene', () => {
   afterEach(() => {
     window.matchMedia = nativeMatchMedia;
+    clearSimulatorSession();
     for (const trigger of ScrollTrigger.getAll()) trigger.kill();
   });
 
@@ -149,6 +191,117 @@ describe('Act5Scene', () => {
       expect(link).toHaveTextContent(ACT5.cta.label);
     }
     const closing = screen.getAllByRole('link', { name: ACT5.cta.label });
-    expect(closing.at(-1)).toHaveAttribute('href', contactHref());
+    expect(closing.at(-1)).toHaveAttribute(
+      'href',
+      contactHref(DEFAULT_SIMULATOR_INPUT.vehicle, DEFAULT_SIMULATOR_INPUT),
+    );
+  });
+
+  it('el anclaje usa 450vh y desmontar deja cero ScrollTrigger', () => {
+    const { unmount } = render(<Act5Scene />);
+    const trigger = ScrollTrigger.getAll().find((item) => {
+      const node = item.trigger;
+      return node instanceof HTMLElement && node.id === 'activos';
+    });
+    expect(trigger).toBeDefined();
+    expect(trigger?.vars.pin).toBe(true);
+    expect(trigger?.vars.end).toBe('+=450vh');
+    unmount();
+    expect(ScrollTrigger.getAll()).toEqual([]);
+  });
+
+  it('al cerrar el tramo automático el horizonte queda en 15 sin tocar el deslizador', () => {
+    const { container } = render(<Act5Scene />);
+    const horizon = container.querySelector('#simulator-horizon');
+    expect(horizon).toBeInstanceOf(HTMLInputElement);
+    if (!(horizon instanceof HTMLInputElement)) return;
+    driveAct5(AUTO_HORIZON_START + AUTO_HORIZON_DURATION);
+    expect(horizon).toHaveAttribute('aria-valuenow', '15');
+    expect(container.querySelector('[data-projection-table] tbody')?.children).toHaveLength(15);
+  });
+
+  it('el horizonte avanza con el scroll y el deslizador toma el control sin salto', () => {
+    const { container } = render(<Act5Scene />);
+    const horizon = container.querySelector('#simulator-horizon');
+    expect(horizon).toBeInstanceOf(HTMLInputElement);
+    if (!(horizon instanceof HTMLInputElement)) return;
+    expect(horizon).toHaveAttribute('aria-valuenow', String(DEFAULT_SIMULATOR_INPUT.years));
+    const midProgress = AUTO_HORIZON_START + AUTO_HORIZON_DURATION / 2;
+    const mid = choreographAct5(midProgress);
+    driveAct5(midProgress);
+    expect(horizon).toHaveAttribute('aria-valuenow', String(mid.yearsFromScroll));
+    expect(container.querySelector('[data-projection-table] tbody')?.children).toHaveLength(
+      mid.yearsFromScroll,
+    );
+    fireEvent.keyDown(horizon, { key: 'ArrowRight' });
+    const taken = mid.yearsFromScroll + 1;
+    expect(horizon).toHaveAttribute('aria-valuenow', String(taken));
+    const stillAuto = AUTO_HORIZON_START + AUTO_HORIZON_DURATION - 0.01;
+    expect(choreographAct5(stillAuto).autoHorizon).toBe(true);
+    expect(choreographAct5(stillAuto).yearsFromScroll).not.toBe(taken);
+    driveAct5(stillAuto);
+    expect(horizon).toHaveAttribute('aria-valuenow', String(taken));
+  });
+
+  it('SIM-16 · con movimiento reducido los deslizadores funcionan y no hay avance automático', () => {
+    stubMatchMedia('prefers-reduced-motion');
+    const { container } = render(<Act5Scene />);
+    expect(ScrollTrigger.getAll()).toEqual([]);
+    const horizon = container.querySelector('#simulator-horizon');
+    const capital = container.querySelector('#simulator-capital');
+    expect(horizon).toBeInstanceOf(HTMLInputElement);
+    expect(capital).toBeInstanceOf(HTMLInputElement);
+    if (!(horizon instanceof HTMLInputElement) || !(capital instanceof HTMLInputElement)) return;
+    expect(horizon).toHaveAttribute('aria-valuenow', String(DEFAULT_SIMULATOR_INPUT.years));
+    expect(container.querySelector('[data-projection-table] tbody')?.children).toHaveLength(
+      DEFAULT_SIMULATOR_INPUT.years,
+    );
+    fireEvent.keyDown(horizon, { key: 'End' });
+    expect(horizon).toHaveAttribute('aria-valuenow', '15');
+    fireEvent.keyDown(capital, { key: 'Home' });
+    expect(capital).toHaveAttribute('aria-valuenow', String(CAPITAL_MIN));
+    expect(container.querySelector('[data-simulator]')).toHaveTextContent(ACT5.copy.simulatorTitle);
+    expect(container.querySelector('[data-assumptions]')).not.toBeNull();
+  });
+
+  it('la sesión en memoria sobrevive al desmontar y no usa localStorage', () => {
+    const { container, unmount } = render(<Act5Scene />);
+    const horizon = container.querySelector('#simulator-horizon');
+    expect(horizon).toBeInstanceOf(HTMLInputElement);
+    if (!(horizon instanceof HTMLInputElement)) return;
+    fireEvent.keyDown(horizon, { key: 'Home' });
+    expect(readSimulatorSession()?.input.years).toBe(1);
+    expect(readSimulatorSession()?.horizonLocked).toBe(true);
+    expect(localStorage.length).toBe(0);
+    unmount();
+    const remount = render(<Act5Scene />);
+    expect(remount.container.querySelector('#simulator-horizon')).toHaveAttribute(
+      'aria-valuenow',
+      '1',
+    );
+    driveAct5(AUTO_HORIZON_START + AUTO_HORIZON_DURATION);
+    expect(remount.container.querySelector('#simulator-horizon')).toHaveAttribute(
+      'aria-valuenow',
+      '1',
+    );
+  });
+
+  it('VEH-08 · los actos I a IV siguen en el DOM con el acto V y el sello del VI', () => {
+    const { container } = render(<App />);
+    expect(screen.getByRole('heading', { name: new RegExp(ACT1.title, 'i') })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: new RegExp(ACT2.title, 'i') })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: new RegExp(ACT3.title, 'i') })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: new RegExp(ACT4.title, 'i') })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: new RegExp(ACT5.title, 'i') })).toBeInTheDocument();
+    const seals = [...container.querySelectorAll('[data-act-seal]')];
+    const numerals = seals.map((seal) => seal.querySelector('[lang="la"]')?.textContent);
+    expect(numerals).toContain(toRoman(5));
+    expect(numerals).toContain(toRoman(6));
+    const sealVi = seals.find(
+      (seal) => seal.querySelector('[lang="la"]')?.textContent === toRoman(6),
+    );
+    expect(sealVi).toBeInstanceOf(HTMLElement);
+    if (!(sealVi instanceof HTMLElement) || !(sealVi.parentElement instanceof HTMLElement)) return;
+    expect(sealVi.parentElement.classList.contains('on-navy')).toBe(false);
   });
 });

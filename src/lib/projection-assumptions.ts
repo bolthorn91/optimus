@@ -14,6 +14,7 @@ export function isVehicle(value: string): value is VehicleId {
 
 export const HORIZON_MIN = 1;
 export const HORIZON_MAX = 15;
+export const HORIZON_DEFAULT = 10;
 
 /**
  * Tasas anuales de revalorización. Son supuestos del implementador, no cifras del dossier (S5).

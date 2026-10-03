@@ -12,6 +12,7 @@ import {
 import { ScrollTrigger } from '@/motion/gsapSetup';
 import { ACT5 } from '@/scenes/05-activos-simulador/content';
 import { Act5Scene } from '@/scenes/05-activos-simulador/Scene';
+import { clearSimulatorSession } from '@/scenes/05-activos-simulador/simulatorSession';
 import { CAPITAL_MAX, CAPITAL_MIN, CAPITAL_STEP } from '@/scenes/05-activos-simulador/sliderBounds';
 import { DEFAULT_SIMULATOR_INPUT } from '@/scenes/05-activos-simulador/useSimulator';
 import { expectNoBlockingAxeViolations } from '@/test/axe';
@@ -22,6 +23,7 @@ const ADVICE = /le conviene|recomendad|rendimiento esperado|rentabilidad garanti
 
 describe('Simulator', () => {
   afterEach(() => {
+    clearSimulatorSession();
     for (const trigger of ScrollTrigger.getAll()) trigger.kill();
   });
 

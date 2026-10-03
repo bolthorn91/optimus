@@ -1,10 +1,15 @@
 import { act, renderHook } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 
 import { project } from '@/lib/projection';
+import { clearSimulatorSession } from '@/scenes/05-activos-simulador/simulatorSession';
 import { DEFAULT_SIMULATOR_INPUT, useSimulator } from '@/scenes/05-activos-simulador/useSimulator';
 
 describe('useSimulator', () => {
+  afterEach(() => {
+    clearSimulatorSession();
+  });
+
   it('arranca en inmobiliario base a 10 años y coincide con project', () => {
     const { result } = renderHook(() => useSimulator());
     expect(result.current.input).toEqual(DEFAULT_SIMULATOR_INPUT);
@@ -65,6 +70,38 @@ describe('useSimulator', () => {
     });
     expect(result.current.input.years).toBe(5);
     expect(result.current.result).toEqual(project({ ...DEFAULT_SIMULATOR_INPUT, years: 5 }));
+  });
+
+  it('setYears con el mismo valor conserva la identidad del input', () => {
+    const { result } = renderHook(() => useSimulator());
+    const first = result.current.input;
+    act(() => {
+      result.current.setYears(DEFAULT_SIMULATOR_INPUT.years);
+      result.current.setCapital(DEFAULT_SIMULATOR_INPUT.capital);
+    });
+    expect(result.current.input).toBe(first);
+  });
+
+  it('syncYears cede cuando el visitante ya tomó el horizonte', () => {
+    const { result, unmount } = renderHook(() => useSimulator());
+    act(() => {
+      result.current.syncYears(12);
+    });
+    expect(result.current.input.years).toBe(12);
+    act(() => {
+      result.current.setYears(8);
+    });
+    act(() => {
+      result.current.syncYears(15);
+    });
+    expect(result.current.input.years).toBe(8);
+    expect(result.current.result).toEqual(project({ ...DEFAULT_SIMULATOR_INPUT, years: 8 }));
+    unmount();
+    const remount = renderHook(() => useSimulator());
+    act(() => {
+      remount.result.current.syncYears(15);
+    });
+    expect(remount.result.current.input.years).toBe(8);
   });
 
   it('setVehicle y setYears sustituyen el input y recalculan', () => {
