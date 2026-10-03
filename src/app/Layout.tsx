@@ -1,6 +1,7 @@
-import { useEffect, useLayoutEffect } from 'react';
-import { Outlet, useLocation } from 'react-router';
+import { useLayoutEffect } from 'react';
+import { Link, Outlet, useLocation } from 'react-router';
 
+import { DocumentHead } from '@/app/DocumentHead';
 import { RouteErrorBoundary } from '@/app/RouteErrorBoundary';
 import {
   applyDocumentPair,
@@ -10,6 +11,7 @@ import {
   navEntries,
   sectionAt,
 } from '@/app/sections';
+import { useScrollRestore } from '@/app/useScrollRestore';
 import { ContactDetails } from '@/components/ContactDetails';
 import { Disclaimer } from '@/components/Disclaimer';
 import { Milestone } from '@/components/Milestone';
@@ -28,29 +30,24 @@ export function Layout() {
   const pair = current?.background ?? DOCUMENT_PAIR_OFF_HOME;
   const currentGroup = current?.navGroup ?? null;
 
-  useEffect(() => {
-    if (location.hash.length > 1) {
-      const id = location.hash.slice(1);
-      const target = document.getElementById(id);
-      if (target) {
-        target.scrollIntoView();
-        return;
-      }
-      if (import.meta.env.DEV) {
-        console.warn(`Ancla inexistente: #${id}`);
-      }
-      return;
-    }
-    window.scrollTo(0, 0);
-  }, [location.pathname, location.hash]);
+  useScrollRestore(location.pathname, location.hash);
 
   useLayoutEffect(() => {
     applyDocumentPair(pair);
     return clearDocumentPair;
   }, [pair]);
 
+  useLayoutEffect(() => {
+    if (isHome) document.body.removeAttribute('data-print');
+    else document.body.setAttribute('data-print', 'document');
+    return () => {
+      document.body.removeAttribute('data-print');
+    };
+  }, [isHome]);
+
   return (
     <>
+      <DocumentHead />
       <a className="skip-link" href="#contenido">
         Saltar al contenido
       </a>
@@ -88,9 +85,9 @@ export function Layout() {
           ))}
         </nav>
         <nav aria-label="Legal">
-          <a href="/detalle">Aviso legal</a>
-          <a href="/detalle">Privacidad</a>
-          <a href="/detalle">Cookies</a>
+          <Link to="/aviso-legal">Aviso legal</Link>
+          <Link to="/politica-de-privacidad">Privacidad</Link>
+          <Link to="/politica-de-cookies">Cookies</Link>
         </nav>
         <ContactDetails />
         <p>

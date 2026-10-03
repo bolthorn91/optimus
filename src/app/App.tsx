@@ -2,8 +2,10 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 
 import { HomePage } from '@/app/HomePage';
 import { Layout } from '@/app/Layout';
-import { PlaceholderDetail } from '@/app/PlaceholderDetail';
+import { ROUTES } from '@/app/routes';
 import { DesignPage } from '@/pages/DesignPage';
+import { DetailPage } from '@/pages/DetailPage';
+import { NotFoundPage } from '@/pages/NotFoundPage';
 
 export function App() {
   return (
@@ -12,7 +14,14 @@ export function App() {
         <Route element={<Layout />} path="/">
           <Route element={<HomePage />} index />
           <Route element={<DesignPage />} path="design" />
-          <Route element={<PlaceholderDetail />} path="detalle" />
+          {ROUTES.filter((route) => route.kind !== 'home').map((route) => (
+            <Route
+              element={<DetailPage route={route} />}
+              key={route.path}
+              path={route.path.replace(/^\//, '')}
+            />
+          ))}
+          <Route element={<NotFoundPage />} path="*" />
         </Route>
       </Routes>
     </BrowserRouter>

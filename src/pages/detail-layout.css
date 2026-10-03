@@ -1,0 +1,133 @@
+.detail {
+  display: grid;
+  gap: var(--space-l);
+  max-width: var(--container);
+  margin-inline: auto;
+  padding: var(--space-xl) var(--space-m) var(--space-2xl);
+}
+
+.detail-header,
+.detail-main,
+.detail-nav {
+  min-width: 0;
+}
+
+.detail-header {
+  display: grid;
+  gap: var(--space-s);
+}
+
+.detail-header h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+}
+
+.detail-main {
+  max-width: var(--measure);
+  animation: detail-in 400ms ease;
+}
+
+.detail-toc {
+  font-size: var(--text-note);
+}
+
+.detail-toc ol {
+  margin: var(--space-s) 0 0;
+  padding-inline-start: 1.2em;
+  display: grid;
+  gap: var(--space-2xs);
+}
+
+.detail-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-m);
+  justify-content: space-between;
+}
+
+.detail-cta {
+  justify-self: start;
+}
+
+.detail-sources ul {
+  margin: var(--space-s) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+}
+
+@keyframes detail-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 64rem) {
+  .detail:has(.detail-toc) {
+    grid-template-columns: 14rem minmax(0, 1fr);
+    grid-template-areas:
+      'toc header'
+      'toc main'
+      'toc sources'
+      'toc nav'
+      'toc cta';
+    align-items: start;
+  }
+
+  .detail-toc {
+    grid-area: toc;
+    position: sticky;
+    inset-block-start: var(--space-xl);
+  }
+
+  .detail:has(.detail-toc) .detail-header {
+    grid-area: header;
+  }
+
+  .detail:has(.detail-toc) .detail-main {
+    grid-area: main;
+  }
+
+  .detail:has(.detail-toc) .detail-sources {
+    grid-area: sources;
+  }
+
+  .detail:has(.detail-toc) .detail-nav {
+    grid-area: nav;
+  }
+
+  .detail:has(.detail-toc) .detail-cta {
+    grid-area: cta;
+  }
+}
+
+@media print {
+  .detail-cta,
+  .detail-nav {
+    display: none;
+  }
+
+  .detail {
+    display: block;
+    max-width: none;
+    padding: 0;
+    color: #000;
+    background: #fff;
+  }
+
+  .detail-main {
+    max-width: none;
+    animation: none;
+  }
+
+  .detail a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+  }
+}
