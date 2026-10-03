@@ -1,6 +1,6 @@
 # Actos VI y VII — La firma, las dos vías, cierre y contacto
 
-**Estado:** especificación canónica (decisiones cerradas 2026-08-17). Pendiente de implementación.
+**Estado:** hecho en branch `main` (2026-10-03). No fusionado.
 **Branch de trabajo:** el HEAD actual del worktree.
 **Perfil de proyecto:** [`agent-docs/goal-profile.md`](../../agent-docs/goal-profile.md) — invariantes §7 aplicables: I1, I2, I3, I4, I5, I6, I7, I8, I9.
 **Roadmap:** [`roadmap.md`](roadmap.md) §2, fila 06.
@@ -449,36 +449,36 @@ error honesto; ninguna clave literal en el bundle.
 
 ### 8.1 La firma y las dos vías
 
-- [ ] El retrato del fundador es un marcador dimensionado, nunca una foto de banco.
-- [ ] La nota de habilitación reproduce el literal y marca el registro como pendiente.
-- [ ] Nada sugiere que exista ya un panel de trazabilidad accesible.
-- [ ] La cadena convencional se traza entera antes que la de OPTIMVS.
-- [ ] La desambiguación de «CDI» como Clave de Identificación es explícita.
-- [ ] Se explicita que OPTIMVS deriva y no ejecuta ni custodia.
-- [ ] Los organismos aparecen solo como texto, sin ningún logotipo.
-- [ ] Los catorce tests FIR-01…FIR-14 existen y pasan.
+- [x] El retrato del fundador es un marcador dimensionado, nunca una foto de banco.
+- [x] La nota de habilitación reproduce el literal y marca el registro como pendiente.
+- [x] Nada sugiere que exista ya un panel de trazabilidad accesible.
+- [x] La cadena convencional se traza entera antes que la de OPTIMVS.
+- [x] La desambiguación de «CDI» como Clave de Identificación es explícita.
+- [x] Se explicita que OPTIMVS deriva y no ejecuta ni custodia.
+- [x] Los organismos aparecen solo como texto, sin ningún logotipo.
+- [x] Los catorce tests FIR-01…FIR-14 existen y pasan.
 
 ### 8.2 Formulario y cierre
 
-- [ ] La validación es pura, cubre los nueve campos y tiene cobertura ≥ 80 %.
-- [ ] Dos casillas de consentimiento, separadas y sin premarcar.
-- [ ] El consentimiento comercial es opcional; el de datos, obligatorio.
-- [ ] El contexto del simulador se muestra al usuario antes de enviarse.
-- [ ] Un envío correcto mueve el foco a la confirmación y la anuncia.
-- [ ] Un fallo conserva lo escrito y ofrece contacto directo.
-- [ ] Sin claves configuradas el formulario sigue operativo y da un error honesto.
-- [ ] Ningún teléfono ni dominio plausible en toda la superficie.
-- [ ] Ninguna clave de EmailJS literal en el bundle.
-- [ ] Los veinticuatro tests FRM-01…FRM-24 existen y pasan.
+- [x] La validación es pura, cubre los nueve campos y tiene cobertura ≥ 80 %.
+- [x] Dos casillas de consentimiento, separadas y sin premarcar.
+- [x] El consentimiento comercial es opcional; el de datos, obligatorio.
+- [x] El contexto del simulador se muestra al usuario antes de enviarse.
+- [x] Un envío correcto mueve el foco a la confirmación y la anuncia.
+- [x] Un fallo conserva lo escrito y ofrece contacto directo.
+- [x] Sin claves configuradas el formulario sigue operativo y da un error honesto.
+- [x] Ningún teléfono ni dominio plausible en toda la superficie.
+- [x] Ninguna clave de EmailJS literal en el bundle.
+- [x] Los veinticuatro tests FRM-01…FRM-24 existen y pasan.
 
 ### 8.3 Global
 
-- [ ] `docs/product/roadmap.md` fila 06 actualizada a «hecho en branch».
-- [ ] Lo no cubierto → filas honestas en `docs/debt/technical-debt.md`.
-- [ ] Se respetan el idioma y la política de comentarios del perfil §1.
-- [ ] No se modificó ninguna zona protegida del perfil §6 sin autorización de C3.
-- [ ] Todos los gates del perfil §5 en verde, ejecutados de verdad.
-- [ ] Ningún invariante del perfil §7 roto en la superficie tocada.
+- [x] `docs/product/roadmap.md` fila 06 actualizada a «hecho en branch».
+- [x] Lo no cubierto → filas honestas en `docs/debt/technical-debt.md`.
+- [x] Se respetan el idioma y la política de comentarios del perfil §1.
+- [x] No se modificó ninguna zona protegida del perfil §6 sin autorización de C3.
+- [x] Todos los gates del perfil §5 en verde, ejecutados de verdad.
+- [x] Ningún invariante del perfil §7 roto en la superficie tocada.
 
 ---
 
@@ -519,22 +519,22 @@ error honesto; ninguna clave literal en el bundle.
 
 ## 11. Casos de prueba mínimos (checklist de revisión)
 
-- [ ] Llego al acto VI y veo quién es la firma y quién la fundó, con la cita del «nuevo Occidente».
-- [ ] Donde iría el retrato hay un marcador claro, no una foto genérica de ejecutivo.
-- [ ] Veo dibujarse la cadena convencional larga y después la de OPTIMVS, corta.
-- [ ] Leo la nota de habilitación y veo marcado que falta el registro concreto.
-- [ ] En el acto VII entiendo que aquí «CDI» significa Clave de Identificación, no el convenio.
-- [ ] Paso por las ocho siglas: cada una tiene su definición accesible.
-- [ ] No veo ningún logotipo de CNMV, CNV, AEAT ni ARCA.
-- [ ] Llego al cierre a pantalla completa con «Reserve su sesión privada».
-- [ ] Relleno el formulario solo con teclado, de principio a fin.
-- [ ] Intento enviar sin marcar el consentimiento de datos: no me deja y me dice por qué.
-- [ ] Marco solo el consentimiento de datos y no el comercial: me deja enviar.
-- [ ] Si he usado el simulador, veo qué escenario se va a enviar con mi solicitud.
-- [ ] Envío: el foco salta a la confirmación y me dice el plazo de respuesta.
-- [ ] Desconecto la red y reintento: conservo todo lo escrito y me ofrecen escribir directamente.
-- [ ] En el footer veo las dieciséis fuentes, con «Think Tanks» bien escrito.
-- [ ] No hay iconos de redes sociales que no lleven a ningún sitio.
+- [x] Llego al acto VI y veo quién es la firma y quién la fundó, con la cita del «nuevo Occidente».
+- [x] Donde iría el retrato hay un marcador claro, no una foto genérica de ejecutivo.
+- [x] Veo dibujarse la cadena convencional larga y después la de OPTIMVS, corta.
+- [x] Leo la nota de habilitación y veo marcado que falta el registro concreto.
+- [x] En el acto VII entiendo que aquí «CDI» significa Clave de Identificación, no el convenio.
+- [x] Paso por las ocho siglas: cada una tiene su definición accesible.
+- [x] No veo ningún logotipo de CNMV, CNV, AEAT ni ARCA.
+- [x] Llego al cierre a pantalla completa con «Reserve su sesión privada».
+- [x] Relleno el formulario solo con teclado, de principio a fin.
+- [x] Intento enviar sin marcar el consentimiento de datos: no me deja y me dice por qué.
+- [x] Marco solo el consentimiento de datos y no el comercial: me deja enviar.
+- [x] Si he usado el simulador, veo qué escenario se va a enviar con mi solicitud.
+- [x] Envío: el foco salta a la confirmación y me dice el plazo de respuesta.
+- [x] Desconecto la red y reintento: conservo todo lo escrito y me ofrecen escribir directamente.
+- [x] En el footer veo las dieciséis fuentes, con «Think Tanks» bien escrito.
+- [x] No hay iconos de redes sociales que no lleven a ningún sitio.
 
 ---
 

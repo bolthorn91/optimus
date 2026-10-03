@@ -87,7 +87,7 @@ export const ACT67: Act67Content = {
     literal:
       'Nuestra operatoria cuenta con la habilitación correspondiente para operar bilateralmente con nuestra firma en Argentina.',
     label: 'Registro y organismo pendientes de confirmación',
-    debtId: 'REG',
+    debtId: 'REG-06',
   },
   accompaniment:
     'Para ello nos desempeñamos como intermediarios directos para que el inversor (desde un comprador a plazos de una propiedad en pozo con una cuota mínima hasta un inversor en acciones de empresas líderes) transfiera su capital de España a Argentina con toda la documentación que requiere la trazabilidad certificada por La Haya, lo que otorga absoluta transparencia al mecanismo que, además está sujeto a un sistema basado, al igual que el español, en el derecho romano. Así le acompañamos durante todo el proceso a través de nuestras tres áreas clave:',
@@ -197,7 +197,7 @@ export const ACT67: Act67Content = {
     },
   ],
   organisations: ['CNMV', 'CNV', 'AEAT', 'ARCA', 'ALyC', 'Apostilla de La Haya'],
-  alliedPending: { label: 'Entidades aliadas', debtId: 'ALLY' },
+  alliedPending: { label: 'Entidades aliadas', debtId: 'ALLY-06' },
   copy: {
     founderHeading: 'Carlos Carbajal, fundador',
     portraitPending: 'Retrato pendiente',

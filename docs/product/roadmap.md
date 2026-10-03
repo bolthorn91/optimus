@@ -14,7 +14,7 @@ ejecuta con `/goal docs/product/<slug>-goal-prompt.md`.
 |-------|-------|
 | Fase del producto | v1 — sitio de captación, objetivo único: reservar sesión de diagnóstico patrimonial |
 | Superficie | Home de scroll continuo (actos I–VII) + páginas de detalle + legales |
-| Estado | Fundación y actos I–V hechos en branch `main`. Escenas 06–08 pendientes. |
+| Estado | Fundación y actos I–VII hechos en branch `main`. Documentos 07–08 pendientes. |
 
 ---
 
@@ -28,7 +28,7 @@ ejecuta con `/goal docs/product/<slug>-goal-prompt.md`.
 | 03 | [`03-acto-iii-asimetria-territorial.md`](03-acto-iii-asimetria-territorial.md) | Acto III: escena satelital día→noche, comparativa territorial y bursátil | hecho en branch |
 | 04 | [`04-acto-iv-marco-legal-garantias.md`](04-acto-iv-marco-legal-garantias.md) | Acto IV: diagrama del CDI, las cuatro garantías, el dato de las 13.243.219 ha | hecho en branch |
 | 05 | [`05-acto-v-activos-simulador.md`](05-acto-v-activos-simulador.md) | Acto V: los tres vehículos de inversión y el simulador de proyección | hecho en branch |
-| 06 | [`06-acto-vi-firma-cierre-contacto.md`](06-acto-vi-firma-cierre-contacto.md) | Actos VI–VII: la firma, las dos vías, cierre y formulario de reserva | pendiente |
+| 06 | [`06-acto-vi-firma-cierre-contacto.md`](06-acto-vi-firma-cierre-contacto.md) | Actos VI–VII: la firma, las dos vías, cierre y formulario de reserva | hecho en branch |
 | 07 | [`07-paginas-detalle.md`](07-paginas-detalle.md) | Páginas de detalle por acto y por vehículo, legales, SEO | pendiente |
 | 08 | [`08-responsive-movil.md`](08-responsive-movil.md) | Adaptación móvil de toda la superficie | pendiente |
 

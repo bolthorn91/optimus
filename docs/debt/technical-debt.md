@@ -26,6 +26,7 @@ registran aquí para que la decisión sea explícita y no un olvido.
 | E2E-03-WEBGL | Como visitante en un dispositivo sin WebGL, recibo el mismo contenido del acto III en forma estática | doc 03 §12.2 | abierto |
 | E2E-04-CDI | Como visitante, recorro el acto IV y veo los cinco pasos del convenio trazarse en orden, terminando en la afirmación de que no se tributa dos veces | doc 04 §12.1 | abierto |
 | E2E-05-SIM | Como visitante, muevo capital, horizonte y escenario, veo el resultado con sus supuestos, y llego al formulario con el vehículo elegido | doc 05 §12.1 | abierto |
+| E2E-06-RESERVE | Como visitante, recorro la home hasta el cierre, relleno el formulario y recibo la confirmación de que mi solicitud se ha enviado | doc 06 §12.1 | abierto |
 
 ---
 
@@ -48,7 +49,7 @@ Bloqueos y decisiones editoriales que el cliente aún no ha cerrado (perfil §7 
 | B-02 | Dominio y correo definitivos: `optimvs.cp.com` parece provisional | doc 06, doc 07 | abierto |
 | B-03 | Mapa de proyección 2050: en el PDF es byte-idéntico al de «actualidad». v1 dibuja un estado derivado (Ártico y EE.UU. en high) marcado como proyección; falta el mapa real del cliente | doc 02 §12.2 | abierto |
 | B-04 | Logotipo vectorial (SVG/AI/EPS) y versiones en negativo y monocromo | doc 00 | abierto |
-| B-05 | Datos registrales de la sociedad española y de la argentina | doc 07 | abierto |
+| B-05 | Datos registrales de la sociedad española y de la argentina | doc 06 §12.2, doc 07 | abierto |
 | B-06 | Retrato profesional de Carlos Carbajal | doc 06 | abierto |
 | B-07 | URLs de los perfiles de Instagram, TikTok, Facebook y LinkedIn | doc 06 | abierto |
 | E-02 | Redacción correcta de la frase incompleta en la conclusión del acto III. Se reproduce literal por I1; falta una conjunción o un verbo | doc 03 §12.3 | abierto |
@@ -56,9 +57,12 @@ Bloqueos y decisiones editoriales que el cliente aún no ha cerrado (perfil §7 
 | E-07 | Decisión sobre el apartado de modificación climática: se reproduce literal por I1. Cliente: mantener con fuente, reformular o suprimir | doc 02 §12.3 | abierto |
 | E-08 | Tiempo verbal de las normas europeas aún en tramitación (Chat Control, Euro Digital). Reproducido literal (I1); la corrección es decisión editorial del cliente | doc 01 §12.3 / `content/08-notas-editoriales.md` E-08 | abierto |
 | VIS-01 | El cliente pidió iconografía literal de amenaza (E2); v1 implementa la variante abstracta y cartográfica (E1). Falta confirmación del cliente | doc 01 §2.5 / §12.2 | abierto |
-| — | Nombre publicable de las entidades ALyC y ESI/agencia aliadas | doc 06 | abierto |
+| ALLY-06 | Nombre publicable de las entidades ALyC y ESI/agencia aliadas. Nombrarlas convertiría el acto VII en el mayor generador de confianza del sitio | doc 06 §12.5 / S6 | abierto |
+| REG-06 | El dossier invoca «la habilitación correspondiente» sin especificar cuál ni ante qué organismo. El sitio reproduce el literal y marca el registro como pendiente | doc 06 §12.6 / F5 | abierto |
 | MAP-LIC-02 | Verificar que la clasificación de riesgo por región no reproduce un producto con licencia de ACLED, Global Guardian o Crisis24. Los SVG se redibujaron desde cero (F1) | doc 02 §12.4 | abierto |
 | SAT-LIC-03 | La textura nocturna deriva de `p09-X36.png`, de estética compatible con *Earth at Night* de la NASA. Verificar procedencia y forma de atribución antes de publicar. Sin logotipo de la NASA (I6) | doc 03 §12.4 | abierto |
+| RGPD-CONSENT | Sin backend no hay prueba del consentimiento (fecha, hora y texto exacto). EmailJS entrega el mensaje pero no constituye un registro fiable. Carencia real de cumplimiento | doc 06 §12.3 / §5 | abierto |
+| ANTISPAM-06 | Honeypot y límite de frecuencia en cliente son disuasorios, no protección. Sin backend no hay forma de validar el origen del envío | doc 06 §12.4 / §3.6 | abierto |
 | E-04 | Matización de siete afirmaciones absolutas del acto IV («garantizando máxima seguridad jurídica», «elimina de raíz», «jamás se tributen dos veces», etc.). Se reproduce el literal por I1; la matización requiere la asesoría legal del cliente | doc 04 §12.2 / E4 | abierto |
 | PHOTO-04 | Fotografía profesional con licencia para el acto IV. `p11-X43.png` (Obelisco) se descarta por calidad (G2); no se usa | doc 04 §12.3 / G2 | abierto |
 | DET-04 | Página de detalle del marco fiscal: créditos, topes de retención, acreditación ante la AEAT, desinversión | doc 04 §12.4 · doc 07 | abierto |
