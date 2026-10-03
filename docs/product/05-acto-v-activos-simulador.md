@@ -1,6 +1,6 @@
 # Acto V — Los activos y el simulador de proyección
 
-**Estado:** especificación canónica (decisiones cerradas 2026-08-17). Pendiente de implementación.
+**Estado:** hecho en branch `main` (2026-10-03). No fusionado.
 **Branch de trabajo:** el HEAD actual del worktree.
 **Perfil de proyecto:** [`agent-docs/goal-profile.md`](../../agent-docs/goal-profile.md) — invariantes §7 aplicables: I1, I3, I4, I5, I7, I9.
 **Roadmap:** [`roadmap.md`](roadmap.md) §2, fila 05.
@@ -457,34 +457,34 @@ umbral, sin exclusiones añadidas.
 
 ### 8.1 Motor de proyección
 
-- [ ] `project` es determinista y sin aleatoriedad.
-- [ ] Rechaza toda entrada inválida con `RangeError`, sin confiar en la interfaz.
-- [ ] La renta se calcula sobre el capital inicial y así se documenta al usuario.
-- [ ] `gain` cuadra con `value − capital` en todos los años.
-- [ ] Todos los valores están redondeados a dos decimales.
-- [ ] Cobertura de `src/lib/projection.ts` ≥ 80 % en las cuatro métricas.
+- [x] `project` es determinista y sin aleatoriedad.
+- [x] Rechaza toda entrada inválida con `RangeError`, sin confiar en la interfaz.
+- [x] La renta se calcula sobre el capital inicial y así se documenta al usuario.
+- [x] `gain` cuadra con `value − capital` en todos los años.
+- [x] Todos los valores están redondeados a dos decimales.
+- [x] Cobertura de `src/lib/projection.ts` ≥ 80 % en las cuatro métricas.
 
 ### 8.2 Simulador y vehículos
 
-- [ ] Tres entradas y no más: capital, horizonte y escenario.
-- [ ] Los supuestos aplicados se muestran siempre junto al resultado.
-- [ ] El disclaimer en línea está adherido al resultado, no en el pie.
-- [ ] El resultado se rotula como escenario ilustrativo.
-- [ ] La tabla año a año está en el DOM con los mismos valores que el gráfico.
-- [ ] Todos los controles son operables con teclado, con roles y valores ARIA correctos.
-- [ ] No se pide ningún dato personal ni se recomienda ningún vehículo.
-- [ ] Los tres vehículos son literales y «al pozo» lleva glosa.
-- [ ] No aparece ninguna cifra de importe mínimo de inversión.
-- [ ] Los veinte tests SIM-01…SIM-20 y los ocho VEH-01…VEH-08 existen y pasan.
+- [x] Tres entradas y no más: capital, horizonte y escenario.
+- [x] Los supuestos aplicados se muestran siempre junto al resultado.
+- [x] El disclaimer en línea está adherido al resultado, no en el pie.
+- [x] El resultado se rotula como escenario ilustrativo.
+- [x] La tabla año a año está en el DOM con los mismos valores que el gráfico.
+- [x] Todos los controles son operables con teclado, con roles y valores ARIA correctos.
+- [x] No se pide ningún dato personal ni se recomienda ningún vehículo.
+- [x] Los tres vehículos son literales y «al pozo» lleva glosa.
+- [x] No aparece ninguna cifra de importe mínimo de inversión.
+- [x] Los veinte tests SIM-01…SIM-20 y los ocho VEH-01…VEH-08 existen y pasan.
 
 ### 8.3 Global
 
-- [ ] `docs/product/roadmap.md` fila 05 actualizada a «hecho en branch».
-- [ ] Lo no cubierto → filas honestas en `docs/debt/technical-debt.md`.
-- [ ] Se respetan el idioma y la política de comentarios del perfil §1.
-- [ ] No se modificó ninguna zona protegida del perfil §6 sin autorización de C3.
-- [ ] Todos los gates del perfil §5 en verde, ejecutados de verdad.
-- [ ] Ningún invariante del perfil §7 roto en la superficie tocada.
+- [x] `docs/product/roadmap.md` fila 05 actualizada a «hecho en branch».
+- [x] Lo no cubierto → filas honestas en `docs/debt/technical-debt.md`.
+- [x] Se respetan el idioma y la política de comentarios del perfil §1.
+- [x] No se modificó ninguna zona protegida del perfil §6 sin autorización de C3.
+- [x] Todos los gates del perfil §5 en verde, ejecutados de verdad.
+- [x] Ningún invariante del perfil §7 roto en la superficie tocada.
 
 ---
 

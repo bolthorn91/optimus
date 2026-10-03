@@ -25,6 +25,7 @@ registran aquí para que la decisión sea explícita y no un olvido.
 | E2E-03-ACT3 | Como visitante, recorro el acto III y veo caer la noche sobre ambos países mientras los contadores cierran en sus valores reales | doc 03 §12.1 | abierto |
 | E2E-03-WEBGL | Como visitante en un dispositivo sin WebGL, recibo el mismo contenido del acto III en forma estática | doc 03 §12.2 | abierto |
 | E2E-04-CDI | Como visitante, recorro el acto IV y veo los cinco pasos del convenio trazarse en orden, terminando en la afirmación de que no se tributa dos veces | doc 04 §12.1 | abierto |
+| E2E-05-SIM | Como visitante, muevo capital, horizonte y escenario, veo el resultado con sus supuestos, y llego al formulario con el vehículo elegido | doc 05 §12.1 | abierto |
 
 ---
 
@@ -61,6 +62,8 @@ Bloqueos y decisiones editoriales que el cliente aún no ha cerrado (perfil §7 
 | E-04 | Matización de siete afirmaciones absolutas del acto IV («garantizando máxima seguridad jurídica», «elimina de raíz», «jamás se tributen dos veces», etc.). Se reproduce el literal por I1; la matización requiere la asesoría legal del cliente | doc 04 §12.2 / E4 | abierto |
 | PHOTO-04 | Fotografía profesional con licencia para el acto IV. `p11-X43.png` (Obelisco) se descarta por calidad (G2); no se usa | doc 04 §12.3 / G2 | abierto |
 | DET-04 | Página de detalle del marco fiscal: créditos, topes de retención, acreditación ante la AEAT, desinversión | doc 04 §12.4 · doc 07 | abierto |
+| SIM-RATES | Las tasas de `src/lib/projection-assumptions.ts` son supuestos del implementador, declarados como tales. Requieren validación del cliente y revisión de su asesoría legal antes de publicar | doc 05 §12.3 / S5 | abierto |
+| TAX-CDI | El acto IV explica el CDI y el acto V proyecta valores brutos; el efecto fiscal no entra en la proyección porque exigiría datos personales | doc 05 §12.4 / §9 | abierto |
 
 ---
 
