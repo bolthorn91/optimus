@@ -9,6 +9,7 @@ import { Act1Scene } from '@/scenes/01-escenario-europeo/Scene';
 import { Act2Scene } from '@/scenes/02-seguridad-global/Scene';
 import { Act3Scene } from '@/scenes/03-asimetria-territorial/Scene';
 import { Act4Scene } from '@/scenes/04-marco-legal/Scene';
+import { Act5Scene } from '@/scenes/05-activos-simulador/Scene';
 
 const HOME_SCENES: Partial<Record<Section['id'], ComponentType>> = {
   hero: HeroScene,
@@ -16,6 +17,7 @@ const HOME_SCENES: Partial<Record<Section['id'], ComponentType>> = {
   seguridad: Act2Scene,
   territorio: Act3Scene,
   marco: Act4Scene,
+  activos: Act5Scene,
 };
 
 function PlaceholderScene({ section }: { section: Section }) {
