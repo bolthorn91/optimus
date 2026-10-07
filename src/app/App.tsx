@@ -2,11 +2,12 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 
 import { HomePage } from '@/app/HomePage';
 import { Layout } from '@/app/Layout';
-import { isActRoute, ROUTES, type RouteEntry } from '@/app/routes';
+import { isActRoute, isVehicleRoute, ROUTES, type RouteEntry } from '@/app/routes';
 import { ActDetailPage } from '@/pages/ActDetailPage';
 import { DesignPage } from '@/pages/DesignPage';
 import { DetailPage } from '@/pages/DetailPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
+import { VehicleDetailPage } from '@/pages/VehicleDetailPage';
 
 function elementFor(route: RouteEntry) {
   switch (route.kind) {
@@ -14,6 +15,8 @@ function elementFor(route: RouteEntry) {
       if (!isActRoute(route)) throw new Error(`Ruta de acto sin número: ${route.path}`);
       return <ActDetailPage actNumber={route.actNumber} />;
     case 'vehicle':
+      if (!isVehicleRoute(route)) throw new Error(`Ruta de vehículo sin id: ${route.path}`);
+      return <VehicleDetailPage vehicleId={route.vehicleId} />;
     case 'legal':
       return <DetailPage route={route} />;
     case 'home':

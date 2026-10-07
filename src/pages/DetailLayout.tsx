@@ -17,6 +17,7 @@ export interface DetailLayoutProps {
   actNumber?: ActNumber;
   prev?: RouteNav;
   next?: RouteNav;
+  ctaTo?: string;
 }
 
 export function DetailLayout({
@@ -27,6 +28,7 @@ export function DetailLayout({
   actNumber,
   prev,
   next,
+  ctaTo = '/#contacto',
 }: DetailLayoutProps) {
   return (
     <article className="detail">
@@ -63,7 +65,7 @@ export function DetailLayout({
         </nav>
       ) : null}
       <p className="detail-cta">
-        <Link className="cta" to="/#contacto">
+        <Link className="cta" to={ctaTo}>
           {DETAIL_COPY.cta}
         </Link>
       </p>

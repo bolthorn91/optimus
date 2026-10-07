@@ -1,3 +1,5 @@
+import type { VehicleId } from '@/lib/projection-assumptions';
+
 export type RouteKind = 'home' | 'act' | 'vehicle' | 'legal';
 
 export type ActNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7;
@@ -11,6 +13,7 @@ export interface RouteEntry {
   priority: number;
   hasPendingData: boolean;
   actNumber?: ActNumber;
+  vehicleId?: VehicleId;
 }
 
 export interface RouteNav {
@@ -110,6 +113,7 @@ export const ROUTES: readonly RouteEntry[] = [
   {
     path: '/activos/bienes-raices',
     kind: 'vehicle',
+    vehicleId: 'real-estate',
     title: 'Bienes raíces / inmuebles',
     description:
       'Ubicaciones prime con precios por metro cuadrado históricamente bajos respecto a Europa. Mercado cotizado y transaccionado en USD.',
@@ -120,6 +124,7 @@ export const ROUTES: readonly RouteEntry[] = [
   {
     path: '/activos/acciones-y-titulos',
     kind: 'vehicle',
+    vehicleId: 'equities',
     title: 'Acciones y títulos locales',
     description:
       'Empresas del sector energético, agroindustrial y tecnológico liderando la recuperación económica. Entrada en punto de inflexión.',
@@ -130,6 +135,7 @@ export const ROUTES: readonly RouteEntry[] = [
   {
     path: '/activos/proyectos-al-pozo',
     kind: 'vehicle',
+    vehicleId: 'development',
     title: 'Proyectos de desarrollo (al pozo)',
     description:
       'Ingreso directo en etapas tempranas de desarrollo urbano y residencial con estructura jurídico-fiscal optimizada (fideicomisos).',
@@ -194,6 +200,23 @@ export function actRoute(
   const route = routes.find((entry) => isActRoute(entry) && entry.actNumber === actNumber);
   if (!route || !isActRoute(route)) {
     throw new Error(`El manifiesto no declara el acto ${String(actNumber)}`);
+  }
+  return route;
+}
+
+export function isVehicleRoute(
+  route: RouteEntry,
+): route is RouteEntry & { kind: 'vehicle'; vehicleId: VehicleId } {
+  return route.kind === 'vehicle' && route.vehicleId !== undefined;
+}
+
+export function vehicleRoute(
+  vehicleId: VehicleId,
+  routes: readonly RouteEntry[] = ROUTES,
+): RouteEntry & { kind: 'vehicle'; vehicleId: VehicleId } {
+  const route = routes.find((entry) => isVehicleRoute(entry) && entry.vehicleId === vehicleId);
+  if (!route || !isVehicleRoute(route)) {
+    throw new Error(`El manifiesto no declara el vehículo ${vehicleId}`);
   }
   return route;
 }

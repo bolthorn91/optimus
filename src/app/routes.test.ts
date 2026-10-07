@@ -1,6 +1,15 @@
 import { describe, expect, it } from 'vitest';
 
-import { actRoute, adjacentActs, homeRoute, isActRoute, ROUTES, routeByPath } from '@/app/routes';
+import {
+  actRoute,
+  adjacentActs,
+  homeRoute,
+  isActRoute,
+  isVehicleRoute,
+  ROUTES,
+  routeByPath,
+  vehicleRoute,
+} from '@/app/routes';
 
 describe('manifiesto de rutas', () => {
   it('declara la home, siete actos, tres vehículos y tres legales', () => {
@@ -39,5 +48,14 @@ describe('manifiesto de rutas', () => {
   it('routeByPath no inventa una entrada', () => {
     expect(routeByPath('/no-existe')).toBeUndefined();
     expect(routeByPath('/aviso-legal')?.kind).toBe('legal');
+  });
+
+  it('S1 · las rutas de vehículo declaran el id canónico', () => {
+    expect(ROUTES.filter(isVehicleRoute).map((route) => [route.path, route.vehicleId])).toEqual([
+      ['/activos/bienes-raices', 'real-estate'],
+      ['/activos/acciones-y-titulos', 'equities'],
+      ['/activos/proyectos-al-pozo', 'development'],
+    ]);
+    expect(vehicleRoute('equities').path).toBe('/activos/acciones-y-titulos');
   });
 });
