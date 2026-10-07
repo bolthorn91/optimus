@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { adjacentActs, homeRoute, isActRoute, ROUTES, routeByPath } from '@/app/routes';
+import { actRoute, adjacentActs, homeRoute, isActRoute, ROUTES, routeByPath } from '@/app/routes';
 
 describe('manifiesto de rutas', () => {
   it('declara la home, siete actos, tres vehículos y tres legales', () => {
@@ -22,6 +22,11 @@ describe('manifiesto de rutas', () => {
       '/estructura-operativa',
       '/asesoramiento-intermediacion',
     ]);
+  });
+
+  it('actRoute resuelve el manifiesto por número de acto', () => {
+    expect(actRoute(1).path).toBe('/escenario-europeo');
+    expect(actRoute(7).path).toBe('/asesoramiento-intermediacion');
   });
 
   it('adjacentActs recorre el acto anterior y el siguiente', () => {

@@ -187,6 +187,17 @@ export function isActRoute(
   return route.kind === 'act' && route.actNumber !== undefined;
 }
 
+export function actRoute(
+  actNumber: ActNumber,
+  routes: readonly RouteEntry[] = ROUTES,
+): RouteEntry & { kind: 'act'; actNumber: ActNumber } {
+  const route = routes.find((entry) => isActRoute(entry) && entry.actNumber === actNumber);
+  if (!route || !isActRoute(route)) {
+    throw new Error(`El manifiesto no declara el acto ${String(actNumber)}`);
+  }
+  return route;
+}
+
 export function adjacentActs(
   actNumber: ActNumber,
   routes: readonly RouteEntry[] = ROUTES,

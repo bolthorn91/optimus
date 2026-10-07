@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { CountUp } from '@/components/CountUp';
 import { PullQuote } from '@/components/PullQuote';
+import { RiskTable } from '@/components/RiskTable';
 import { RomanNumeral } from '@/components/RomanNumeral';
 import { formatNumber } from '@/lib/format';
 import { gsap } from '@/motion/gsapSetup';
@@ -14,7 +15,6 @@ import { PeriodSelector } from '@/scenes/02-seguridad-global/PeriodSelector';
 import type { PeriodIndex } from '@/scenes/02-seguridad-global/risk-data';
 import { RiskLegend } from '@/scenes/02-seguridad-global/RiskLegend';
 import { RiskMap } from '@/scenes/02-seguridad-global/RiskMap';
-import { RiskTable } from '@/scenes/02-seguridad-global/RiskTable';
 import {
   choreographAct2,
   crossfade,

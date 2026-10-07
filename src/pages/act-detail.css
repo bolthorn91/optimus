@@ -1,0 +1,46 @@
+.detail-prose {
+  display: grid;
+  gap: var(--space-l);
+}
+
+.detail-prose section {
+  display: grid;
+  gap: var(--space-m);
+}
+
+.detail-prose h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+}
+
+.detail-prose h3 {
+  font-size: var(--text-h4);
+}
+
+.detail-prose table {
+  border-collapse: collapse;
+  inline-size: 100%;
+  font-size: var(--text-note);
+}
+
+.detail-prose caption {
+  text-align: start;
+  margin-block-end: var(--space-s);
+  font-weight: 600;
+}
+
+.detail-prose th,
+.detail-prose td {
+  border: 1px solid var(--rule);
+  padding: var(--space-xs) var(--space-s);
+  text-align: start;
+}
+
+.detail-prose dl {
+  display: grid;
+  gap: var(--space-s);
+}
+
+.detail-prose dt {
+  font-weight: 600;
+}

@@ -1,15 +1,26 @@
-import type {
-  RiskLevelMeta,
-  RiskPeriod,
-  RiskRegionMeta,
-} from '@/scenes/02-seguridad-global/risk-data';
-
-import './scene.css';
+import './risk-table.css';
 
 export interface RiskTableCopy {
   caption: string;
   regionHeader: string;
   projectionNote: string;
+}
+
+export interface RiskTablePeriod {
+  id: string;
+  shortLabel: string;
+  isProjection?: boolean;
+  regions: Readonly<Record<string, string | undefined>>;
+}
+
+export interface RiskTableRegion {
+  id: string;
+  label: string;
+}
+
+export interface RiskTableLevel {
+  id: string;
+  label: string;
 }
 
 export function RiskTable({
@@ -18,9 +29,9 @@ export function RiskTable({
   levels,
   copy,
 }: {
-  periods: readonly RiskPeriod[];
-  regions: readonly RiskRegionMeta[];
-  levels: readonly RiskLevelMeta[];
+  periods: readonly RiskTablePeriod[];
+  regions: readonly RiskTableRegion[];
+  levels: readonly RiskTableLevel[];
   copy: RiskTableCopy;
 }) {
   return (

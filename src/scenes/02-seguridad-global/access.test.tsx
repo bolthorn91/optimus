@@ -5,6 +5,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 import { RISK_PATTERN_KIND } from '@/components/RiskPattern';
+import { RiskTable } from '@/components/RiskTable';
 import { AA_NON_TEXT, contrastRatio } from '@/lib/contrast';
 import { PALETTE, RISK_SCALE } from '@/lib/tokens';
 import {
@@ -15,7 +16,6 @@ import {
   riskLevel,
 } from '@/scenes/02-seguridad-global/risk-data';
 import { RiskLegend } from '@/scenes/02-seguridad-global/RiskLegend';
-import { RiskTable } from '@/scenes/02-seguridad-global/RiskTable';
 import { WORLD_BASE_SVG as WORLD } from '@/scenes/02-seguridad-global/worldLand';
 
 const CANON = readFileSync(

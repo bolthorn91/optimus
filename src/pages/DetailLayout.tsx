@@ -30,7 +30,6 @@ export function DetailLayout({
 }: DetailLayoutProps) {
   return (
     <article className="detail">
-      <TableOfContents entries={toc} />
       <header className="detail-header">
         <p>
           <Link to="/">{DETAIL_COPY.backToHome}</Link>
@@ -44,6 +43,7 @@ export function DetailLayout({
           {title}
         </h1>
       </header>
+      <TableOfContents entries={toc} />
       <div className="detail-main">{children}</div>
       <SourceList sources={sources} />
       {prev || next ? (

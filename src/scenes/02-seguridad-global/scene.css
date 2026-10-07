@@ -131,29 +131,3 @@
   flex: none;
   color: var(--color-navy-deep);
 }
-
-.risk-table {
-  border-collapse: collapse;
-  inline-size: 100%;
-  font-size: var(--text-note);
-}
-
-.risk-table caption {
-  text-align: start;
-  margin-block-end: var(--space-s);
-  font-weight: 600;
-}
-
-.risk-table th,
-.risk-table td {
-  border: 1px solid var(--rule);
-  padding: var(--space-xs) var(--space-s);
-  text-align: start;
-}
-
-.risk-table__projection {
-  display: block;
-  font-weight: 400;
-  font-size: var(--text-note);
-  color: var(--ink-muted);
-}
