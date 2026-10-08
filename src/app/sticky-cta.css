@@ -1,0 +1,29 @@
+.sticky-cta {
+  position: fixed;
+  inset-block-end: 0;
+  inset-inline: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: var(--touch-min);
+  padding: var(--space-s);
+  background: var(--accent);
+  color: var(--color-navy-deep);
+  text-align: center;
+  text-decoration: none;
+}
+
+body:has([data-sticky-cta]) {
+  padding-block-end: var(--touch-min);
+  scroll-padding-block-end: var(--touch-min);
+}
+
+@media print {
+  body[data-print='document'] .sticky-cta,
+  body[data-print='document'] .progress-bar,
+  body[data-print='document'] .mobile-nav,
+  body[data-print='document'] .menu-toggle {
+    display: none;
+  }
+}

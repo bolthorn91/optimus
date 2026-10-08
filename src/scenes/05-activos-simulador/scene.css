@@ -1,6 +1,6 @@
 .act5 {
   box-sizing: border-box;
-  min-block-size: 100vh;
+  min-block-size: 100svh;
   padding: var(--space-l) var(--space-m);
   color: var(--color-navy-ink);
 }
@@ -91,6 +91,12 @@
   margin: 0;
   color: var(--ink-muted);
   font-size: var(--text-note);
+}
+
+[data-pozo-gloss] summary {
+  min-inline-size: var(--touch-min);
+  min-block-size: var(--touch-min);
+  cursor: pointer;
 }
 
 [data-simulator] {

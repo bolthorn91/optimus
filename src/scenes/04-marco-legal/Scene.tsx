@@ -19,7 +19,7 @@ import { choreographAct4, progressForStep, type Act4State } from '@/scenes/04-ma
 
 import './scene.css';
 
-const HEIGHT = '100vh';
+const HEIGHT = '100svh';
 const PIN_END = '+=450vh';
 const SCENE_BACKGROUND =
   'color-mix(in srgb, var(--color-navy-deep) calc((1 - var(--surface-mix, 0)) * 100%), var(--color-ivory) calc(var(--surface-mix, 0) * 100%))';

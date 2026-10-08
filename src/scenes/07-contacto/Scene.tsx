@@ -22,7 +22,7 @@ import { choreographActContact, type ActContactState } from '@/scenes/07-contact
 
 import './scene.css';
 
-const HEIGHT = '100vh';
+const HEIGHT = '100svh';
 
 const GUARANTEES = toGuaranteeCardItems(ACT4.guarantees.pillars);
 

@@ -127,9 +127,8 @@ describe('Act5Scene', () => {
     const { container } = render(<Act5Scene />);
     const card = container.querySelector('[data-vehicle="development"]');
     const gloss = card?.querySelector('[data-pozo-gloss]');
+    expect(card?.querySelector('summary')).toHaveTextContent(ACT5.copy.pozoTerm);
     expect(gloss).toHaveTextContent(ACT5.copy.pozoGloss);
-    expect(card?.querySelector('abbr')).toHaveAttribute('title', ACT5.copy.pozoGloss);
-    expect(card?.querySelector('abbr')).toHaveTextContent(ACT5.copy.pozoTerm);
     expect(ACT5.vehicles[2].glossary).toBe(ACT5.copy.pozoGloss);
   });
 

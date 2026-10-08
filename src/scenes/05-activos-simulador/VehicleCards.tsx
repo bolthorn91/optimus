@@ -64,9 +64,10 @@ export function VehicleCards({
               </div>
             </dl>
             {vehicle.glossary ? (
-              <p data-pozo-gloss>
-                <abbr title={vehicle.glossary}>{ACT5.copy.pozoTerm}</abbr>: {vehicle.glossary}
-              </p>
+              <details data-pozo-gloss>
+                <summary>{ACT5.copy.pozoTerm}</summary>
+                {vehicle.glossary}
+              </details>
             ) : null}
             <a data-track="cta" data-track-position="vehicle" href={contactHref(vehicle.id)}>
               {ACT5.cta.label}

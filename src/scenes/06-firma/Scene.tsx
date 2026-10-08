@@ -17,7 +17,7 @@ import { choreographAct67, PIN_END, type Act67State } from '@/scenes/06-firma/ti
 
 import './scene.css';
 
-const HEIGHT = '100vh';
+const HEIGHT = '100svh';
 
 type Act67View = Pick<
   Act67State,

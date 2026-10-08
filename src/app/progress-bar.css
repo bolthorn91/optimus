@@ -1,0 +1,30 @@
+.progress-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  flex: 1;
+  min-block-size: var(--touch-min);
+  padding-inline: var(--space-s);
+}
+
+.progress-bar__track {
+  display: block;
+  flex: 1;
+  block-size: 2px;
+  background: color-mix(in srgb, var(--doc-ink) 25%, transparent);
+}
+
+.progress-bar__fill {
+  display: block;
+  block-size: 2px;
+  background: var(--accent);
+}
+
+.progress-bar__act {
+  min-inline-size: var(--touch-min);
+  min-block-size: var(--touch-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+}

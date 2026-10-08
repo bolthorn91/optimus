@@ -94,6 +94,9 @@
   /* Puntos de ruptura, para que el documento 08 no los reinvente */
   --bp-tablet: 48rem;
   --bp-desktop: 64rem;
+
+  /* Área táctil mínima (doc 08 F7) */
+  --touch-min: 44px;
 }
 
 /*

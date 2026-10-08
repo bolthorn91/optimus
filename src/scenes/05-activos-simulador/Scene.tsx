@@ -16,7 +16,7 @@ import { VehicleCards } from '@/scenes/05-activos-simulador/VehicleCards';
 
 import './scene.css';
 
-const HEIGHT = '100vh';
+const HEIGHT = '100svh';
 const PIN_END = '+=450vh';
 
 export function Act5Scene() {

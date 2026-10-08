@@ -26,6 +26,7 @@ const CANON = readFileSync(
 const TABLES = readFileSync(resolve(process.cwd(), 'content/03-datos-y-tablas.md'), 'utf8');
 const FIGURE = visible(formatArea(ACT4.anchorStat.hectares, 'ha'));
 const nativeMatchMedia = window.matchMedia.bind(window);
+const nativeWidth = window.innerWidth;
 
 function stubMatchMedia(queryNeedle: string): void {
   window.matchMedia = (query: string) =>
@@ -44,6 +45,7 @@ function stubMatchMedia(queryNeedle: string): void {
 describe('Act4Scene', () => {
   afterEach(() => {
     window.matchMedia = nativeMatchMedia;
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: nativeWidth });
     for (const trigger of ScrollTrigger.getAll()) trigger.kill();
   });
   it('monta la entradilla, los factores y el CTA', () => {
@@ -93,7 +95,8 @@ describe('Act4Scene', () => {
   });
 
   it('en viewport estrecho el diagrama refluye a vertical y conserva el texto real', () => {
-    stubMatchMedia('max-width: 47.99rem');
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 375 });
+    window.dispatchEvent(new Event('resize'));
     const { container } = render(<Act4Scene />);
     const svg = container.querySelector('[data-process-diagram]');
     expect(svg).toHaveAttribute('data-orientation', 'vertical');

@@ -26,7 +26,12 @@ const HOME_SCENES: Partial<Record<Section['id'], ComponentType>> = {
 
 function PlaceholderScene({ section }: { section: Section }) {
   return (
-    <Scene act={section.act} background={section.background.surface} height="100vh" id={section.id}>
+    <Scene
+      act={section.act}
+      background={section.background.surface}
+      height="100svh"
+      id={section.id}
+    >
       <h2>
         {section.act === null ? null : <RomanNumeral decorative value={section.act} />}{' '}
         {section.label}

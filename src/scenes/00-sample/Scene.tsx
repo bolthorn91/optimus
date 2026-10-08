@@ -8,7 +8,7 @@ import { choreograph } from '@/scenes/00-sample/timeline';
 
 import './scene.css';
 
-const HEIGHT = '100vh';
+const HEIGHT = '100svh';
 
 function SampleCopy() {
   return (

@@ -22,7 +22,7 @@
 
 .act3 {
   box-sizing: border-box;
-  min-block-size: 100vh;
+  min-block-size: 100svh;
   padding: var(--space-l) var(--space-m);
 }
 

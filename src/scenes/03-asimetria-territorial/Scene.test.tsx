@@ -221,12 +221,12 @@ describe('Act3Scene', () => {
     unmount();
   });
 
-  it('ancla 100vh con scrub +=500vh', () => {
+  it('ancla 100svh con scrub +=500vh', () => {
     const source = readFileSync(
       resolve(process.cwd(), 'src/scenes/03-asimetria-territorial/Scene.tsx'),
       'utf8',
     );
-    expect(source).toMatch(/const HEIGHT = '100vh'/);
+    expect(source).toMatch(/const HEIGHT = '100svh'/);
     expect(source).toMatch(/const PIN_END = '\+=500vh'/);
     expect(source).toMatch(/pin:\s*true/);
     expect(source).toMatch(/scrub:\s*true/);

@@ -16,7 +16,7 @@ import { choreographAct1, type Act1State } from '@/scenes/01-escenario-europeo/t
 
 import './scene.css';
 
-const HEIGHT = '100vh';
+const HEIGHT = '100svh';
 const PIN_END = '+=300vh';
 const SCENE_BACKGROUND =
   'color-mix(in srgb, var(--color-navy-deep) calc((1 - var(--surface-mix, 0)) * 100%), var(--color-navy-mid) calc(var(--surface-mix, 0) * 100%))';

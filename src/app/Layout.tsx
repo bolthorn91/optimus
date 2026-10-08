@@ -1,7 +1,10 @@
-import { useLayoutEffect } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router';
 
 import { DocumentHead } from '@/app/DocumentHead';
+import { MOBILE_COPY } from '@/app/mobileCopy';
+import { MobileNav } from '@/app/MobileNav';
+import { ProgressBar } from '@/app/ProgressBar';
 import { RouteErrorBoundary } from '@/app/RouteErrorBoundary';
 import { isLegalRoute, ROUTES } from '@/app/routes';
 import {
@@ -10,8 +13,10 @@ import {
   DOCUMENT_PAIR_OFF_HOME,
   milestoneMarks,
   navEntries,
+  SECTIONS,
   sectionAt,
 } from '@/app/sections';
+import { StickyCta } from '@/app/StickyCta';
 import { useScrollRestore } from '@/app/useScrollRestore';
 import { useSiteAnalytics } from '@/app/useSiteAnalytics';
 import { ContactDetails } from '@/components/ContactDetails';
@@ -20,20 +25,32 @@ import { Milestone } from '@/components/Milestone';
 import { PendingValue } from '@/components/PendingValue';
 import { CONTACT } from '@/content/contact';
 import { useScrollProgress } from '@/motion/useScrollProgress';
+import { useViewport } from '@/motion/useViewport';
 
 import './shell.css';
 
 export function Layout() {
   const location = useLocation();
   const progress = useScrollProgress();
+  const { isMobile } = useViewport();
+  const [menuOpen, setMenuOpen] = useState(false);
   const isHome = location.pathname === '/';
   const current = isHome ? sectionAt(progress) : null;
   const pastHero = current?.id !== 'hero';
   const pair = current?.background ?? DOCUMENT_PAIR_OFF_HOME;
   const currentGroup = current?.navGroup ?? null;
+  const currentAct = current?.act ?? null;
 
   useScrollRestore(location.pathname, location.hash);
   useSiteAnalytics(current, progress);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname, location.hash]);
+
+  const closeMenu = useCallback(() => {
+    setMenuOpen(false);
+  }, []);
 
   useLayoutEffect(() => {
     applyDocumentPair(pair);
@@ -55,25 +72,46 @@ export function Layout() {
         Saltar al contenido
       </a>
       <header className="site-header" data-past-hero={pastHero ? 'true' : 'false'}>
-        <nav aria-label="Principal">
-          <ul>
-            {navEntries().map((entry) => (
-              <li key={entry.label}>
-                <a
-                  aria-current={entry.label === currentGroup ? 'true' : undefined}
-                  href={entry.href}
-                >
-                  {entry.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <a className="cta" data-track="cta" data-track-position="header" href="/#contacto">
-          Reservar sesión privada
-        </a>
+        {isMobile ? (
+          <>
+            <button
+              aria-expanded={menuOpen}
+              className="menu-toggle"
+              type="button"
+              onClick={() => {
+                setMenuOpen(true);
+              }}
+            >
+              {MOBILE_COPY.openMenu}
+            </button>
+            {currentAct === null ? null : (
+              <ProgressBar currentAct={currentAct} progress={progress} />
+            )}
+          </>
+        ) : (
+          <nav aria-label="Principal">
+            <ul>
+              {navEntries().map((entry) => (
+                <li key={entry.label}>
+                  <a
+                    aria-current={entry.label === currentGroup ? 'true' : undefined}
+                    href={entry.href}
+                  >
+                    {entry.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
+        {isMobile ? null : (
+          <a className="cta" data-track="cta" data-track-position="header" href="/#contacto">
+            Reservar sesión privada
+          </a>
+        )}
       </header>
-      {current ? <Milestone marks={milestoneMarks(current)} /> : null}
+      {isMobile ? null : current ? <Milestone marks={milestoneMarks(current)} /> : null}
+      {isMobile && (!isHome || pastHero) ? <StickyCta /> : null}
       <main id="contenido">
         <RouteErrorBoundary resetKey={location.pathname}>
           <Outlet />
@@ -112,6 +150,7 @@ export function Layout() {
         </section>
         <Disclaimer variant="footer" />
       </footer>
+      <MobileNav current={current} open={menuOpen} sections={SECTIONS} onClose={closeMenu} />
     </>
   );
 }

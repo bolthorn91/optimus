@@ -178,7 +178,7 @@ describe('ContactScene', () => {
     for (const benefit of CONTACT_SCENE.benefits) {
       expect(screen.getByText(benefit)).toBeInTheDocument();
     }
-    expect(container.querySelector('#contacto')).toHaveStyle({ minBlockSize: '100vh' });
+    expect(container.querySelector('#contacto')).toHaveStyle({ minBlockSize: '100svh' });
     expect(ScrollTrigger.getAll()).toEqual([]);
     unmount();
     expect(ScrollTrigger.getAll()).toEqual([]);
