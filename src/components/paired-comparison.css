@@ -1,6 +1,8 @@
 .paired-comparison {
   border-collapse: collapse;
   inline-size: 100%;
+  max-inline-size: 100%;
+  overflow-x: clip;
   font-variant-numeric: tabular-nums;
 }
 

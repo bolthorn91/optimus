@@ -15,7 +15,6 @@ import { choreographAct3, type Act3State } from '@/scenes/03-asimetria-territori
 import './scene.css';
 
 const HEIGHT = '100svh';
-const PIN_END = '+=500vh';
 
 function applyChrome(node: HTMLElement, state: Act3State): void {
   node.style.setProperty('--night-amount', String(state.skyNight));
@@ -41,7 +40,7 @@ export function Act3Scene() {
     apply: paint,
     pin: true,
     scrub: true,
-    end: PIN_END,
+    sceneId: 'territorio',
   });
 
   return (

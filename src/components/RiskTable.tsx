@@ -1,3 +1,6 @@
+import { DefinitionTable, type DefinitionRow } from '@/components/DefinitionTable';
+import { useViewport } from '@/motion/useViewport';
+
 import './risk-table.css';
 
 export interface RiskTableCopy {
@@ -23,6 +26,26 @@ export interface RiskTableLevel {
   label: string;
 }
 
+function riskToDefinitionRows(
+  periods: readonly RiskTablePeriod[],
+  regions: readonly RiskTableRegion[],
+  levels: readonly RiskTableLevel[],
+  copy: RiskTableCopy,
+): DefinitionRow[] {
+  return regions.flatMap((region) =>
+    periods.map((period) => {
+      const level = period.regions[region.id];
+      const meta = levels.find((entry) => entry.id === level);
+      return {
+        id: `${region.id}-${period.id}`,
+        term: `${region.label} · ${period.shortLabel}`,
+        description: meta?.label,
+        ...(period.isProjection ? { note: copy.projectionNote } : {}),
+      };
+    }),
+  );
+}
+
 export function RiskTable({
   periods,
   regions,
@@ -34,6 +57,16 @@ export function RiskTable({
   levels: readonly RiskTableLevel[];
   copy: RiskTableCopy;
 }) {
+  const { isMobile } = useViewport();
+  if (isMobile) {
+    return (
+      <DefinitionTable
+        caption={copy.caption}
+        rows={riskToDefinitionRows(periods, regions, levels, copy)}
+      />
+    );
+  }
+
   return (
     <table className="risk-table">
       <caption>{copy.caption}</caption>

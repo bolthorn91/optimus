@@ -114,6 +114,18 @@ export function policyFor(sceneId: string): SceneViewportPolicy {
   throw new ScenePolicyError(`La escena ${sceneId} no declara política de viewport`);
 }
 
+/** Convierte la altura total de política (p. ej. `400vh`) en distancia de pin (`+=300vh`). */
+export function scrollTriggerEnd(height: string): string {
+  const match = /^(\d+(?:\.\d+)?)(vh|svh|dvh)$/.exec(height);
+  const value = match?.[1];
+  const unit = match?.[2];
+  if (value === undefined || unit === undefined) {
+    throw new ScenePolicyError(`Altura de escena no reconocida: ${height}`);
+  }
+  const extra = Math.max(Number(value) - 100, 0);
+  return `+=${String(extra)}${unit}`;
+}
+
 export function resolveScenePolicy(
   sceneId: string,
   viewportWidth: number,

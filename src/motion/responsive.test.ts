@@ -6,6 +6,7 @@ import {
   SCENE_POLICIES,
   SCENE_POLICY_LIST,
   ScenePolicyError,
+  scrollTriggerEnd,
   type SpecSceneId,
 } from '@/motion/responsive';
 
@@ -72,5 +73,14 @@ describe('resolveScenePolicy', () => {
     });
     expect(isMobileWidth(767)).toBe(true);
     expect(isMobileWidth(768)).toBe(false);
+  });
+
+  it('scrollTriggerEnd resta el panel de 100 unidades a la altura de política', () => {
+    expect(scrollTriggerEnd('400vh')).toBe('+=300vh');
+    expect(scrollTriggerEnd('500vh')).toBe('+=400vh');
+    expect(scrollTriggerEnd('600vh')).toBe('+=500vh');
+    expect(scrollTriggerEnd('260svh')).toBe('+=160svh');
+    expect(scrollTriggerEnd('100svh')).toBe('+=0svh');
+    expect(() => scrollTriggerEnd('auto')).toThrow(ScenePolicyError);
   });
 });

@@ -21,6 +21,12 @@ const CANON = readFileSync(
 );
 
 const nativeMatchMedia = window.matchMedia.bind(window);
+const nativeWidth = window.innerWidth;
+
+function setWidth(width: number): void {
+  Object.defineProperty(window, 'innerWidth', { configurable: true, value: width });
+  window.dispatchEvent(new Event('resize'));
+}
 
 const canvasContext = {
   clearRect: vi.fn(),
@@ -40,6 +46,7 @@ describe('Act1Scene', () => {
 
   afterEach(() => {
     window.matchMedia = nativeMatchMedia;
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: nativeWidth });
     vi.restoreAllMocks();
     for (const trigger of ScrollTrigger.getAll()) trigger.kill();
   });
@@ -255,5 +262,20 @@ describe('Act1Scene', () => {
     expect(screen.getAllByText('Reservar sesión privada').length).toBeGreaterThan(0);
     expect(container.querySelector('[data-milestone]')).not.toBeNull();
     expect(screen.getAllByText('Escenario').length).toBeGreaterThan(0);
+  });
+
+  it('a 375 px el acto I es estático, sin ScrollTrigger, con los tres factores y la densidad final', () => {
+    setWidth(375);
+    const { container } = render(<Act1Scene />);
+    expect(container.querySelector('#escenario')).toHaveAttribute('data-scene-mode', 'static');
+    expect(ScrollTrigger.getAll()).toEqual([]);
+    for (const factor of ACT1.factors) {
+      expect(screen.getByText(factor.title)).toBeInTheDocument();
+      expect(screen.getByText(factor.body)).toBeInTheDocument();
+    }
+    expect(container.querySelector('[data-density-illustration]')).toHaveAttribute(
+      'data-progress',
+      '1',
+    );
   });
 });

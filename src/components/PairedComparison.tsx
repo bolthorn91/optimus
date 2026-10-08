@@ -1,5 +1,8 @@
 import type { CSSProperties, ReactNode } from 'react';
 
+import { StackedComparison } from '@/components/StackedComparison';
+import { useViewport } from '@/motion/useViewport';
+
 import './paired-comparison.css';
 
 export interface PairedSide {
@@ -29,6 +32,11 @@ export function PairedComparison({
   caption: string;
   metricHeader: string;
 }) {
+  const { isMobile } = useViewport();
+  if (isMobile) {
+    return <StackedComparison caption={caption} left={left} right={right} rows={rows} />;
+  }
+
   return (
     <table
       className="paired-comparison"

@@ -26,7 +26,6 @@ import {
 import './scene.css';
 
 const HEIGHT = '100svh';
-const PIN_END = '+=400vh';
 const SCENE_BACKGROUND =
   'color-mix(in srgb, var(--color-navy-mid) calc((1 - var(--surface-mix, 0)) * 100%), var(--color-navy-ink) calc(var(--surface-mix, 0) * 100%))';
 
@@ -53,7 +52,7 @@ export function Act2Scene() {
     apply: paint,
     pin: true,
     scrub: true,
-    end: PIN_END,
+    sceneId: 'seguridad',
   });
 
   useEffect(

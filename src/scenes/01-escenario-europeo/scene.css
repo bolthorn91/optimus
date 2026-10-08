@@ -29,26 +29,24 @@
   max-inline-size: 70ch;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .act1-intro,
-  .act1-stat,
-  .act1-closing,
-  .factor-panel {
-    opacity: 1;
-    transform: none;
-    visibility: visible;
-    pointer-events: auto;
-  }
+#escenario[data-scene-mode='static'] .act1-intro,
+#escenario[data-scene-mode='static'] .act1-stat,
+#escenario[data-scene-mode='static'] .act1-closing,
+#escenario[data-scene-mode='static'] .factor-panel {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  pointer-events: auto;
+}
 
-  .act1-factors {
-    position: static;
-    display: grid;
-    gap: var(--space-l);
-  }
+#escenario[data-scene-mode='static'] .act1-factors {
+  position: static;
+  display: grid;
+  gap: var(--space-l);
+}
 
-  .factor-panel {
-    position: static;
-  }
+#escenario[data-scene-mode='static'] .factor-panel {
+  position: static;
 }
 
 .factor-panel__index {

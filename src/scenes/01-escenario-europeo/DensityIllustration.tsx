@@ -47,5 +47,12 @@ export function DensityIllustration({ progress }: { progress: number }) {
     draw(canvas, progress);
   }, [progress]);
 
-  return <canvas aria-hidden="true" data-density-illustration ref={ref} />;
+  return (
+    <canvas
+      aria-hidden="true"
+      data-density-illustration
+      data-progress={String(progress)}
+      ref={ref}
+    />
+  );
 }

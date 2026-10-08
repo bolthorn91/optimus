@@ -76,10 +76,10 @@
 }
 
 .period-selector {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: var(--space-s);
-  margin-block: var(--space-m);
+  margin-block: var(--space-l);
 }
 
 .period-selector button {
@@ -88,7 +88,17 @@
   background: transparent;
   border: 1px solid var(--rule);
   padding: var(--space-2xs) var(--space-s);
+  min-inline-size: var(--touch-min);
+  min-block-size: var(--touch-min);
   cursor: pointer;
+}
+
+@media (min-width: 48rem) {
+  .period-selector {
+    display: flex;
+    flex-wrap: wrap;
+    margin-block: var(--space-m);
+  }
 }
 
 .period-selector button[aria-pressed='true'] {

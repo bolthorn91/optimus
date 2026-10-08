@@ -1,0 +1,33 @@
+.definition-table {
+  max-inline-size: 100%;
+  overflow-x: clip;
+}
+
+.definition-table__caption {
+  margin: 0 0 var(--space-s);
+  font-weight: 600;
+}
+
+.definition-table dl {
+  margin: 0;
+}
+
+.definition-table dl > div {
+  display: grid;
+  gap: var(--space-3xs);
+  padding-block: var(--space-2xs);
+  border-block-end: 1px solid var(--rule);
+}
+
+.definition-table dt {
+  font-weight: 600;
+}
+
+.definition-table dd {
+  margin: 0;
+}
+
+.definition-table__note {
+  font-weight: 400;
+  color: var(--ink-muted);
+}

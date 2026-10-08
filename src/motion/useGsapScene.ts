@@ -1,8 +1,10 @@
 import { type RefObject, useLayoutEffect, useRef } from 'react';
 
 import { ScrollTrigger, gsap } from '@/motion/gsapSetup';
+import { scrollTriggerEnd } from '@/motion/responsive';
 import type { Choreograph, SceneState } from '@/motion/types';
 import { useReducedMotionSafe } from '@/motion/useReducedMotionSafe';
+import { useResolvedPolicy } from '@/motion/useScenePolicy';
 
 export interface UseGsapSceneOptions<T = SceneState> {
   ref: RefObject<HTMLElement | null>;
@@ -15,6 +17,7 @@ export interface UseGsapSceneOptions<T = SceneState> {
   setup?: (element: HTMLElement) => void;
   start?: string;
   end?: string | (() => string);
+  sceneId?: string;
 }
 
 /**
@@ -31,8 +34,12 @@ export function useGsapScene<T>({
   setup,
   start = 'top top',
   end,
+  sceneId,
 }: UseGsapSceneOptions<T>): { seek: (progress: number, mode?: 'apply' | 'silent') => void } {
   const reduced = useReducedMotionSafe();
+  const policy = useResolvedPolicy(sceneId ?? '');
+  const freeze = reduced || (policy !== null && policy.mode !== 'scrub');
+  const pinEnd = policy !== null ? scrollTriggerEnd(policy.height) : end;
   const triggerRef = useRef<ScrollTrigger | null>(null);
   const silent = useRef(false);
 
@@ -40,7 +47,7 @@ export function useGsapScene<T>({
     const triggerEl = ref.current;
     if (!triggerEl) return undefined;
 
-    if (reduced) {
+    if (freeze) {
       apply(choreograph(1));
       return undefined;
     }
@@ -64,7 +71,7 @@ export function useGsapScene<T>({
       triggerRef.current = ScrollTrigger.create({
         trigger: triggerEl,
         start,
-        end: end ?? (() => `+=${String(triggerEl.offsetHeight)}`),
+        end: pinEnd ?? (() => `+=${String(triggerEl.offsetHeight)}`),
         pin,
         scrub,
         onUpdate: (self) => {
@@ -79,7 +86,7 @@ export function useGsapScene<T>({
       triggerRef.current = null;
       ctx.revert();
     };
-  }, [apply, choreograph, duration, end, pin, reduced, ref, scrub, setup, start]);
+  }, [apply, choreograph, duration, freeze, pin, pinEnd, reduced, ref, scrub, setup, start]);
 
   return {
     seek(progress: number, mode: 'apply' | 'silent' = 'apply') {

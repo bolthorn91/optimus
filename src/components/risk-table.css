@@ -1,6 +1,8 @@
 .risk-table {
   border-collapse: collapse;
   inline-size: 100%;
+  max-inline-size: 100%;
+  overflow-x: clip;
   font-size: var(--text-note);
 }
 

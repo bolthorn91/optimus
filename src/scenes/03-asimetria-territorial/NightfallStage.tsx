@@ -1,6 +1,7 @@
 import { lazy, Suspense, useCallback, useState } from 'react';
 
-import { useReducedMotionSafe } from '@/motion/useReducedMotionSafe';
+import { MOBILE_COPY } from '@/app/mobileCopy';
+import { useResolvedPolicy } from '@/motion/useScenePolicy';
 import { ACT3, type CountryFigures } from '@/scenes/03-asimetria-territorial/content';
 import { CountryFigureStack } from '@/scenes/03-asimetria-territorial/CountryFigureStack';
 import { NightfallFallback } from '@/scenes/03-asimetria-territorial/NightfallFallback';
@@ -16,13 +17,13 @@ export function NightfallStage({
   state: Act3State;
   countries: readonly CountryFigures[];
 }) {
-  const reduced = useReducedMotionSafe();
+  const policy = useResolvedPolicy('territorio');
   const [lost, setLost] = useState(false);
   const [webgl] = useState(() => detectWebgl());
   const onContextLost = useCallback(() => {
     setLost(true);
   }, []);
-  const canCanvas = webgl && !reduced && !lost;
+  const canCanvas = policy?.mode === 'scrub' && webgl && !lost;
   const figureProgress = canCanvas
     ? state
     : { areaProgress: 1, popProgress: 1, densityProgress: 1 };
@@ -44,7 +45,11 @@ export function NightfallStage({
       ) : (
         <NightfallFallback />
       )}
-      {!webgl || lost ? <p className="act3-nightfall-note">{ACT3.copy.fallbackNote}</p> : null}
+      {policy?.mode === 'fallback' ? (
+        <p className="act3-nightfall-note">{MOBILE_COPY.staticSceneNote}</p>
+      ) : !webgl || lost ? (
+        <p className="act3-nightfall-note">{ACT3.copy.fallbackNote}</p>
+      ) : null}
       <div className="act3-nightfall-figures">
         {countries.map((country) => (
           <CountryFigureStack

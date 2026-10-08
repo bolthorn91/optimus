@@ -1,5 +1,7 @@
 import type { CSSProperties, ReactNode, Ref } from 'react';
 
+import { useResolvedPolicy } from '@/motion/useScenePolicy';
+
 export interface SceneProps {
   id: string;
   act?: number | null;
@@ -25,6 +27,7 @@ export function Scene({
   className,
   ref,
 }: SceneProps) {
+  const policy = useResolvedPolicy(id);
   const style: CSSProperties = {
     minBlockSize: height,
     background,
@@ -37,6 +40,7 @@ export function Scene({
       id={id}
       className={className}
       data-act={typeof act === 'number' ? String(act) : undefined}
+      data-scene-mode={policy?.mode}
       style={style}
     >
       {fallback}

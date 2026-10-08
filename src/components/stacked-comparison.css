@@ -1,0 +1,47 @@
+.stacked-comparison {
+  max-inline-size: 100%;
+  overflow-x: clip;
+  display: grid;
+  gap: var(--space-l);
+}
+
+.stacked-comparison__caption {
+  margin: 0;
+  font-weight: 600;
+}
+
+.stacked-comparison__side {
+  border-block-start: 2px solid var(--side-accent, var(--rule));
+  padding-block-start: var(--space-s);
+}
+
+.stacked-comparison__name {
+  margin: 0 0 var(--space-s);
+  font-size: var(--text-body);
+}
+
+.stacked-comparison__detail {
+  display: block;
+  font-weight: 400;
+  font-size: var(--text-note);
+  color: var(--ink-muted);
+}
+
+.stacked-comparison dl {
+  margin: 0;
+}
+
+.stacked-comparison dl > div {
+  display: grid;
+  gap: var(--space-3xs);
+  padding-block: var(--space-2xs);
+  border-block-end: 1px solid var(--rule);
+}
+
+.stacked-comparison dt {
+  font-weight: 600;
+}
+
+.stacked-comparison dd {
+  margin: 0;
+}

@@ -2,16 +2,25 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 import { render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import { MOBILE_COPY } from '@/app/mobileCopy';
 import { formatArea, formatDensity, formatNumber, NBSP } from '@/lib/format';
 import { ScrollTrigger } from '@/motion/gsapSetup';
+import { scrollTriggerEnd, SCENE_POLICIES } from '@/motion/responsive';
 import { ACT3 } from '@/scenes/03-asimetria-territorial/content';
 import { Act3Scene } from '@/scenes/03-asimetria-territorial/Scene';
 import { expectNoBlockingAxeViolations } from '@/test/axe';
+import * as detectWebgl from '@/three/detectWebgl';
 
 const visible = (text: string) => text.replaceAll(NBSP, ' ');
 const nativeMatchMedia = window.matchMedia.bind(window);
+const nativeWidth = window.innerWidth;
+
+function setWidth(width: number): void {
+  Object.defineProperty(window, 'innerWidth', { configurable: true, value: width });
+  window.dispatchEvent(new Event('resize'));
+}
 
 function reduceMotion(): void {
   window.matchMedia = (query: string) =>
@@ -30,6 +39,8 @@ function reduceMotion(): void {
 describe('Act3Scene', () => {
   afterEach(() => {
     window.matchMedia = nativeMatchMedia;
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: nativeWidth });
+    vi.restoreAllMocks();
     for (const trigger of ScrollTrigger.getAll()) trigger.kill();
   });
 
@@ -222,14 +233,13 @@ describe('Act3Scene', () => {
   });
 
   it('ancla 100svh con scrub +=500vh', () => {
+    expect(SCENE_POLICIES.territorio.desktopHeight).toBe('600vh');
+    expect(scrollTriggerEnd('600vh')).toBe('+=500vh');
     const source = readFileSync(
       resolve(process.cwd(), 'src/scenes/03-asimetria-territorial/Scene.tsx'),
       'utf8',
     );
-    expect(source).toMatch(/const HEIGHT = '100svh'/);
-    expect(source).toMatch(/const PIN_END = '\+=500vh'/);
-    expect(source).toMatch(/pin:\s*true/);
-    expect(source).toMatch(/scrub:\s*true/);
+    expect(source).toMatch(/sceneId: 'territorio'/);
   });
 
   // SAT-10
@@ -266,5 +276,50 @@ describe('Act3Scene', () => {
     expect(table).toHaveTextContent(visible(formatArea(spain.areaKm2, 'km²')));
     expect(table).toHaveTextContent(visible(formatDensity(spain.densityPerKm2)));
     expect(table).toHaveTextContent(visible(formatDensity(argentina.densityPerKm2)));
+  });
+
+  it('MOB-06 · a 375 px sirve el fallback estático con las tres cifras y sin WebGL', () => {
+    vi.spyOn(detectWebgl, 'detectWebgl').mockReturnValue(true);
+    setWidth(375);
+    const { container } = render(<Act3Scene />);
+    expect(container.querySelector('[data-nightfall-fallback]')).not.toBeNull();
+    expect(container.querySelector('[data-nightfall-stage]')).toBeNull();
+    expect(container.querySelector('canvas')).toBeNull();
+    expect(screen.getByText(MOBILE_COPY.staticSceneNote)).toBeInTheDocument();
+    expect(screen.getByAltText(ACT3.copy.canvasAlt)).toBeInTheDocument();
+    const [spain, argentina] = ACT3.countries;
+    expect(container).toHaveTextContent(visible(formatArea(spain.areaKm2, 'km²')));
+    expect(container).toHaveTextContent(visible(formatArea(argentina.areaKm2, 'km²')));
+    expect(container).toHaveTextContent(visible(formatNumber(spain.population)));
+    expect(container).toHaveTextContent(visible(formatNumber(argentina.population)));
+    expect(container).toHaveTextContent(visible(formatDensity(spain.densityPerKm2)));
+    expect(container).toHaveTextContent(visible(formatDensity(argentina.densityPerKm2)));
+    expect(ScrollTrigger.getAll()).toEqual([]);
+  });
+
+  it('MOB-11 · a 375 px las comparativas se apilan con España arriba y sin scroll horizontal', () => {
+    setWidth(375);
+    const { container } = render(<Act3Scene />);
+    expect(screen.queryByRole('table')).toBeNull();
+    const stacked = [...container.querySelectorAll('[data-stacked-comparison]')];
+    expect(stacked).toHaveLength(2);
+    for (const block of stacked) {
+      const spain = block.querySelector('[data-side="es"]');
+      const argentina = block.querySelector('[data-side="ar"]');
+      expect(spain).not.toBeNull();
+      expect(argentina).not.toBeNull();
+      expect(
+        (spain?.compareDocumentPosition(argentina as Node) ?? 0) & Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    }
+    expect(stacked[0]).toHaveTextContent(ACT3.copy.areaLabel);
+    expect(stacked[0]?.querySelector('[data-side="es"]')).toHaveTextContent(ACT3.copy.areaLabel);
+    expect(stacked[0]?.querySelector('[data-side="ar"]')).toHaveTextContent(ACT3.copy.areaLabel);
+    expect(stacked[1]).toHaveTextContent(ACT3.market[0]?.criterion ?? '');
+    for (const block of stacked) {
+      const node = block as HTMLElement;
+      expect(node.scrollWidth).toBeLessThanOrEqual(node.clientWidth);
+      expect(getComputedStyle(node).overflowX).not.toMatch(/^(auto|scroll)$/);
+    }
   });
 });

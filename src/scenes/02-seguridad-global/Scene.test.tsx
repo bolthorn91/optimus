@@ -7,6 +7,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { App } from '@/app/App';
 import { resetAnalytics, setAnalyticsSink } from '@/lib/analytics';
 import { ScrollTrigger } from '@/motion/gsapSetup';
+import { scrollTriggerEnd } from '@/motion/responsive';
 import { HERO } from '@/scenes/00-hero/content';
 import { ACT1 } from '@/scenes/01-escenario-europeo/content';
 import { ACT2 } from '@/scenes/02-seguridad-global/content';
@@ -16,6 +17,12 @@ import { expectNoBlockingAxeViolations } from '@/test/axe';
 
 const YEARS = [1985, 2015, 2026, 2050] as const;
 const nativeMatchMedia = window.matchMedia.bind(window);
+const nativeWidth = window.innerWidth;
+
+function setWidth(width: number): void {
+  Object.defineProperty(window, 'innerWidth', { configurable: true, value: width });
+  window.dispatchEvent(new Event('resize'));
+}
 const CANON = readFileSync(
   resolve(process.cwd(), 'content/secciones/02-seguridad-global.md'),
   'utf8',
@@ -24,6 +31,7 @@ const CANON = readFileSync(
 describe('Act2Scene', () => {
   afterEach(() => {
     window.matchMedia = nativeMatchMedia;
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: nativeWidth });
     resetAnalytics();
     for (const trigger of ScrollTrigger.getAll()) trigger.kill();
   });
@@ -269,5 +277,47 @@ describe('Act2Scene', () => {
     const app = render(<App />);
     expect(screen.getAllByText(ACT2.closingQuote)).toHaveLength(1);
     app.unmount();
+  });
+
+  it('MOB-07 · a 375 px el selector de período es el control principal y es operable', () => {
+    setWidth(375);
+    const { container } = render(<Act2Scene />);
+    const group = screen.getByRole('group', { name: ACT2.copy.periodSelector });
+    const trigger = ScrollTrigger.getAll()[0];
+    expect(trigger).toBeDefined();
+    expect(String(trigger?.vars.end)).toBe(scrollTriggerEnd('260svh'));
+    const css = readFileSync(
+      resolve(process.cwd(), 'src/scenes/02-seguridad-global/scene.css'),
+      'utf8',
+    );
+    expect(css).toContain('min-block-size: var(--touch-min)');
+    expect(readFileSync(resolve(process.cwd(), 'src/styles/tokens.css'), 'utf8')).toContain(
+      '--touch-min: 44px',
+    );
+    for (const period of ACT2.periods) {
+      const button = screen.getByRole('button', { name: period.shortLabel });
+      expect(button).toHaveAttribute('type', 'button');
+      fireEvent.click(button);
+      expect(button).toHaveAttribute('aria-pressed', 'true');
+    }
+    expect(container.querySelector('[data-period-selector]')).toBe(group);
+  });
+
+  it('MOB-12 · a 375 px la tabla de riesgo es una lista de definición, sin scroll horizontal', () => {
+    setWidth(375);
+    const { container } = render(<Act2Scene />);
+    expect(screen.queryByRole('table')).toBeNull();
+    const list = container.querySelector('[data-definition-table]');
+    expect(list).not.toBeNull();
+    expect(list).toHaveTextContent(ACT2.copy.tableCaption);
+    for (const region of ACT2.regions) {
+      expect(list).toHaveTextContent(region.label);
+    }
+    for (const period of ACT2.periods) {
+      expect(list).toHaveTextContent(period.shortLabel);
+    }
+    const node = list as HTMLElement;
+    expect(node.scrollWidth).toBeLessThanOrEqual(node.clientWidth);
+    expect(getComputedStyle(node).overflowX).not.toMatch(/^(auto|scroll)$/);
   });
 });
