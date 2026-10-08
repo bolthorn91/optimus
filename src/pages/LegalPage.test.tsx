@@ -117,10 +117,9 @@ describe('páginas legales, SEO y analítica', () => {
     expect(screen.getByRole('heading', { name: new RegExp(ACT1.title, 'i') })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: CONTACT_SCENE.title })).toBeInTheDocument();
     expect(container.querySelector('#contacto')).not.toBeNull();
-    expect(screen.getByRole('link', { name: 'Aviso legal' })).toHaveAttribute(
-      'href',
-      '/aviso-legal',
-    );
+    for (const route of LEGAL_ROUTES) {
+      expect(screen.getByRole('link', { name: route.title })).toHaveAttribute('href', route.path);
+    }
   });
 
   it('SEO-05 · no hay banner de cookies porque no hay cookies no esenciales', () => {

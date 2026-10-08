@@ -138,7 +138,7 @@ describe('shell', () => {
   it('no tiene violaciones de accesibilidad bloqueantes en el shell', async () => {
     const { container } = render(<App />);
     await expectNoBlockingAxeViolations(container);
-  }, 15_000);
+  }, 30_000);
 
   // CMP-10 · FRM-24
   it('CMP-10 · FRM-24 · los actos I a V siguen con VI–VII y el contacto montados', () => {

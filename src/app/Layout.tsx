@@ -3,6 +3,7 @@ import { Link, Outlet, useLocation } from 'react-router';
 
 import { DocumentHead } from '@/app/DocumentHead';
 import { RouteErrorBoundary } from '@/app/RouteErrorBoundary';
+import { isLegalRoute, ROUTES } from '@/app/routes';
 import {
   applyDocumentPair,
   clearDocumentPair,
@@ -87,9 +88,11 @@ export function Layout() {
           ))}
         </nav>
         <nav aria-label="Legal">
-          <Link to="/aviso-legal">Aviso legal</Link>
-          <Link to="/politica-de-privacidad">Privacidad</Link>
-          <Link to="/politica-de-cookies">Cookies</Link>
+          {ROUTES.filter(isLegalRoute).map((route) => (
+            <Link key={route.path} to={route.path}>
+              {route.title}
+            </Link>
+          ))}
         </nav>
         <ContactDetails />
         <p>

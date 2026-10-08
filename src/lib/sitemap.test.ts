@@ -51,6 +51,7 @@ describe('buildSitemap', () => {
     expect(SCRIPT).toContain("ssrLoadModule('/src/app/routes.ts')");
     expect(SCRIPT).toContain("ssrLoadModule('/src/lib/sitemap.ts')");
     expect(SCRIPT).toContain("mode: 'production'");
+    expect(SCRIPT).toContain('noDiscovery: true');
     expect(SCRIPT).toContain('server.config.env.VITE_SITE_URL');
     expect(SCRIPT).toContain('sitemapModule.buildSitemap(routesModule.ROUTES, siteUrl)');
     expect(SCRIPT).not.toContain('SITEMAP_ROUTES');

@@ -27,6 +27,7 @@ async function main() {
     appType: 'custom',
     logLevel: 'error',
     server: { middlewareMode: true, hmr: false },
+    optimizeDeps: { noDiscovery: true },
   });
 
   try {

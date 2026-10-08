@@ -27,6 +27,7 @@ registran aquí para que la decisión sea explícita y no un olvido.
 | E2E-04-CDI | Como visitante, recorro el acto IV y veo los cinco pasos del convenio trazarse en orden, terminando en la afirmación de que no se tributa dos veces | doc 04 §12.1 | abierto |
 | E2E-05-SIM | Como visitante, muevo capital, horizonte y escenario, veo el resultado con sus supuestos, y llego al formulario con el vehículo elegido | doc 05 §12.1 | abierto |
 | E2E-06-RESERVE | Como visitante, recorro la home hasta el cierre, relleno el formulario y recibo la confirmación de que mi solicitud se ha enviado | doc 06 §12.1 | abierto |
+| E2E-07-DETAIL | Como visitante, salto de un acto de la home a su página de detalle, la leo entera y vuelvo a mi posición anterior | doc 07 §12.1 | abierto |
 
 ---
 
@@ -49,7 +50,7 @@ Bloqueos y decisiones editoriales que el cliente aún no ha cerrado (perfil §7 
 | B-02 | Dominio y correo definitivos: `optimvs.cp.com` parece provisional | doc 06, doc 07 | abierto |
 | B-03 | Mapa de proyección 2050: en el PDF es byte-idéntico al de «actualidad». v1 dibuja un estado derivado (Ártico y EE.UU. en high) marcado como proyección; falta el mapa real del cliente | doc 02 §12.2 | abierto |
 | B-04 | Logotipo vectorial (SVG/AI/EPS) y versiones en negativo y monocromo | doc 00 | abierto |
-| B-05 | Datos registrales de la sociedad española y de la argentina | doc 06 §12.2, doc 07 | abierto |
+| B-05 | Datos registrales de la sociedad española y de la argentina. Sin ellos las tres páginas legales quedan con marcadores y `noindex` | doc 06 §12.2, doc 07 §12.2 | abierto |
 | B-06 | Retrato profesional de Carlos Carbajal | doc 06 | abierto |
 | B-07 | URLs de los perfiles de Instagram, TikTok, Facebook y LinkedIn | doc 06 | abierto |
 | E-02 | Redacción correcta de la frase incompleta en la conclusión del acto III. Se reproduce literal por I1; falta una conjunción o un verbo | doc 03 §12.3 | abierto |
@@ -66,6 +67,8 @@ Bloqueos y decisiones editoriales que el cliente aún no ha cerrado (perfil §7 
 | E-04 | Matización de siete afirmaciones absolutas del acto IV («garantizando máxima seguridad jurídica», «elimina de raíz», «jamás se tributen dos veces», etc.). Se reproduce el literal por I1; la matización requiere la asesoría legal del cliente | doc 04 §12.2 / E4 | abierto |
 | PHOTO-04 | Fotografía profesional con licencia para el acto IV. `p11-X43.png` (Obelisco) se descarta por calidad (G2); no se usa | doc 04 §12.3 / G2 | abierto |
 | DET-04 | Página de detalle del marco fiscal: créditos, topes de retención, acreditación ante la AEAT, desinversión | doc 04 §12.4 · doc 07 | abierto |
+| LEGAL-07 | `content/07-legal-y-disclaimers.md` se declara orientativo. Los tres documentos legales requieren validación de la asesoría del cliente antes de publicar | doc 07 §12.3 / D7 | abierto |
+| VEH-07 | El dossier da tres celdas por vehículo. Las páginas de detalle quedan cortas; no se rellenan con marketing inventado (S3) | doc 07 §12.5 / S3 | abierto |
 | SIM-RATES | Las tasas de `src/lib/projection-assumptions.ts` son supuestos del implementador, declarados como tales. Requieren validación del cliente y revisión de su asesoría legal antes de publicar | doc 05 §12.3 / S5 | abierto |
 | TAX-CDI | El acto IV explica el CDI y el acto V proyecta valores brutos; el efecto fiscal no entra en la proyección porque exigiría datos personales | doc 05 §12.4 / §9 | abierto |
 
@@ -83,6 +86,6 @@ Bloqueos y decisiones editoriales que el cliente aún no ha cerrado (perfil §7 
 
 | Id | Deuda | Origen | Estado |
 |----|-------|--------|--------|
-| A11Y-00-SPA | El sitio es una SPA: sin JavaScript no hay contenido. Afecta al SEO y a la robustez. Mitigación futura: prerenderizado estático de la home y las páginas de detalle | doc 00 §12.3 | abierto |
+| A11Y-00-SPA | El sitio es una SPA: sin JavaScript no hay contenido. Afecta al SEO y a la robustez, justo en las páginas de detalle que existen para ser encontradas. Mitigación futura: prerenderizado estático de home, actos y legales | doc 00 §12.3 · doc 07 §12.4 / G8 | abierto |
 | PERF-03-GPU | La escena WebGL se optimiza para escritorio. Falta medir en portátiles con gráfica integrada y decidir el umbral por debajo del cual se sirve directamente el fallback | doc 03 §12.5 / §3.6 | abierto |
 | ASSET-03-WEBP | F8 pide WebP con respaldo. El picture estático lo cubre (`nightfall-static.jpg`); el canvas carga solo WebP vía TextureLoader. Los PNG de país (~2 MB) no se servían y se retiraron | doc 03 F8 / §7 E | abierto |

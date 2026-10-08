@@ -1,6 +1,6 @@
 # Páginas de detalle, legales y SEO
 
-**Estado:** especificación canónica (decisiones cerradas 2026-08-17). Pendiente de implementación.
+**Estado:** hecho en branch `main` (2026-10-07). No fusionado.
 **Branch de trabajo:** el HEAD actual del worktree.
 **Perfil de proyecto:** [`agent-docs/goal-profile.md`](../../agent-docs/goal-profile.md) — invariantes §7 aplicables: I1, I2, I3, I4, I6, I7, I8, I9.
 **Roadmap:** [`roadmap.md`](roadmap.md) §2, fila 07.
@@ -410,34 +410,34 @@ no esenciales antes del consentimiento.
 
 ### 8.1 Páginas de detalle
 
-- [ ] Las siete páginas de acto desarrollan el contenido completo, no el resumen.
-- [ ] Las tablas se reproducen íntegras.
-- [ ] Un solo `H1` por página, sin saltos de nivel de encabezado.
-- [ ] Cero componentes nuevos de presentación de datos: todo reutilizado.
-- [ ] Las tres páginas de vehículo llevan disclaimer y no inventan contenido.
-- [ ] Volver a la home restaura la posición de scroll.
-- [ ] Una URL desconocida da 404 con salida clara.
+- [x] Las siete páginas de acto desarrollan el contenido completo, no el resumen.
+- [x] Las tablas se reproducen íntegras.
+- [x] Un solo `H1` por página, sin saltos de nivel de encabezado.
+- [x] Cero componentes nuevos de presentación de datos: todo reutilizado.
+- [x] Las tres páginas de vehículo llevan disclaimer y no inventan contenido.
+- [x] Volver a la home restaura la posición de scroll.
+- [x] Una URL desconocida da 404 con salida clara.
 
 ### 8.2 Legales y SEO
 
-- [ ] Ningún dato registral inventado: todos son marcadores.
-- [ ] Las páginas legales incompletas llevan aviso de borrador, `noindex` y quedan fuera del sitemap.
-- [ ] La privacidad declara la transferencia internacional a Argentina.
-- [ ] El aviso legal contiene el disclaimer financiero largo íntegro.
-- [ ] Toda ruta tiene título, descripción y canónica; ninguna duplicada.
-- [ ] El sitemap se genera del manifiesto y no se genera sin base absoluta.
-- [ ] Los datos estructurados omiten teléfono y redes mientras estén bloqueados.
-- [ ] Ninguna cookie no esencial antes del consentimiento.
-- [ ] Los veinte tests DET-01…DET-20 y los ocho SEO-01…SEO-08 existen y pasan.
+- [x] Ningún dato registral inventado: todos son marcadores.
+- [x] Las páginas legales incompletas llevan aviso de borrador, `noindex` y quedan fuera del sitemap.
+- [x] La privacidad declara la transferencia internacional a Argentina.
+- [x] El aviso legal contiene el disclaimer financiero largo íntegro.
+- [x] Toda ruta tiene título, descripción y canónica; ninguna duplicada.
+- [x] El sitemap se genera del manifiesto y no se genera sin base absoluta.
+- [x] Los datos estructurados omiten teléfono y redes mientras estén bloqueados.
+- [x] Ninguna cookie no esencial antes del consentimiento.
+- [x] Los veinte tests DET-01…DET-20 y los ocho SEO-01…SEO-08 existen y pasan.
 
 ### 8.3 Global
 
-- [ ] `docs/product/roadmap.md` fila 07 actualizada a «hecho en branch».
-- [ ] Lo no cubierto → filas honestas en `docs/debt/technical-debt.md`.
-- [ ] Se respetan el idioma y la política de comentarios del perfil §1.
-- [ ] No se modificó ninguna zona protegida del perfil §6 sin autorización de C3.
-- [ ] Todos los gates del perfil §5 en verde, ejecutados de verdad.
-- [ ] Ningún invariante del perfil §7 roto en la superficie tocada.
+- [x] `docs/product/roadmap.md` fila 07 actualizada a «hecho en branch».
+- [x] Lo no cubierto → filas honestas en `docs/debt/technical-debt.md`.
+- [x] Se respetan el idioma y la política de comentarios del perfil §1.
+- [x] No se modificó ninguna zona protegida del perfil §6 sin autorización de C3.
+- [x] Todos los gates del perfil §5 en verde, ejecutados de verdad.
+- [x] Ningún invariante del perfil §7 roto en la superficie tocada.
 
 ---
 
