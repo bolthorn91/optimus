@@ -13,6 +13,7 @@ describe('metaFor', () => {
       expect(meta.title.endsWith(`— ${TITLE_SUFFIX}`)).toBe(true);
       expect(meta.description.length).toBeGreaterThan(0);
       expect(meta.canonical).toBe(joinUrl(SITE, route.path));
+      expect(meta.ogImage).toBe(joinUrl(SITE, '/og.png'));
     }
   });
 

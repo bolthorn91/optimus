@@ -5,7 +5,9 @@ import {
   adjacentActs,
   homeRoute,
   isActRoute,
+  isLegalRoute,
   isVehicleRoute,
+  legalRoute,
   ROUTES,
   routeByPath,
   vehicleRoute,
@@ -57,5 +59,14 @@ describe('manifiesto de rutas', () => {
       ['/activos/proyectos-al-pozo', 'development'],
     ]);
     expect(vehicleRoute('equities').path).toBe('/activos/acciones-y-titulos');
+  });
+
+  it('D1 · las rutas legales declaran el id canónico', () => {
+    expect(ROUTES.filter(isLegalRoute).map((route) => [route.path, route.legalId])).toEqual([
+      ['/aviso-legal', 'notice'],
+      ['/politica-de-privacidad', 'privacy'],
+      ['/politica-de-cookies', 'cookies'],
+    ]);
+    expect(legalRoute('privacy').path).toBe('/politica-de-privacidad');
   });
 });

@@ -6,6 +6,11 @@ export const DETAIL_COPY = {
   toc: 'En esta página',
   sources: 'Fuentes de esta sección',
   cta: 'Reservar sesión privada',
+  draftNotice:
+    'Documento pendiente de validación. Algunos datos identificativos están por confirmar.',
+  notice: 'Aviso legal',
+  privacy: 'Política de privacidad',
+  cookies: 'Política de cookies',
   notFoundTitle: 'Esta página no existe',
   notFoundBody: 'Compruebe la dirección o vuelva al inicio.',
 } as const;

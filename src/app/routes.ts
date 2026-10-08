@@ -1,3 +1,4 @@
+import type { LegalId } from '@/content/legal/types';
 import type { VehicleId } from '@/lib/projection-assumptions';
 
 export type RouteKind = 'home' | 'act' | 'vehicle' | 'legal';
@@ -14,6 +15,7 @@ export interface RouteEntry {
   hasPendingData: boolean;
   actNumber?: ActNumber;
   vehicleId?: VehicleId;
+  legalId?: LegalId;
 }
 
 export interface RouteNav {
@@ -146,6 +148,7 @@ export const ROUTES: readonly RouteEntry[] = [
   {
     path: '/aviso-legal',
     kind: 'legal',
+    legalId: 'notice',
     title: 'Aviso legal',
     description:
       'La información contenida en este sitio web tiene carácter exclusivamente informativo y comercial.',
@@ -156,6 +159,7 @@ export const ROUTES: readonly RouteEntry[] = [
   {
     path: '/politica-de-privacidad',
     kind: 'legal',
+    legalId: 'privacy',
     title: 'Política de privacidad',
     description:
       'El tratamiento implicará compartir datos con la firma argentina. Argentina cuenta con decisión de adecuación de la Comisión Europea.',
@@ -166,6 +170,7 @@ export const ROUTES: readonly RouteEntry[] = [
   {
     path: '/politica-de-cookies',
     kind: 'legal',
+    legalId: 'cookies',
     title: 'Política de cookies',
     description: 'Política de cookies con inventario, finalidad, titular y duración de cada una.',
     changefreq: 'yearly',
@@ -217,6 +222,23 @@ export function vehicleRoute(
   const route = routes.find((entry) => isVehicleRoute(entry) && entry.vehicleId === vehicleId);
   if (!route || !isVehicleRoute(route)) {
     throw new Error(`El manifiesto no declara el vehículo ${vehicleId}`);
+  }
+  return route;
+}
+
+export function isLegalRoute(
+  route: RouteEntry,
+): route is RouteEntry & { kind: 'legal'; legalId: LegalId } {
+  return route.kind === 'legal' && route.legalId !== undefined;
+}
+
+export function legalRoute(
+  legalId: LegalId,
+  routes: readonly RouteEntry[] = ROUTES,
+): RouteEntry & { kind: 'legal'; legalId: LegalId } {
+  const route = routes.find((entry) => isLegalRoute(entry) && entry.legalId === legalId);
+  if (!route || !isLegalRoute(route)) {
+    throw new Error(`El manifiesto no declara el documento legal ${legalId}`);
   }
   return route;
 }

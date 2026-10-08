@@ -175,7 +175,9 @@ export function Act4Scene() {
           <p data-capital-protection>{ACT4.capitalProtectionNote}</p>
           <Disclaimer variant="inline" />
         </section>
-        <a href={ACT4.cta.href}>{ACT4.cta.label}</a>
+        <a data-track="cta" data-track-position="act" href={ACT4.cta.href}>
+          {ACT4.cta.label}
+        </a>
       </div>
     </Scene>
   );

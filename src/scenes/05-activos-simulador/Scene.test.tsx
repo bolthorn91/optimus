@@ -7,6 +7,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { App } from '@/app/App';
 import { DISCLAIMER_TEXT } from '@/components/Disclaimer';
 import { PENDING_LABEL } from '@/components/PendingValue';
+import { resetAnalytics, setAnalyticsSink } from '@/lib/analytics';
 import { formatCurrency, NBSP } from '@/lib/format';
 import { project } from '@/lib/projection';
 import { toRoman } from '@/lib/roman';
@@ -88,7 +89,18 @@ describe('Act5Scene', () => {
   afterEach(() => {
     window.matchMedia = nativeMatchMedia;
     clearSimulatorSession();
+    resetAnalytics();
     for (const trigger of ScrollTrigger.getAll()) trigger.kill();
+  });
+
+  it('G7 · un control del simulador registra simulator_interaction', () => {
+    const events: string[] = [];
+    setAnalyticsSink((name) => {
+      events.push(name);
+    });
+    render(<Act5Scene />);
+    fireEvent.click(screen.getByRole('radio', { name: ACT5.copy.scenarioFavourable }));
+    expect(events).toContain('simulator_interaction');
   });
 
   it('VEH-01 · los tres vehículos con ventaja y perfil literales del dossier', () => {

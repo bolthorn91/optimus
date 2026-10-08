@@ -71,7 +71,9 @@ export function Act3Scene() {
         <h3>{ACT3.copy.marketHeading}</h3>
         <MarketComparison rows={ACT3.market} />
         <p className="act3-conclusion">{ACT3.conclusion}</p>
-        <a href={ACT3.cta.href}>{ACT3.cta.label}</a>
+        <a data-track="cta" data-track-position="act" href={ACT3.cta.href}>
+          {ACT3.cta.label}
+        </a>
       </div>
     </Scene>
   );

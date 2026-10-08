@@ -13,7 +13,7 @@ export function NotFoundPage() {
       </header>
       <p className="detail-nav">
         <Link to="/">{DETAIL_COPY.backToHome}</Link>
-        <Link className="cta" to="/#contacto">
+        <Link className="cta" data-track="cta" data-track-position="not-found" to="/#contacto">
           {DETAIL_COPY.cta}
         </Link>
       </p>

@@ -65,7 +65,7 @@ export function DetailLayout({
         </nav>
       ) : null}
       <p className="detail-cta">
-        <Link className="cta" to={ctaTo}>
+        <Link className="cta" data-track="cta" data-track-position="detail" to={ctaTo}>
           {DETAIL_COPY.cta}
         </Link>
       </p>

@@ -8,6 +8,7 @@ export const ENV_KEYS = [
   'VITE_EMAILJS_TEMPLATE_ID',
   'VITE_EMAILJS_PUBLIC_KEY',
   'VITE_SITE_URL',
+  'VITE_ANALYTICS_ENDPOINT',
 ] as const;
 
 export type EnvKey = (typeof ENV_KEYS)[number];

@@ -7,6 +7,7 @@ import {
   type SyntheticEvent,
 } from 'react';
 
+import { trackEvent } from '@/lib/analytics';
 import {
   CAPITAL_BANDS,
   EMPTY_CONTACT_VALUES,
@@ -79,6 +80,7 @@ export function ContactForm({
 
   function applySend(result: SendResult): void {
     busy.current = false;
+    if (result.ok) trackEvent('form_submit');
     setStatus(result.ok ? 'success' : 'error');
   }
 

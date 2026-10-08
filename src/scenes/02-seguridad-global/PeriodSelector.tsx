@@ -1,3 +1,4 @@
+import { trackEvent } from '@/lib/analytics';
 import type { PeriodIndex, RiskSeries } from '@/scenes/02-seguridad-global/risk-data';
 
 export type { PeriodIndex };
@@ -22,6 +23,7 @@ export function PeriodSelector({
           aria-pressed={index === activeIndex}
           key={periods[index].id}
           onClick={() => {
+            trackEvent('map_interaction', { period: index });
             onSelect(index);
           }}
           type="button"

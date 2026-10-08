@@ -12,6 +12,7 @@ import {
   sectionAt,
 } from '@/app/sections';
 import { useScrollRestore } from '@/app/useScrollRestore';
+import { useSiteAnalytics } from '@/app/useSiteAnalytics';
 import { ContactDetails } from '@/components/ContactDetails';
 import { Disclaimer } from '@/components/Disclaimer';
 import { Milestone } from '@/components/Milestone';
@@ -31,6 +32,7 @@ export function Layout() {
   const currentGroup = current?.navGroup ?? null;
 
   useScrollRestore(location.pathname, location.hash);
+  useSiteAnalytics(current, progress);
 
   useLayoutEffect(() => {
     applyDocumentPair(pair);
@@ -66,7 +68,7 @@ export function Layout() {
             ))}
           </ul>
         </nav>
-        <a className="cta" href="/#contacto">
+        <a className="cta" data-track="cta" data-track-position="header" href="/#contacto">
           Reservar sesión privada
         </a>
       </header>

@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 
+import { trackEvent } from '@/lib/analytics';
 import {
   coerceProjectionInput,
   project,
@@ -60,12 +61,14 @@ export function useSimulator(initial: Partial<ProjectionInput> = {}): {
 
   const setCapital = useCallback(
     (capital: number) => {
+      trackEvent('simulator_interaction', { control: 'capital' });
       patchInput({ capital }, takeover.current);
     },
     [patchInput],
   );
   const setYears = useCallback(
     (years: number) => {
+      trackEvent('simulator_interaction', { control: 'horizon' });
       patchInput({ years }, true);
     },
     [patchInput],
@@ -79,12 +82,14 @@ export function useSimulator(initial: Partial<ProjectionInput> = {}): {
   );
   const setScenario = useCallback(
     (scenario: Scenario) => {
+      trackEvent('simulator_interaction', { control: 'scenario' });
       patchInput({ scenario }, takeover.current);
     },
     [patchInput],
   );
   const setVehicle = useCallback(
     (vehicle: VehicleId) => {
+      trackEvent('simulator_interaction', { control: 'vehicle' });
       patchInput({ vehicle }, takeover.current);
     },
     [patchInput],

@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import { resetAnalytics, setAnalyticsSink } from '@/lib/analytics';
 import { RATE_MAX } from '@/lib/contact-form';
 import { ContactForm } from '@/scenes/07-contacto/ContactForm';
 import { CONTACT_SCENE, consentDataSentence } from '@/scenes/07-contacto/content';
@@ -31,6 +32,10 @@ function fillValid(): void {
 }
 
 describe('ContactForm', () => {
+  afterEach(() => {
+    resetAnalytics();
+  });
+
   it('FRM-08 · dos casillas de consentimiento, separadas y sin premarcar', () => {
     const { container } = render(<ContactForm />);
     const data = container.querySelector('[data-consent="data"] input');
@@ -169,6 +174,20 @@ describe('ContactForm', () => {
     submit();
     expect(screen.getByRole('alert')).toHaveTextContent(CONTACT_SCENE.copy.rateLimited);
     expect(send).toHaveBeenCalledTimes(RATE_MAX);
+  });
+
+  it('G7 · el envío aceptado registra form_submit', async () => {
+    const events: string[] = [];
+    setAnalyticsSink((name) => {
+      events.push(name);
+    });
+    const send = vi.fn().mockResolvedValue({ ok: true });
+    render(<ContactForm send={send} />);
+    fillValid();
+    submit();
+    await waitFor(() => {
+      expect(events).toEqual(['form_submit']);
+    });
   });
 
   it('FRM-12 · el éxito mueve el foco a la confirmación anunciada', async () => {

@@ -78,7 +78,12 @@ export function HeroScene() {
         <HeroHeadline emphasis={HERO.headlineEmphasis} text={HERO.headline} />
         <p className="hero-claim">{HERO.claim}</p>
         <div className="hero-ctas">
-          <a className="hero-cta hero-cta--primary" href={HERO.primaryCta.href}>
+          <a
+            className="hero-cta hero-cta--primary"
+            data-track="cta"
+            data-track-position="hero"
+            href={HERO.primaryCta.href}
+          >
             {HERO.primaryCta.label}
           </a>
           <a className="hero-cta hero-cta--secondary" href={HERO.secondaryCta.href}>

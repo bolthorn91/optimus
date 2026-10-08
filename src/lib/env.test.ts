@@ -14,6 +14,7 @@ const complete: EnvSource = {
   VITE_EMAILJS_TEMPLATE_ID: 'template_x',
   VITE_EMAILJS_PUBLIC_KEY: 'key_x',
   VITE_SITE_URL: 'https://example.test',
+  VITE_ANALYTICS_ENDPOINT: 'https://collect.example.test/e',
 };
 
 describe('lectura de variables de entorno', () => {

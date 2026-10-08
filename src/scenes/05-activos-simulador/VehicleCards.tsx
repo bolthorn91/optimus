@@ -68,7 +68,9 @@ export function VehicleCards({
                 <abbr title={vehicle.glossary}>{ACT5.copy.pozoTerm}</abbr>: {vehicle.glossary}
               </p>
             ) : null}
-            <a href={contactHref(vehicle.id)}>{ACT5.cta.label}</a>
+            <a data-track="cta" data-track-position="vehicle" href={contactHref(vehicle.id)}>
+              {ACT5.cta.label}
+            </a>
           </li>
         );
       })}

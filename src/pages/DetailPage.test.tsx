@@ -8,7 +8,6 @@ import { adjacentActs, routeByPath, ROUTES } from '@/app/routes';
 import { MotionContext } from '@/motion/MotionProvider';
 import { DETAIL_COPY } from '@/pages/detailCopy';
 import { DetailLayout } from '@/pages/DetailLayout';
-import { DetailPage } from '@/pages/DetailPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { expectNoBlockingAxeViolations } from '@/test/axe';
 
@@ -94,7 +93,7 @@ describe('páginas de detalle', () => {
               }
               index
             />
-            <Route element={<DetailPage route={AVISO} />} path="aviso-legal" />
+            <Route element={<DetailLayout title={AVISO.title} toc={[]} />} path="aviso-legal" />
             <Route element={<NotFoundPage />} path="*" />
           </Route>
         </Routes>
@@ -139,7 +138,7 @@ describe('páginas de detalle', () => {
                 }
                 index
               />
-              <Route element={<DetailPage route={AVISO} />} path="aviso-legal" />
+              <Route element={<DetailLayout title={AVISO.title} toc={[]} />} path="aviso-legal" />
             </Route>
           </Routes>
         </MemoryRouter>

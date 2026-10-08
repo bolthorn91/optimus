@@ -5,6 +5,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { App } from '@/app/App';
+import { resetAnalytics, setAnalyticsSink } from '@/lib/analytics';
 import { ScrollTrigger } from '@/motion/gsapSetup';
 import { HERO } from '@/scenes/00-hero/content';
 import { ACT1 } from '@/scenes/01-escenario-europeo/content';
@@ -23,6 +24,7 @@ const CANON = readFileSync(
 describe('Act2Scene', () => {
   afterEach(() => {
     window.matchMedia = nativeMatchMedia;
+    resetAnalytics();
     for (const trigger of ScrollTrigger.getAll()) trigger.kill();
   });
 
@@ -37,6 +39,16 @@ describe('Act2Scene', () => {
     }
     expect(screen.getByRole('list', { name: ACT2.copy.legendTitle })).toBeInTheDocument();
     expect(screen.getByRole('table', { name: ACT2.copy.tableCaption })).toBeInTheDocument();
+  });
+
+  it('G7 · el selector de período registra map_interaction', () => {
+    const events: string[] = [];
+    setAnalyticsSink((name) => {
+      events.push(name);
+    });
+    render(<Act2Scene />);
+    fireEvent.click(screen.getByRole('button', { name: /2050/ }));
+    expect(events).toContain('map_interaction');
   });
 
   // MAP-09

@@ -131,7 +131,9 @@ export function Act1Scene() {
           />
         </div>
         <p className="act1-closing">{ACT1.closing}</p>
-        <a href={ACT1.cta.href}>{ACT1.cta.label}</a>
+        <a data-track="cta" data-track-position="act" href={ACT1.cta.href}>
+          {ACT1.cta.label}
+        </a>
       </div>
     </Scene>
   );

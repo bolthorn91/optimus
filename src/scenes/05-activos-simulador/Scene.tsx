@@ -73,7 +73,9 @@ export function Act5Scene() {
           setScenario={setScenario}
           setYears={setYears}
         />
-        <a href={contactHref(input.vehicle, input)}>{ACT5.cta.label}</a>
+        <a data-track="cta" data-track-position="act" href={contactHref(input.vehicle, input)}>
+          {ACT5.cta.label}
+        </a>
       </div>
     </Scene>
   );
