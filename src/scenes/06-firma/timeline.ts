@@ -12,8 +12,6 @@ export interface Act67State {
   surfaceMix: number;
 }
 
-export const PIN_END = '+=500vh';
-
 export function choreographAct67(progress: number): Act67State {
   const p = clamp01(progress);
 

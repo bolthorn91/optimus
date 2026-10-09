@@ -39,7 +39,7 @@ export function useGsapScene<T>({
   const reduced = useReducedMotionSafe();
   const policy = useResolvedPolicy(sceneId ?? '');
   const freeze = reduced || (policy !== null && policy.mode !== 'scrub');
-  const pinEnd = policy !== null ? scrollTriggerEnd(policy.height) : end;
+  const pinEnd = end ?? (policy !== null ? scrollTriggerEnd(policy.height) : undefined);
   const triggerRef = useRef<ScrollTrigger | null>(null);
   const silent = useRef(false);
 

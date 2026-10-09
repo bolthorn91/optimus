@@ -23,6 +23,8 @@
 .contact-form select,
 .contact-form textarea {
   font: inherit;
+  font-size: 1rem;
+  min-block-size: var(--touch-min);
   color: inherit;
   background: var(--surface-raised);
   border: 1px solid var(--rule);

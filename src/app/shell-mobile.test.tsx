@@ -172,4 +172,10 @@ describe('shell móvil', () => {
     expect(container.querySelector('.progress-bar__fill')).toHaveStyle({ inlineSize: '40%' });
     expect(container.querySelector('[data-progress-bar]')).toHaveAttribute('aria-valuenow', '40');
   });
+
+  it('MOB-16 · al enfocar un campo del formulario el CTA fijo se oculta', () => {
+    const css = readFileSync(resolve(process.cwd(), 'src/app/sticky-cta.css'), 'utf8');
+    expect(css).toMatch(/\[data-contact-form\]:focus-within/);
+    expect(css).toMatch(/\[data-contact-form\]:active/);
+  });
 });

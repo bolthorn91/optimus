@@ -112,6 +112,13 @@
   list-style: none;
 }
 
+.glossary-index a {
+  display: inline-flex;
+  align-items: center;
+  min-inline-size: var(--touch-min);
+  min-block-size: var(--touch-min);
+}
+
 [data-glossary] dl {
   display: grid;
   gap: var(--space-s);

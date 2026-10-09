@@ -19,6 +19,11 @@ body:has([data-sticky-cta]) {
   scroll-padding-block-end: var(--touch-min);
 }
 
+body:has([data-contact-form]:focus-within) [data-sticky-cta],
+body:has([data-contact-form]:active) [data-sticky-cta] {
+  display: none;
+}
+
 @media print {
   body[data-print='document'] .sticky-cta,
   body[data-print='document'] .progress-bar,

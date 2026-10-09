@@ -31,11 +31,20 @@
   font-size: var(--text-note);
 }
 
+.detail-toc summary,
+.detail-toc a {
+  display: inline-flex;
+  align-items: center;
+  min-inline-size: var(--touch-min);
+  min-block-size: var(--touch-min);
+  cursor: pointer;
+}
+
 .detail-toc ol {
   margin: var(--space-s) 0 0;
   padding-inline-start: 1.2em;
   display: grid;
-  gap: var(--space-2xs);
+  gap: var(--space-s);
 }
 
 .detail-nav {

@@ -19,6 +19,12 @@ import { ContactScene } from '@/scenes/07-contacto/Scene';
 import { expectNoBlockingAxeViolations } from '@/test/axe';
 
 const nativeMatchMedia = window.matchMedia.bind(window);
+const nativeWidth = window.innerWidth;
+
+function setWidth(width: number): void {
+  Object.defineProperty(window, 'innerWidth', { configurable: true, value: width });
+  window.dispatchEvent(new Event('resize'));
+}
 
 function stubMatchMedia(queryNeedle: string): void {
   window.matchMedia = (query: string) =>
@@ -45,6 +51,7 @@ function renderScene(path = '/#contacto') {
 describe('ContactScene', () => {
   afterEach(() => {
     window.matchMedia = nativeMatchMedia;
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: nativeWidth });
     clearSimulatorSession();
     for (const trigger of ScrollTrigger.getAll()) trigger.kill();
   });
@@ -188,6 +195,23 @@ describe('ContactScene', () => {
     const { unmount } = renderScene();
     expect(ScrollTrigger.getAll().length).toBeGreaterThan(0);
     unmount();
+    expect(ScrollTrigger.getAll()).toEqual([]);
+  });
+
+  it('a 375 px no ancla y a 1440 px conserva el end de subida', () => {
+    setWidth(375);
+    const mobile = renderScene();
+    expect(ScrollTrigger.getAll()).toEqual([]);
+    mobile.unmount();
+
+    setWidth(1440);
+    const desktop = renderScene();
+    const trigger = ScrollTrigger.getAll().find((item) => {
+      const node = item.trigger;
+      return node instanceof HTMLElement && node.id === 'contacto';
+    });
+    expect(String(trigger?.vars.end)).toBe('top 35%');
+    desktop.unmount();
     expect(ScrollTrigger.getAll()).toEqual([]);
   });
 });

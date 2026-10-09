@@ -13,7 +13,7 @@ import { Glossary } from '@/scenes/06-firma/Glossary';
 import { IntermediationChain } from '@/scenes/06-firma/IntermediationChain';
 import { InvestorRange } from '@/scenes/06-firma/InvestorRange';
 import { OperationalRoutes } from '@/scenes/06-firma/OperationalRoutes';
-import { choreographAct67, PIN_END, type Act67State } from '@/scenes/06-firma/timeline';
+import { choreographAct67, type Act67State } from '@/scenes/06-firma/timeline';
 
 import './scene.css';
 
@@ -55,7 +55,7 @@ export function Act67Scene() {
     apply,
     pin: true,
     scrub: true,
-    end: PIN_END,
+    sceneId: 'firma',
   });
 
   return (

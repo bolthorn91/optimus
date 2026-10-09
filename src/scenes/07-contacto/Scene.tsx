@@ -66,6 +66,7 @@ export function ContactScene() {
     scrub: true,
     start: 'top 85%',
     end: 'top 35%',
+    sceneId: 'contacto',
   });
 
   return (

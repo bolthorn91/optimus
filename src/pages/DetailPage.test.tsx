@@ -4,6 +4,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { App } from '@/app/App';
 import { Layout } from '@/app/Layout';
+import { MOBILE_COPY } from '@/app/mobileCopy';
 import { adjacentActs, routeByPath, ROUTES } from '@/app/routes';
 import { MotionContext } from '@/motion/MotionProvider';
 import { DETAIL_COPY } from '@/pages/detailCopy';
@@ -13,9 +14,16 @@ import { expectNoBlockingAxeViolations } from '@/test/axe';
 
 const AVISO = routeByPath('/aviso-legal');
 if (!AVISO) throw new Error('El manifiesto no declara /aviso-legal');
+const nativeWidth = window.innerWidth;
+
+function setWidth(width: number): void {
+  Object.defineProperty(window, 'innerWidth', { configurable: true, value: width });
+  window.dispatchEvent(new Event('resize'));
+}
 
 describe('páginas de detalle', () => {
   afterEach(() => {
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: nativeWidth });
     window.history.pushState({}, '', '/');
     document.title = '';
     document.querySelector('link[rel="canonical"]')?.remove();
@@ -167,5 +175,17 @@ describe('páginas de detalle', () => {
       screen.getByRole('heading', { level: 1, name: /El nuevo escenario europeo/ }),
     ).toBeInTheDocument();
     await expectNoBlockingAxeViolations(container);
+  });
+
+  it('MOB-21 · a 375 px el índice lateral es un desplegable colapsado', () => {
+    setWidth(375);
+    window.history.pushState({}, '', '/escenario-europeo');
+    const { container } = render(<App />);
+    const toc = container.querySelector('[data-toc-collapse]');
+    expect(toc).toBeInstanceOf(HTMLDetailsElement);
+    expect(toc).not.toHaveAttribute('open');
+    expect(toc?.querySelector('summary')).toHaveTextContent(MOBILE_COPY.tocToggle);
+    expect(screen.getByRole('navigation', { name: DETAIL_COPY.toc })).toBeInTheDocument();
+    expect(toc?.querySelectorAll('a').length).toBeGreaterThan(0);
   });
 });

@@ -1,12 +1,13 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-import { act, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { PENDING_LABEL } from '@/components/PendingValue';
 import { ScrollTrigger } from '@/motion/gsapSetup';
+import { scrollTriggerEnd } from '@/motion/responsive';
 import { ACT67 } from '@/scenes/06-firma/content';
 import { Act67Scene } from '@/scenes/06-firma/Scene';
 import { expectNoBlockingAxeViolations } from '@/test/axe';
@@ -27,6 +28,12 @@ function foldedCanon(markdown: string): string {
 }
 
 const nativeMatchMedia = window.matchMedia.bind(window);
+const nativeWidth = window.innerWidth;
+
+function setWidth(width: number): void {
+  Object.defineProperty(window, 'innerWidth', { configurable: true, value: width });
+  window.dispatchEvent(new Event('resize'));
+}
 
 function stubMatchMedia(queryNeedle: string): void {
   window.matchMedia = (query: string) =>
@@ -64,6 +71,7 @@ function driveAct67(progress: number): void {
 describe('Act67Scene', () => {
   afterEach(() => {
     window.matchMedia = nativeMatchMedia;
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: nativeWidth });
     for (const trigger of ScrollTrigger.getAll()) trigger.kill();
   });
 
@@ -242,5 +250,35 @@ describe('Act67Scene', () => {
       'data-draw',
       ACT67.intermediationChain.optimvs.map(() => '0').join(' '),
     );
+  });
+
+  it('a 375 px las cadenas refluyen a vertical y el glosario responde a pulsación', () => {
+    setWidth(375);
+    const { container, unmount } = renderScene();
+    const diagrams = [...container.querySelectorAll('[data-process-diagram]')];
+    expect(diagrams).toHaveLength(2);
+    for (const diagram of diagrams) {
+      expect(diagram).toHaveAttribute('data-orientation', 'vertical');
+    }
+    for (const label of ACT67.intermediationChain.conventional) {
+      expect(diagrams[0]).toHaveTextContent(label);
+    }
+    for (const label of ACT67.intermediationChain.optimvs) {
+      expect(diagrams[1]).toHaveTextContent(label);
+    }
+    const trigger = ScrollTrigger.getAll().find((item) => {
+      const node = item.trigger;
+      return node instanceof HTMLElement && node.id === 'firma';
+    });
+    expect(String(trigger?.vars.end)).toBe(scrollTriggerEnd('320svh'));
+    const glossary = container.querySelector('[data-glossary]');
+    const first = ACT67.glossary[0];
+    expect(first).toBeDefined();
+    if (!first) return;
+    const link = screen.getByRole('link', { name: first.term });
+    fireEvent.click(link);
+    expect(glossary).toHaveTextContent(first.definition);
+    unmount();
+    expect(ScrollTrigger.getAll()).toEqual([]);
   });
 });

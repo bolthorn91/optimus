@@ -146,6 +146,7 @@ export function ContactForm({
             autoComplete="name"
             name="fullName"
             onChange={bindText('fullName')}
+            type="text"
             value={values.fullName}
           />
         )}
@@ -160,6 +161,7 @@ export function ContactForm({
           <input
             {...a11y}
             autoComplete="email"
+            inputMode="email"
             name="email"
             onChange={bindText('email')}
             type="email"

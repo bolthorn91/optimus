@@ -1,3 +1,6 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
@@ -245,5 +248,23 @@ describe('ContactForm', () => {
   it('FRM-18 · axe sin violaciones bloqueantes', async () => {
     const { container } = render(<ContactForm />);
     await expectNoBlockingAxeViolations(container);
+  });
+
+  it('MOB-15 · a 375 px type e inputmode son correctos y la fuente es ≥ 16 px', () => {
+    const { container } = render(<ContactForm />);
+    const email = container.querySelector('input[name="email"]');
+    const phone = container.querySelector('input[name="phone"]');
+    const name = container.querySelector('input[name="fullName"]');
+    expect(email).toHaveAttribute('type', 'email');
+    expect(email).toHaveAttribute('inputmode', 'email');
+    expect(phone).toHaveAttribute('type', 'tel');
+    expect(phone).toHaveAttribute('inputmode', 'numeric');
+    expect(name).toHaveAttribute('type', 'text');
+    const css = readFileSync(
+      resolve(process.cwd(), 'src/scenes/07-contacto/contact-form.css'),
+      'utf8',
+    );
+    expect(css).toContain('font-size: 1rem');
+    expect(css).toContain('min-block-size: var(--touch-min)');
   });
 });
