@@ -6,6 +6,7 @@ import type { VehicleId } from '@/lib/projection-assumptions';
 import { Scene } from '@/motion/Scene';
 import { useGsapScene } from '@/motion/useGsapScene';
 import { useReducedMotionSafe } from '@/motion/useReducedMotionSafe';
+import { useResolvedPolicy } from '@/motion/useScenePolicy';
 import { contactHref } from '@/scenes/05-activos-simulador/contactHref';
 import { ACT5 } from '@/scenes/05-activos-simulador/content';
 import { EntryFloorNote } from '@/scenes/05-activos-simulador/EntryFloorNote';
@@ -17,7 +18,6 @@ import { VehicleCards } from '@/scenes/05-activos-simulador/VehicleCards';
 import './scene.css';
 
 const HEIGHT = '100svh';
-const PIN_END = '+=450vh';
 
 export function Act5Scene() {
   const { input, result, setCapital, setYears, syncYears, setScenario, setVehicle } =
@@ -25,14 +25,14 @@ export function Act5Scene() {
   const simulatorRef = useRef<HTMLElement>(null);
   const sceneRef = useRef<HTMLElement>(null);
   const reduced = useReducedMotionSafe();
+  const policy = useResolvedPolicy('activos');
 
   const apply = useCallback(
     (state: Act5State) => {
-      // useGsapScene applies choreograph(1) when reduced; that horizon is 15, SIM-16 keeps the rest.
-      if (reduced) return;
+      if (reduced || policy?.mode !== 'scrub') return;
       if (state.autoHorizon) syncYears(state.yearsFromScroll);
     },
-    [reduced, syncYears],
+    [policy?.mode, reduced, syncYears],
   );
 
   useGsapScene({
@@ -41,7 +41,7 @@ export function Act5Scene() {
     apply,
     pin: true,
     scrub: true,
-    end: PIN_END,
+    sceneId: 'activos',
   });
 
   function onSelect(id: VehicleId): void {

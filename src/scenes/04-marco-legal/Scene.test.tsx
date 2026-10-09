@@ -10,6 +10,7 @@ import { DISCLAIMER_TEXT } from '@/components/Disclaimer';
 import { formatArea, NBSP } from '@/lib/format';
 import { toRoman } from '@/lib/roman';
 import { ScrollTrigger } from '@/motion/gsapSetup';
+import { scrollTriggerEnd } from '@/motion/responsive';
 import { ACT1 } from '@/scenes/01-escenario-europeo/content';
 import { ACT2 } from '@/scenes/02-seguridad-global/content';
 import { ACT3 } from '@/scenes/03-asimetria-territorial/content';
@@ -27,6 +28,11 @@ const TABLES = readFileSync(resolve(process.cwd(), 'content/03-datos-y-tablas.md
 const FIGURE = visible(formatArea(ACT4.anchorStat.hectares, 'ha'));
 const nativeMatchMedia = window.matchMedia.bind(window);
 const nativeWidth = window.innerWidth;
+
+function setWidth(width: number): void {
+  Object.defineProperty(window, 'innerWidth', { configurable: true, value: width });
+  window.dispatchEvent(new Event('resize'));
+}
 
 function stubMatchMedia(queryNeedle: string): void {
   window.matchMedia = (query: string) =>
@@ -95,16 +101,38 @@ describe('Act4Scene', () => {
   });
 
   it('en viewport estrecho el diagrama refluye a vertical y conserva el texto real', () => {
-    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 375 });
-    window.dispatchEvent(new Event('resize'));
+    setWidth(375);
     const { container } = render(<Act4Scene />);
     const svg = container.querySelector('[data-process-diagram]');
     expect(svg).toHaveAttribute('data-orientation', 'vertical');
     expect(svg).toHaveAttribute('aria-hidden', 'true');
     expect(svg?.querySelectorAll('text').length).toBeGreaterThan(0);
+    const items = [...container.querySelectorAll('[data-process-step]')];
+    expect(items.map((item) => item.getAttribute('data-process-step'))).toEqual(
+      ACT4.cdiSteps.map((step) => String(step.index)),
+    );
     for (const step of ACT4.cdiSteps) {
       expect(svg).toHaveTextContent(step.title);
+      const item = container.querySelector(`[data-process-step="${String(step.index)}"]`);
+      expect(item).toHaveTextContent(step.title);
+      expect(item).toHaveTextContent(step.body);
     }
+    const trigger = ScrollTrigger.getAll().find((item) => {
+      const node = item.trigger;
+      return node instanceof HTMLElement && node.id === 'marco';
+    });
+    expect(String(trigger?.vars.end)).toBe(scrollTriggerEnd('300svh'));
+  });
+
+  it('el anclaje de escritorio conserva la distancia de pin del acto IV', () => {
+    setWidth(1440);
+    render(<Act4Scene />);
+    const trigger = ScrollTrigger.getAll().find((item) => {
+      const node = item.trigger;
+      return node instanceof HTMLElement && node.id === 'marco';
+    });
+    expect(trigger?.vars.pin).toBe(true);
+    expect(String(trigger?.vars.end)).toBe(scrollTriggerEnd('550vh'));
   });
 
   it('CDI-13 · axe sin violaciones bloqueantes', async () => {

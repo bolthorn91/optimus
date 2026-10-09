@@ -5,6 +5,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { App } from '@/app/App';
+import { MOBILE_COPY } from '@/app/mobileCopy';
 import { DISCLAIMER_TEXT } from '@/components/Disclaimer';
 import { PENDING_LABEL } from '@/components/PendingValue';
 import { resetAnalytics, setAnalyticsSink } from '@/lib/analytics';
@@ -12,6 +13,7 @@ import { formatCurrency, NBSP } from '@/lib/format';
 import { project } from '@/lib/projection';
 import { toRoman } from '@/lib/roman';
 import { ScrollTrigger } from '@/motion/gsapSetup';
+import { scrollTriggerEnd } from '@/motion/responsive';
 import { ACT1 } from '@/scenes/01-escenario-europeo/content';
 import { ACT2 } from '@/scenes/02-seguridad-global/content';
 import { ACT3 } from '@/scenes/03-asimetria-territorial/content';
@@ -41,10 +43,16 @@ const TABLES = readFileSync(resolve(process.cwd(), 'content/03-datos-y-tablas.md
 const visible = (text: string): string => text.replaceAll(NBSP, ' ');
 const MIN_INVESTMENT = /\d[\d.]{2,}\s*(US\$|USD|€|EUR|euros?)/i;
 const nativeMatchMedia = window.matchMedia.bind(window);
+const nativeWidth = window.innerWidth;
 const CSS = readFileSync(
   resolve(process.cwd(), 'src/scenes/05-activos-simulador/scene.css'),
   'utf8',
 );
+
+function setWidth(width: number): void {
+  Object.defineProperty(window, 'innerWidth', { configurable: true, value: width });
+  window.dispatchEvent(new Event('resize'));
+}
 
 function stubNarrowViewport(): void {
   window.matchMedia = (query: string) =>
@@ -88,6 +96,8 @@ function driveAct5(progress: number): void {
 describe('Act5Scene', () => {
   afterEach(() => {
     window.matchMedia = nativeMatchMedia;
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: nativeWidth });
+    delete document.documentElement.dataset.sliderGesture;
     clearSimulatorSession();
     resetAnalytics();
     for (const trigger of ScrollTrigger.getAll()) trigger.kill();
@@ -216,7 +226,7 @@ describe('Act5Scene', () => {
     });
     expect(trigger).toBeDefined();
     expect(trigger?.vars.pin).toBe(true);
-    expect(trigger?.vars.end).toBe('+=450vh');
+    expect(String(trigger?.vars.end)).toBe(scrollTriggerEnd('550vh'));
     unmount();
     expect(ScrollTrigger.getAll()).toEqual([]);
   });
@@ -314,5 +324,60 @@ describe('Act5Scene', () => {
     expect(sealVi).toBeInstanceOf(HTMLElement);
     if (!(sealVi instanceof HTMLElement) || !(sealVi.parentElement instanceof HTMLElement)) return;
     expect(sealVi.parentElement.classList.contains('on-navy')).toBe(false);
+  });
+
+  it('MOB-13 · a 375 px el modo scroll está desactivado y los deslizadores son el único control', () => {
+    setWidth(375);
+    const { container } = render(<Act5Scene />);
+    expect(ScrollTrigger.getAll()).toEqual([]);
+    const horizon = container.querySelector('#simulator-horizon');
+    const capital = container.querySelector('#simulator-capital');
+    expect(horizon).toBeInstanceOf(HTMLInputElement);
+    expect(capital).toBeInstanceOf(HTMLInputElement);
+    if (!(horizon instanceof HTMLInputElement) || !(capital instanceof HTMLInputElement)) return;
+    expect(horizon).toHaveAttribute('aria-valuenow', String(DEFAULT_SIMULATOR_INPUT.years));
+    expect(container.querySelector('[data-projection-table] tbody')?.children).toHaveLength(
+      DEFAULT_SIMULATOR_INPUT.years,
+    );
+    fireEvent.keyDown(horizon, { key: 'ArrowRight' });
+    expect(horizon).toHaveAttribute('aria-valuenow', String(DEFAULT_SIMULATOR_INPUT.years + 1));
+    fireEvent.keyDown(capital, { key: 'Home' });
+    expect(capital).toHaveAttribute('aria-valuenow', String(CAPITAL_MIN));
+    const cards = container.querySelectorAll('[data-vehicle]');
+    expect(cards).toHaveLength(3);
+    for (const card of cards) {
+      expect(card).toHaveTextContent(ACT5.copy.advantage);
+      expect(card).toHaveTextContent(ACT5.copy.performance);
+    }
+    const yearTable = container.querySelector('[data-year-table]');
+    expect(yearTable).toBeInstanceOf(HTMLDetailsElement);
+    expect(yearTable).not.toHaveAttribute('open');
+    expect(yearTable?.querySelector('summary')).toHaveTextContent(MOBILE_COPY.tableExpand);
+    expect(yearTable?.querySelector('[data-projection-table]')).not.toBeNull();
+    const capitalNumeric = container.querySelector('[data-capital-slider] input[type="number"]');
+    const horizonNumeric = container.querySelector('[data-horizon-slider] input[type="number"]');
+    expect(capitalNumeric).toHaveAttribute('inputmode', 'numeric');
+    expect(horizonNumeric).toHaveAttribute('inputmode', 'numeric');
+  });
+
+  it('MOB-14 · el arrastre del deslizador bloquea el gesto vertical y lo libera al soltar', () => {
+    const { container } = render(<Act5Scene />);
+    const capital = container.querySelector('#simulator-capital');
+    expect(capital).toBeInstanceOf(HTMLInputElement);
+    if (!(capital instanceof HTMLInputElement)) return;
+    const controlCss = readFileSync(
+      resolve(process.cwd(), 'src/scenes/05-activos-simulador/range-input.css'),
+      'utf8',
+    );
+    expect(controlCss).toContain('min-block-size: var(--touch-min)');
+    expect(controlCss).toContain('touch-action: none');
+    expect(controlCss).toContain("html[data-slider-gesture='lock']");
+    expect(readFileSync(resolve(process.cwd(), 'src/styles/tokens.css'), 'utf8')).toContain(
+      '--touch-min: 44px',
+    );
+    fireEvent.pointerDown(capital);
+    expect(document.documentElement).toHaveAttribute('data-slider-gesture', 'lock');
+    fireEvent.pointerUp(capital);
+    expect(document.documentElement).not.toHaveAttribute('data-slider-gesture');
   });
 });

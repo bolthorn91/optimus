@@ -120,11 +120,6 @@
   gap: var(--space-2xs);
 }
 
-[data-capital-slider] input[type='range'],
-[data-horizon-slider] input[type='range'] {
-  inline-size: 100%;
-}
-
 [data-scenario-toggle] {
   border: 0;
   margin: 0;
@@ -138,7 +133,14 @@
 
 [data-projection-chart] {
   inline-size: min(100%, 24rem);
+  min-block-size: 7.5rem;
   color: var(--accent);
+}
+
+[data-year-table] summary {
+  min-inline-size: var(--touch-min);
+  min-block-size: var(--touch-min);
+  cursor: pointer;
 }
 
 [data-projection-table] {

@@ -1,9 +1,12 @@
+import { MOBILE_COPY } from '@/app/mobileCopy';
 import { formatCurrency } from '@/lib/format';
 import type { ProjectionYear } from '@/lib/projection';
+import { useViewport } from '@/motion/useViewport';
 import { ACT5 } from '@/scenes/05-activos-simulador/content';
 
 export function ProjectionTable({ series }: { series: readonly ProjectionYear[] }) {
-  return (
+  const { isMobile } = useViewport();
+  const table = (
     <table data-projection-table>
       <caption>{ACT5.copy.tableCaption}</caption>
       <thead>
@@ -25,5 +28,12 @@ export function ProjectionTable({ series }: { series: readonly ProjectionYear[] 
         ))}
       </tbody>
     </table>
+  );
+  if (!isMobile) return table;
+  return (
+    <details data-year-table>
+      <summary>{MOBILE_COPY.tableExpand}</summary>
+      {table}
+    </details>
   );
 }

@@ -1,0 +1,15 @@
+html[data-slider-gesture='lock'] {
+  overflow: hidden;
+  touch-action: none;
+}
+
+.range-input__range {
+  inline-size: 100%;
+  min-block-size: var(--touch-min);
+  touch-action: none;
+}
+
+.range-input__numeric {
+  font-size: 1rem;
+  min-block-size: var(--touch-min);
+}
