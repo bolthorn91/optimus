@@ -25,10 +25,7 @@ body:has([data-contact-form]:active) [data-sticky-cta] {
 }
 
 @media print {
-  body[data-print='document'] .sticky-cta,
-  body[data-print='document'] .progress-bar,
-  body[data-print='document'] .mobile-nav,
-  body[data-print='document'] .menu-toggle {
+  body[data-print='document'] .sticky-cta {
     display: none;
   }
 }

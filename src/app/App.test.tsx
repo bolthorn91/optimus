@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 
 import { App } from '@/app/App';
 import { Layout } from '@/app/Layout';
-import { milestoneMarks, sectionAt } from '@/app/sections';
+import { milestoneMarks, SECTIONS, sectionAt } from '@/app/sections';
 import { Milestone } from '@/components/Milestone';
 import { PENDING_LABEL } from '@/components/PendingValue';
 import { CONTACT } from '@/content/contact';
@@ -139,6 +139,15 @@ describe('shell', () => {
     const { container } = render(<App />);
     await expectNoBlockingAxeViolations(container);
   }, 30_000);
+
+  it('cada sección no hospedada monta su escena, sin marcador de bootstrap', () => {
+    render(<App />);
+    expect(screen.queryByText(/Marcador de acto/)).not.toBeInTheDocument();
+    for (const section of SECTIONS) {
+      if (section.hostedBy) continue;
+      expect(document.getElementById(section.id), section.id).not.toBeNull();
+    }
+  });
 
   // CMP-10 · FRM-24
   it('CMP-10 · FRM-24 · los actos I a V siguen con VI–VII y el contacto montados', () => {

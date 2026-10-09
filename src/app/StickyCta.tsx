@@ -2,12 +2,7 @@ import { MOBILE_COPY } from '@/app/mobileCopy';
 
 import './sticky-cta.css';
 
-export interface StickyCtaProps {
-  hidden?: boolean;
-}
-
-export function StickyCta({ hidden = false }: StickyCtaProps) {
-  if (hidden) return null;
+export function StickyCta() {
   return (
     <a
       className="sticky-cta"

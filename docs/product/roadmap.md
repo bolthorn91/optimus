@@ -14,7 +14,7 @@ ejecuta con `/goal docs/product/<slug>-goal-prompt.md`.
 |-------|-------|
 | Fase del producto | v1 — sitio de captación, objetivo único: reservar sesión de diagnóstico patrimonial |
 | Superficie | Home de scroll continuo (actos I–VII) + páginas de detalle + legales |
-| Estado | Fundación, actos I–VII y páginas de detalle hechos en branch `main`. Documento 08 pendiente. |
+| Estado | Fundación, actos I–VII, páginas de detalle y adaptación móvil hechos en branch `main`. |
 
 ---
 
@@ -30,7 +30,7 @@ ejecuta con `/goal docs/product/<slug>-goal-prompt.md`.
 | 05 | [`05-acto-v-activos-simulador.md`](05-acto-v-activos-simulador.md) | Acto V: los tres vehículos de inversión y el simulador de proyección | hecho en branch |
 | 06 | [`06-acto-vi-firma-cierre-contacto.md`](06-acto-vi-firma-cierre-contacto.md) | Actos VI–VII: la firma, las dos vías, cierre y formulario de reserva | hecho en branch |
 | 07 | [`07-paginas-detalle.md`](07-paginas-detalle.md) | Páginas de detalle por acto y por vehículo, legales, SEO | hecho en branch |
-| 08 | [`08-responsive-movil.md`](08-responsive-movil.md) | Adaptación móvil de toda la superficie | pendiente |
+| 08 | [`08-responsive-movil.md`](08-responsive-movil.md) | Adaptación móvil de toda la superficie | hecho en branch |
 
 ---
 

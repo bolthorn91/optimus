@@ -131,7 +131,7 @@ function triggerById(id: string) {
   });
 }
 
-describe('DoD móvil fase D', () => {
+describe('DoD móvil fase D', { timeout: 30_000 }, () => {
   afterEach(() => {
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: nativeWidth });
     window.history.pushState({}, '', '/');

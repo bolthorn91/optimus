@@ -28,6 +28,7 @@ registran aquí para que la decisión sea explícita y no un olvido.
 | E2E-05-SIM | Como visitante, muevo capital, horizonte y escenario, veo el resultado con sus supuestos, y llego al formulario con el vehículo elegido | doc 05 §12.1 | abierto |
 | E2E-06-RESERVE | Como visitante, recorro la home hasta el cierre, relleno el formulario y recibo la confirmación de que mi solicitud se ha enviado | doc 06 §12.1 | abierto |
 | E2E-07-DETAIL | Como visitante, salto de un acto de la home a su página de detalle, la leo entera y vuelvo a mi posición anterior | doc 07 §12.1 | abierto |
+| E2E-08-MOBILE | Como visitante desde un móvil, recorro la home entera y envío el formulario de reserva sin que ningún elemento me lo impida | doc 08 §12.1 | abierto |
 
 ---
 
@@ -87,5 +88,8 @@ Bloqueos y decisiones editoriales que el cliente aún no ha cerrado (perfil §7 
 | Id | Deuda | Origen | Estado |
 |----|-------|--------|--------|
 | A11Y-00-SPA | El sitio es una SPA: sin JavaScript no hay contenido. Afecta al SEO y a la robustez, justo en las páginas de detalle que existen para ser encontradas. Mitigación futura: prerenderizado estático de home, actos y legales | doc 00 §12.3 · doc 07 §12.4 / G8 | abierto |
-| PERF-03-GPU | La escena WebGL se optimiza para escritorio. Falta medir en portátiles con gráfica integrada y decidir el umbral por debajo del cual se sirve directamente el fallback | doc 03 §12.5 / §3.6 | abierto |
+| PERF-03-GPU | En móvil el acto III sirve el fallback estático (doc 08 S3). La medición en portátiles con gráfica integrada queda como PERF-08-DEVICE | doc 03 §12.5 / §3.6 · doc 08 S3 | cerrado (2026-10-09) |
 | ASSET-03-WEBP | F8 pide WebP con respaldo. El picture estático lo cubre (`nightfall-static.jpg`); el canvas carga solo WebP vía TextureLoader. Los PNG de país (~2 MB) no se servían y se retiraron | doc 03 F8 / §7 E | abierto |
+| PERF-08-DEVICE | Las políticas de degradación de §3.2 se basan en criterio, no en medición sobre un parque de dispositivos. Falta verificar en gama media y baja reales (y en portátiles con gráfica integrada) y ajustar S7 | doc 08 §12.2 / S7 · doc 03 §12.5 | abierto |
+| WEBGL-08-MOBILE | El acto III sirve el fallback en todo móvil, incluidos los que sí podrían ejecutar la escena. Decisión conservadora a revisar con datos reales | doc 08 §12.3 / S3 | abierto |
+| TAB-08 | El tramo 768–1024 px hereda escritorio por encima de 1024 y móvil por debajo de 768. La franja intermedia se verifica pero no se optimiza | doc 08 §12.4 / F1 | abierto |

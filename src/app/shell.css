@@ -61,7 +61,6 @@ footer [data-sources] {
   body[data-print='document'] .skip-link,
   body[data-print='document'] .site-header,
   body[data-print='document'] [data-milestone],
-  body[data-print='document'] .menu-toggle,
   body[data-print='document'] footer {
     display: none;
   }

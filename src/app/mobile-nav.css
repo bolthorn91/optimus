@@ -45,3 +45,9 @@
   padding: 0;
   list-style: none;
 }
+
+@media print {
+  body[data-print='document'] .mobile-nav {
+    display: none;
+  }
+}

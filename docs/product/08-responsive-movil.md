@@ -1,6 +1,6 @@
 # Adaptación móvil
 
-**Estado:** especificación canónica (decisiones cerradas 2026-08-17). Pendiente de implementación.
+**Estado:** hecho en branch `main` (2026-10-09). No fusionado.
 **Branch de trabajo:** el HEAD actual del worktree.
 **Perfil de proyecto:** [`agent-docs/goal-profile.md`](../../agent-docs/goal-profile.md) — invariantes §7 aplicables: I1, I3, I4, I5, I9.
 **Roadmap:** [`roadmap.md`](roadmap.md) §2, fila 08.
@@ -337,18 +337,18 @@ resolución documentada.
 
 ### 8.1 Adaptación móvil
 
-- [ ] El contenido textual observable es idéntico a 375 px y a 1440 px en los siete actos.
-- [ ] Ninguna ruta del sitio produce scroll horizontal a 375 px.
-- [ ] Toda escena tiene su política declarada en un solo sitio; ninguna decide por su cuenta.
-- [ ] El acto III sirve el fallback estático en móvil, sin montar WebGL.
-- [ ] Toda superficie a pantalla completa usa `svh` o `dvh`, nunca `vh`.
-- [ ] Todo control tiene al menos 44×44 px de área efectiva.
-- [ ] Ninguna información depende exclusivamente de `hover`.
-- [ ] Arrastrar un deslizador no hace scroll a la página.
-- [ ] El CTA fijo no tapa el campo activo ni el botón de envío con el teclado abierto.
-- [ ] `prefers-reduced-motion` manda sobre la política de escena.
-- [ ] Escritorio sigue funcionando exactamente igual.
-- [ ] Los veintidós tests MOB-01…MOB-22 existen y pasan.
+- [x] El contenido textual observable es idéntico a 375 px y a 1440 px en los siete actos.
+- [x] Ninguna ruta del sitio produce scroll horizontal a 375 px.
+- [x] Toda escena tiene su política declarada en un solo sitio; ninguna decide por su cuenta.
+- [x] El acto III sirve el fallback estático en móvil, sin montar WebGL.
+- [x] Toda superficie a pantalla completa usa `svh` o `dvh`, nunca `vh`.
+- [x] Todo control tiene al menos 44×44 px de área efectiva.
+- [x] Ninguna información depende exclusivamente de `hover`.
+- [x] Arrastrar un deslizador no hace scroll a la página.
+- [x] El CTA fijo no tapa el campo activo ni el botón de envío con el teclado abierto.
+- [x] `prefers-reduced-motion` manda sobre la política de escena.
+- [x] Escritorio sigue funcionando exactamente igual.
+- [x] Los veintidós tests MOB-01…MOB-22 existen y pasan.
 
 ### 8.2 Segunda feature
 
@@ -356,13 +356,13 @@ resolución documentada.
 
 ### 8.3 Global
 
-- [ ] `docs/product/roadmap.md` fila 08 actualizada a «hecho en branch».
-- [ ] La deuda 03 §12.5 queda cerrada con su resolución documentada.
-- [ ] Lo no cubierto → filas honestas en `docs/debt/technical-debt.md`.
-- [ ] Se respetan el idioma y la política de comentarios del perfil §1.
-- [ ] No se modificó ninguna zona protegida del perfil §6 sin autorización de C3.
-- [ ] Todos los gates del perfil §5 en verde, ejecutados de verdad.
-- [ ] Ningún invariante del perfil §7 roto en la superficie tocada.
+- [x] `docs/product/roadmap.md` fila 08 actualizada a «hecho en branch».
+- [x] La deuda 03 §12.5 queda cerrada con su resolución documentada.
+- [x] Lo no cubierto → filas honestas en `docs/debt/technical-debt.md`.
+- [x] Se respetan el idioma y la política de comentarios del perfil §1.
+- [x] No se modificó ninguna zona protegida del perfil §6 sin autorización de C3.
+- [x] Todos los gates del perfil §5 en verde, ejecutados de verdad.
+- [x] Ningún invariante del perfil §7 roto en la superficie tocada.
 
 ---
 

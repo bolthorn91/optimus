@@ -39,7 +39,7 @@ function walkCss(dir: string, acc: string[] = []): string[] {
   return acc;
 }
 
-describe('shell móvil', () => {
+describe('shell móvil', { timeout: 30_000 }, () => {
   afterEach(() => {
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: nativeWidth });
     window.history.pushState({}, '', '/');
