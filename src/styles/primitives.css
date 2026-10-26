@@ -7,13 +7,32 @@
  * Oculto a la vista, presente para el lector de pantalla. `<CountUp>` depende de esta clase para
  * cumplir el invariante I4: sin ella la cifra final se vería duplicada en pantalla.
  */
-/* Superficie navy: las primitivas leen --ink* ; el shell no las remapea (M8 es --doc-*). */
+/*
+ * Pares de superficie. No basta con remapear `--ink`: las tarjetas, los campos y los
+ * marcadores usan `--surface-raised`, y si el par no lo cambia quedan del tema opuesto.
+ * `on-navy` se usa en las escenas azules; `on-light`, en las escenas marfil fijas.
+ */
 .on-navy {
   --ink: var(--color-ivory);
   --ink-strong: var(--color-white);
   --ink-muted: var(--color-slate-light);
   --accent: var(--color-gold);
   --rule: var(--color-rule-cool);
+  --doc-ink: var(--color-ivory);
+  --surface: var(--color-navy-deep);
+  --surface-raised: var(--color-navy-mid);
+  color: var(--ink);
+}
+
+.on-light {
+  --ink: var(--color-navy-ink);
+  --ink-strong: var(--color-navy-deep);
+  --ink-muted: var(--color-slate);
+  --accent: var(--color-gold-bronze);
+  --rule: var(--color-rule-warm);
+  --doc-ink: var(--color-navy-deep);
+  --surface: var(--color-ivory);
+  --surface-raised: var(--color-white);
   color: var(--ink);
 }
 

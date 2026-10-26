@@ -53,6 +53,7 @@ export function Act5Scene() {
     <Scene
       act={ACT5.act}
       background="var(--color-ivory)"
+      className="on-light"
       height={HEIGHT}
       id="activos"
       ref={sceneRef}

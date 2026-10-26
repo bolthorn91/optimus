@@ -100,7 +100,7 @@ export function Act4Scene() {
     <Scene
       act={ACT4.act}
       background={SCENE_BACKGROUND}
-      className={visual.chrome === 'ivory' ? '' : 'on-navy'}
+      className={visual.chrome === 'ivory' ? 'on-light' : 'on-navy'}
       height={HEIGHT}
       id="marco"
       ref={ref}

@@ -47,7 +47,7 @@ export function Act3Scene() {
     <Scene
       act={ACT3.act}
       background="var(--act3-sky)"
-      className={visual.chrome === 'day' ? '' : 'on-navy'}
+      className={visual.chrome === 'day' ? 'on-light' : 'on-navy'}
       height={HEIGHT}
       id="territorio"
       ref={ref}

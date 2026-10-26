@@ -218,6 +218,7 @@ describe('Act3Scene', () => {
     const scene = container.querySelector('#territorio');
     expect(scene).toBeInstanceOf(HTMLElement);
     expect((scene as HTMLElement).classList.contains('on-navy')).toBe(false);
+    expect((scene as HTMLElement).classList.contains('on-light')).toBe(true);
     expect((scene as HTMLElement).dataset.chrome).toBe('day');
     expect(document.documentElement.style.getPropertyValue('--doc-ink')).toBe('var(--color-ivory)');
     expect(document.documentElement.style.getPropertyValue('--doc-surface')).toBe(

@@ -182,6 +182,7 @@ describe('Act4Scene', () => {
     expect(scene).toBeInstanceOf(HTMLElement);
     if (!(scene instanceof HTMLElement)) return;
     expect(scene.classList.contains('on-navy')).toBe(false);
+    expect(scene.classList.contains('on-light')).toBe(true);
     expect(scene.dataset.chrome).toBe('ivory');
     expect(document.documentElement.style.getPropertyValue('--doc-surface')).toBe(
       IVORY_PAIR.surface,

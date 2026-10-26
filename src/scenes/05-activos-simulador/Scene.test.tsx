@@ -113,6 +113,11 @@ describe('Act5Scene', () => {
     expect(events).toContain('simulator_interaction');
   });
 
+  it('el acto V declara el par de superficie clara sobre el que se lee', () => {
+    const { container } = render(<Act5Scene />);
+    expect(container.querySelector('#activos')?.classList.contains('on-light')).toBe(true);
+  });
+
   it('VEH-01 · los tres vehículos con ventaja y perfil literales del dossier', () => {
     const { container } = render(<Act5Scene />);
     expect(screen.getByRole('heading', { name: new RegExp(ACT5.title, 'i') })).toBeInTheDocument();
