@@ -74,7 +74,16 @@ export function HeroScene() {
     >
       <div className="hero">
         <div className="hero-veil" />
-        <img alt={HERO.logoAlt} className="hero-logo" src={HERO.logoSrc} />
+        <div className="hero-masthead">
+          <p className="hero-brand">
+            <span aria-hidden="true" className="hero-brand__mark">
+              O
+            </span>
+            <span className="hero-brand__name">OPTIMVS</span>
+            <span className="hero-brand__sub">Capital Protegido</span>
+          </p>
+          <span className="hero-masthead__place">España · Argentina</span>
+        </div>
         <HeroHeadline emphasis={HERO.headlineEmphasis} text={HERO.headline} />
         <p className="hero-claim">{HERO.claim}</p>
         <div className="hero-ctas">

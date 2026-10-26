@@ -24,15 +24,22 @@ export function NightfallStage({
     setLost(true);
   }, []);
   const canCanvas = policy?.mode === 'scrub' && webgl && !lost;
-  const figureProgress = canCanvas
-    ? state
-    : { areaProgress: 1, popProgress: 1, densityProgress: 1 };
+  /*
+   * Las cifras no van montadas al progreso del scroll: con el mapa a media vista
+   * mostraban ceros y la comparación se leía mal. Se sirven completas y el bloque
+   * entra con la animación de `view()` del CSS; el mapa conserva su recorrido día/noche.
+   */
+  const figureProgress = { areaProgress: 1, popProgress: 1, densityProgress: 1 };
 
   return (
     <div
       className="act3-nightfall"
       {...(canCanvas ? { 'data-nightfall-stage': '' } : { 'data-nightfall-fallback': '' })}
     >
+      <div className="act3-nightfall-head">
+        <span>Luminosidad nocturna</span>
+        <span>{countries.map((country) => country.name).join(' · ')}</span>
+      </div>
       {canCanvas ? (
         <>
           <p className="visually-hidden">{ACT3.copy.canvasAlt}</p>

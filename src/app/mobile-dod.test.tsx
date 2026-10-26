@@ -188,18 +188,11 @@ describe('DoD móvil fase D', { timeout: 30_000 }, () => {
         <Act67Scene />
       </MemoryRouter>,
     );
-    expect(String(triggerById('firma')?.vars.end)).toBe('bottom bottom');
-    expect(triggerById('firma')?.vars.pin).toBe(false);
+    expect(ScrollTrigger.getAll()).toEqual([]);
     act(() => {
       setWidth(375);
     });
-    const firma = ScrollTrigger.getAll().filter((item) => {
-      const node = item.trigger;
-      return node instanceof HTMLElement && node.id === 'firma';
-    });
-    expect(firma).toHaveLength(1);
-    expect(String(firma[0]?.vars.end)).toBe('bottom bottom');
-    expect(firma[0]?.vars.pin).toBe(false);
+    expect(ScrollTrigger.getAll()).toEqual([]);
   });
 
   it('MOB-19 · cada acto a 375 px pasa axe sin violaciones bloqueantes', async () => {

@@ -1,11 +1,7 @@
-import { useCallback, useRef, useState } from 'react';
-
 import { ActSeal } from '@/components/ActSeal';
 import { PendingValue } from '@/components/PendingValue';
 import { RomanNumeral } from '@/components/RomanNumeral';
 import { Scene } from '@/motion/Scene';
-import { useGsapScene } from '@/motion/useGsapScene';
-import { useReducedMotionSafe } from '@/motion/useReducedMotionSafe';
 import { ACT67 } from '@/scenes/06-firma/content';
 import { DepartmentCards } from '@/scenes/06-firma/DepartmentCards';
 import { FounderCard } from '@/scenes/06-firma/FounderCard';
@@ -34,33 +30,15 @@ function viewOf(state: Act67State): Act67View {
   };
 }
 
-function applyChrome(node: HTMLElement, state: Act67State): void {
-  node.style.setProperty('--firm-opacity', String(state.firmOpacity));
-  node.style.setProperty('--quote-opacity', String(state.quoteOpacity));
-}
+/**
+ * El acto VI–VII es una lectura larga, no una escena anclada. Al quitar el pin, el
+ * progreso de scroll se quedaba a cero al entrar y ocultaba la firma, la biografía y
+ * las cadenas. Se sirve el estado final: todo el contenido existe y los mapas se
+ * dibujan completos; la entrada se resuelve con CSS al llegar a cada bloque.
+ */
+const VISUAL = viewOf(choreographAct67(1));
 
 export function Act67Scene() {
-  const ref = useRef<HTMLElement>(null);
-  const reduced = useReducedMotionSafe();
-  const [visual, setVisual] = useState(() => viewOf(choreographAct67(reduced ? 1 : 0)));
-
-  const apply = useCallback((state: Act67State) => {
-    if (ref.current) applyChrome(ref.current, state);
-    setVisual(viewOf(state));
-  }, []);
-
-  useGsapScene({
-    ref,
-    choreograph: choreographAct67,
-    apply,
-    // La firma y el asesoramiento son demasiado largos para vivir dentro de un pin: el
-    // recorrido se lee de arriba abajo y las cadenas se dibujan con el scroll normal.
-    pin: false,
-    end: 'bottom bottom',
-    scrub: true,
-    sceneId: 'firma',
-  });
-
   return (
     <Scene
       act={ACT67.acts[0]}
@@ -68,7 +46,6 @@ export function Act67Scene() {
       className="on-navy"
       height={HEIGHT}
       id="firma"
-      ref={ref}
     >
       <div className="act67">
         <div className="act67-firm">
@@ -77,14 +54,13 @@ export function Act67Scene() {
           </h2>
           <p>{ACT67.firmSummary}</p>
         </div>
-        <h3>{ACT67.copy.founderHeading}</h3>
-        <FounderCard founder={ACT67.founder} progress={visual.founderProgress} />
+        <FounderCard founder={ACT67.founder} progress={VISUAL.founderProgress} />
         <p data-differential>{ACT67.differential}</p>
         <IntermediationChain
           conventional={ACT67.intermediationChain.conventional}
-          conventionalDraw={visual.conventionalDraw}
+          conventionalDraw={VISUAL.conventionalDraw}
           optimvs={ACT67.intermediationChain.optimvs}
-          optimvsDraw={visual.optimvsDraw}
+          optimvsDraw={VISUAL.optimvsDraw}
         />
         <p data-authorisation>
           {ACT67.authorisationNote.literal}{' '}
@@ -94,7 +70,7 @@ export function Act67Scene() {
           />
         </p>
         <p data-accompaniment>{ACT67.accompaniment}</p>
-        <DepartmentCards departments={ACT67.departments} progress={visual.deptProgress} />
+        <DepartmentCards departments={ACT67.departments} progress={VISUAL.deptProgress} />
         <InvestorRange range={ACT67.investorRange} />
         <ActSeal act={ACT67.acts[1]} />
         <section id="asesoramiento">
@@ -102,7 +78,7 @@ export function Act67Scene() {
             <RomanNumeral value={ACT67.acts[1]} />. {ACT67.routesTitle}
           </h2>
           <p>{ACT67.routesIntro}</p>
-          <OperationalRoutes progress={visual.routesProgress} routes={ACT67.routes} />
+          <OperationalRoutes progress={VISUAL.routesProgress} routes={ACT67.routes} />
           <p data-cdi-disambiguation>{ACT67.cdiDisambiguation}</p>
           <p data-introducing-broker>{ACT67.introducingBrokerNote}</p>
           <h3>{ACT67.copy.organisationsLabel}</h3>

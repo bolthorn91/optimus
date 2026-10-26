@@ -21,12 +21,15 @@ export function FounderCard({ founder, progress }: { founder: Founder; progress:
       data-founder-card
       style={{ ['--founder-progress']: String(progress) } as CSSProperties}
     >
-      <div aria-label={ACT67.copy.portraitPending} data-portrait-pending role="img">
-        <span aria-hidden="true">{initials}</span>
+      <div className="founder-portrait">
+        <div aria-label={ACT67.copy.portraitPending} data-portrait-pending role="img">
+          <span aria-hidden="true">{initials}</span>
+        </div>
+        <p className="founder-portrait__caption">{ACT67.copy.portraitPending}</p>
       </div>
-      <div>
+      <div className="founder-copy">
         <h3>{founder.name}</h3>
-        <p>{founder.role}</p>
+        <p className="founder-copy__role">{founder.role}</p>
         {founder.bio.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}

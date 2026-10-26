@@ -68,33 +68,43 @@ export function RiskTable({
   }
 
   return (
-    <table className="risk-table">
-      <caption>{copy.caption}</caption>
-      <thead>
-        <tr>
-          <th scope="col">{copy.regionHeader}</th>
-          {periods.map((period) => (
-            <th key={period.id} scope="col">
-              {period.shortLabel}
-              {period.isProjection ? (
-                <span className="risk-table__projection"> {copy.projectionNote}</span>
-              ) : null}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {regions.map((region) => (
-          <tr key={region.id}>
-            <th scope="row">{region.label}</th>
-            {periods.map((period) => {
-              const level = period.regions[region.id];
-              const meta = levels.find((entry) => entry.id === level);
-              return <td key={period.id}>{meta?.label}</td>;
-            })}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <details className="risk-table-disclosure">
+      <summary className="risk-table-summary">
+        <span>{copy.caption}</span>
+        <span className="risk-table-summary__count">
+          {String(regions.length)} regiones · {String(periods.length)} períodos
+        </span>
+      </summary>
+      <div className="risk-table-scroll">
+        <table className="risk-table">
+          <caption>{copy.caption}</caption>
+          <thead>
+            <tr>
+              <th scope="col">{copy.regionHeader}</th>
+              {periods.map((period) => (
+                <th key={period.id} scope="col">
+                  {period.shortLabel}
+                  {period.isProjection ? (
+                    <span className="risk-table__projection"> {copy.projectionNote}</span>
+                  ) : null}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {regions.map((region) => (
+              <tr key={region.id}>
+                <th scope="row">{region.label}</th>
+                {periods.map((period) => {
+                  const level = period.regions[region.id];
+                  const meta = levels.find((entry) => entry.id === level);
+                  return <td key={period.id}>{meta?.label}</td>;
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </details>
   );
 }

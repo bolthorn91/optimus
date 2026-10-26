@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { afterEach, describe, expect, it } from 'vitest';
 
@@ -54,17 +54,6 @@ function renderScene() {
       <Act67Scene />
     </MemoryRouter>,
   );
-}
-
-function driveAct67(progress: number): void {
-  const trigger = ScrollTrigger.getAll().find((item) => {
-    const node = item.trigger;
-    return node instanceof HTMLElement && node.id === 'firma';
-  });
-  expect(trigger).toBeDefined();
-  act(() => {
-    trigger?.vars.onUpdate?.({ progress } as ScrollTrigger);
-  });
 }
 
 describe('Act67Scene', () => {
@@ -230,16 +219,15 @@ describe('Act67Scene', () => {
     await expectNoBlockingAxeViolations(container);
   });
 
-  it('FIR-13 · desmontar deja cero ScrollTrigger', () => {
+  it('FIR-13 · el acto no crea ScrollTrigger y desmontar deja todo limpio', () => {
     const { unmount } = renderScene();
-    expect(ScrollTrigger.getAll().length).toBeGreaterThan(0);
+    expect(ScrollTrigger.getAll()).toEqual([]);
     unmount();
     expect(ScrollTrigger.getAll()).toEqual([]);
   });
 
-  it('FIR-02 · en el DOM la cadena convencional se traza antes que la de OPTIMVS', () => {
+  it('FIR-02 · las dos cadenas se sirven completas y legibles', () => {
     const { container } = renderScene();
-    driveAct67(0.48);
     const diagrams = container.querySelectorAll('[data-process-diagram]');
     expect(diagrams[0]).toHaveAttribute(
       'data-draw',
@@ -247,7 +235,7 @@ describe('Act67Scene', () => {
     );
     expect(diagrams[1]).toHaveAttribute(
       'data-draw',
-      ACT67.intermediationChain.optimvs.map(() => '0').join(' '),
+      ACT67.intermediationChain.optimvs.map(() => '1').join(' '),
     );
   });
 
@@ -265,12 +253,7 @@ describe('Act67Scene', () => {
     for (const label of ACT67.intermediationChain.optimvs) {
       expect(diagrams[1]).toHaveTextContent(label);
     }
-    const trigger = ScrollTrigger.getAll().find((item) => {
-      const node = item.trigger;
-      return node instanceof HTMLElement && node.id === 'firma';
-    });
-    expect(trigger?.vars.pin).toBe(false);
-    expect(String(trigger?.vars.end)).toBe('bottom bottom');
+    expect(ScrollTrigger.getAll()).toEqual([]);
     const glossary = container.querySelector('[data-glossary]');
     const first = ACT67.glossary[0];
     expect(first).toBeDefined();

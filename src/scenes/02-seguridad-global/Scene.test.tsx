@@ -48,6 +48,17 @@ describe('Act2Scene', () => {
     expect(screen.getByRole('table', { name: ACT2.copy.tableCaption })).toBeInTheDocument();
   });
 
+  it('la tabla de riesgo nace resumida y se despliega a demanda', () => {
+    const { container } = render(<Act2Scene />);
+    const disclosure = container.querySelector<HTMLDetailsElement>('.risk-table-disclosure');
+    expect(disclosure).not.toBeNull();
+    expect(disclosure?.open).toBe(false);
+    const summary = disclosure?.querySelector('summary');
+    expect(summary).not.toBeNull();
+    if (summary) fireEvent.click(summary);
+    expect(disclosure?.open).toBe(true);
+  });
+
   it('G7 · el selector de período registra map_interaction', () => {
     const events: string[] = [];
     setAnalyticsSink((name) => {

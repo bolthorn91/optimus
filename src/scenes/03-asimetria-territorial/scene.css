@@ -68,10 +68,22 @@
   margin-block-end: var(--space-l);
 }
 
+.act3-nightfall-head {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-s);
+  padding-block-end: var(--space-2xs);
+  border-block-end: 1px solid var(--rule);
+  color: var(--ink-muted);
+  font-size: var(--text-note);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .act3-nightfall-visual {
   position: relative;
   inline-size: 100%;
-  block-size: min(70vh, 36rem);
+  block-size: clamp(22rem, 52vw, 34rem);
   overflow: hidden;
   background: #000;
 }
@@ -101,6 +113,100 @@
   gap: var(--space-l);
 }
 
+[data-country-figures] {
+  display: grid;
+  gap: var(--space-2xs);
+  align-content: start;
+  padding-block-start: var(--space-s);
+  border-block-start: 1px solid var(--rule);
+}
+
+/*
+ * El mapa y las cifras son una sola pieza editorial: a partir de 64rem el mapa ocupa
+ * la columna ancha y las cifras acompañan a su derecha. Así el dato no queda a dos
+ * pantallas de distancia de la imagen que lo explica.
+ */
+@media (min-width: 64rem) {
+  .act3-nightfall {
+    grid-template-areas:
+      'head head'
+      'visual figures'
+      'note figures';
+    grid-template-columns: minmax(0, 1.35fr) minmax(17rem, 0.65fr);
+    align-items: start;
+  }
+
+  .act3-nightfall-head {
+    grid-area: head;
+  }
+
+  .act3-nightfall .act3-nightfall-visual {
+    grid-area: visual;
+  }
+
+  .act3-nightfall-note {
+    grid-area: note;
+  }
+
+  .act3-nightfall-figures {
+    grid-area: figures;
+    align-self: stretch;
+    align-content: start;
+    gap: var(--space-m);
+  }
+}
+
+/*
+ * La entrada del mapa y de las cifras se resuelve con el propio scroll, sin pin:
+ * la página nunca queda bloqueada y el dato aparece cuando el lector llega a él.
+ */
+@supports (animation-timeline: view()) {
+  .act3-nightfall-visual {
+    animation: act3-map-in linear both;
+    animation-timeline: view();
+    animation-range: entry 5% entry 55%;
+  }
+
+  .act3-nightfall-figures > * {
+    animation: act3-figures-in linear both;
+    animation-timeline: view();
+    animation-range: entry 8% entry 45%;
+  }
+}
+
+@keyframes act3-map-in {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes act3-figures-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .act3-nightfall-visual,
+  .act3-nightfall-figures > * {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /*
  * «2.780.400 km²» a --text-figure (96 px) mide ~619 px: no cabe en una columna de 480 px
  * a 1024 y ensanchaba la pista del grid hasta sacar la página del viewport. La escala baja
@@ -121,9 +227,23 @@
   letter-spacing: var(--tracking-caps);
 }
 
-@media (min-width: 48rem) {
+@media (min-width: 48rem) and (max-width: 63.99rem) {
   .act3-nightfall-figures {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/*
+ * La columna de cifras comparte fila con el mapa: la escala de titular del antiguo
+ * bloque a todo el ancho recortaba «2.780.400 km²» contra el borde. Aquí manda la lectura.
+ */
+@media (min-width: 64rem) {
+  .act3-nightfall-figures [data-stat-value] {
+    font-size: clamp(1.5rem, 2.5vw, 2.75rem);
+  }
+
+  .act3-nightfall-figures [data-stat-figure] {
+    gap: var(--space-3xs);
   }
 }
 

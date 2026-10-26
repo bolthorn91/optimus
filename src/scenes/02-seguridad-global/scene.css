@@ -114,9 +114,48 @@
   color: var(--color-gold-high);
 }
 
+/*
+ * La cita de cierre es un párrafo largo, no un titular: a --text-h3 y con la medida
+ * estrecha ocupaba más de una pantalla. Ahora se lee como un cierre editorial compacto,
+ * con una medida de prosa y una etiqueta que la separa de la tabla.
+ */
 .act2-quote {
+  display: grid;
+  gap: var(--space-xs);
+  max-inline-size: min(100%, 72rem);
+  margin-block: var(--space-xl) var(--space-l);
+  padding-block: var(--space-m);
+  border-block: 1px solid var(--rule);
   opacity: var(--quote-opacity, 1);
-  max-inline-size: var(--measure-tight);
+}
+
+.act2-quote::before {
+  content: 'Cierre · zona de paz';
+  color: var(--color-gold-muted);
+  font-size: var(--text-note);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/*
+ * La cita es prosa, no un titular: dos columnas a tamaño de lectura la convierten
+ * en un cierre de media pantalla en lugar de una página entera de scroll.
+ */
+[data-pull-quote].act2-quote blockquote {
+  max-width: none;
+  padding-inline-start: 0;
+  border-inline-start: 0;
+  font-family: var(--font-body);
+  font-size: clamp(1.05rem, 0.95rem + 0.25vw, 1.25rem);
+  line-height: 1.55;
+  column-count: 2;
+  column-gap: var(--space-xl);
+}
+
+@media (max-width: 47.99rem) {
+  [data-pull-quote].act2-quote blockquote {
+    column-count: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

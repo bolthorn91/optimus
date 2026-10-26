@@ -37,12 +37,84 @@
   }
 }
 
-.hero-logo {
-  display: block;
-  inline-size: min(12rem, 40vw);
-  block-size: auto;
+.hero-masthead {
+  position: absolute;
+  inset-block-start: var(--space-s);
+  inset-inline: var(--space-m);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-m);
   opacity: var(--logo-opacity, 1);
   transform: translateY(var(--logo-y, 0px));
+}
+
+.hero-brand {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  column-gap: var(--space-2xs);
+  margin: 0;
+}
+
+.hero-brand__mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  grid-row: span 2;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: 1px solid var(--color-gold);
+  border-radius: 50%;
+  color: var(--color-gold-high);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* La barra interior del monograma evita que la «O» se lea como una inicial suelta. */
+.hero-brand__mark::after {
+  content: '';
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1.65rem;
+  background: var(--color-gold);
+  transform: rotate(38deg);
+}
+
+.hero-brand__name {
+  color: var(--color-ivory);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: 0.2em;
+  line-height: 1;
+}
+
+.hero-brand__sub {
+  color: var(--color-gold-muted);
+  font-size: 0.625rem;
+  letter-spacing: 0.24em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.hero-masthead__place {
+  color: var(--color-gold-muted);
+  font-size: var(--text-note);
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+  text-align: end;
+  text-transform: uppercase;
+}
+
+@media (max-width: 30rem) {
+  .hero-masthead {
+    inset-block-start: var(--space-s);
+  }
+
+  .hero-masthead__place {
+    display: none;
+  }
 }
 
 .hero h1 {

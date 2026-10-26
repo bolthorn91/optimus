@@ -6,6 +6,73 @@
   font-size: var(--text-note);
 }
 
+/* La tabla completa es útil, pero no debe seguir empujando el resto de la página. */
+.risk-table-disclosure {
+  margin-block: var(--space-m) var(--space-l);
+  border-block: 1px solid var(--rule);
+}
+
+.risk-table-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2xs) var(--space-s);
+  padding-block: var(--space-s);
+  cursor: pointer;
+  list-style: none;
+}
+
+.risk-table-summary::-webkit-details-marker {
+  display: none;
+}
+
+.risk-table-summary::before {
+  content: '+';
+  display: inline-grid;
+  place-items: center;
+  inline-size: 1.25rem;
+  margin-inline-end: var(--space-2xs);
+  color: var(--color-gold-muted);
+  font-family: var(--font-display);
+  font-size: var(--text-h4);
+  line-height: 1;
+}
+
+.risk-table-disclosure[open] > .risk-table-summary::before {
+  content: '−';
+}
+
+.risk-table-summary__count {
+  color: var(--ink-muted);
+  font-size: var(--text-note);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.risk-table-scroll {
+  max-block-size: min(58vh, 30rem);
+  overflow: auto;
+  margin-block-end: var(--space-m);
+}
+
+.risk-table-scroll .risk-table {
+  min-inline-size: 48rem;
+}
+
+.risk-table-scroll .risk-table thead th {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  background: var(--color-navy-ink);
+}
+
+.risk-table-scroll .risk-table tbody th {
+  position: sticky;
+  inset-inline-start: 0;
+  background: var(--color-navy-ink);
+}
+
 .risk-table caption {
   text-align: start;
   margin-block-end: var(--space-s);

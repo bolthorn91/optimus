@@ -1,6 +1,7 @@
 .process-diagram-wrap {
   position: relative;
   inline-size: 100%;
+  max-inline-size: 64rem;
   min-inline-size: 0;
 }
 
@@ -45,11 +46,12 @@
 /*
  * En pantallas con cursor fino la información de cada paso vive en el hover.
  * En táctil se mantienen las etiquetas porque no existe hover fiable.
+ * En esta lectura larga las etiquetas se quedan siempre: sin ellas las cadenas
+ * se leían como una fila de círculos numerados sin relación.
  */
-@media (hover: hover) and (pointer: fine) {
-  .process-diagram__label {
-    display: none;
-  }
+.process-diagram__label {
+  fill: color-mix(in srgb, currentColor 82%, transparent);
+  font-size: 12px;
 }
 
 @media print {
