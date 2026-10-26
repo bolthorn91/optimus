@@ -86,71 +86,77 @@ export function Act2Scene() {
   }
 
   return (
-    <Scene
-      act={ACT2.act}
-      background={SCENE_BACKGROUND}
-      className="on-navy"
-      height={HEIGHT}
-      id="seguridad"
-      ref={ref}
-    >
-      <div className="act2">
-        <h2>
-          <RomanNumeral value={ACT2.act} />. {ACT2.title}
-        </h2>
-        <h3>{ACT2.headingVulnerable}</h3>
-        {ACT2.intro.map((paragraph) => (
-          <p className="act2-intro" key={paragraph}>
-            {paragraph}
+    <>
+      <Scene
+        act={ACT2.act}
+        background={SCENE_BACKGROUND}
+        className="on-navy"
+        height={HEIGHT}
+        id="seguridad"
+        ref={ref}
+      >
+        <div className="act2">
+          <h2>
+            <RomanNumeral value={ACT2.act} />. {ACT2.title}
+          </h2>
+          <h3>{ACT2.headingVulnerable}</h3>
+          {ACT2.intro.map((paragraph) => (
+            <p className="act2-intro" key={paragraph}>
+              {paragraph}
+            </p>
+          ))}
+          <p className="act2-year">
+            <CountUp format={formatNumber} to={visual.year} />
           </p>
-        ))}
-        <p className="act2-year">
-          <CountUp format={formatNumber} to={visual.year} />
-        </p>
-        <PeriodSelector
-          activeIndex={visual.periodoActivo}
-          label={ACT2.copy.periodSelector}
-          onSelect={onSelect}
-          periods={ACT2.periods}
-        />
-        {reduced ? (
-          <div className="act2-maps">
-            {([0, 1, 2, 3] as const).map((index) => (
-              <figure key={ACT2.periods[index].id}>
-                <figcaption>{ACT2.periods[index].label}</figcaption>
-                <RiskMap
-                  activeIndex={index}
-                  layerOpacity={stateForPeriod(index).layerOpacity}
-                  periods={ACT2.periods}
-                  projectionNote={ACT2.copy.projectionNote}
-                  southAmericaGlow={1}
-                />
-              </figure>
-            ))}
-          </div>
-        ) : (
-          <RiskMap
+          <PeriodSelector
             activeIndex={visual.periodoActivo}
-            layerOpacity={visual.layerOpacity}
+            label={ACT2.copy.periodSelector}
+            onSelect={onSelect}
             periods={ACT2.periods}
-            projectionNote={ACT2.copy.projectionNote}
-            southAmericaGlow={visual.southAmericaGlow}
           />
-        )}
-        <RiskLegend levels={ACT2.levels} title={ACT2.copy.legendTitle} />
-        <RiskTable
-          copy={{
-            caption: ACT2.copy.tableCaption,
-            projectionNote: ACT2.copy.projectionNote,
-            regionHeader: ACT2.copy.tableRegion,
-          }}
-          levels={ACT2.levels}
-          periods={ACT2.periods}
-          regions={ACT2.regions}
-        />
-        <ClimateSection content={ACT2.climate} progress={visual.climateOpacity} />
-        <PullQuote className="act2-quote">{ACT2.closingQuote}</PullQuote>
-      </div>
-    </Scene>
+          {reduced ? (
+            <div className="act2-maps">
+              {([0, 1, 2, 3] as const).map((index) => (
+                <figure key={ACT2.periods[index].id}>
+                  <figcaption>{ACT2.periods[index].label}</figcaption>
+                  <RiskMap
+                    activeIndex={index}
+                    layerOpacity={stateForPeriod(index).layerOpacity}
+                    periods={ACT2.periods}
+                    projectionNote={ACT2.copy.projectionNote}
+                    southAmericaGlow={1}
+                  />
+                </figure>
+              ))}
+            </div>
+          ) : (
+            <RiskMap
+              activeIndex={visual.periodoActivo}
+              layerOpacity={visual.layerOpacity}
+              periods={ACT2.periods}
+              projectionNote={ACT2.copy.projectionNote}
+              southAmericaGlow={visual.southAmericaGlow}
+            />
+          )}
+        </div>
+      </Scene>
+      <section className="act2-detail on-navy" aria-label={ACT2.copy.tableCaption}>
+        <div className="act2">
+          <RiskLegend levels={ACT2.levels} title={ACT2.copy.legendTitle} />
+          <RiskTable
+            copy={{
+              caption: ACT2.copy.tableCaption,
+              projectionNote: ACT2.copy.projectionNote,
+              regionHeader: ACT2.copy.tableRegion,
+            }}
+            levels={ACT2.levels}
+            periods={ACT2.periods}
+            regions={ACT2.regions}
+          />
+          <ClimateSection content={ACT2.climate} progress={1} />
+          <PullQuote className="act2-quote">{ACT2.closingQuote}</PullQuote>
+        </div>
+      </section>
+    </>
   );
 }

@@ -1,7 +1,7 @@
 .act1 {
   box-sizing: border-box;
   min-block-size: 100svh;
-  padding: var(--space-l) var(--space-m);
+  padding: var(--space-m);
 }
 
 .act1-intro {
@@ -12,7 +12,7 @@
 
 .act1-factors {
   position: relative;
-  min-block-size: 18rem;
+  min-block-size: 12rem;
 }
 
 .factor-panel {
@@ -67,7 +67,39 @@
 }
 
 .act1 [data-stat-figure] {
-  margin-block: var(--space-l);
+  margin-block: var(--space-m);
+}
+
+/*
+ * En portátiles de 900/768 px la escena se sigue anclando: el cierre y el CTA no pueden
+ * quedar por debajo del viewport. Se comprime el aire vertical, no el texto.
+ */
+@media (max-height: 940px) {
+  .act1 {
+    padding-block: var(--space-s);
+  }
+
+  .act1-factors {
+    min-block-size: 8rem;
+  }
+
+  .act1 [data-stat-figure] {
+    margin-block: var(--space-s);
+  }
+}
+
+@media (max-height: 800px) {
+  .act1 {
+    padding-block: var(--space-2xs);
+  }
+
+  .act1-factors {
+    min-block-size: 4rem;
+  }
+
+  .act1 [data-stat-figure] {
+    margin-block: var(--space-2xs);
+  }
 }
 
 .act1-closing {
@@ -102,6 +134,8 @@
 
 .note-grid {
   color: var(--color-gold-high);
+  inline-size: min(20rem, 100%);
+  block-size: auto;
 }
 
 .note-grid__bill {

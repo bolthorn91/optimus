@@ -127,7 +127,7 @@ describe('Act1Scene', () => {
   // ACT1-03
   it('ACT1-03 · un factor visible por tramo', () => {
     expect(choreographAct1(0)).toEqual({
-      introOpacity: 0,
+      introOpacity: 1,
       introY: 0,
       factorOpacity: [0, 0, 0],
       factorProgress: [0, 0, 0],

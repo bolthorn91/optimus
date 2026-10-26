@@ -122,6 +122,12 @@ describe('Act2Scene', () => {
     });
   });
 
+  // MAP-01b
+  it('MAP-01b · la entradilla se lee al entrar en el acto y se desvanece al arrancar el mapa', () => {
+    expect(choreographAct2(0).introOpacity).toBe(1);
+    expect(choreographAct2(0.12).introOpacity).toBe(0);
+  });
+
   // MAP-02
   it('MAP-02 · la suma de layerOpacity es exactamente 1', () => {
     for (let i = 0; i <= 100; i += 1) {

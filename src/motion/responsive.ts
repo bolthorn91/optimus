@@ -114,16 +114,25 @@ export function policyFor(sceneId: string): SceneViewportPolicy {
   throw new ScenePolicyError(`La escena ${sceneId} no declara política de viewport`);
 }
 
-/** Convierte la altura total de política (p. ej. `400vh`) en distancia de pin (`+=300vh`). */
-export function scrollTriggerEnd(height: string): string {
+/**
+ * Convierte la altura total de política (`400vh`) en una distancia de pin en píxeles.
+ *
+ * ScrollTrigger no resuelve unidades CSS en `end`: `+=300vh` se interpreta como 300 px.
+ * Por eso el pin terminaba a los 300 px y las animaciones se cortaban antes de tiempo.
+ * El cálculo se hace aquí, con la altura real del viewport, y se devuelve en px.
+ */
+export function scrollTriggerEnd(
+  height: string,
+  viewportHeight = typeof window === 'undefined' ? 0 : window.innerHeight,
+): string {
   const match = /^(\d+(?:\.\d+)?)(vh|svh|dvh)$/.exec(height);
   const value = match?.[1];
-  const unit = match?.[2];
-  if (value === undefined || unit === undefined) {
+  if (value === undefined) {
     throw new ScenePolicyError(`Altura de escena no reconocida: ${height}`);
   }
   const extra = Math.max(Number(value) - 100, 0);
-  return `+=${String(extra)}${unit}`;
+  const pixels = Math.round((extra / 100) * viewportHeight);
+  return `+=${String(pixels)}px`;
 }
 
 export function resolveScenePolicy(

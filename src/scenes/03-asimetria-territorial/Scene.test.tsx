@@ -233,9 +233,9 @@ describe('Act3Scene', () => {
     unmount();
   });
 
-  it('ancla 100svh con scrub +=500vh', () => {
+  it('ancla 100svh con scrub y distancia de pin en píxeles', () => {
     expect(SCENE_POLICIES.territorio.desktopHeight).toBe('600vh');
-    expect(scrollTriggerEnd('600vh')).toBe('+=500vh');
+    expect(scrollTriggerEnd('600vh', 1000)).toBe('+=5000px');
     const source = readFileSync(
       resolve(process.cwd(), 'src/scenes/03-asimetria-territorial/Scene.tsx'),
       'utf8',

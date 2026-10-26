@@ -28,6 +28,14 @@
 }
 
 /*
+ * Cuando GSAP fija una escena ocupa la ventana entera. Sin esta capa, la cabecera sticky
+ * (z-index 2) tapaba el titular y la entradilla del acto al empezar el pin.
+ */
+[data-scene][data-pinned='true'] {
+  z-index: 3;
+}
+
+/*
  * Sin reglas propias, el navegador servía la navegación como una lista de viñetas apiladas:
  * la barra pasaba de 44 a 189 px al salir del hero. La fila se limita a cinco entradas.
  */

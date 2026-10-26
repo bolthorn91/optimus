@@ -28,7 +28,7 @@ export function choreographAct1(progress: number): Act1State {
   }
 
   return {
-    introOpacity: ramp(p, 0, 0.08),
+    introOpacity: 1,
     introY: lerp(0, -40, introExit),
     factorOpacity,
     factorProgress,

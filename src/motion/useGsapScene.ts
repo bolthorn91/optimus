@@ -78,6 +78,11 @@ export function useGsapScene<T>({
           if (silent.current) return;
           apply(choreograph(self.progress));
         },
+        onToggle: (self) => {
+          // La escena anclada ocupa la ventana completa: se pinta por encima de la cabecera
+          // para que el titular y la entradilla no queden escondidos detrás del nav sticky.
+          triggerEl.dataset.pinned = self.isActive ? 'true' : 'false';
+        },
       });
       apply(choreograph(0));
     }, triggerEl);

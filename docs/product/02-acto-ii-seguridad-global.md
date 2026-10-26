@@ -256,9 +256,10 @@ observación de que Sudamérica no figura entre las regiones intervenidas.
 
 ### 4.3 Flujo UX
 
-Subsección dentro de la misma escena anclada, con separador visual claro respecto a la serie de
-mapas. Las doce regiones entran escalonadas como etiquetas conforme avanza `climateOpacity`, y
-al completarse aparece el contador de S3.
+Subsección de detalle con separador visual claro respecto a la serie de mapas: al ir fuera del
+pin, el clima y el cierre se leen completos aunque la escena anclada ya haya terminado. Las doce
+regiones entran escalonadas como etiquetas conforme avanza `climateOpacity`, y al completarse
+aparece el contador de S3.
 
 ### 4.4 API (orientativa)
 
@@ -345,6 +346,9 @@ períodos con teclado y la tabla acompaña. Cero violaciones axe.
 
 1. `choreographAct2` como función pura, con la interpolación de capas de §3.3.
 2. Anclaje y scrub con `useGsapScene`; altura `500vh`.
+   La escena ancla el mapa y el selector; la leyenda, la tabla, el clima y el cierre viven en un
+   bloque de detalle **fuera del pin**: el conjunto supera `100svh` y, al quedar fijo, la tabla
+   y el cierre no eran accesibles. El mapa se dimensiona para caber entero en la ventana.
 3. Opacidad cruzada de las cuatro capas; contador de año discreto (F7); realce de Sudamérica (F4).
 4. Sincronización entre el selector manual y la posición de scroll (§3.6).
 5. Transición de fondo del acto (D2).

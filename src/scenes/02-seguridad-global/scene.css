@@ -4,6 +4,19 @@
   padding: var(--space-l) var(--space-m);
 }
 
+/*
+ * La tabla, la leyenda y el cierre ya no viven dentro del escenario anclado: el mapa
+ * llena la ventana y el detalle sigue en el flujo normal, sin quedar recortado por el pin.
+ */
+.act2-detail {
+  background: var(--color-navy-ink);
+}
+
+.act2-detail .act2 {
+  min-block-size: 0;
+  padding-block-start: var(--space-l);
+}
+
 .act2-intro {
   max-inline-size: 70ch;
   opacity: var(--intro-opacity, 1);
@@ -108,11 +121,27 @@
 
 .risk-map {
   display: block;
-  inline-size: min(100%, 75rem);
+  inline-size: min(100%, 50rem);
   max-inline-size: 100%;
   block-size: auto;
   margin-block: var(--space-m);
   color: var(--ink);
+}
+
+/*
+ * En portátiles bajos el mapa se reduce para que el pin no recorte su mitad inferior.
+ * El detalle (leyenda, tabla y cierre) ya está fuera del escenario.
+ */
+@media (max-height: 940px) {
+  .risk-map {
+    inline-size: min(100%, 36rem);
+  }
+}
+
+@media (max-height: 800px) {
+  .risk-map {
+    inline-size: min(100%, 17rem);
+  }
 }
 
 .risk-map__projection {

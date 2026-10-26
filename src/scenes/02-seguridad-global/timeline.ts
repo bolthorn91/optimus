@@ -36,7 +36,7 @@ export function choreographAct2(progress: number): Act2State {
   }
 
   return {
-    introOpacity: peakWindow(clamp01(p / 0.12), 0.3, 0.8),
+    introOpacity: 1 - clamp01(p / 0.12),
     layerOpacity,
     periodoActivo,
     year: RISK_PERIODS[periodoActivo].year,

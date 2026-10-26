@@ -75,12 +75,12 @@ describe('resolveScenePolicy', () => {
     expect(isMobileWidth(768)).toBe(false);
   });
 
-  it('scrollTriggerEnd resta el panel de 100 unidades a la altura de política', () => {
-    expect(scrollTriggerEnd('400vh')).toBe('+=300vh');
-    expect(scrollTriggerEnd('500vh')).toBe('+=400vh');
-    expect(scrollTriggerEnd('600vh')).toBe('+=500vh');
-    expect(scrollTriggerEnd('260svh')).toBe('+=160svh');
-    expect(scrollTriggerEnd('100svh')).toBe('+=0svh');
-    expect(() => scrollTriggerEnd('auto')).toThrow(ScenePolicyError);
+  it('scrollTriggerEnd resta el panel de 100 unidades y convierte la altura a píxeles', () => {
+    expect(scrollTriggerEnd('400vh', 1000)).toBe('+=3000px');
+    expect(scrollTriggerEnd('500vh', 1000)).toBe('+=4000px');
+    expect(scrollTriggerEnd('600vh', 1000)).toBe('+=5000px');
+    expect(scrollTriggerEnd('260svh', 1000)).toBe('+=1600px');
+    expect(scrollTriggerEnd('100svh', 1000)).toBe('+=0px');
+    expect(() => scrollTriggerEnd('auto', 1000)).toThrow(ScenePolicyError);
   });
 });
