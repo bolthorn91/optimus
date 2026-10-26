@@ -1,5 +1,6 @@
 import { useCallback, useRef } from 'react';
 
+import { ActCta } from '@/components/ActCta';
 import { Disclaimer } from '@/components/Disclaimer';
 import { RomanNumeral } from '@/components/RomanNumeral';
 import type { VehicleId } from '@/lib/projection-assumptions';
@@ -78,9 +79,7 @@ export function Act5Scene() {
           setScenario={setScenario}
           setYears={setYears}
         />
-        <a data-track="cta" data-track-position="act" href={contactHref(input.vehicle, input)}>
-          {ACT5.cta.label}
-        </a>
+        <ActCta href={contactHref(input.vehicle, input)} label={ACT5.cta.label} />
       </div>
     </Scene>
   );

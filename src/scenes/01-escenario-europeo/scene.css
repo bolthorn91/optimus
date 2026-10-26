@@ -15,6 +15,15 @@
   min-block-size: 12rem;
 }
 
+/*
+ * El CTA editorial es más alto que un enlace de texto. Se le da aire mínimo y se recorta el
+ * espacio reservado a los factores para que siga entrando en el pin a 1000/900/768 px.
+ */
+.act1 .act-cta {
+  margin-block-start: var(--space-2xs);
+  padding-block: var(--space-2xs);
+}
+
 .factor-panel {
   position: absolute;
   inset-inline: 0;
@@ -80,7 +89,7 @@
   }
 
   .act1-factors {
-    min-block-size: 8rem;
+    min-block-size: 7rem;
   }
 
   .act1 [data-stat-figure] {
@@ -94,7 +103,7 @@
   }
 
   .act1-factors {
-    min-block-size: 4rem;
+    min-block-size: 0;
   }
 
   .act1 [data-stat-figure] {

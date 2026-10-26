@@ -1,6 +1,7 @@
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import { applyDocumentPair, IVORY_PAIR, NAVY_DEEP_PAIR } from '@/app/sections';
+import { ActCta } from '@/components/ActCta';
 import { Disclaimer } from '@/components/Disclaimer';
 import { DualFigure } from '@/components/DualFigure';
 import { GuaranteeCards, toGuaranteeCardItems } from '@/components/GuaranteeCards';
@@ -175,9 +176,7 @@ export function Act4Scene() {
           <p data-capital-protection>{ACT4.capitalProtectionNote}</p>
           <Disclaimer variant="inline" />
         </section>
-        <a data-track="cta" data-track-position="act" href={ACT4.cta.href}>
-          {ACT4.cta.label}
-        </a>
+        <ActCta href={ACT4.cta.href} label={ACT4.cta.label} />
       </div>
     </Scene>
   );

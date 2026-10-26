@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 
 import { applyDocumentPair, TERRITORIO_PAIR } from '@/app/sections';
+import { ActCta } from '@/components/ActCta';
 import { RomanNumeral } from '@/components/RomanNumeral';
 import { Scene } from '@/motion/Scene';
 import { useGsapScene } from '@/motion/useGsapScene';
@@ -70,9 +71,7 @@ export function Act3Scene() {
         <h3>{ACT3.copy.marketHeading}</h3>
         <MarketComparison rows={ACT3.market} />
         <p className="act3-conclusion">{ACT3.conclusion}</p>
-        <a data-track="cta" data-track-position="act" href={ACT3.cta.href}>
-          {ACT3.cta.label}
-        </a>
+        <ActCta href={ACT3.cta.href} label={ACT3.cta.label} />
       </div>
     </Scene>
   );

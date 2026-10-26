@@ -1,3 +1,4 @@
+import { ActCta } from '@/components/ActCta';
 import type { VehicleId } from '@/lib/projection-assumptions';
 import { contactHref } from '@/scenes/05-activos-simulador/contactHref';
 import { ACT5, type Vehicle, type VehicleIcon } from '@/scenes/05-activos-simulador/content';
@@ -69,9 +70,12 @@ export function VehicleCards({
                 {vehicle.glossary}
               </details>
             ) : null}
-            <a data-track="cta" data-track-position="vehicle" href={contactHref(vehicle.id)}>
-              {ACT5.cta.label}
-            </a>
+            <ActCta
+              href={contactHref(vehicle.id)}
+              label={ACT5.cta.label}
+              position="vehicle"
+              variant="compact"
+            />
           </li>
         );
       })}

@@ -103,7 +103,7 @@ ninguna escena de contenido**: crea el suelo sobre el que los documentos 01–08
 |---|------|----------|
 | D1 | Navegación | Barra superior que aparece al salir del hero. Máximo 5 entradas + CTA persistente. Marca la sección activa. Compensa su propia altura al saltar a un ancla. |
 | D2 | Miliario | El indicador de progreso es una columna vertical con una marca por acto, numeradas en romano (I–VII) con `<RomanNumeral>`. Es el elemento romano estructural del sitio, no un adorno. |
-| D3 | CTA | Un solo verbo en todo el sitio: **reservar**. Texto canónico del botón primario: «Reservar sesión privada». Prohibido alternar con «solicitar», «agendar» o «pedir cita». |
+| D3 | CTA | Un solo verbo en todo el sitio: **reservar**. Texto canónico del botón primario: «Reservar sesión privada». Los cierres de acto usan `<ActCta>`: micro-etiqueta «Siguiente paso», acción y flecha, con panel oscuro sobre fondos claros; el shell y las fichas usan la variante compacta. Prohibido alternar con «solicitar», «agendar» o «pedir cita». |
 | D4 | Registro de secciones | Las escenas se registran en un manifiesto tipado `src/app/sections.ts` con `{ id, act, label, href, order }`. La navegación, el miliario y el sitemap se derivan de él. Añadir un acto es añadir una fila. |
 | D5 | Footer | Estructura de `content/secciones/08-cta-contacto.md`: navegación, legales, contacto, redes, fuentes y disclaimer. En este documento se crea con marcadores `<PendingValue>` donde faltan datos (I2); el documento 06 lo puebla. |
 | D6 | Error boundary | Un límite de error por ruta que muestra un mensaje sobrio en español y no pierde la navegación. Una escena que falla no tumba la página. |

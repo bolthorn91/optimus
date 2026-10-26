@@ -1,0 +1,278 @@
+/*
+ * CTA editorial de cierre de acto.
+ *
+ * No es un botón de interfaz más: es el último objeto que ve el visitante antes de decidir.
+ * Por eso tiene jerarquía propia —micro-etiqueta, acción y flecha— y un hover de barrido,
+ * sin abandonar la paleta navy/oro ni las esquinas rectas del sistema.
+ */
+.act-cta {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-s) var(--space-l);
+  inline-size: min(100%, 46rem);
+  margin-block-start: var(--space-l);
+  padding: var(--space-m);
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--rule));
+  border-inline-start: 3px solid var(--accent);
+  background:
+    linear-gradient(105deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 48%),
+    var(--surface-raised);
+  color: var(--ink);
+  text-decoration: none;
+  isolation: isolate;
+  overflow: hidden;
+  transition:
+    color 240ms ease,
+    border-color 240ms ease;
+}
+
+/*
+ * El relleno oro entra desde la izquierda y pinta el CTA completo. Va detrás del contenido,
+ * no encima: el texto y la flecha siguen siendo seleccionables y legibles durante el hover.
+ */
+.act-cta::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: var(--color-gold-high);
+  content: '';
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.act-cta::after {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  block-size: 2px;
+  background: var(--accent);
+  content: '';
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.act-cta:hover,
+.act-cta:focus-visible {
+  border-color: var(--color-gold);
+  color: var(--color-navy-deep);
+}
+
+.act-cta:hover::before,
+.act-cta:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.act-cta:hover::after,
+.act-cta:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.act-cta__copy {
+  display: grid;
+  gap: var(--space-3xs);
+  min-inline-size: 0;
+}
+
+.act-cta__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  color: var(--ink-muted);
+  font-size: var(--text-note);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.act-cta__eyebrow::before {
+  inline-size: 1.25rem;
+  block-size: 1px;
+  background: var(--accent);
+  content: '';
+  flex: none;
+}
+
+.act-cta__label {
+  font-size: clamp(1.05rem, 1rem + 0.3vw, 1.3rem);
+  font-weight: 600;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.act-cta__arrow {
+  display: grid;
+  place-items: center;
+  inline-size: 3rem;
+  block-size: 3rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 58%, transparent);
+  color: var(--ink);
+  transition:
+    color 240ms ease,
+    background-color 240ms ease,
+    border-color 240ms ease,
+    transform 240ms ease;
+}
+
+.act-cta__arrow svg {
+  inline-size: 1.2rem;
+  block-size: auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  stroke-width: 1.5;
+}
+
+/*
+ * En las escenas claras el CTA invierte el contraste: panel navy sobre marfil. Así el cierre
+ * no se pierde como una tarjeta blanca más y conserva el gesto editorial del resto del sitio.
+ */
+.on-light .act-cta {
+  border-color: color-mix(in srgb, var(--color-gold) 55%, transparent);
+  background:
+    linear-gradient(
+      105deg,
+      color-mix(in srgb, var(--color-gold-high) 9%, transparent),
+      transparent 48%
+    ),
+    var(--color-navy-deep);
+  color: var(--color-ivory);
+}
+
+.on-light .act-cta__eyebrow {
+  color: var(--color-slate-light);
+}
+
+.on-light .act-cta__arrow {
+  border-color: color-mix(in srgb, var(--color-gold) 62%, transparent);
+  color: var(--color-gold-high);
+}
+
+.on-light .act-cta:hover,
+.on-light .act-cta:focus-visible {
+  color: var(--color-navy-deep);
+}
+
+.on-light .act-cta:hover .act-cta__eyebrow,
+.on-light .act-cta:focus-visible .act-cta__eyebrow {
+  color: var(--color-navy-mid);
+}
+
+/*
+ * En navy se hace lo contrario: el panel claro es el que recorta el cierre. La tarjeta
+ * compacta de vehículo se queda transparente para no repetir tres bloques blancos.
+ */
+.on-navy .act-cta:not(.act-cta--compact) {
+  border-color: color-mix(in srgb, var(--color-gold) 52%, transparent);
+  background:
+    linear-gradient(105deg, color-mix(in srgb, var(--color-gold) 9%, transparent), transparent 48%),
+    var(--color-ivory);
+  color: var(--color-navy-deep);
+}
+
+.on-navy .act-cta:not(.act-cta--compact) .act-cta__eyebrow {
+  color: var(--color-slate);
+}
+
+.on-navy .act-cta:not(.act-cta--compact) .act-cta__arrow {
+  border-color: color-mix(in srgb, var(--color-gold-bronze) 55%, transparent);
+  color: var(--color-navy-deep);
+}
+
+.act-cta:hover .act-cta__arrow,
+.act-cta:focus-visible .act-cta__arrow {
+  border-color: var(--color-navy-deep);
+  background: var(--color-navy-deep);
+  color: var(--color-gold-high);
+  transform: translateX(0.25rem);
+}
+
+.act-cta:hover .act-cta__eyebrow,
+.act-cta:focus-visible .act-cta__eyebrow {
+  color: var(--color-navy-mid);
+}
+
+/*
+ * En las tarjetas de vehículo el CTA comparte lenguaje pero no compite con el CTA de cierre:
+ * sin micro-etiqueta, una sola línea y toda la anchura de la tarjeta.
+ */
+.act-cta--compact {
+  display: flex;
+  inline-size: 100%;
+  margin-block-start: 0;
+  padding: var(--space-2xs) var(--space-s);
+  border-color: var(--rule);
+  border-inline-start-width: 2px;
+  background: transparent;
+  gap: var(--space-2xs);
+}
+
+/*
+ * Las tarjetas de vehículo no deben competir con el CTA de cierre: mismo trazo y misma flecha,
+ * pero sin panel oscuro ni micro-etiqueta. El oro queda en el filete izquierdo.
+ */
+.on-light .act-cta--compact {
+  background: transparent;
+  color: var(--ink-strong);
+}
+
+.on-light .act-cta--compact .act-cta__arrow {
+  border-color: var(--rule);
+  color: var(--ink);
+}
+
+.on-light .act-cta--compact:hover,
+.on-light .act-cta--compact:focus-visible {
+  color: var(--color-navy-deep);
+}
+
+.on-light .act-cta--compact:hover .act-cta__arrow,
+.on-light .act-cta--compact:focus-visible .act-cta__arrow {
+  border-color: var(--color-navy-deep);
+}
+
+.act-cta--compact .act-cta__label {
+  font-size: var(--text-note);
+  font-weight: 600;
+  text-align: start;
+}
+
+.act-cta--compact .act-cta__arrow {
+  inline-size: 2rem;
+  block-size: 2rem;
+  flex: none;
+}
+
+.act-cta--compact .act-cta__arrow svg {
+  inline-size: 0.95rem;
+}
+
+@media (max-width: 30rem) {
+  .act-cta {
+    grid-template-columns: minmax(0, 1fr) 2.5rem;
+    gap: var(--space-s);
+    padding: var(--space-s);
+  }
+
+  .act-cta__arrow {
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+  }
+}
+
+@media print {
+  .act-cta {
+    border: 1px solid currentColor;
+    background: transparent;
+  }
+
+  .act-cta::before,
+  .act-cta::after {
+    display: none;
+  }
+}

@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 
+import { ActCta } from '@/components/ActCta';
 import { CountUp } from '@/components/CountUp';
 import { DualFigure } from '@/components/DualFigure';
 import { RomanNumeral } from '@/components/RomanNumeral';
@@ -130,9 +131,7 @@ export function Act1Scene() {
           />
         </div>
         <p className="act1-closing">{ACT1.closing}</p>
-        <a data-track="cta" data-track-position="act" href={ACT1.cta.href}>
-          {ACT1.cta.label}
-        </a>
+        <ActCta href={ACT1.cta.href} label={ACT1.cta.label} />
       </div>
     </Scene>
   );
