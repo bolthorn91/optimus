@@ -13,7 +13,6 @@ import { formatCurrency, NBSP } from '@/lib/format';
 import { project } from '@/lib/projection';
 import { toRoman } from '@/lib/roman';
 import { ScrollTrigger } from '@/motion/gsapSetup';
-import { scrollTriggerEnd } from '@/motion/responsive';
 import { ACT1 } from '@/scenes/01-escenario-europeo/content';
 import { ACT2 } from '@/scenes/02-seguridad-global/content';
 import { ACT3 } from '@/scenes/03-asimetria-territorial/content';
@@ -223,15 +222,15 @@ describe('Act5Scene', () => {
     );
   });
 
-  it('el anclaje usa 450vh y desmontar deja cero ScrollTrigger', () => {
+  it('el acto V fluye con la página: sin anclaje, el simulador y la tabla quedan accesibles', () => {
     const { unmount } = render(<Act5Scene />);
     const trigger = ScrollTrigger.getAll().find((item) => {
       const node = item.trigger;
       return node instanceof HTMLElement && node.id === 'activos';
     });
     expect(trigger).toBeDefined();
-    expect(trigger?.vars.pin).toBe(true);
-    expect(String(trigger?.vars.end)).toBe(scrollTriggerEnd('550vh'));
+    expect(trigger?.vars.pin).toBe(false);
+    expect(String(trigger?.vars.end)).toBe('bottom bottom');
     unmount();
     expect(ScrollTrigger.getAll()).toEqual([]);
   });

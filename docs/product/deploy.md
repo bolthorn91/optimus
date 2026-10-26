@@ -17,7 +17,7 @@ npm run build:budget
 ```
 
 Estado de referencia de esta tanda: 60 ficheros de test / 562 tests, build ~9 s,
-205,8 KB de primera carga (tope 250) y 252,7 KB de escena WebGL (tope 400).
+205,9 KB de primera carga (tope 250) y 252,7 KB de escena WebGL (tope 400).
 
 ## 2. Variables de build
 

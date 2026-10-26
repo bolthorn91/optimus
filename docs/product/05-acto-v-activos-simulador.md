@@ -79,7 +79,7 @@ es la sección de mayor exposición legal del sitio.
 | S6 | Etiquetado | El resultado se rotula siempre como «Escenario ilustrativo», nunca como «Proyección de rentabilidad» ni «Rendimiento esperado». |
 | S7 | Disclaimer | `<Disclaimer variant="inline">` adherido al resultado, **no** en un pie desplazado. Visible sin hacer scroll desde la cifra. Es requisito de I7 y de `content/07-legal-y-disclaimers.md`. |
 | S8 | Gráfico | Curva de evolución año a año en SVG propio. Sin librería de gráficos: una serie de 15 puntos no justifica una dependencia, y el control sobre la accesibilidad es mayor. |
-| S9 | Tabla equivalente | Bajo el gráfico, la tabla año a año con los mismos valores. Es la alternativa accesible obligatoria (I4) y además es lo que un inversor quiere copiar. |
+| S9 | Tabla equivalente | Bajo el gráfico, la tabla año a año con los mismos valores. Es la alternativa accesible obligatoria (I4) y además es lo que un inversor quiere copiar. Se presenta **plegada por defecto** y, al abrirla, con scroll interno: el detalle anual no empuja el CTA ni el cierre del acto. |
 | S10 | Modo scroll | Además de los deslizadores, el horizonte avanza automáticamente con el scroll en un tramo de la escena: el visitante ve la curva crecer sin tocar nada, y luego toma el control. El scroll no sustituye a los controles: los precede. |
 | S11 | Persistencia | Los valores del simulador se conservan al navegar dentro de la sesión y viajan al formulario del documento 06 como contexto del lead. Sin `localStorage`: solo estado en memoria. |
 
@@ -429,14 +429,14 @@ recomendado.
 
 ### Fase D — Modo scroll y cierre
 
-1. Anclaje y scrub con `useGsapScene`; altura `450vh`.
+1. Scrub con `useGsapScene` sin anclaje: las tarjetas, el simulador y la tabla plegable superan `100svh`; la escena fluye con la página para que todo el contenido sea alcanzable.
 2. Avance automático del horizonte en un tramo de la escena, con la curva creciendo (S10).
 3. Traspaso del control a los deslizadores al terminar el tramo.
 4. Persistencia en memoria del estado del simulador hacia el formulario (S11).
 5. CTA de cierre con vehículo y valores como contexto (D2) y `<ActSeal>` de transición al acto VI.
 6. Tests SIM-16, VEH-08.
 
-**DoD fase D:** la curva crece sola durante un tramo del scroll y después el visitante toma el
+**DoD fase D:** la curva crece sola durante el recorrido de la sección y después el visitante toma el
 control sin salto; con movimiento reducido el simulador funciona igual, solo sin el avance
 automático.
 

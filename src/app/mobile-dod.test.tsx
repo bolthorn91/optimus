@@ -225,7 +225,8 @@ describe('DoD móvil fase D', { timeout: 30_000 }, () => {
     );
     expect(triggerById('activos')).toBeDefined();
     expect(String(triggerById('contacto')?.vars.end)).toBe('top 35%');
-    expect(container.querySelector('[data-year-table]')).toBeNull();
+    expect(container.querySelector('[data-year-table]')).toBeInstanceOf(HTMLDetailsElement);
+    expect(container.querySelector('[data-year-table]')).not.toHaveAttribute('open');
     expect(container.querySelector('[data-toc-collapse]')).toBeNull();
     unmount();
     for (const trigger of ScrollTrigger.getAll()) trigger.kill();

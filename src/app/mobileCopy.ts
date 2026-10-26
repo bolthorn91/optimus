@@ -4,6 +4,6 @@ export const MOBILE_COPY = {
   menu: 'Menú',
   stickyCta: 'Reservar sesión',
   tocToggle: 'En esta página',
-  tableExpand: 'Ver tabla completa',
+  tableExpand: 'Ver proyección año a año',
   staticSceneNote: 'Vista optimizada para su dispositivo',
 } as const;

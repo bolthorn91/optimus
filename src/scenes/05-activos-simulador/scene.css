@@ -119,15 +119,21 @@
 
 [data-year-table] {
   min-inline-size: 0;
+  margin-block-start: var(--space-s);
+  border-block-start: 1px solid var(--rule);
+  padding-block-start: var(--space-s);
 }
 
 /*
- * La tabla de proyección mide ~520 px de min-content. El contenedor con scroll evita que
+ * La tabla completa mide ~520 px de min-content. El contenedor con scroll evita que
  * ensanche la pista del grid del simulador (y con ella la página) a 375 px.
  */
 .projection-table-scroll {
+  max-block-size: 15rem;
   max-inline-size: 100%;
-  overflow-x: auto;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
 }
 
 [data-simulator]:focus {
@@ -170,22 +176,87 @@
 }
 
 [data-year-table] summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-s);
   min-inline-size: var(--touch-min);
   min-block-size: var(--touch-min);
+  padding: var(--space-xs) 0;
   cursor: pointer;
+  color: var(--ink);
+  font-size: var(--text-note);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+[data-year-table] summary::-webkit-details-marker {
+  display: none;
+}
+
+[data-year-table] summary::after {
+  flex: none;
+  inline-size: 0.5rem;
+  block-size: 0.5rem;
+  border-inline-end: 1px solid currentColor;
+  border-block-end: 1px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 160ms ease;
+}
+
+[data-year-table][open] summary::after {
+  transform: rotate(-135deg);
+}
+
+.projection-table__count {
+  margin-inline-start: auto;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 [data-projection-table] {
   inline-size: 100%;
   border-collapse: collapse;
+  font-size: var(--text-note);
   font-variant-numeric: tabular-nums;
+}
+
+[data-projection-table] caption {
+  padding: var(--space-2xs) var(--space-xs);
+  color: var(--ink-muted);
+  text-align: start;
 }
 
 [data-projection-table] th,
 [data-projection-table] td {
-  padding: var(--space-2xs) var(--space-xs);
+  padding: var(--space-3xs) var(--space-xs);
   border-block-end: 1px solid var(--rule);
   text-align: start;
+}
+
+[data-projection-table] thead th {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  background: var(--surface-raised);
+  color: var(--ink-muted);
+  font-size: var(--text-note);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+[data-projection-table] th:not(:first-child),
+[data-projection-table] td:not(:first-child) {
+  text-align: end;
+}
+
+[data-projection-table] tbody tr:last-child th,
+[data-projection-table] tbody tr:last-child td {
+  border-block-end: 0;
+}
+
+[data-projection-table] tbody tr[data-current='true'] {
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
 }
 
 [data-assumptions] {

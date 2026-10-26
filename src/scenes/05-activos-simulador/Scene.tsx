@@ -39,7 +39,11 @@ export function Act5Scene() {
     ref: sceneRef,
     choreograph: choreographAct5,
     apply,
-    pin: true,
+    // El acto V contiene tarjetas, simulador y detalle anual. Anclar la escena completa
+    // la fijaba a 100svh y dejaba el simulador fuera de la ventana; ahora fluye con la
+    // página y el avance del horizonte se reparte por el propio recorrido de la sección.
+    pin: false,
+    end: 'bottom bottom',
     scrub: true,
     sceneId: 'activos',
   });
