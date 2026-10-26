@@ -25,8 +25,11 @@ function applyAct1(node: HTMLElement, state: Act1State): void {
   node.style.setProperty('--surface-mix', String(state.surfaceMix));
   node.style.setProperty('--intro-opacity', String(state.introOpacity));
   node.style.setProperty('--intro-y', `${String(state.introY)}px`);
+  node.style.setProperty('--intro-space', String(state.introOpacity));
   node.style.setProperty('--closing-opacity', String(state.closingOpacity));
+  node.style.setProperty('--closing-space', String(state.closingOpacity));
   node.style.setProperty('--stat-opacity', String(state.statProgress));
+  node.style.setProperty('--stat-space', String(state.statProgress));
   for (let i = 0; i < 3; i += 1) {
     const panel = node.querySelector<HTMLElement>(`[data-factor="${String(i + 1)}"]`);
     if (!panel) continue;

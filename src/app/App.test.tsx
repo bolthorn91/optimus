@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import { afterEach, describe, expect, it } from 'vitest';
@@ -96,6 +96,20 @@ describe('shell', () => {
     expect(container.querySelectorAll('[data-reached="true"]')).toHaveLength(
       milestoneMarks(mid).filter((mark) => mark.reached).length,
     );
+  });
+
+  it('el miliario de la home nace plegado y abre el índice con títulos', () => {
+    const marks = milestoneMarks(sectionAt(0.5));
+    render(<Milestone collapsible marks={marks} />);
+    const toggle = screen.getByRole('button', { name: /Abrir capítulos/ });
+    expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.queryByRole('navigation', { name: 'Capítulos' })).toBeNull();
+    fireEvent.click(toggle);
+    const panel = screen.getByRole('navigation', { name: 'Capítulos' });
+    expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    expect(panel).toHaveTextContent(marks[6]?.chapterTitle ?? '');
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(screen.queryByRole('navigation', { name: 'Capítulos' })).toBeNull();
   });
 
   it('un error de escena no tumba la navegación', () => {

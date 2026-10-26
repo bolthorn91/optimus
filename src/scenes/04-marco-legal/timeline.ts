@@ -1,4 +1,4 @@
-import { clamp01, easeInOut, peakWindow, ramp } from '@/lib/interpolate';
+import { clamp01, easeInOut, ramp } from '@/lib/interpolate';
 
 export type Act4Chrome = 'navy' | 'ivory';
 
@@ -55,9 +55,8 @@ export function choreographAct4(progress: number): Act4State {
   const surfaceMix = easeInOut(p);
 
   return {
-    // 0.00–0.14  entradilla
-    introOpacity: peakWindow(clamp01(p / 0.14), 0.25, 0.85),
-    // 0.16–0.30  dato ancla
+    // El acto ya no se ancla: la entradilla permanece visible mientras el fondo cambia.
+    introOpacity: 1,
     anchorProgress: ramp(p, 0.16, 0.14),
     drawProgress,
     stepGlow,

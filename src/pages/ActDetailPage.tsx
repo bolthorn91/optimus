@@ -1,12 +1,15 @@
 import type { ActNumber } from '@/app/routes';
 import { actRoute, adjacentActs } from '@/app/routes';
 import { ACT_DETAILS, actToc } from '@/content/acts/catalog';
+import { Act7DetailPage } from '@/pages/Act7DetailPage';
 import { ActBlock } from '@/pages/ActBlock';
 import { DetailLayout } from '@/pages/DetailLayout';
 
 import './act-detail.css';
 
 export function ActDetailPage({ actNumber }: { actNumber: ActNumber }) {
+  if (actNumber === 7) return <Act7DetailPage />;
+
   const route = actRoute(actNumber);
   const detail = ACT_DETAILS[actNumber];
   const adjacent = adjacentActs(actNumber);

@@ -1,0 +1,227 @@
+.detail-main:has(.act7-detail) {
+  max-inline-size: none;
+}
+
+.act7-detail {
+  display: grid;
+  gap: var(--space-2xl);
+}
+
+.act7-intro {
+  display: grid;
+  gap: var(--space-l);
+  max-inline-size: var(--measure);
+  padding-inline-start: var(--space-m);
+  border-inline-start: 2px solid var(--accent);
+}
+
+.act7-intro > p {
+  margin: 0;
+  font-size: var(--text-body);
+}
+
+.act7-route-strip {
+  display: grid;
+  gap: var(--space-s);
+}
+
+@media (min-width: 40rem) {
+  .act7-route-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.act7-route-strip a {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-s);
+  min-block-size: var(--touch-min);
+  padding: var(--space-s);
+  border: 1px solid var(--rule);
+  color: var(--ink);
+  font-size: var(--text-note);
+  letter-spacing: var(--tracking-caps);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.act7-route-strip a:hover {
+  border-color: var(--accent);
+}
+
+.act7-route-strip a span {
+  color: var(--accent);
+  font-family: var(--font-display);
+  letter-spacing: 0;
+}
+
+.act7-section-head {
+  display: grid;
+  gap: var(--space-2xs);
+  margin-block-end: var(--space-m);
+}
+
+.act7-kicker {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: var(--text-note);
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.act7-detail h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+}
+
+.act7-routes__grid {
+  display: grid;
+  gap: var(--space-m);
+}
+
+@media (min-width: 64rem) {
+  .act7-routes__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.act7-route {
+  display: grid;
+  align-content: start;
+  gap: var(--space-m);
+  padding: var(--space-l);
+  border: 1px solid var(--rule);
+  background: var(--surface-raised);
+}
+
+.act7-route__head {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--space-s);
+  padding-block-end: var(--space-s);
+  border-block-end: 1px solid var(--rule);
+}
+
+.act7-route__index {
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  line-height: 1;
+}
+
+.act7-route h2 {
+  font-size: var(--text-h4);
+}
+
+.act7-route > p {
+  margin: 0;
+  color: var(--ink-muted);
+}
+
+.act7-route > .act7-route__lead {
+  color: var(--ink);
+}
+
+.act7-route > .act7-route__label {
+  margin-block-end: calc(-1 * var(--space-s));
+  color: var(--accent);
+  font-size: var(--text-note);
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.act7-route__steps {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.act7-route__steps li {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: var(--space-s);
+  padding-block: var(--space-s);
+  border-block-end: 1px solid var(--rule);
+}
+
+.act7-route__steps li > span {
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: var(--text-note);
+}
+
+.act7-route__steps p {
+  margin: 0;
+}
+
+.act7-route__entities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.act7-route__entities li,
+.act7-organisms__list li {
+  padding: var(--space-3xs) var(--space-2xs);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  color: var(--ink-strong);
+  font-size: var(--text-note);
+  letter-spacing: 0.04em;
+}
+
+.act7-route__note {
+  margin: 0;
+  padding: var(--space-s);
+  border-inline-start: 2px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  font-size: var(--text-note);
+}
+
+.act7-organisms__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  max-inline-size: 48rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.act7-organisms__pending {
+  margin-block-start: var(--space-s);
+  color: var(--ink-muted);
+  font-size: var(--text-note);
+}
+
+.act7-glossary__list {
+  display: grid;
+  gap: 0;
+  border-block-start: 1px solid var(--rule);
+}
+
+@media (min-width: 64rem) {
+  .act7-glossary__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-xl);
+  }
+}
+
+.act7-glossary .disclosure__title {
+  font-family: var(--font-body);
+  font-weight: 600;
+}
+
+@media print {
+  .act7-route-strip {
+    display: none;
+  }
+}

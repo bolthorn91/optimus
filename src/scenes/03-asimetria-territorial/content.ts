@@ -45,6 +45,7 @@ export interface Act3Content {
     marketCaption: string;
     territorialHeading: string;
     marketHeading: string;
+    landHeading: string;
     emptyCell: string;
     metricHeader: string;
     marketSpainDetail: string;
@@ -176,6 +177,7 @@ export const ACT3: Act3Content = {
     marketCaption: 'Comparativa de mercado bursátil',
     territorialHeading: 'Comparativa territorial',
     marketHeading: 'Mercado bursátil',
+    landHeading: 'Las 3 ventajas estratégicas de Argentina',
     emptyCell: EMPTY,
     metricHeader: 'Criterio',
     marketSpainDetail: 'IBEX 35',

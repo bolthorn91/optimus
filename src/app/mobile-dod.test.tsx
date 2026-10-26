@@ -9,7 +9,6 @@ import { App } from '@/app/App';
 import { MOBILE_COPY } from '@/app/mobileCopy';
 import { formatArea, formatDensity, formatNumber } from '@/lib/format';
 import { ScrollTrigger } from '@/motion/gsapSetup';
-import { scrollTriggerEnd } from '@/motion/responsive';
 import { DETAIL_COPY } from '@/pages/detailCopy';
 import { ACT1 } from '@/scenes/01-escenario-europeo/content';
 import { ACT2 } from '@/scenes/02-seguridad-global/content';
@@ -189,7 +188,8 @@ describe('DoD móvil fase D', { timeout: 30_000 }, () => {
         <Act67Scene />
       </MemoryRouter>,
     );
-    expect(String(triggerById('firma')?.vars.end)).toBe(scrollTriggerEnd('600vh'));
+    expect(String(triggerById('firma')?.vars.end)).toBe('bottom bottom');
+    expect(triggerById('firma')?.vars.pin).toBe(false);
     act(() => {
       setWidth(375);
     });
@@ -198,7 +198,8 @@ describe('DoD móvil fase D', { timeout: 30_000 }, () => {
       return node instanceof HTMLElement && node.id === 'firma';
     });
     expect(firma).toHaveLength(1);
-    expect(String(firma[0]?.vars.end)).toBe(scrollTriggerEnd('320svh'));
+    expect(String(firma[0]?.vars.end)).toBe('bottom bottom');
+    expect(firma[0]?.vars.pin).toBe(false);
   });
 
   it('MOB-19 · cada acto a 375 px pasa axe sin violaciones bloqueantes', async () => {

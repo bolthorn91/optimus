@@ -1,11 +1,16 @@
 .act1 {
   box-sizing: border-box;
   min-block-size: 100svh;
+  display: flex;
+  flex-direction: column;
   padding: var(--space-m);
 }
 
 .act1-intro {
   max-inline-size: 70ch;
+  max-block-size: calc(var(--intro-space, 1) * 40rem);
+  margin-block-end: var(--space-s);
+  overflow: hidden;
   opacity: var(--intro-opacity, 1);
   transform: translateY(var(--intro-y, 0px));
 }
@@ -20,8 +25,9 @@
  * espacio reservado a los factores para que siga entrando en el pin a 1000/900/768 px.
  */
 .act1 .act-cta {
-  margin-block-start: var(--space-2xs);
-  padding-block: var(--space-2xs);
+  /* El cierre queda siempre dentro de la ventana, también en portátiles de 720 px. */
+  margin-block-start: auto;
+  margin-block-end: 0;
 }
 
 .factor-panel {
@@ -72,6 +78,8 @@
 }
 
 .act1-stat {
+  max-block-size: calc(var(--stat-space, 1) * 22rem);
+  overflow: hidden;
   opacity: var(--stat-opacity, 1);
 }
 
@@ -113,6 +121,8 @@
 
 .act1-closing {
   max-inline-size: 70ch;
+  max-block-size: calc(var(--closing-space, 1) * 16rem);
+  overflow: hidden;
   opacity: var(--closing-opacity, 1);
 }
 

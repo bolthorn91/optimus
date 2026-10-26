@@ -50,7 +50,10 @@ export function Act2Scene() {
     ref,
     choreograph: choreographAct2,
     apply: paint,
-    pin: true,
+    // Sin pin: la página sigue su curso y el mapa cambia con el scroll. El texto permanece
+    // en su columna, así que nunca queda un hueco vacío bajo el titular.
+    pin: false,
+    end: 'bottom bottom',
     scrub: true,
     sceneId: 'seguridad',
   });
@@ -96,48 +99,52 @@ export function Act2Scene() {
         ref={ref}
       >
         <div className="act2">
-          <h2>
-            <RomanNumeral value={ACT2.act} />. {ACT2.title}
-          </h2>
-          <h3>{ACT2.headingVulnerable}</h3>
-          {ACT2.intro.map((paragraph) => (
-            <p className="act2-intro" key={paragraph}>
-              {paragraph}
+          <div className="act2-copy">
+            <h2>
+              <RomanNumeral value={ACT2.act} />. {ACT2.title}
+            </h2>
+            <h3>{ACT2.headingVulnerable}</h3>
+            {ACT2.intro.map((paragraph) => (
+              <p className="act2-intro" key={paragraph}>
+                {paragraph}
+              </p>
+            ))}
+            <p className="act2-year">
+              <CountUp format={formatNumber} to={visual.year} />
             </p>
-          ))}
-          <p className="act2-year">
-            <CountUp format={formatNumber} to={visual.year} />
-          </p>
-          <PeriodSelector
-            activeIndex={visual.periodoActivo}
-            label={ACT2.copy.periodSelector}
-            onSelect={onSelect}
-            periods={ACT2.periods}
-          />
-          {reduced ? (
-            <div className="act2-maps">
-              {([0, 1, 2, 3] as const).map((index) => (
-                <figure key={ACT2.periods[index].id}>
-                  <figcaption>{ACT2.periods[index].label}</figcaption>
-                  <RiskMap
-                    activeIndex={index}
-                    layerOpacity={stateForPeriod(index).layerOpacity}
-                    periods={ACT2.periods}
-                    projectionNote={ACT2.copy.projectionNote}
-                    southAmericaGlow={1}
-                  />
-                </figure>
-              ))}
-            </div>
-          ) : (
-            <RiskMap
+            <PeriodSelector
               activeIndex={visual.periodoActivo}
-              layerOpacity={visual.layerOpacity}
+              label={ACT2.copy.periodSelector}
+              onSelect={onSelect}
               periods={ACT2.periods}
-              projectionNote={ACT2.copy.projectionNote}
-              southAmericaGlow={visual.southAmericaGlow}
             />
-          )}
+          </div>
+          <div className="act2-map">
+            {reduced ? (
+              <div className="act2-maps">
+                {([0, 1, 2, 3] as const).map((index) => (
+                  <figure key={ACT2.periods[index].id}>
+                    <figcaption>{ACT2.periods[index].label}</figcaption>
+                    <RiskMap
+                      activeIndex={index}
+                      layerOpacity={stateForPeriod(index).layerOpacity}
+                      periods={ACT2.periods}
+                      projectionNote={ACT2.copy.projectionNote}
+                      southAmericaGlow={1}
+                    />
+                  </figure>
+                ))}
+              </div>
+            ) : (
+              <RiskMap
+                activeIndex={visual.periodoActivo}
+                layerOpacity={visual.layerOpacity}
+                periods={ACT2.periods}
+                projectionNote={ACT2.copy.projectionNote}
+                southAmericaGlow={visual.southAmericaGlow}
+              />
+            )}
+          </div>
         </div>
       </Scene>
       <section className="act2-detail on-navy" aria-label={ACT2.copy.tableCaption}>

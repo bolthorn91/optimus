@@ -53,7 +53,10 @@ export function Act67Scene() {
     ref,
     choreograph: choreographAct67,
     apply,
-    pin: true,
+    // La firma y el asesoramiento son demasiado largos para vivir dentro de un pin: el
+    // recorrido se lee de arriba abajo y las cadenas se dibujan con el scroll normal.
+    pin: false,
+    end: 'bottom bottom',
     scrub: true,
     sceneId: 'firma',
   });

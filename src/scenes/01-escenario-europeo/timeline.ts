@@ -13,7 +13,9 @@ export interface Act1State {
 
 export function choreographAct1(progress: number): Act1State {
   const p = clamp01(progress);
-  const introExit = clamp01((p - 0.12) / 0.05);
+  // 0.10–0.17 — la entradilla se marcha antes de que entren los factores. Hasta ahora se
+  // quedaba con opacidad 1 y, al desplazarse hacia arriba, se montaba sobre el titular.
+  const introExit = clamp01((p - 0.1) / 0.07);
   const factorOpacity: [number, number, number] = [0, 0, 0];
   const factorProgress: [number, number, number] = [0, 0, 0];
   const factorY: [number, number, number] = [0, 0, 0];
@@ -28,8 +30,8 @@ export function choreographAct1(progress: number): Act1State {
   }
 
   return {
-    introOpacity: 1,
-    introY: lerp(0, -40, introExit),
+    introOpacity: 1 - introExit,
+    introY: 0,
     factorOpacity,
     factorProgress,
     factorY,

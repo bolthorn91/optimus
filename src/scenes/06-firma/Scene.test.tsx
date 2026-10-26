@@ -7,7 +7,6 @@ import { afterEach, describe, expect, it } from 'vitest';
 
 import { PENDING_LABEL } from '@/components/PendingValue';
 import { ScrollTrigger } from '@/motion/gsapSetup';
-import { scrollTriggerEnd } from '@/motion/responsive';
 import { ACT67 } from '@/scenes/06-firma/content';
 import { Act67Scene } from '@/scenes/06-firma/Scene';
 import { expectNoBlockingAxeViolations } from '@/test/axe';
@@ -270,7 +269,8 @@ describe('Act67Scene', () => {
       const node = item.trigger;
       return node instanceof HTMLElement && node.id === 'firma';
     });
-    expect(String(trigger?.vars.end)).toBe(scrollTriggerEnd('320svh'));
+    expect(trigger?.vars.pin).toBe(false);
+    expect(String(trigger?.vars.end)).toBe('bottom bottom');
     const glossary = container.querySelector('[data-glossary]');
     const first = ACT67.glossary[0];
     expect(first).toBeDefined();

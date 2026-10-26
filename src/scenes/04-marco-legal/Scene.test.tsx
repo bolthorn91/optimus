@@ -10,7 +10,6 @@ import { DISCLAIMER_TEXT } from '@/components/Disclaimer';
 import { formatArea, NBSP } from '@/lib/format';
 import { toRoman } from '@/lib/roman';
 import { ScrollTrigger } from '@/motion/gsapSetup';
-import { scrollTriggerEnd } from '@/motion/responsive';
 import { ACT1 } from '@/scenes/01-escenario-europeo/content';
 import { ACT2 } from '@/scenes/02-seguridad-global/content';
 import { ACT3 } from '@/scenes/03-asimetria-territorial/content';
@@ -121,18 +120,19 @@ describe('Act4Scene', () => {
       const node = item.trigger;
       return node instanceof HTMLElement && node.id === 'marco';
     });
-    expect(String(trigger?.vars.end)).toBe(scrollTriggerEnd('300svh'));
+    expect(trigger?.vars.pin).toBe(false);
+    expect(String(trigger?.vars.end)).toBe('bottom bottom');
   });
 
-  it('el anclaje de escritorio conserva la distancia de pin del acto IV', () => {
+  it('el acto IV fluye sin pin y conserva la transición de color atada al scroll', () => {
     setWidth(1440);
     render(<Act4Scene />);
     const trigger = ScrollTrigger.getAll().find((item) => {
       const node = item.trigger;
       return node instanceof HTMLElement && node.id === 'marco';
     });
-    expect(trigger?.vars.pin).toBe(true);
-    expect(String(trigger?.vars.end)).toBe(scrollTriggerEnd('550vh'));
+    expect(trigger?.vars.pin).toBe(false);
+    expect(String(trigger?.vars.end)).toBe('bottom bottom');
   });
 
   it('CDI-13 · axe sin violaciones bloqueantes', async () => {

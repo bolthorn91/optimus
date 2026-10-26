@@ -7,7 +7,6 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { App } from '@/app/App';
 import { resetAnalytics, setAnalyticsSink } from '@/lib/analytics';
 import { ScrollTrigger } from '@/motion/gsapSetup';
-import { scrollTriggerEnd } from '@/motion/responsive';
 import { HERO } from '@/scenes/00-hero/content';
 import { ACT1 } from '@/scenes/01-escenario-europeo/content';
 import { ACT2 } from '@/scenes/02-seguridad-global/content';
@@ -123,9 +122,10 @@ describe('Act2Scene', () => {
   });
 
   // MAP-01b
-  it('MAP-01b · la entradilla se lee al entrar en el acto y se desvanece al arrancar el mapa', () => {
+  it('MAP-01b · la entradilla permanece legible mientras cambia el mapa', () => {
     expect(choreographAct2(0).introOpacity).toBe(1);
-    expect(choreographAct2(0.12).introOpacity).toBe(0);
+    expect(choreographAct2(0.12).introOpacity).toBe(1);
+    expect(choreographAct2(1).introOpacity).toBe(1);
   });
 
   // MAP-02
@@ -291,7 +291,8 @@ describe('Act2Scene', () => {
     const group = screen.getByRole('group', { name: ACT2.copy.periodSelector });
     const trigger = ScrollTrigger.getAll()[0];
     expect(trigger).toBeDefined();
-    expect(String(trigger?.vars.end)).toBe(scrollTriggerEnd('260svh'));
+    expect(trigger?.vars.pin).toBe(false);
+    expect(String(trigger?.vars.end)).toBe('bottom bottom');
     const css = readFileSync(
       resolve(process.cwd(), 'src/scenes/02-seguridad-global/scene.css'),
       'utf8',

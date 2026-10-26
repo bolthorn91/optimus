@@ -23,7 +23,42 @@
 .act3 {
   box-sizing: border-box;
   min-block-size: 100svh;
-  padding: var(--space-l) var(--space-m);
+  display: grid;
+  gap: var(--space-l);
+  padding: calc(var(--space-l) + 5rem) var(--space-m) var(--space-l);
+}
+
+.act3 > .disclosure {
+  margin-block: var(--space-2xs);
+}
+
+.act3 .disclosure__body {
+  padding-block-end: var(--space-l);
+}
+
+.act3 .disclosure__body > .paired-comparison {
+  margin-block-start: var(--space-2xs);
+}
+
+.act3 .paired-comparison tbody tr:hover {
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+}
+
+.act3-model-copy {
+  display: grid;
+  gap: var(--space-m);
+  margin-block-start: var(--space-m);
+}
+
+@media (min-width: 64rem) {
+  .act3-model-copy {
+    grid-template-columns: minmax(0, 1fr) 18rem;
+    align-items: start;
+  }
+
+  .act3-model-copy > p:last-child {
+    grid-column: 1 / -1;
+  }
 }
 
 .act3-nightfall {
@@ -124,9 +159,17 @@
   list-style: none;
 }
 
+@media (min-width: 64rem) {
+  .act3-advantages {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-m);
+  }
+}
+
 .act3-advantages li {
   border-inline-start: 2px solid var(--accent);
-  padding-inline-start: var(--space-s);
+  padding: var(--space-s);
+  background: color-mix(in srgb, currentColor 3%, transparent);
 }
 
 .act3-advantages__index {
@@ -152,4 +195,5 @@
   margin-block: var(--space-l);
   padding: var(--space-m);
   background: var(--color-navy-deep);
+  color: var(--color-ivory);
 }

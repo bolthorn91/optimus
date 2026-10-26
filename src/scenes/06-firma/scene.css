@@ -1,7 +1,7 @@
 .act67 {
   box-sizing: border-box;
   min-block-size: 100svh;
-  padding: var(--space-l) var(--space-m);
+  padding: calc(var(--space-l) + 5rem) var(--space-m) var(--space-l);
 }
 
 /*

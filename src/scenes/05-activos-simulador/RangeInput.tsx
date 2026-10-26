@@ -68,8 +68,35 @@ export function RangeInput({
   }
 
   return (
-    <>
-      <label htmlFor={id}>{caption}</label>
+    <div className="range-input">
+      <div className="range-input__head">
+        <label htmlFor={id}>{caption}</label>
+        <input
+          aria-label={caption}
+          className="range-input__numeric"
+          inputMode="numeric"
+          max={max}
+          min={min}
+          onBlur={() => {
+            focused.current = false;
+            commit(draft);
+          }}
+          onChange={(event) => {
+            const raw = event.target.value;
+            setDraft(raw);
+            const parsed = Number(raw);
+            if (Number.isFinite(parsed) && parsed >= min && parsed <= max) {
+              onChange(parsed);
+            }
+          }}
+          onFocus={() => {
+            focused.current = true;
+          }}
+          step={step}
+          type="number"
+          value={draft}
+        />
+      </div>
       <input
         aria-valuemax={max}
         aria-valuemin={min}
@@ -89,32 +116,7 @@ export function RangeInput({
         type="range"
         value={value}
       />
-      <input
-        aria-label={caption}
-        className="range-input__numeric"
-        inputMode="numeric"
-        max={max}
-        min={min}
-        onBlur={() => {
-          focused.current = false;
-          commit(draft);
-        }}
-        onChange={(event) => {
-          const raw = event.target.value;
-          setDraft(raw);
-          const parsed = Number(raw);
-          if (Number.isFinite(parsed) && parsed >= min && parsed <= max) {
-            onChange(parsed);
-          }
-        }}
-        onFocus={() => {
-          focused.current = true;
-        }}
-        step={step}
-        type="number"
-        value={draft}
-      />
-    </>
+    </div>
   );
 }
 

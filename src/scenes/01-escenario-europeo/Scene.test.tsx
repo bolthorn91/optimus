@@ -146,8 +146,8 @@ describe('Act1Scene', () => {
     ] as const;
     for (const { p, active } of peaks) {
       const state = choreographAct1(p);
-      expect(state.introOpacity).toBe(1);
-      expect(state.introY).toBe(-40);
+      expect(state.introOpacity).toBe(0);
+      expect(state.introY).toBe(0);
       expect(state.statProgress).toBe(0);
       expect(state.closingOpacity).toBe(0);
       expect(state.surfaceMix).toBeCloseTo(easeInOut(p));
@@ -159,8 +159,8 @@ describe('Act1Scene', () => {
       }
     }
     expect(choreographAct1(1)).toEqual({
-      introOpacity: 1,
-      introY: -40,
+      introOpacity: 0,
+      introY: 0,
       factorOpacity: [0, 0, 0],
       factorProgress: [1, 1, 1],
       factorY: [-28, -28, -28],

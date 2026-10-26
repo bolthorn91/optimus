@@ -33,24 +33,28 @@ export function Simulator({
 
   return (
     <section data-simulator id="simulador" ref={ref} tabIndex={-1}>
-      <h3>{ACT5.copy.simulatorTitle}</h3>
-      <CapitalSlider
-        label={ACT5.copy.capitalLabel}
-        max={CAPITAL_MAX}
-        min={CAPITAL_MIN}
-        onChange={setCapital}
-        step={CAPITAL_STEP}
-        value={input.capital}
-      />
-      <HorizonSlider
-        label={ACT5.copy.horizonLabel}
-        max={HORIZON_MAX}
-        min={HORIZON_MIN}
-        onChange={setYears}
-        unit={ACT5.copy.horizonUnit}
-        value={input.years}
-      />
-      <ScenarioToggle onChange={setScenario} value={input.scenario} />
+      <header className="simulator__head">
+        <h3>{ACT5.copy.simulatorTitle}</h3>
+      </header>
+      <div className="simulator__controls">
+        <CapitalSlider
+          label={ACT5.copy.capitalLabel}
+          max={CAPITAL_MAX}
+          min={CAPITAL_MIN}
+          onChange={setCapital}
+          step={CAPITAL_STEP}
+          value={input.capital}
+        />
+        <HorizonSlider
+          label={ACT5.copy.horizonLabel}
+          max={HORIZON_MAX}
+          min={HORIZON_MIN}
+          onChange={setYears}
+          unit={ACT5.copy.horizonUnit}
+          value={input.years}
+        />
+        <ScenarioToggle onChange={setScenario} value={input.scenario} />
+      </div>
       <div data-simulator-result>
         <StatFigure
           label={ACT5.copy.finalValue}

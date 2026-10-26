@@ -136,58 +136,249 @@
   border-color: var(--accent);
 }
 
-[data-milestone] {
+/*
+ * El miliario de escritorio ya no es una columna de numerales sueltos: por defecto vive
+ * plegado en un disparador con el capítulo actual y, al abrirse, muestra el título de cada
+ * acto. En móvil se sirve la lista normal dentro del menú.
+ */
+.milestone-rail {
   position: fixed;
-  inset-block: 20%;
+  inset-block-start: 50%;
   inset-inline-end: 0;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  transform: translateY(-50%);
+}
+
+.milestone-rail__toggle {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3xs);
+  min-inline-size: 3.5rem;
+  min-block-size: var(--touch-min);
+  padding: var(--space-2xs) var(--space-3xs);
+  border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+  border-inline-end: 0;
+  background: var(--doc-surface);
+  color: var(--doc-ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+.milestone-rail__toggle [lang='la'] {
+  font-family: var(--font-display);
+  font-size: var(--text-h4);
+  line-height: 1;
+}
+
+.milestone-rail__toggle:hover,
+.milestone-rail__toggle:focus-visible {
+  border-color: var(--accent);
+}
+
+.milestone-rail__kicker,
+.milestone-rail__eyebrow {
+  color: var(--ink-muted, var(--color-slate-light));
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.milestone-rail__kicker {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.milestone-rail__panel {
+  position: absolute;
+  inset-block-start: -1rem;
+  inset-inline-end: calc(100% + var(--space-2xs));
+  inline-size: min(21rem, calc(100vw - 5rem));
+  max-block-size: 72svh;
+  overflow: auto;
+  padding: var(--space-m);
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  background: var(--doc-surface);
+  color: var(--doc-ink);
+  box-shadow: 0 1.5rem 3rem color-mix(in srgb, #000 22%, transparent);
+}
+
+.milestone-rail__eyebrow {
+  margin: 0 0 var(--space-s);
+}
+
+.milestone-rail__panel ol {
+  display: grid;
+  gap: var(--space-3xs);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+.milestone-rail__panel a {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--space-s);
+  min-block-size: var(--touch-min);
+  padding-block: var(--space-2xs);
+  border-block-end: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  text-decoration: none;
+}
+
+.milestone-rail__panel a [lang='la'] {
+  font-family: var(--font-display);
+  font-size: var(--text-body);
+}
+
+.milestone-rail__panel a[aria-current='location'] {
+  color: var(--color-gold-high);
+}
+
+.milestone-rail__panel a[aria-current='location'] .milestone-rail__label {
+  font-weight: 600;
+}
+
+.milestone-rail__label {
+  font-size: var(--text-note);
+  line-height: 1.35;
+}
+
 /*
- * El footer se servía como una ristra de enlaces sin separación
- * («EscenarioSeguridadEstrategiaActivosNosotros»). Una columna, filete superior y filas
- * de navegación legibles; las fuentes conservan su bloque propio.
+ * El footer dejó de ser una ristra de enlaces apilados: marca y contacto, recorrido,
+ * legal y firma comparten una retícula; fuentes y descargo cierran a todo el ancho.
  */
 footer {
   display: grid;
-  gap: var(--space-s);
-  padding: var(--space-xl) var(--space-m) var(--space-l);
+  gap: var(--space-xl);
+  padding: var(--space-2xl) var(--space-xl) var(--space-l);
+  padding-inline-end: 6rem;
   border-block-start: 1px solid color-mix(in srgb, currentColor 18%, transparent);
 }
 
-footer nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2xs) var(--space-m);
+.footer__top {
+  display: grid;
+  grid-template-columns: minmax(16rem, 1.35fr) repeat(3, minmax(8rem, 0.65fr));
+  gap: var(--space-l);
+  align-items: start;
 }
 
-footer nav a {
-  font-size: var(--text-note);
+.footer__wordmark {
+  margin: 0 0 var(--space-s);
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  letter-spacing: 0.04em;
+  line-height: 1;
 }
 
-footer p,
-footer section {
-  margin: 0;
-}
-
-footer h2 {
+.footer__wordmark span {
+  display: block;
+  margin-block-start: var(--space-3xs);
+  color: var(--ink-muted);
   font-family: var(--font-body);
-  font-size: var(--text-note);
+  font-size: 0.625rem;
   font-weight: 600;
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
 }
 
-footer [data-sources] {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-s);
+.footer__col h2,
+.footer__sources h2 {
+  margin: 0 0 var(--space-s);
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.footer__col ul {
+  display: grid;
+  gap: var(--space-2xs);
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: var(--text-body);
+}
+
+.footer__col a,
+.footer__col p {
+  font-size: var(--text-note);
+}
+
+.footer__col a {
+  display: inline-block;
+  min-block-size: 1.75rem;
+}
+
+.footer__meta p {
+  margin-block-end: var(--space-xs);
+}
+
+.footer__sources {
+  display: grid;
+  gap: var(--space-s);
+  padding-block-start: var(--space-l);
+  border-block-start: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+}
+
+.footer__sources h2 span {
+  margin-inline-start: var(--space-2xs);
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.footer__sources ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: var(--space-2xs) var(--space-m);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-note);
+  line-height: 1.35;
+}
+
+.footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--space-m);
+  padding-block-start: var(--space-m);
+  border-block-start: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+}
+
+.footer__bottom p {
+  color: var(--ink-muted);
+  font-size: var(--text-note);
+}
+
+.footer__bottom [data-disclaimer] {
+  max-inline-size: var(--measure);
+}
+
+@media (max-width: 64rem) {
+  .footer__top {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 40rem) {
+  footer {
+    padding: var(--space-xl) var(--space-m) var(--space-l);
+    padding-inline-end: var(--space-m);
+  }
+
+  .footer__top {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .footer__sources ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media print {

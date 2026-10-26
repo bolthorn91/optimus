@@ -1,3 +1,6 @@
+import type { ActNumber } from '@/app/routes';
+import { actRoute } from '@/app/routes';
+
 export interface SectionBackground {
   surface: string;
   ink: string;
@@ -15,6 +18,7 @@ export interface MilestoneMark {
   id: string;
   href: string;
   label: string;
+  chapterTitle: string;
   act: number;
   reached: boolean;
 }
@@ -202,6 +206,7 @@ export function milestoneMarks(
     id: section.id,
     href: section.href,
     label: section.label,
+    chapterTitle: actRoute(section.act as ActNumber).title,
     act: section.act,
     reached: current.order >= section.order,
   }));

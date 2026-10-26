@@ -1,7 +1,7 @@
 .act5 {
   box-sizing: border-box;
   min-block-size: 100svh;
-  padding: var(--space-l) var(--space-m);
+  padding: calc(var(--space-l) + 5rem) var(--space-m) var(--space-l);
   color: var(--color-navy-ink);
 }
 
@@ -101,12 +101,75 @@
 
 [data-simulator] {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.05fr) minmax(18rem, 0.95fr);
+  grid-template-areas:
+    'head head'
+    'controls result'
+    'chart result'
+    'table table'
+    'assumptions assumptions';
+  align-items: start;
   gap: var(--space-m);
   margin-block: var(--space-l);
   padding: var(--space-m);
   border: 1px solid var(--rule);
   background: var(--surface-raised);
+}
+
+.simulator__head {
+  grid-area: head;
+}
+
+.simulator__head h3 {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-h4);
+  letter-spacing: 0.01em;
+}
+
+.simulator__controls {
+  grid-area: controls;
+  display: grid;
+  gap: var(--space-m);
+  min-inline-size: 0;
+}
+
+[data-simulator-result] {
+  grid-area: result;
+  display: grid;
+  gap: var(--space-m);
+  align-content: start;
+  position: sticky;
+  inset-block-start: 5.5rem;
+}
+
+[data-projection-chart] {
+  grid-area: chart;
+}
+
+[data-year-table] {
+  grid-area: table;
+}
+
+[data-assumptions] {
+  grid-area: assumptions;
+}
+
+@media (max-width: 64rem) {
+  [data-simulator] {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'head'
+      'controls'
+      'result'
+      'assumptions'
+      'chart'
+      'table';
+  }
+
+  [data-simulator-result] {
+    position: static;
+  }
 }
 
 /*
@@ -159,6 +222,87 @@
   gap: var(--space-m);
 }
 
+[data-simulator-result] [data-stat-value] {
+  font-size: clamp(1.75rem, 3.4vw, 3rem);
+}
+
+[data-simulator-result] [data-stat-figure] {
+  padding-block-end: var(--space-s);
+  border-block-end: 1px solid var(--rule);
+}
+
+[data-simulator-result] [data-stat-figure]:last-of-type {
+  border-block-end: 0;
+}
+
+[data-simulator] .range-input {
+  display: grid;
+  gap: var(--space-2xs);
+}
+
+[data-simulator] .range-input__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-s);
+}
+
+[data-simulator] .range-input__head label {
+  font-size: var(--text-note);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+[data-simulator] .range-input__numeric {
+  inline-size: 9.5rem;
+  min-block-size: var(--touch-min);
+  padding: var(--space-2xs) var(--space-xs);
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink-strong);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+
+[data-simulator] .range-input__numeric:focus-visible {
+  border-color: var(--accent);
+}
+
+[data-scenario-toggle] {
+  display: grid;
+  gap: var(--space-2xs);
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+[data-scenario-toggle] legend {
+  margin-block-end: var(--space-2xs);
+  font-size: var(--text-note);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+[data-scenario-toggle] label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  min-block-size: var(--touch-min);
+  padding: var(--space-2xs) var(--space-s);
+  border: 1px solid var(--rule);
+  cursor: pointer;
+}
+
+[data-scenario-toggle] label:has(input:checked) {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
+  color: var(--ink-strong);
+}
+
+[data-scenario-toggle] input {
+  accent-color: var(--color-gold-bronze);
+}
+
 /*
  * Las tres cifras del resultado heredan --text-figure (67 px a 375). «155.296,94 US$» mide
  * ~430 px y ensancha el grid del simulador. En móvil bajan a una escala de lectura.
@@ -170,8 +314,9 @@
 }
 
 [data-projection-chart] {
-  inline-size: min(100%, 24rem);
-  min-block-size: 7.5rem;
+  inline-size: 100%;
+  min-block-size: 10rem;
+  max-block-size: 18rem;
   color: var(--accent);
 }
 

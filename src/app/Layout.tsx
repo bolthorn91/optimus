@@ -123,7 +123,7 @@ export function Layout() {
           </Link>
         )}
       </header>
-      {isMobile ? null : current ? <Milestone marks={milestoneMarks(current)} /> : null}
+      {isMobile ? null : current ? <Milestone collapsible marks={milestoneMarks(current)} /> : null}
       {isMobile && !isContact && (!isHome || pastHero) ? <StickyCta to={contactTo} /> : null}
       <main id="contenido">
         <RouteErrorBoundary resetKey={location.pathname}>
@@ -131,37 +131,57 @@ export function Layout() {
         </RouteErrorBoundary>
       </main>
       <footer>
-        <nav aria-label="Pie de relato">
-          {navEntries().map((entry) => (
-            <a href={entry.href} key={entry.label}>
-              {entry.label}
-            </a>
-          ))}
-        </nav>
-        <nav aria-label="Legal">
-          {ROUTES.filter(isLegalRoute).map((route) => (
-            <Link key={route.path} to={route.path}>
-              {route.title}
-            </Link>
-          ))}
-        </nav>
-        <ContactDetails />
-        <p>
-          <PendingValue debtId={CONTACT.socials.debtId} label={CONTACT.socials.label} />
-        </p>
-        <p>
-          <PendingValue debtId={CONTACT.registry.debtId} label={CONTACT.registry.label} />
-        </p>
-        <p>Todos los derechos reservados.</p>
-        <section aria-labelledby="fuentes-heading" id="fuentes">
-          <h2 id="fuentes-heading">Fuentes</h2>
+        <div className="footer__top">
+          <div className="footer__brand">
+            <p className="footer__wordmark">
+              OPTIMVS <span>Capital Protegido</span>
+            </p>
+            <ContactDetails />
+          </div>
+          <nav aria-label="Recorrido" className="footer__col">
+            <h2>Recorrido</h2>
+            <ul>
+              {navEntries().map((entry) => (
+                <li key={entry.label}>
+                  <a href={entry.href}>{entry.label}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <nav aria-label="Legal" className="footer__col">
+            <h2>Legal</h2>
+            <ul>
+              {ROUTES.filter(isLegalRoute).map((route) => (
+                <li key={route.path}>
+                  <Link to={route.path}>{route.title}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <div className="footer__col footer__meta">
+            <h2>Firma</h2>
+            <p>
+              <PendingValue debtId={CONTACT.socials.debtId} label={CONTACT.socials.label} />
+            </p>
+            <p>
+              <PendingValue debtId={CONTACT.registry.debtId} label={CONTACT.registry.label} />
+            </p>
+          </div>
+        </div>
+        <section aria-labelledby="fuentes-heading" className="footer__sources" id="fuentes">
+          <h2 id="fuentes-heading">
+            Fuentes <span>{String(CONTACT.sources.length).padStart(2, '0')}</span>
+          </h2>
           <ul data-sources>
             {CONTACT.sources.map((source) => (
               <li key={source}>{source}</li>
             ))}
           </ul>
         </section>
-        <Disclaimer variant="footer" />
+        <div className="footer__bottom">
+          <p>Todos los derechos reservados.</p>
+          <Disclaimer variant="footer" />
+        </div>
       </footer>
       <MobileNav current={current} open={menuOpen} sections={SECTIONS} onClose={closeMenu} />
     </>

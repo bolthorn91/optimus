@@ -1,7 +1,40 @@
 .act2 {
   box-sizing: border-box;
   min-block-size: 100svh;
-  padding: var(--space-l) var(--space-m);
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  align-items: start;
+  gap: var(--space-xl);
+  padding: calc(var(--space-l) + 5rem) var(--space-m) var(--space-l);
+}
+
+.act2-copy {
+  display: grid;
+  align-content: start;
+  gap: var(--space-s);
+  min-inline-size: 0;
+}
+
+.act2-copy h2 {
+  margin-block-end: var(--space-2xs);
+}
+
+.act2-copy h3 {
+  margin-block: var(--space-s) 0;
+}
+
+.act2-map {
+  display: grid;
+  align-content: start;
+  min-inline-size: 0;
+  position: sticky;
+  inset-block-start: calc(3.5rem + var(--space-s));
+}
+
+@media (max-width: 47.99rem) {
+  .act2-map {
+    position: static;
+  }
 }
 
 /*
@@ -13,8 +46,16 @@
 }
 
 .act2-detail .act2 {
+  display: block;
   min-block-size: 0;
   padding-block-start: var(--space-l);
+}
+
+@media (max-width: 47.99rem) {
+  .act2 {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-l);
+  }
 }
 
 .act2-intro {
@@ -129,18 +170,12 @@
 }
 
 /*
- * En portátiles bajos el mapa se reduce para que el pin no recorte su mitad inferior.
- * El detalle (leyenda, tabla y cierre) ya está fuera del escenario.
+ * En portátiles bajos el mapa se reduce un punto para que siga acompañando al texto.
+ * La tabla, la leyenda y el cierre viven fuera del escenario, así que no hay pin que recortar.
  */
 @media (max-height: 940px) {
   .risk-map {
     inline-size: min(100%, 36rem);
-  }
-}
-
-@media (max-height: 800px) {
-  .risk-map {
-    inline-size: min(100%, 17rem);
   }
 }
 

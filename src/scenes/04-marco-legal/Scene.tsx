@@ -3,6 +3,7 @@ import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { applyDocumentPair, IVORY_PAIR, NAVY_DEEP_PAIR } from '@/app/sections';
 import { ActCta } from '@/components/ActCta';
 import { Disclaimer } from '@/components/Disclaimer';
+import { Disclosure } from '@/components/Disclosure';
 import { DualFigure } from '@/components/DualFigure';
 import { GuaranteeCards, toGuaranteeCardItems } from '@/components/GuaranteeCards';
 import { ProcessDiagram } from '@/components/ProcessDiagram';
@@ -80,7 +81,10 @@ export function Act4Scene() {
     ref,
     choreograph: choreographAct4,
     apply,
-    pin: true,
+    // El pin de 550vh dejaba el marco fiscal y las garantías fuera de la ventana. El acto
+    // fluye como una página y conserva la transición navy → marfil atada al scroll.
+    pin: false,
+    end: 'bottom bottom',
     scrub: true,
     sceneId: 'marco',
   });
@@ -113,69 +117,79 @@ export function Act4Scene() {
         <div className="act4-intro">
           <p>{ACT4.intro}</p>
         </div>
-        <h3>{ACT4.whyArgentina.heading}</h3>
-        {ACT4.whyArgentina.paragraphs.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
-        ))}
-        <ul className="act4-factors">
-          {ACT4.whyArgentina.factors.map((factor) => (
-            <li key={factor.name}>
-              <strong>{factor.name}</strong>
-              <span>{factor.detail}</span>
-            </li>
+        <Disclosure id="act4-porque" meta="8 razones" title={<h3>{ACT4.whyArgentina.heading}</h3>}>
+          {ACT4.whyArgentina.paragraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
           ))}
-        </ul>
-        <div data-anchor-stat>
-          <time dateTime={String(ACT4.anchorStat.since)}>
-            <DualFigure value={ACT4.anchorStat.since} />
-          </time>
+          <ul className="act4-factors">
+            {ACT4.whyArgentina.factors.map((factor) => (
+              <li key={factor.name}>
+                <strong>{factor.name}</strong>
+                <span>{factor.detail}</span>
+              </li>
+            ))}
+          </ul>
+        </Disclosure>
+        <div className="act4-anchor" data-anchor-stat>
+          <div className="act4-anchor__year">
+            <time dateTime={String(ACT4.anchorStat.since)}>
+              <DualFigure value={ACT4.anchorStat.since} />
+            </time>
+            <p>{ACT4.anchorStat.label}</p>
+          </div>
           <AnchorStat
             equivalence={ACT4.anchorStat.equivalence}
             hectares={ACT4.anchorStat.hectares}
-            label={ACT4.anchorStat.label}
+            label={ACT4.areas.primary.label}
             progress={visual.anchorProgress}
             source={ACT4.anchorStat.source}
           />
           <AreaComparison primary={ACT4.areas.primary} reference={ACT4.areas.reference} />
         </div>
-        <section data-fiscal>
-          <h3>{ACT4.fiscal.heading}</h3>
-          {ACT4.fiscal.paragraphs.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-          <h4>{ACT4.copy.cdiTitle}</h4>
-          <div ref={diagramRef}>
-            <ProcessDiagram
-              drawProgress={visual.drawProgress}
-              fromLabel={ACT4.copy.diagramFrom}
-              orientation={orientation}
-              stepGlow={visual.stepGlow}
+        <Disclosure
+          id="act4-fiscal"
+          meta="CDI España–Argentina"
+          title={<h3>{ACT4.fiscal.heading}</h3>}
+        >
+          <section data-fiscal>
+            {ACT4.fiscal.paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+            <h4>{ACT4.copy.cdiTitle}</h4>
+            <div ref={diagramRef}>
+              <ProcessDiagram
+                drawProgress={visual.drawProgress}
+                fromLabel={ACT4.copy.diagramFrom}
+                orientation={orientation}
+                stepGlow={visual.stepGlow}
+                stepLabel={ACT4.copy.cdiStepLabel}
+                steps={steps}
+                toLabel={ACT4.copy.diagramTo}
+              />
+            </div>
+            <p data-withholding>{ACT4.withholdingNote}</p>
+            <p data-tax-advice role="note">
+              {ACT4.taxAdviceNote}
+            </p>
+            <ProcessStepList
+              activeIndex={visual.pasoActivo}
+              onSelect={onSelect}
               stepLabel={ACT4.copy.cdiStepLabel}
               steps={steps}
-              toLabel={ACT4.copy.diagramTo}
             />
-          </div>
-          <p data-withholding>{ACT4.withholdingNote}</p>
-          <p data-tax-advice role="note">
-            {ACT4.taxAdviceNote}
-          </p>
-          <ProcessStepList
-            activeIndex={visual.pasoActivo}
-            onSelect={onSelect}
-            stepLabel={ACT4.copy.cdiStepLabel}
-            steps={steps}
-          />
-          <Disclaimer variant="inline" />
-        </section>
-        <section data-guarantees>
-          <h3>{ACT4.guarantees.heading}</h3>
-          {ACT4.guarantees.intro.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-          <GuaranteeCards guarantees={guarantees} progress={visual.guaranteeProgress} />
-          <p data-capital-protection>{ACT4.capitalProtectionNote}</p>
-          <Disclaimer variant="inline" />
-        </section>
+            <Disclaimer variant="inline" />
+          </section>
+        </Disclosure>
+        <Disclosure id="act4-garantias" meta="4 pilares" title={<h3>{ACT4.guarantees.heading}</h3>}>
+          <section data-guarantees>
+            {ACT4.guarantees.intro.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+            <GuaranteeCards guarantees={guarantees} progress={visual.guaranteeProgress} />
+            <p data-capital-protection>{ACT4.capitalProtectionNote}</p>
+            <Disclaimer variant="inline" />
+          </section>
+        </Disclosure>
         <ActCta href={ACT4.cta.href} label={ACT4.cta.label} />
       </div>
     </Scene>

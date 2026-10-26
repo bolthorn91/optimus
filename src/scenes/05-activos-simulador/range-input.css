@@ -6,7 +6,36 @@ html[data-slider-gesture='lock'] {
 .range-input__range {
   inline-size: 100%;
   min-block-size: var(--touch-min);
+  accent-color: var(--color-gold-bronze);
   touch-action: none;
+  background: transparent;
+}
+
+.range-input__range::-webkit-slider-runnable-track {
+  block-size: 2px;
+  background: var(--rule);
+}
+
+.range-input__range::-moz-range-track {
+  block-size: 2px;
+  background: var(--rule);
+}
+
+.range-input__range::-webkit-slider-thumb {
+  inline-size: 1rem;
+  block-size: 1rem;
+  margin-block-start: -0.45rem;
+  border: 2px solid var(--surface);
+  border-radius: 50%;
+  background: var(--color-gold-bronze);
+}
+
+.range-input__range::-moz-range-thumb {
+  inline-size: 1rem;
+  block-size: 1rem;
+  border: 2px solid var(--surface);
+  border-radius: 50%;
+  background: var(--color-gold-bronze);
 }
 
 .range-input__numeric {
