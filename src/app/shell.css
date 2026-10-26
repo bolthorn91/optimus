@@ -104,7 +104,10 @@
 [data-milestone] {
   position: fixed;
   inset-block: 20%;
-  inset-inline-end: var(--space-s);
+  inset-inline-end: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 /*

@@ -51,3 +51,10 @@
 [data-conversion] > * {
   min-inline-size: 0;
 }
+
+/* A 320 px «patrimonial» a --text-h2 (41 px) mide ~276 px y no cabe en 257. */
+@media (max-width: 20rem) {
+  .act-contact h2 {
+    font-size: 2rem;
+  }
+}

@@ -92,6 +92,16 @@ h1 {
 h2 {
   font-size: var(--text-h2);
 }
+
+/*
+ * A 320 px un titular de sección a 40 px deja palabras de ~300 px en una columna de 257.
+ * Baja a 32 px; las escenas con su propia escala móvil conservan su regla.
+ */
+@media (max-width: 20rem) {
+  h2 {
+    font-size: 2rem;
+  }
+}
 h3,
 h4 {
   font-family: var(--font-body);

@@ -92,4 +92,4 @@ Bloqueos y decisiones editoriales que el cliente aún no ha cerrado (perfil §7 
 | ASSET-03-WEBP | F8 pide WebP con respaldo. El picture estático lo cubre (`nightfall-static.jpg`); el canvas carga solo WebP vía TextureLoader. Los PNG de país (~2 MB) no se servían y se retiraron | doc 03 F8 / §7 E | abierto |
 | PERF-08-DEVICE | Las políticas de degradación de §3.2 se basan en criterio, no en medición sobre un parque de dispositivos. Falta verificar en gama media y baja reales (y en portátiles con gráfica integrada) y ajustar S7 | doc 08 §12.2 / S7 · doc 03 §12.5 | abierto |
 | WEBGL-08-MOBILE | El acto III sirve el fallback en todo móvil, incluidos los que sí podrían ejecutar la escena. Decisión conservadora a revisar con datos reales | doc 08 §12.3 / S3 | abierto |
-| TAB-08 | El tramo 768–1024 px hereda escritorio por encima de 1024 y móvil por debajo de 768. La franja intermedia se verifica pero no se optimiza | doc 08 §12.4 / F1 | abierto |
+| TAB-08 | El tramo 768–1024 px hereda escritorio por encima de 1024 y móvil por debajo de 768. Verificado y corregido: sin desborde horizontal de 320 a 1440 px | doc 08 §12.4 / F1 | cerrado (2026-10-26) |

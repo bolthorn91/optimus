@@ -7,6 +7,7 @@
 .contact-form__field,
 .contact-form fieldset {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-2xs);
   margin: 0;
   padding: 0;
@@ -34,6 +35,9 @@
 .contact-form textarea {
   font: inherit;
   font-size: 1rem;
+  inline-size: 100%;
+  min-inline-size: 0;
+  box-sizing: border-box;
   min-block-size: var(--touch-min);
   color: inherit;
   background: var(--surface-raised);

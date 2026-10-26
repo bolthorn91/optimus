@@ -6,6 +6,20 @@ services:
     staticPublishPath: dist
     pullRequestPreviewsEnabled: false
 
+    # Build-time y públicas por diseño: quedan incrustadas en el bundle.
+    # sync: false hace que Render las pida al crear el servicio desde el blueprint.
+    envVars:
+      - key: VITE_SITE_URL
+        sync: false
+      - key: VITE_EMAILJS_SERVICE_ID
+        sync: false
+      - key: VITE_EMAILJS_TEMPLATE_ID
+        sync: false
+      - key: VITE_EMAILJS_PUBLIC_KEY
+        sync: false
+      - key: VITE_ANALYTICS_ENDPOINT
+        sync: false
+
     headers:
       - path: /*
         name: X-Content-Type-Options
