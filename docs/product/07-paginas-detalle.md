@@ -13,6 +13,8 @@ desarrolla en detalle, las páginas legales, y la capa de SEO del sitio.
 |------------|------|------------|
 | **roadmap §2 fila 07** | Detalle y legales | Siete páginas de acto, tres de vehículo, tres legales, más metadatos, datos estructurados, sitemap y banner de cookies. |
 
+> **Actualización (2026-10-26):** los CTA de las páginas de detalle y de vehículo apuntan a `/contacto` (formulario propio), no al ancla `#contacto` de la home. El sitemap incluye 12 URLs: las 11 anteriores más `/contacto`; las 3 legales siguen en `noindex`.
+
 ---
 
 ## 1. Contexto del software actual (punto de partida)

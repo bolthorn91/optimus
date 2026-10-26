@@ -1,17 +1,19 @@
+import { Link } from 'react-router';
+
 import { MOBILE_COPY } from '@/app/mobileCopy';
 
 import './sticky-cta.css';
 
-export function StickyCta() {
+export function StickyCta({ to = '/contacto' }: { to?: string }) {
   return (
-    <a
+    <Link
       className="sticky-cta"
       data-sticky-cta
       data-track="cta"
       data-track-position="sticky"
-      href="/#contacto"
+      to={to}
     >
       {MOBILE_COPY.stickyCta}
-    </a>
+    </Link>
   );
 }

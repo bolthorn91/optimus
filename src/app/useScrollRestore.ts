@@ -29,7 +29,7 @@ export function useScrollRestore(pathname: string, hash: string): void {
     if (command.kind === 'hash') {
       const target = document.getElementById(command.id);
       if (target) {
-        target.scrollIntoView();
+        if (typeof target.scrollIntoView === 'function') target.scrollIntoView();
         return;
       }
       if (import.meta.env.DEV) {

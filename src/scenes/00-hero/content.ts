@@ -40,7 +40,7 @@ export const HERO: HeroContent = {
       body: 'OPTIMVS Capital Protegido, firma Hispano - Argentina (España - Argentina).',
     },
   ],
-  primaryCta: { label: 'Reservar sesión privada', href: '#contacto' },
+  primaryCta: { label: 'Reservar sesión privada', href: '/contacto' },
   secondaryCta: { label: 'Descargar dossier', href: '/dossier.pdf' },
   scrollHint: 'Desplácese para continuar',
   downloadNote: 'PDF · 5,6 MB',

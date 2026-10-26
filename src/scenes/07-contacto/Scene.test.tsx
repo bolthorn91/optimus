@@ -1,4 +1,4 @@
-import { act, fireEvent, render, renderHook, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { afterEach, describe, expect, it } from 'vitest';
 
@@ -13,7 +13,6 @@ import {
   clearSimulatorSession,
   writeSimulatorSession,
 } from '@/scenes/05-activos-simulador/simulatorSession';
-import { useSimulator } from '@/scenes/05-activos-simulador/useSimulator';
 import { CONTACT_SCENE } from '@/scenes/07-contacto/content';
 import { ContactScene } from '@/scenes/07-contacto/Scene';
 import { expectNoBlockingAxeViolations } from '@/test/axe';
@@ -40,9 +39,9 @@ function stubMatchMedia(queryNeedle: string): void {
     }) as MediaQueryList;
 }
 
-function renderScene(path = '/#contacto') {
+function renderScene() {
   return render(
-    <MemoryRouter initialEntries={[path]}>
+    <MemoryRouter initialEntries={['/']}>
       <ContactScene />
     </MemoryRouter>,
   );
@@ -79,12 +78,16 @@ describe('ContactScene', () => {
     expect(container.querySelector('a[href^="tel:"]')).toBeNull();
   });
 
-  it('FRM-10 · llegada con vehículo preselecciona el interés', () => {
-    renderScene('/?vehiculo=equities#contacto');
-    expect(screen.getByLabelText(CONTACT_SCENE.copy.interest)).toHaveValue('equities');
+  it('el cierre no embebe el formulario y deriva a la página de contacto', () => {
+    const { container } = renderScene();
+    expect(container.querySelector('form')).toBeNull();
+    const cta = screen.getByRole('link', { name: CONTACT_SCENE.cta });
+    expect(cta).toHaveAttribute('href', '/contacto#formulario');
+    expect(cta).toHaveClass('cta');
+    expect(screen.getByText(CONTACT_SCENE.ctaNote)).toBeInTheDocument();
   });
 
-  it('FRM-11 · con el simulador usado el contexto es visible', () => {
+  it('con el simulador usado muestra el escenario y el enlace lo conserva', () => {
     writeSimulatorSession({
       horizonLocked: true,
       input: {
@@ -95,19 +98,30 @@ describe('ContactScene', () => {
       },
     });
     const { container } = renderScene();
-    const context = container.querySelector('[data-simulator-context]');
-    expect(context).toHaveTextContent(CONTACT_SCENE.copy.simulatorContext);
-    expect((context?.textContent ?? '').replaceAll('\u00A0', ' ')).toContain(
+    const scenario = container.querySelector('.contact-cta__scenario');
+    expect(scenario).toHaveTextContent(CONTACT_SCENE.scenarioHeading);
+    expect((scenario?.textContent ?? '').replaceAll('\u00A0', ' ')).toContain(
       formatCurrency(200_000).replaceAll('\u00A0', ' '),
     );
-    expect(context).toHaveTextContent(SCENARIO_LABELS.favourable);
-    expect(context).toHaveTextContent(VEHICLE_LABELS['real-estate']);
+    expect(scenario).toHaveTextContent(SCENARIO_LABELS.favourable);
+    expect(scenario).toHaveTextContent(VEHICLE_LABELS['real-estate']);
+
+    const cta = screen.getByRole('link', { name: CONTACT_SCENE.cta });
+    const url = new URL(cta.getAttribute('href') ?? '', 'https://optimvs.test');
+    expect(url.pathname).toBe('/contacto');
+    expect(url.hash).toBe('#formulario');
+    expect(url.searchParams.get('vehiculo')).toBe('real-estate');
+    expect(url.searchParams.get('capital')).toBe('200000');
+    expect(url.searchParams.get('horizonte')).toBe('12');
+    expect(url.searchParams.get('escenario')).toBe('favourable');
     expect(container.querySelector('input[type="hidden"]')).toBeNull();
   });
 
-  it('FRM-11 · el contexto aparece si el simulador se usa con la escena ya montada', () => {
+  it('el cierre reacciona si el simulador se usa con la escena ya montada', () => {
     const { container } = renderScene();
-    expect(container.querySelector('[data-simulator-context]')).toBeNull();
+    expect(container.querySelector('.contact-cta__scenario')).toBeNull();
+    expect(screen.getByText(CONTACT_SCENE.ctaPrompt)).toBeInTheDocument();
+
     act(() => {
       writeSimulatorSession({
         horizonLocked: false,
@@ -119,47 +133,11 @@ describe('ContactScene', () => {
         },
       });
     });
-    const context = container.querySelector('[data-simulator-context]');
-    expect(context).toHaveTextContent(CONTACT_SCENE.copy.simulatorContext);
-    expect((context?.textContent ?? '').replaceAll('\u00A0', ' ')).toContain(
-      formatCurrency(80_000).replaceAll('\u00A0', ' '),
-    );
-    expect(context).toHaveTextContent(VEHICLE_LABELS.equities);
-  });
 
-  it('FRM-11 · montar el simulador no muestra contexto hasta un cambio del visitante', () => {
-    const { container } = renderScene();
-    const hook = renderHook(() => useSimulator());
-    expect(container.querySelector('[data-simulator-context]')).toBeNull();
-    act(() => {
-      hook.result.current.setCapital(150_000);
-    });
-    expect(container.querySelector('[data-simulator-context]')).toHaveTextContent(
-      CONTACT_SCENE.copy.simulatorContext,
-    );
-    hook.unmount();
-  });
-
-  it('FRM-13 · el error conserva valores y el bloque de conversión ofrece contacto', async () => {
-    const { container } = renderScene();
-    fireEvent.change(screen.getByLabelText(CONTACT_SCENE.copy.fullName), {
-      target: { value: 'Ana Pérez' },
-    });
-    fireEvent.change(screen.getByLabelText(CONTACT_SCENE.copy.email), {
-      target: { value: 'ana@example.com' },
-    });
-    fireEvent.change(screen.getByLabelText(CONTACT_SCENE.copy.phoneNational), {
-      target: { value: '612345678' },
-    });
-    fireEvent.change(screen.getByLabelText(CONTACT_SCENE.copy.interest), {
-      target: { value: 'real-estate' },
-    });
-    fireEvent.click(screen.getByRole('checkbox', { name: /He leído y acepto/ }));
-    fireEvent.click(screen.getByRole('button', { name: CONTACT_SCENE.copy.submit }));
-    expect(await screen.findByRole('alert')).toHaveTextContent(CONTACT_SCENE.copy.errorNetwork);
-    expect(screen.getByLabelText(CONTACT_SCENE.copy.fullName)).toHaveValue('Ana Pérez');
-    expect(container.querySelector('[data-conversion] [data-contact-details]')).not.toBeNull();
-    expect(screen.getByRole('button', { name: CONTACT_SCENE.copy.submit })).toBeEnabled();
+    const scenario = container.querySelector('.contact-cta__scenario');
+    expect(scenario).toHaveTextContent(SCENARIO_LABELS.base);
+    expect(scenario).toHaveTextContent(VEHICLE_LABELS.equities);
+    expect(screen.queryByText(CONTACT_SCENE.ctaPrompt)).toBeNull();
   });
 
   it('FRM-20 · el bloque de conversión lleva Disclaimer inline', () => {

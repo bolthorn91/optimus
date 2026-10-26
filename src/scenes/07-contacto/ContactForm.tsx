@@ -39,10 +39,12 @@ type FormStatus = 'idle' | 'sending' | 'success' | 'error' | 'rateLimited';
 export function ContactForm({
   initialInterest,
   send = sendContactEmail,
+  showContext = true,
   simulatorContext,
 }: {
   initialInterest?: VehicleId | undefined;
   send?: typeof sendContactEmail;
+  showContext?: boolean | undefined;
   simulatorContext?: readonly ContactContextRow[] | undefined;
 }) {
   const formId = useId();
@@ -252,50 +254,53 @@ export function ContactForm({
           </select>
         )}
       </Field>
-      <Field
-        error={errorText(errors.capitalBand)}
-        field="capitalBand"
-        id={fieldId('capitalBand')}
-        label={CONTACT_SCENE.copy.capitalBand}
-      >
-        {(a11y) => (
-          <select
-            {...a11y}
-            name="capitalBand"
-            onChange={bindText('capitalBand')}
-            value={values.capitalBand}
-          >
-            <option value="" />
-            {CAPITAL_BANDS.map((id) => (
-              <option key={id} value={id}>
-                {CONTACT_SCENE.capitalBand[id]}
-              </option>
-            ))}
-          </select>
-        )}
-      </Field>
-      <Field
-        error={errorText(errors.message)}
-        field="message"
-        id={fieldId('message')}
-        label={CONTACT_SCENE.copy.message}
-      >
-        {(a11y) => (
-          <>
-            <textarea
+      <details className="contact-form__optional">
+        <summary>{CONTACT_SCENE.optionalDetails}</summary>
+        <Field
+          error={errorText(errors.capitalBand)}
+          field="capitalBand"
+          id={fieldId('capitalBand')}
+          label={CONTACT_SCENE.copy.capitalBand}
+        >
+          {(a11y) => (
+            <select
               {...a11y}
-              maxLength={MESSAGE_MAX}
-              name="message"
-              onChange={bindText('message')}
-              value={values.message}
-            />
-            <p data-char-count>
-              {CONTACT_SCENE.copy.messageCount(values.message.length, MESSAGE_MAX)}
-            </p>
-          </>
-        )}
-      </Field>
-      {simulatorContext ? (
+              name="capitalBand"
+              onChange={bindText('capitalBand')}
+              value={values.capitalBand}
+            >
+              <option value="" />
+              {CAPITAL_BANDS.map((id) => (
+                <option key={id} value={id}>
+                  {CONTACT_SCENE.capitalBand[id]}
+                </option>
+              ))}
+            </select>
+          )}
+        </Field>
+        <Field
+          error={errorText(errors.message)}
+          field="message"
+          id={fieldId('message')}
+          label={CONTACT_SCENE.copy.message}
+        >
+          {(a11y) => (
+            <>
+              <textarea
+                {...a11y}
+                maxLength={MESSAGE_MAX}
+                name="message"
+                onChange={bindText('message')}
+                value={values.message}
+              />
+              <p data-char-count>
+                {CONTACT_SCENE.copy.messageCount(values.message.length, MESSAGE_MAX)}
+              </p>
+            </>
+          )}
+        </Field>
+      </details>
+      {simulatorContext && showContext ? (
         <SimulatorContext notice={CONTACT_SCENE.copy.simulatorContext} rows={simulatorContext} />
       ) : null}
       <ConsentFields

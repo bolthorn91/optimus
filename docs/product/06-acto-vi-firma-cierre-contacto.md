@@ -13,6 +13,8 @@ conversión. Es la única superficie del sitio que trata datos personales.
 |------------|------|------------|
 | **roadmap §2 fila 06** | Actos VI–VII + cierre | La firma y su fundador, la cadena de intermediación sin capas, las dos vías operativas, y el bloque de reserva con formulario, envío por EmailJS y confirmación. |
 
+> **Actualización (2026-10-26):** el formulario ya no se monta en la home. El cierre `#contacto` es un CTA; el formulario completo vive en `/contacto`, recibe el escenario del simulador por query (`capital`, `horizonte`, `escenario`, `vehiculo`) y pliega horquilla y mensaje en «Añadir detalles (opcional)». Donde este documento indique un CTA a `#contacto`, el destino es `/contacto#formulario`.
+
 ---
 
 ## 1. Contexto del software actual (punto de partida)

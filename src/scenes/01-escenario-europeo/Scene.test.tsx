@@ -90,10 +90,10 @@ describe('Act1Scene', () => {
   });
 
   // ACT1-11
-  it('ACT1-11 · el CTA intermedio apunta a #contacto', () => {
+  it('ACT1-11 · el CTA intermedio apunta a la página de contacto', () => {
     render(<Act1Scene />);
     const cta = screen.getByRole('link', { name: 'Analice su caso con un consultor' });
-    expect(cta).toHaveAttribute('href', '#contacto');
+    expect(cta).toHaveAttribute('href', '/contacto');
   });
 
   // ACT1-12

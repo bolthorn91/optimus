@@ -88,6 +88,23 @@
   justify-self: end;
 }
 
+.contact-form__optional {
+  display: grid;
+  gap: var(--space-s);
+  padding: var(--space-s);
+  border: 1px solid var(--rule);
+}
+
+.contact-form__optional summary {
+  cursor: pointer;
+  color: var(--ink-muted);
+  font-size: var(--text-note);
+}
+
+.contact-form__optional[open] summary {
+  margin-block-end: var(--space-s);
+}
+
 /*
  * Sin regla propia, el botón de envío llegaba con el gris del navegador. Usa el mismo
  * tratamiento que el CTA primario del hero para que la acción principal no cambie de piel.
@@ -120,4 +137,26 @@
   block-size: 1.15rem;
   margin-block-start: 0.2em;
   accent-color: var(--color-gold-bronze);
+}
+
+/*
+ * En escritorio el formulario se reparte en dos columnas para que quepa de una vez:
+ * los campos cortos van por parejas y los bloques anchos (teléfono, mensaje,
+ * consentimientos y envío) ocupan la fila completa. En móvil sigue a una columna.
+ */
+@media (min-width: 48rem) {
+  .contact-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contact-form > fieldset,
+  .contact-form > .contact-form__field:has(textarea),
+  .contact-form > details,
+  .contact-form > [data-consent],
+  .contact-form > [data-simulator-context],
+  .contact-form > [data-honeypot],
+  .contact-form > p,
+  .contact-form > button[type='submit'] {
+    grid-column: 1 / -1;
+  }
 }

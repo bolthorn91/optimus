@@ -4,6 +4,7 @@ import { HomePage } from '@/app/HomePage';
 import { Layout } from '@/app/Layout';
 import { isActRoute, isLegalRoute, isVehicleRoute, ROUTES, type RouteEntry } from '@/app/routes';
 import { ActDetailPage } from '@/pages/ActDetailPage';
+import { ContactPage } from '@/pages/ContactPage';
 import { DesignPage } from '@/pages/DesignPage';
 import { LegalPage } from '@/pages/LegalPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
@@ -20,6 +21,8 @@ function elementFor(route: RouteEntry) {
     case 'legal':
       if (!isLegalRoute(route)) throw new Error(`Ruta legal sin id: ${route.path}`);
       return <LegalPage document={route.legalId} />;
+    case 'contact':
+      return <ContactPage />;
     case 'home':
       return <HomePage />;
   }

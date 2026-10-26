@@ -165,7 +165,7 @@ export const ACT3: Act3Content = {
   ],
   conclusion:
     'Mientras que España está oficialmente dentro de una zona vulnerable a conflictos políticos, bélicos y climatológicos, con un mercado inmobiliario que opera bajo un esquema maduro de alta densidad y precios consolidados en euros, la geografía global mantiene a Argentina fuera de riesgo una asimetría territorial única en su mercado inmobiliario: un suelo de altísimo valor estratégico cotizando a precios de entrada sumamente competitivos en dólares, convirtiendo al activo tangible en un vehículo idóneo para la compra con descuento, la generación de renta neta atractiva y la captura de plusvalías por apreciación de capital. De igual modo, en España la renta variable genera escaso margen de multiplicación de capital; el mercado argentino ofrece la posibilidad de posicionarse en activos de valor con descuentos históricos.',
-  cta: { label: 'Analice su caso con un consultor', href: '#contacto' },
+  cta: { label: 'Analice su caso con un consultor', href: '/contacto' },
   copy: {
     areaLabel: 'Superficie',
     populationLabel: 'Población',

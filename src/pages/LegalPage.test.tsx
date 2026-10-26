@@ -165,16 +165,17 @@ describe('páginas legales, SEO y analítica', () => {
       else events.push({ name, payload });
     });
     const { container } = render(<App />);
+    const dossier = container.querySelector('a[href="/dossier.pdf"]');
+    expect(dossier).not.toBeNull();
+    fireEvent.click(dossier ?? document.body);
+    expect(events.some((event) => event.name === 'dossier_download')).toBe(true);
+
     const header = container.querySelector('a[data-track-position="header"]');
     expect(header).not.toBeNull();
     fireEvent.click(header ?? document.body);
     expect(
       events.some((event) => event.name === 'cta_click' && event.payload?.position === 'header'),
     ).toBe(true);
-    const dossier = container.querySelector('a[href="/dossier.pdf"]');
-    expect(dossier).not.toBeNull();
-    fireEvent.click(dossier ?? document.body);
-    expect(events.some((event) => event.name === 'dossier_download')).toBe(true);
   });
 
   it('DET-14 · el JSON-LD de Organization omite telephone y sameAs', () => {

@@ -1,7 +1,7 @@
 import type { LegalId } from '@/content/legal/types';
 import type { VehicleId } from '@/lib/projection-assumptions';
 
-export type RouteKind = 'home' | 'act' | 'vehicle' | 'legal';
+export type RouteKind = 'home' | 'act' | 'vehicle' | 'legal' | 'contact';
 
 export type ActNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
@@ -34,6 +34,16 @@ export const ROUTES: readonly RouteEntry[] = [
     changefreq: 'monthly',
     priority: 1,
     hasPendingData: false,
+  },
+  {
+    path: '/contacto',
+    kind: 'contact',
+    title: 'Reserva de sesión privada',
+    description:
+      'Solicite una sesión privada de diagnóstico patrimonial y revise con nuestros consultores cómo estructurar la salida parcial de capitales hacia activos estratégicos en Argentina.',
+    changefreq: 'monthly',
+    priority: 0.9,
+    hasPendingData: true,
   },
   {
     path: '/escenario-europeo',

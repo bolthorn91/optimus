@@ -65,11 +65,9 @@ const CANONICAL: Record<(typeof ACT_IDS)[number], readonly string[]> = {
   ],
   contacto: [
     CONTACT_SCENE.title,
-    CONTACT_SCENE.copy.fullName,
-    CONTACT_SCENE.copy.email,
-    CONTACT_SCENE.copy.phoneNational,
-    CONTACT_SCENE.copy.submit,
-    CONTACT_SCENE.copy.consentMarketing,
+    CONTACT_SCENE.subtitle,
+    ...CONTACT_SCENE.benefits,
+    CONTACT_SCENE.cta,
   ],
 };
 

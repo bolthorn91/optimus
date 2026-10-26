@@ -14,13 +14,15 @@ import {
 } from '@/app/routes';
 
 describe('manifiesto de rutas', () => {
-  it('declara la home, siete actos, tres vehículos y tres legales', () => {
+  it('declara la home, la página de contacto, siete actos, tres vehículos y tres legales', () => {
     expect(ROUTES.filter((route) => route.kind === 'home')).toHaveLength(1);
+    expect(ROUTES.filter((route) => route.kind === 'contact')).toHaveLength(1);
     expect(ROUTES.filter(isActRoute)).toHaveLength(7);
     expect(ROUTES.filter((route) => route.kind === 'vehicle')).toHaveLength(3);
     expect(ROUTES.filter((route) => route.kind === 'legal')).toHaveLength(3);
-    expect(ROUTES).toHaveLength(14);
+    expect(ROUTES).toHaveLength(15);
     expect(homeRoute().path).toBe('/');
+    expect(routeByPath('/contacto')?.kind).toBe('contact');
   });
 
   it('F1 · las rutas de acto son las siete legibles en español', () => {

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useState, useSyncExternalStore } from 'react';
 import { Link, Outlet, useLocation } from 'react-router';
 
 import { DocumentHead } from '@/app/DocumentHead';
@@ -12,6 +12,7 @@ import {
   clearDocumentPair,
   DOCUMENT_PAIR_OFF_HOME,
   milestoneMarks,
+  NAVY_DEEP_PAIR,
   navEntries,
   SECTIONS,
   sectionAt,
@@ -26,6 +27,11 @@ import { PendingValue } from '@/components/PendingValue';
 import { CONTACT } from '@/content/contact';
 import { useScrollProgress } from '@/motion/useScrollProgress';
 import { useViewport } from '@/motion/useViewport';
+import { contactHref } from '@/scenes/05-activos-simulador/contactHref';
+import {
+  getSimulatorSessionSnapshot,
+  subscribeSimulatorSession,
+} from '@/scenes/05-activos-simulador/simulatorSession';
 
 import './shell.css';
 
@@ -35,11 +41,18 @@ export function Layout() {
   const { isMobile } = useViewport();
   const [menuOpen, setMenuOpen] = useState(false);
   const isHome = location.pathname === '/';
+  const isContact = location.pathname === '/contacto';
   const current = isHome ? sectionAt(progress) : null;
   const pastHero = current?.id !== 'hero';
-  const pair = current?.background ?? DOCUMENT_PAIR_OFF_HOME;
+  const pair = current?.background ?? (isContact ? NAVY_DEEP_PAIR : DOCUMENT_PAIR_OFF_HOME);
   const currentGroup = current?.navGroup ?? null;
   const currentAct = current?.act ?? null;
+  const simulatorSession = useSyncExternalStore(
+    subscribeSimulatorSession,
+    getSimulatorSessionSnapshot,
+    getSimulatorSessionSnapshot,
+  );
+  const contactTo = contactHref(simulatorSession?.input.vehicle, simulatorSession?.input);
 
   useScrollRestore(location.pathname, location.hash);
   useSiteAnalytics(current, progress);
@@ -104,14 +117,14 @@ export function Layout() {
             </ul>
           </nav>
         )}
-        {isMobile ? null : (
-          <a className="cta" data-track="cta" data-track-position="header" href="/#contacto">
+        {isMobile || isContact ? null : (
+          <Link className="cta" data-track="cta" data-track-position="header" to={contactTo}>
             Reservar sesión privada
-          </a>
+          </Link>
         )}
       </header>
       {isMobile ? null : current ? <Milestone marks={milestoneMarks(current)} /> : null}
-      {isMobile && (!isHome || pastHero) ? <StickyCta /> : null}
+      {isMobile && !isContact && (!isHome || pastHero) ? <StickyCta to={contactTo} /> : null}
       <main id="contenido">
         <RouteErrorBoundary resetKey={location.pathname}>
           <Outlet />

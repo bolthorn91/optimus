@@ -98,7 +98,7 @@ export const ACT5: Act5Content = {
     note: 'El importe de entrada se determina en la sesión de diagnóstico según el activo.',
     debtId: 'E-05',
   },
-  cta: { label: 'Reservar sesión privada', href: '#contacto' },
+  cta: { label: 'Reservar sesión privada', href: '/contacto' },
   copy: {
     entryFloorTitle: 'Suelo de inversión mínimo. Sin techo.',
     entryFloorLabel: 'Importe de entrada',

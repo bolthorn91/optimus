@@ -127,10 +127,10 @@ describe('Act3Scene', () => {
   });
 
   // CMP-08
-  it('CMP-08 · el CTA intermedio apunta a #contacto', () => {
+  it('CMP-08 · el CTA intermedio apunta a la página de contacto', () => {
     render(<Act3Scene />);
     const cta = screen.getByRole('link', { name: ACT3.cta.label });
-    expect(cta).toHaveAttribute('href', '#contacto');
+    expect(cta).toHaveAttribute('href', '/contacto');
   });
 
   // SAT-09

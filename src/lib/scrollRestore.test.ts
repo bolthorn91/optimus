@@ -30,6 +30,16 @@ describe('decideScroll', () => {
     ).toEqual({ kind: 'hash', id: 'contacto' });
   });
 
+  it('un ancla fuera de la home también se respeta', () => {
+    expect(
+      decideScroll({
+        prevPath: '/',
+        nextPath: '/contacto',
+        nextHash: '#formulario',
+      }),
+    ).toEqual({ kind: 'hash', id: 'formulario' });
+  });
+
   it('entre páginas de detalle va al inicio', () => {
     expect(
       decideScroll({

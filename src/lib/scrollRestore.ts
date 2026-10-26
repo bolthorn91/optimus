@@ -25,9 +25,8 @@ export function decideScroll(input: ScrollDecisionInput): ScrollCommand {
     return { kind: 'top' };
   }
 
-  if (id && nextPath === HOME) return { kind: 'hash', id };
+  if (id) return { kind: 'hash', id };
   if (arrivingHome) return { kind: 'restore' };
   if (nextPath !== prevPath) return { kind: 'top' };
-  if (id) return { kind: 'hash', id };
   return { kind: 'noop' };
 }

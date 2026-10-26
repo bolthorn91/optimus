@@ -60,5 +60,5 @@ export const ACT1: Act1Content = {
     label: 'del PIB nacional depende del turismo y la oferta de servicios',
     source: 'dossier OPTIMVS, sección I',
   },
-  cta: { label: 'Analice su caso con un consultor', href: '#contacto' },
+  cta: { label: 'Analice su caso con un consultor', href: '/contacto' },
 };

@@ -210,7 +210,7 @@ export const ACT4: Act4Content = {
     'Lo que se protege es la titularidad registral del activo, no el valor de la inversión.',
   taxAdviceNote:
     'Información fiscal de carácter general. Su aplicación depende de su situación individual; consulte asesoramiento independiente.',
-  cta: { label: 'Analice su caso con un consultor', href: '#contacto' },
+  cta: { label: 'Analice su caso con un consultor', href: '/contacto' },
   copy: {
     cdiTitle: 'Cómo funciona el Convenio de Doble Imposición',
     cdiStepLabel: 'Paso',

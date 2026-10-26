@@ -16,6 +16,18 @@ export const CONTACT_SCENE = {
     'Mitigue los riesgos hacia su patrimonio',
     'Obtenga los beneficios de la estabilidad de su valor',
   ],
+  cta: 'Abrir formulario de reserva',
+  ctaNote:
+    'El formulario se abre en una página aparte para que pueda revisarlo con calma. Si ha configurado un escenario, se conservará.',
+  ctaPrompt: 'Puede configurar su escenario en el simulador o abrir el formulario directamente.',
+  formHeading: 'Formulario de reserva',
+  benefitsHeading: 'Qué incluye la sesión',
+  optionalDetails: 'Añadir detalles (opcional)',
+  pageTitle: 'Reserva de sesión privada',
+  scenarioHeading: 'Su escenario',
+  scenarioEmpty: 'Todavía no ha configurado un escenario.',
+  scenarioEdit: 'Editar escenario',
+  scenarioConfigure: 'Configurar escenario',
   privacyHref: '/politica-de-privacidad',
   copy: {
     fullName: 'Nombre y apellidos',

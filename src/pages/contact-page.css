@@ -1,0 +1,132 @@
+.contact-page {
+  box-sizing: border-box;
+  max-inline-size: var(--container);
+  margin-inline: auto;
+  padding: var(--space-m) var(--space-m) var(--space-2xl);
+  background: var(--color-navy-deep);
+  color: var(--ink);
+}
+
+.contact-page__layout {
+  display: grid;
+  grid-template-areas:
+    'header'
+    'form'
+    'info';
+  gap: var(--space-l);
+  align-items: start;
+}
+
+.contact-page__header {
+  grid-area: header;
+  display: grid;
+  gap: var(--space-s);
+  min-inline-size: 0;
+}
+
+.contact-page__form {
+  grid-area: form;
+  display: grid;
+  gap: var(--space-s);
+  align-content: start;
+  min-inline-size: 0;
+  scroll-margin-block-start: 5.5rem;
+}
+
+.contact-page__info {
+  grid-area: info;
+  display: grid;
+  gap: var(--space-m);
+  align-content: start;
+  min-inline-size: 0;
+}
+
+.contact-page__back {
+  margin: 0;
+  font-size: var(--text-note);
+}
+
+.contact-page__eyebrow {
+  margin: 0;
+  color: var(--color-gold);
+  font-size: var(--text-note);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.contact-page h1 {
+  max-inline-size: 24ch;
+  font-size: clamp(2rem, 1.4rem + 2.5vw, 3rem);
+}
+
+.contact-page__lead {
+  margin: 0;
+  color: var(--ink-muted);
+}
+
+.contact-page__scenario {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: var(--text-note);
+}
+
+.contact-page__scenario span {
+  color: var(--ink);
+}
+
+.contact-page__scenario a {
+  color: var(--color-gold);
+  white-space: nowrap;
+}
+
+.contact-page__form h2,
+.contact-page__info h2 {
+  margin: 0;
+  font-size: var(--text-h3);
+}
+
+.contact-page__benefits ul {
+  display: grid;
+  gap: var(--space-s);
+  margin: var(--space-s) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contact-page__benefits li {
+  padding-inline-start: var(--space-s);
+  border-inline-start: 2px solid var(--accent);
+}
+
+.contact-page__guarantees {
+  display: grid;
+  gap: var(--space-s);
+}
+
+/*
+ * El formulario se aprieta en la página de contacto: el objetivo es que los campos
+ * quepan en la primera pantalla de escritorio. En la home ya no hay formulario.
+ */
+.contact-page .contact-form {
+  gap: var(--space-2xs);
+}
+
+.contact-page .contact-form textarea {
+  min-block-size: 5.5rem;
+}
+
+@media (min-width: 48rem) {
+  .contact-page__layout {
+    grid-template-areas:
+      'header form'
+      'info form';
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--space-xl);
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .contact-page {
+    padding: var(--space-l) var(--space-m);
+  }
+}

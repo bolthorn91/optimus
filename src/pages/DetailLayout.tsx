@@ -28,7 +28,7 @@ export function DetailLayout({
   actNumber,
   prev,
   next,
-  ctaTo = '/#contacto',
+  ctaTo = '/contacto',
 }: DetailLayoutProps) {
   return (
     <article className="detail">
