@@ -19,6 +19,16 @@
   gap: var(--space-s);
 }
 
+/*
+ * A 375 px la columna del prefijo (192 px) más el ancho intrínseco del número no caben:
+ * el campo «Número» se salía 120 px del formulario. En móvil se apilan.
+ */
+@media (max-width: 30rem) {
+  .contact-form__phone {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .contact-form input,
 .contact-form select,
 .contact-form textarea {
@@ -72,4 +82,38 @@
 .contact-form [data-char-count] {
   margin: 0;
   justify-self: end;
+}
+
+/*
+ * Sin regla propia, el botón de envío llegaba con el gris del navegador. Usa el mismo
+ * tratamiento que el CTA primario del hero para que la acción principal no cambie de piel.
+ */
+.contact-form button[type='submit'] {
+  inline-size: 100%;
+  min-block-size: var(--touch-min);
+  padding: var(--space-xs) var(--space-m);
+  border: 1px solid var(--color-gold-high);
+  background: var(--color-gold-high);
+  color: var(--color-navy-deep);
+  font: inherit;
+  font-size: var(--text-note);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.contact-form button[type='submit']:hover:not(:disabled) {
+  border-color: var(--color-gold-bronze);
+}
+
+.contact-form button[type='submit']:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+.contact-form input[type='checkbox'] {
+  inline-size: 1.15rem;
+  block-size: 1.15rem;
+  margin-block-start: 0.2em;
+  accent-color: var(--color-gold-bronze);
 }

@@ -4,6 +4,16 @@
   padding: var(--space-l) var(--space-m);
 }
 
+/*
+ * «Transfronteriza» a --text-h2 (41 px a 375) mide ~381 px y no cabe en la columna de 312.
+ * En móvil el titular del acto VII baja a una escala que permite partir la palabra.
+ */
+@media (max-width: 30rem) {
+  .act67 h2 {
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+  }
+}
+
 .act67-firm {
   opacity: var(--firm-opacity, 1);
 }

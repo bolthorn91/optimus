@@ -28,6 +28,7 @@
 
 .act3-nightfall {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-m);
   margin-block-end: var(--space-l);
 }
@@ -61,7 +62,22 @@
 
 .act3-nightfall-figures {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-l);
+}
+
+/*
+ * «2.780.400 km²» a --text-figure (96 px) mide ~619 px: no cabe en una columna de 480 px
+ * a 1024 y ensanchaba la pista del grid hasta sacar la página del viewport. La escala baja
+ * con el ancho y la pista puede encogerse por debajo del min-content de la cifra.
+ */
+.act3-nightfall-figures > * {
+  min-inline-size: 0;
+}
+
+.act3-nightfall-figures [data-stat-value] {
+  font-size: clamp(2.25rem, 6vw, 5.25rem);
+  font-variant-numeric: tabular-nums;
 }
 
 .act3-nightfall-country {
@@ -72,7 +88,7 @@
 
 @media (min-width: 48rem) {
   .act3-nightfall-figures {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

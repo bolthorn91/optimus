@@ -49,6 +49,16 @@
   max-inline-size: 22ch;
 }
 
+/*
+ * A 375 px la escala de --text-h1 deja «integridad» en ~383 px de ancho: la palabra se
+ * salía de la pantalla. En móvil el titular baja un escalón y vuelve a caber.
+ */
+@media (max-width: 30rem) {
+  .hero h1 {
+    font-size: clamp(2.5rem, 11.5vw, 3.5rem);
+  }
+}
+
 .hero h1 strong {
   font-weight: 600;
   color: var(--color-gold-high);

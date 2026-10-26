@@ -1,7 +1,9 @@
 import '@testing-library/jest-dom/vitest';
 
 import { cleanup } from '@testing-library/react';
-import { afterEach } from 'vitest';
+import { afterAll, afterEach } from 'vitest';
+
+import { ScrollTrigger } from '@/motion/gsapSetup';
 
 /**
  * No se registra ningún matcher de accesibilidad: el gate del perfil §5 solo bloquea `critical` y
@@ -14,4 +16,13 @@ import { afterEach } from 'vitest';
 
 afterEach(() => {
   cleanup();
+});
+
+/**
+ * ScrollTrigger arranca un setInterval de 250 ms al registrarse y no lo corta al matar los
+ * triggers. Si el fichero termina con el intervalo vivo, dispara requestAnimationFrame cuando
+ * Vitest ya ha desmontado jsdom y el run falla con un unhandled error. `disable` lo limpia.
+ */
+afterAll(() => {
+  ScrollTrigger.disable(false, true);
 });

@@ -101,11 +101,33 @@
 
 [data-simulator] {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-m);
   margin-block: var(--space-l);
   padding: var(--space-m);
   border: 1px solid var(--rule);
   background: var(--surface-raised);
+}
+
+/*
+ * La tabla de proyección mide ~520 px de min-content. Sin esto ensancha la pista del grid
+ * del simulador y arrastra la página entera a scroll horizontal a 375 px.
+ */
+[data-simulator] > * {
+  min-inline-size: 0;
+}
+
+[data-year-table] {
+  min-inline-size: 0;
+}
+
+/*
+ * La tabla de proyección mide ~520 px de min-content. El contenedor con scroll evita que
+ * ensanche la pista del grid del simulador (y con ella la página) a 375 px.
+ */
+.projection-table-scroll {
+  max-inline-size: 100%;
+  overflow-x: auto;
 }
 
 [data-simulator]:focus {
@@ -129,6 +151,16 @@
 [data-simulator-result] {
   display: grid;
   gap: var(--space-m);
+}
+
+/*
+ * Las tres cifras del resultado heredan --text-figure (67 px a 375). «155.296,94 US$» mide
+ * ~430 px y ensancha el grid del simulador. En móvil bajan a una escala de lectura.
+ */
+@media (max-width: 47.99rem) {
+  [data-simulator-result] [data-stat-value] {
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+  }
 }
 
 [data-projection-chart] {

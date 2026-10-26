@@ -85,6 +85,16 @@
   color: var(--ink-strong);
 }
 
+/*
+ * Las cifras ancla largas («13.243.219 ha», «2.780.400 km²») a --text-figure no caben en
+ * la columna de 312 px de un móvil. Bajan a escala de lectura; cada escena puede afinarla.
+ */
+@media (max-width: 47.99rem) {
+  [data-stat-value] {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+}
+
 [data-stat-figure] figcaption {
   display: grid;
   gap: var(--space-3xs);

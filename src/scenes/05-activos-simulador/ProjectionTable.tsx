@@ -33,7 +33,7 @@ export function ProjectionTable({ series }: { series: readonly ProjectionYear[] 
   return (
     <details data-year-table>
       <summary>{MOBILE_COPY.tableExpand}</summary>
-      {table}
+      <div className="projection-table-scroll">{table}</div>
     </details>
   );
 }
