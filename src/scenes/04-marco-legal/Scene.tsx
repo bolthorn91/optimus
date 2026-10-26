@@ -149,6 +149,7 @@ export function Act4Scene() {
               fromLabel={ACT4.copy.diagramFrom}
               orientation={orientation}
               stepGlow={visual.stepGlow}
+              stepLabel={ACT4.copy.cdiStepLabel}
               steps={steps}
               toLabel={ACT4.copy.diagramTo}
             />

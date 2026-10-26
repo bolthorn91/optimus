@@ -47,6 +47,7 @@ export function ActBlock({ block }: { block: ActFigure }) {
             fromLabel={block.fromLabel}
             orientation="vertical"
             stepGlow={filled}
+            stepLabel={block.stepLabel}
             steps={block.steps}
             toLabel={block.toLabel}
           />
