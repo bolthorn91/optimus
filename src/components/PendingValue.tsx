@@ -4,6 +4,8 @@ export interface PendingValueProps {
   /** Fila de `docs/debt/technical-debt.md` que lo registra: `B-01`, `B-05`… */
   debtId: string;
   className?: string;
+  /** En una ficha con `<dt>` propio, el marcador no repite la etiqueta. */
+  showLabel?: boolean;
 }
 
 export const PENDING_LABEL = 'Dato pendiente de confirmación';
@@ -15,10 +17,11 @@ export const PENDING_LABEL = 'Dato pendiente de confirmación';
  * en una web de captación patrimonial no es un marcador de trabajo pendiente, es un dato falso
  * publicado. Se ve, y dice de qué fila de la deuda viene.
  */
-export function PendingValue({ label, debtId, className }: PendingValueProps) {
+export function PendingValue({ label, debtId, className, showLabel = true }: PendingValueProps) {
   return (
     <span className={className} data-debt-id={debtId} data-pending>
-      {label}: {PENDING_LABEL}
+      {showLabel ? `${label}: ` : null}
+      {PENDING_LABEL}
     </span>
   );
 }

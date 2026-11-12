@@ -1,0 +1,77 @@
+import { render, screen } from '@testing-library/react';
+import { afterEach, describe, expect, it } from 'vitest';
+
+import { App } from '@/app/App';
+import { expectNoBlockingAxeViolations } from '@/test/axe';
+
+function renderAt(path: string) {
+  window.history.pushState({}, '', path);
+  return render(<App />);
+}
+
+describe('arquitectura comercial', () => {
+  afterEach(() => {
+    window.history.pushState({}, '', '/');
+  });
+
+  it('la home deja el dossier fuera y conduce a proyectos y reserva', () => {
+    const { container } = renderAt('/');
+    expect(container.querySelector('#escenario')).toBeNull();
+    expect(container.querySelector('#proyectos')).not.toBeNull();
+    expect(container.querySelector('#como-funciona')).not.toBeNull();
+    expect(container.querySelector('#por-que-optimvs')).not.toBeNull();
+    expect(container.querySelector('#calculadora')).not.toBeNull();
+    expect(screen.getAllByRole('link', { name: 'Reservar sesión privada' }).length).toBeGreaterThan(
+      0,
+    );
+    expect(screen.getByRole('link', { name: 'Ver todos los proyectos' })).toHaveAttribute(
+      'href',
+      '/proyectos',
+    );
+  });
+
+  it('la página de proyectos publica las fichas con sus campos y marcadores', () => {
+    const { container } = renderAt('/proyectos');
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Proyectos abiertos' }),
+    ).toBeInTheDocument();
+    expect(container.querySelectorAll('[data-project]')).toHaveLength(3);
+    expect(container.textContent).toContain('Inversión inicial');
+    expect(container.textContent).toContain('Retorno estimado');
+    expect(container.textContent).toContain('Dato pendiente de confirmación');
+  });
+
+  it('la calculadora y la firma tienen páginas propias con un h1', () => {
+    const calculator = renderAt('/calculadora');
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Calculadora de escenario' }),
+    ).toBeInTheDocument();
+    calculator.unmount();
+
+    const company = renderAt('/nosotros');
+    expect(screen.getByRole('heading', { level: 1, name: 'Quiénes somos' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: /Nuestra estructura operativa/ }),
+    ).toBeInTheDocument();
+    company.unmount();
+  });
+
+  it('la estrategia enlaza los siete actos y los tres tipos de activo', () => {
+    const { container } = renderAt('/estrategia');
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Estrategia de inversión' }),
+    ).toBeInTheDocument();
+    expect(container.querySelectorAll('.strategy-chapters a')).toHaveLength(7);
+    expect(container.querySelectorAll('.strategy-assets a')).toHaveLength(3);
+  });
+
+  it('proyectos y estrategia no tienen violaciones axe bloqueantes', async () => {
+    const projects = renderAt('/proyectos');
+    await expectNoBlockingAxeViolations(projects.container);
+    projects.unmount();
+
+    const strategy = renderAt('/estrategia');
+    await expectNoBlockingAxeViolations(strategy.container);
+    strategy.unmount();
+  }, 30_000);
+});

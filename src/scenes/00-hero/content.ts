@@ -41,7 +41,7 @@ export const HERO: HeroContent = {
     },
   ],
   primaryCta: { label: 'Reservar sesión privada', href: '/contacto' },
-  secondaryCta: { label: 'Descargar dossier', href: '/dossier.pdf' },
+  secondaryCta: { label: 'Ver proyectos abiertos', href: '/proyectos' },
   scrollHint: 'Desplácese para continuar',
   downloadNote: 'PDF · 5,6 MB',
   logoAlt: 'OPTIMVS Capital Protegido',

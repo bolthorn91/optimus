@@ -39,15 +39,15 @@ describe('HeroScene', () => {
   });
 
   // HERO-06
-  it('HERO-06 · los CTA canónicos van a /contacto y /dossier.pdf', () => {
+  it('HERO-06 · los CTA canónicos van a /contacto y /proyectos', () => {
     render(<HeroScene />);
     expect(screen.getByRole('link', { name: 'Reservar sesión privada' })).toHaveAttribute(
       'href',
       '/contacto',
     );
-    expect(screen.getByRole('link', { name: /Descargar dossier/ })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Ver proyectos abiertos' })).toHaveAttribute(
       'href',
-      '/dossier.pdf',
+      '/proyectos',
     );
   });
 

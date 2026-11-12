@@ -59,11 +59,23 @@ export function DocumentHead() {
   const { pathname } = useLocation();
 
   useLayoutEffect(() => {
-    const known = routeByPath(pathname);
+    const home = homeRoute();
+    const known =
+      routeByPath(pathname) ??
+      (pathname === '/recorrido'
+        ? {
+            ...home,
+            path: '/recorrido',
+            title: 'Recorrido completo',
+            description:
+              'El dossier completo de OPTIMVS Capital Protegido, conservado como lectura de profundidad.',
+            hasPendingData: true,
+          }
+        : undefined);
     if (!known && import.meta.env.DEV) {
       console.warn(`Ruta desconocida: ${pathname}`);
     }
-    const meta = metaFor(known ?? homeRoute(), siteUrl());
+    const meta = metaFor(known ?? home, siteUrl());
     document.title = meta.title;
     upsertNamedMeta('description', meta.description);
     upsertNamedMeta('robots', meta.robots);

@@ -27,6 +27,35 @@
   color: var(--doc-ink);
 }
 
+.site-header__brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2xs);
+  color: var(--doc-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-h4);
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.site-header__brand span {
+  color: var(--ink-muted);
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.site-header nav a[aria-current='page'],
+.site-header nav a.is-active {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.4em;
+}
+
 /*
  * Cuando GSAP fija una escena ocupa la ventana entera. Sin esta capa, la cabecera sticky
  * (z-index 2) tapaba el titular y la entradilla del acto al empezar el pin.
@@ -36,8 +65,8 @@
 }
 
 /*
- * Sin reglas propias, el navegador servía la navegación como una lista de viñetas apiladas:
- * la barra pasaba de 44 a 189 px al salir del hero. La fila se limita a cinco entradas.
+ * Cabecera de navegación comercial: marca, cuatro páginas y una única acción. El miliario
+ * de capítulos pertenece al recorrido completo, no a la home.
  */
 .site-header nav ul {
   display: flex;
@@ -255,7 +284,7 @@ footer {
   display: grid;
   gap: var(--space-xl);
   padding: var(--space-2xl) var(--space-xl) var(--space-l);
-  padding-inline-end: 6rem;
+  padding-inline-end: var(--space-xl);
   border-block-start: 1px solid color-mix(in srgb, currentColor 18%, transparent);
 }
 

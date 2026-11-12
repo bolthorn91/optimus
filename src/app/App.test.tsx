@@ -79,11 +79,13 @@ describe('shell', () => {
     expect(screen.queryByRole('link', { name: /instagram|tiktok|facebook|linkedin/i })).toBeNull();
   });
 
-  it('muestra el CTA canónico y cinco grupos de navegación', () => {
+  it('muestra el CTA canónico y la navegación principal', () => {
     render(<App />);
     expect(screen.getAllByText('Reservar sesión privada').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('Escenario').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Proyectos').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Estrategia').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Nosotros').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Calculadora').length).toBeGreaterThan(0);
   });
 
   it('el miliario marca los actos alcanzados según el progreso', () => {
@@ -139,14 +141,28 @@ describe('shell', () => {
     expect(container.querySelector('.site-header')).toHaveAttribute('data-past-hero', 'true');
   });
 
-  it('en la home el miliario sigue el manifiesto y el nav espera al hero', () => {
+  it('en la home la navegación está visible y no hay miliario de actos', () => {
     const { container } = render(<App />);
-    expect(container.querySelector('.site-header')).toHaveAttribute('data-past-hero', 'false');
-    expect(container.querySelector('[data-milestone]')).not.toBeNull();
+    expect(container.querySelector('.site-header')).toHaveAttribute('data-past-hero', 'true');
+    expect(container.querySelector('[data-milestone]')).toBeNull();
     expect(document.documentElement.style.getPropertyValue('--doc-focus')).toBe(
       'var(--color-gold-high)',
     );
     expect(document.documentElement.style.getPropertyValue('--focus')).toBe('');
+  });
+
+  it('la home nueva conduce a proyectos y a la reserva', () => {
+    render(<App />);
+    expect(
+      screen.getByRole('heading', { name: 'Oportunidades en preparación' }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Ver todos los proyectos' })).toHaveAttribute(
+      'href',
+      '/proyectos',
+    );
+    expect(screen.getAllByRole('link', { name: 'Reservar sesión privada' }).length).toBeGreaterThan(
+      0,
+    );
   });
 
   it('no tiene violaciones de accesibilidad bloqueantes en el shell', async () => {
@@ -154,7 +170,8 @@ describe('shell', () => {
     await expectNoBlockingAxeViolations(container);
   }, 30_000);
 
-  it('cada sección no hospedada monta su escena, sin marcador de bootstrap', () => {
+  it('cada sección del recorrido completo sigue montada, sin marcador de bootstrap', () => {
+    window.history.pushState({}, '', '/recorrido');
     render(<App />);
     expect(screen.queryByText(/Marcador de acto/)).not.toBeInTheDocument();
     for (const section of SECTIONS) {
@@ -164,7 +181,8 @@ describe('shell', () => {
   });
 
   // CMP-10 · FRM-24
-  it('CMP-10 · FRM-24 · los actos I a V siguen con VI–VII y el contacto montados', () => {
+  it('CMP-10 · FRM-24 · el recorrido completo conserva los actos y el contacto', () => {
+    window.history.pushState({}, '', '/recorrido');
     const { container, unmount } = render(<App />);
     expect(screen.getByText(HERO.claim)).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: new RegExp(ACT1.title, 'i') })).toBeInTheDocument();

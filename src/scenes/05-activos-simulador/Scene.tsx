@@ -20,7 +20,13 @@ import './scene.css';
 
 const HEIGHT = '100svh';
 
-export function Act5Scene() {
+export interface Act5SceneProps {
+  /** La página de calculadora usa su propio titular; la home histórica conserva el del acto. */
+  heading?: string;
+  intro?: string;
+}
+
+export function Act5Scene({ heading, intro }: Act5SceneProps = {}) {
   const { input, result, setCapital, setYears, syncYears, setScenario, setVehicle } =
     useSimulator();
   const simulatorRef = useRef<HTMLElement>(null);
@@ -65,9 +71,13 @@ export function Act5Scene() {
     >
       <div className="act5">
         <h2>
-          <RomanNumeral value={ACT5.act} />. {ACT5.title}
+          {heading ?? (
+            <>
+              <RomanNumeral value={ACT5.act} />. {ACT5.title}
+            </>
+          )}
         </h2>
-        <p>{ACT5.intro}</p>
+        <p>{intro ?? ACT5.intro}</p>
         <EntryFloorNote debtId={ACT5.entryFloor.debtId} note={ACT5.entryFloor.note} />
         <VehicleCards onSelect={onSelect} selectedId={input.vehicle} vehicles={ACT5.vehicles} />
         <Disclaimer variant="inline" />

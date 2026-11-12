@@ -1,31 +1,25 @@
 import { useCallback, useEffect, useLayoutEffect, useState, useSyncExternalStore } from 'react';
-import { Link, Outlet, useLocation } from 'react-router';
+import { Link, NavLink, Outlet, useLocation } from 'react-router';
 
 import { DocumentHead } from '@/app/DocumentHead';
 import { MOBILE_COPY } from '@/app/mobileCopy';
 import { MobileNav } from '@/app/MobileNav';
-import { ProgressBar } from '@/app/ProgressBar';
+import { FOOTER_NAV, PRIMARY_NAV } from '@/app/navigation';
 import { RouteErrorBoundary } from '@/app/RouteErrorBoundary';
 import { isLegalRoute, ROUTES } from '@/app/routes';
 import {
   applyDocumentPair,
   clearDocumentPair,
   DOCUMENT_PAIR_OFF_HOME,
-  milestoneMarks,
   NAVY_DEEP_PAIR,
-  navEntries,
-  SECTIONS,
-  sectionAt,
 } from '@/app/sections';
 import { StickyCta } from '@/app/StickyCta';
 import { useScrollRestore } from '@/app/useScrollRestore';
 import { useSiteAnalytics } from '@/app/useSiteAnalytics';
 import { ContactDetails } from '@/components/ContactDetails';
 import { Disclaimer } from '@/components/Disclaimer';
-import { Milestone } from '@/components/Milestone';
 import { PendingValue } from '@/components/PendingValue';
 import { CONTACT } from '@/content/contact';
-import { useScrollProgress } from '@/motion/useScrollProgress';
 import { useViewport } from '@/motion/useViewport';
 import { contactHref } from '@/scenes/05-activos-simulador/contactHref';
 import {
@@ -37,16 +31,11 @@ import './shell.css';
 
 export function Layout() {
   const location = useLocation();
-  const progress = useScrollProgress();
   const { isMobile } = useViewport();
   const [menuOpen, setMenuOpen] = useState(false);
   const isHome = location.pathname === '/';
   const isContact = location.pathname === '/contacto';
-  const current = isHome ? sectionAt(progress) : null;
-  const pastHero = current?.id !== 'hero';
-  const pair = current?.background ?? (isContact ? NAVY_DEEP_PAIR : DOCUMENT_PAIR_OFF_HOME);
-  const currentGroup = current?.navGroup ?? null;
-  const currentAct = current?.act ?? null;
+  const pair = isHome || isContact ? NAVY_DEEP_PAIR : DOCUMENT_PAIR_OFF_HOME;
   const simulatorSession = useSyncExternalStore(
     subscribeSimulatorSession,
     getSimulatorSessionSnapshot,
@@ -55,7 +44,7 @@ export function Layout() {
   const contactTo = contactHref(simulatorSession?.input.vehicle, simulatorSession?.input);
 
   useScrollRestore(location.pathname, location.hash);
-  useSiteAnalytics(current, progress);
+  useSiteAnalytics(null, 0);
 
   useEffect(() => {
     setMenuOpen(false);
@@ -84,34 +73,32 @@ export function Layout() {
       <a className="skip-link" href="#contenido">
         Saltar al contenido
       </a>
-      <header className="site-header" data-past-hero={pastHero ? 'true' : 'false'}>
+      <header className="site-header" data-past-hero="true">
+        <Link className="site-header__brand" to="/">
+          OPTIMVS <span>Capital Protegido</span>
+        </Link>
         {isMobile ? (
-          <>
-            <button
-              aria-expanded={menuOpen}
-              className="menu-toggle"
-              type="button"
-              onClick={() => {
-                setMenuOpen(true);
-              }}
-            >
-              {MOBILE_COPY.openMenu}
-            </button>
-            {currentAct === null ? null : (
-              <ProgressBar currentAct={currentAct} progress={progress} />
-            )}
-          </>
+          <button
+            aria-expanded={menuOpen}
+            className="menu-toggle"
+            type="button"
+            onClick={() => {
+              setMenuOpen(true);
+            }}
+          >
+            {MOBILE_COPY.openMenu}
+          </button>
         ) : (
           <nav aria-label="Principal">
             <ul>
-              {navEntries().map((entry) => (
+              {PRIMARY_NAV.map((entry) => (
                 <li key={entry.label}>
-                  <a
-                    aria-current={entry.label === currentGroup ? 'true' : undefined}
-                    href={entry.href}
+                  <NavLink
+                    className={({ isActive }) => (isActive ? 'is-active' : undefined)}
+                    to={entry.href}
                   >
                     {entry.label}
-                  </a>
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -123,8 +110,7 @@ export function Layout() {
           </Link>
         )}
       </header>
-      {isMobile ? null : current ? <Milestone collapsible marks={milestoneMarks(current)} /> : null}
-      {isMobile && !isContact && (!isHome || pastHero) ? <StickyCta to={contactTo} /> : null}
+      {isMobile && !isContact ? <StickyCta to={contactTo} /> : null}
       <main id="contenido">
         <RouteErrorBoundary resetKey={location.pathname}>
           <Outlet />
@@ -138,12 +124,12 @@ export function Layout() {
             </p>
             <ContactDetails />
           </div>
-          <nav aria-label="Recorrido" className="footer__col">
-            <h2>Recorrido</h2>
+          <nav aria-label="Navegación" className="footer__col">
+            <h2>Navegación</h2>
             <ul>
-              {navEntries().map((entry) => (
+              {FOOTER_NAV.map((entry) => (
                 <li key={entry.label}>
-                  <a href={entry.href}>{entry.label}</a>
+                  <Link to={entry.href}>{entry.label}</Link>
                 </li>
               ))}
             </ul>
@@ -183,7 +169,7 @@ export function Layout() {
           <Disclaimer variant="footer" />
         </div>
       </footer>
-      <MobileNav current={current} open={menuOpen} sections={SECTIONS} onClose={closeMenu} />
+      <MobileNav ctaTo={contactTo} items={PRIMARY_NAV} onClose={closeMenu} open={menuOpen} />
     </>
   );
 }

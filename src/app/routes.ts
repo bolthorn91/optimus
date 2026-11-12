@@ -1,7 +1,16 @@
 import type { LegalId } from '@/content/legal/types';
 import type { VehicleId } from '@/lib/projection-assumptions';
 
-export type RouteKind = 'home' | 'act' | 'vehicle' | 'legal' | 'contact';
+export type RouteKind =
+  | 'home'
+  | 'act'
+  | 'vehicle'
+  | 'legal'
+  | 'contact'
+  | 'projects'
+  | 'calculator'
+  | 'company'
+  | 'strategy';
 
 export type ActNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
@@ -44,6 +53,46 @@ export const ROUTES: readonly RouteEntry[] = [
     changefreq: 'monthly',
     priority: 0.9,
     hasPendingData: true,
+  },
+  {
+    path: '/proyectos',
+    kind: 'projects',
+    title: 'Proyectos abiertos',
+    description:
+      'Oportunidades de inversión en activos inmobiliarios y financieros en Argentina, con su ficha, inversión inicial y retorno estimado.',
+    changefreq: 'monthly',
+    priority: 0.9,
+    hasPendingData: true,
+  },
+  {
+    path: '/estrategia',
+    kind: 'strategy',
+    title: 'Estrategia de inversión',
+    description:
+      'La tesis de OPTIMVS Capital Protegido: el nuevo escenario europeo, la seguridad global, el estado de derecho y la estrategia anticipatoria en Argentina.',
+    changefreq: 'monthly',
+    priority: 0.8,
+    hasPendingData: false,
+  },
+  {
+    path: '/calculadora',
+    kind: 'calculator',
+    title: 'Calculadora de escenario',
+    description:
+      'Ajuste capital, horizonte y perfil para obtener una proyección ilustrativa de su inversión, con los supuestos a la vista.',
+    changefreq: 'monthly',
+    priority: 0.7,
+    hasPendingData: false,
+  },
+  {
+    path: '/nosotros',
+    kind: 'company',
+    title: 'La firma y su equipo',
+    description:
+      'Conozca la firma, al fundador y a los equipos que acompañan cada etapa de la inversión entre España y Argentina.',
+    changefreq: 'monthly',
+    priority: 0.7,
+    hasPendingData: false,
   },
   {
     path: '/escenario-europeo',

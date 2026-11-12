@@ -1,0 +1,150 @@
+/*
+ * Fichas de proyecto. La retícula es una parte del argumento: tres columnas en escritorio
+ * para comparar tipo, inversión y retorno; una sola columna en móvil para leer sin tablas.
+ */
+.project-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-m);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.project-cards > li {
+  display: grid;
+  align-content: start;
+  gap: var(--space-s);
+  min-inline-size: 0;
+  padding: var(--space-m);
+  border: 1px solid var(--rule);
+  background: var(--surface-raised);
+}
+
+/* En la home la ficha es una tarjeta de decisión; el resumen largo vive en /proyectos. */
+.project-cards--featured .project-card__summary {
+  display: none;
+}
+
+.project-card__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2xs);
+}
+
+.project-card__type,
+.project-card__location {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: var(--text-note);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+}
+
+.project-card__location {
+  margin-block-start: calc(var(--space-s) * -1);
+}
+
+.project-card__status {
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--accent);
+  color: var(--ink-strong);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.project-cards h3 {
+  margin: 0;
+  color: var(--ink-strong);
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  line-height: var(--leading-tight);
+}
+
+.project-card__summary {
+  margin: 0;
+  color: var(--ink);
+  font-size: var(--text-note);
+  line-height: 1.55;
+}
+
+.project-card__metrics {
+  display: grid;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding-block: var(--space-s);
+  border-block: 1px solid var(--rule);
+}
+
+[data-project-metric] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  align-items: baseline;
+  gap: var(--space-s);
+}
+
+[data-project-metric] dt {
+  color: var(--ink-muted);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+[data-project-metric] dd {
+  margin: 0;
+  color: var(--ink-strong);
+  font-size: var(--text-note);
+  text-align: end;
+}
+
+[data-project-metric] [data-pending] {
+  font-size: 0.75rem;
+  text-align: start;
+}
+
+.project-cards .act-cta {
+  align-self: end;
+}
+
+.project-cards__note {
+  max-inline-size: var(--measure);
+  margin-block-start: var(--space-m);
+  color: var(--ink-muted);
+  font-size: var(--text-note);
+}
+
+@media (max-width: 64rem) {
+  .project-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 40rem) {
+  .project-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /*
+   * En la home, tres fichas apiladas convertirían el bloque en una página entera. Se leen
+   * como un carril horizontal dentro del bloque; en /proyectos se apilan con su ficha completa.
+   */
+  .project-cards--featured {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: min(82vw, 22rem);
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    padding-block-end: var(--space-s);
+    scroll-snap-type: inline proximity;
+    scrollbar-width: thin;
+  }
+
+  .project-cards--featured > li {
+    scroll-snap-align: start;
+  }
+}

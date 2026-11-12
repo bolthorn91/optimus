@@ -206,7 +206,8 @@ describe('Act2Scene', () => {
   });
 
   // MAP-15
-  it('MAP-15 · el hero y el acto I siguen en la home con el acto II montado', () => {
+  it('MAP-15 · el hero y el acto I siguen en el recorrido completo con el acto II montado', () => {
+    window.history.pushState({}, '', '/recorrido');
     render(<App />);
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(HERO.headline);
     expect(
@@ -291,6 +292,7 @@ describe('Act2Scene', () => {
     expect(scene.container.querySelector('[data-pull-quote]')).toHaveTextContent(ACT2.closingQuote);
     expect(screen.getAllByText(ACT2.closingQuote)).toHaveLength(1);
     scene.unmount();
+    window.history.pushState({}, '', '/recorrido');
     const app = render(<App />);
     expect(screen.getAllByText(ACT2.closingQuote)).toHaveLength(1);
     app.unmount();

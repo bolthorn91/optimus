@@ -337,6 +337,7 @@ describe('Act4Scene', () => {
   });
 
   it('CDI-17 · los actos I a III siguen funcionando con el acto IV montado', () => {
+    window.history.pushState({}, '', '/recorrido');
     const { container } = render(<App />);
     expect(screen.getByRole('heading', { name: new RegExp(ACT1.title, 'i') })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: new RegExp(ACT2.title, 'i') })).toBeInTheDocument();

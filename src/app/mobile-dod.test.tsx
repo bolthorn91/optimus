@@ -107,6 +107,7 @@ function collectActs(): {
   text: Record<(typeof ACT_IDS)[number], string>;
   tokens: Record<(typeof ACT_IDS)[number], Set<string>>;
 } {
+  window.history.pushState({}, '', '/recorrido');
   const { container, unmount } = render(<App />);
   const text = {} as Record<(typeof ACT_IDS)[number], string>;
   const tokens = {} as Record<(typeof ACT_IDS)[number], Set<string>>;
@@ -195,8 +196,9 @@ describe('DoD móvil fase D', { timeout: 30_000 }, () => {
     expect(ScrollTrigger.getAll()).toEqual([]);
   });
 
-  it('MOB-19 · cada acto a 375 px pasa axe sin violaciones bloqueantes', async () => {
+  it('MOB-19 · el recorrido completo a 375 px pasa axe sin violaciones bloqueantes', async () => {
     setWidth(375);
+    window.history.pushState({}, '', '/recorrido');
     const { container } = render(<App />);
     await expectNoBlockingAxeViolations(container);
   });
@@ -211,6 +213,7 @@ describe('DoD móvil fase D', { timeout: 30_000 }, () => {
 
   it('MOB-22 · a 1440 px las escenas de escritorio siguen operativas', () => {
     setWidth(1440);
+    window.history.pushState({}, '', '/recorrido');
     const { container, unmount } = render(<App />);
     expect(screen.getByRole('table', { name: ACT2.copy.tableCaption })).toBeInTheDocument();
     expect(container.querySelector('#marco [data-process-diagram]')).toHaveAttribute(

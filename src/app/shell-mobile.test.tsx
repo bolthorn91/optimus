@@ -2,14 +2,14 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 import { fireEvent, render, screen, within } from '@testing-library/react';
+import { MemoryRouter } from 'react-router';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { App } from '@/app/App';
 import { MOBILE_COPY } from '@/app/mobileCopy';
 import { MobileNav } from '@/app/MobileNav';
+import { PRIMARY_NAV } from '@/app/navigation';
 import { ProgressBar } from '@/app/ProgressBar';
-import { isAct, navEntries, SECTIONS } from '@/app/sections';
-import { toRoman } from '@/lib/roman';
 import { ScrollTrigger } from '@/motion/gsapSetup';
 import { ACT5 } from '@/scenes/05-activos-simulador/content';
 import { ACT67 } from '@/scenes/06-firma/content';
@@ -60,16 +60,17 @@ describe('shell móvil', { timeout: 30_000 }, () => {
 
   it('MOB-09 · los controles del menú y del CTA fijo miden al menos 44 px', () => {
     setWidth(375);
+    window.history.pushState({}, '', '/recorrido');
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: MOBILE_COPY.openMenu }));
     const dialog = screen.getByRole('dialog');
     const controls = [
       screen.getByRole('button', { name: MOBILE_COPY.openMenu }),
       within(dialog).getByRole('button', { name: MOBILE_COPY.closeMenu }),
-      ...navEntries().map((entry) => within(dialog).getByRole('link', { name: entry.label })),
+      ...PRIMARY_NAV.map((entry) => within(dialog).getByRole('link', { name: entry.label })),
       screen.getByRole('link', { name: MOBILE_COPY.stickyCta }),
     ];
-    expect(controls).toHaveLength(3 + navEntries().length);
+    expect(controls).toHaveLength(3 + PRIMARY_NAV.length);
     expect(document.querySelector('[data-pozo-gloss] summary')).toBeInstanceOf(HTMLElement);
     expect(readFileSync(resolve(process.cwd(), 'src/styles/tokens.css'), 'utf8')).toContain(
       '--touch-min: 44px',
@@ -93,6 +94,7 @@ describe('shell móvil', { timeout: 30_000 }, () => {
 
   it('MOB-10 · el glosario y la glosa se activan por pulsación, no solo por hover', () => {
     setWidth(375);
+    window.history.pushState({}, '', '/recorrido');
     const { container } = render(<App />);
     fireEvent.click(screen.getByRole('button', { name: MOBILE_COPY.openMenu }));
     expect(container.querySelector('abbr[title]')).toBeNull();
@@ -107,22 +109,21 @@ describe('shell móvil', { timeout: 30_000 }, () => {
     expect(pozo).toHaveTextContent(ACT5.copy.pozoGloss);
   });
 
-  it('MOB-17 · el menú abierto atrapa el foco y ofrece las cinco entradas y el numeral', () => {
+  it('MOB-17 · el menú abierto atrapa el foco y ofrece la navegación principal', () => {
     setWidth(375);
     render(<App />);
     const header = document.querySelector('.site-header');
-    expect(header?.querySelector('[data-progress-bar]')).not.toBeNull();
     const toggle = screen.getByRole('button', { name: MOBILE_COPY.openMenu });
     expect(header).toContainElement(toggle);
     fireEvent.click(toggle);
     const dialog = screen.getByRole('dialog');
     expect(dialog).toHaveAccessibleName(MOBILE_COPY.menu);
-    for (const entry of navEntries()) {
+    for (const entry of PRIMARY_NAV) {
       expect(within(dialog).getByRole('link', { name: entry.label })).toBeInTheDocument();
     }
-    for (const section of SECTIONS.filter(isAct)) {
-      expect(within(dialog).getByText(toRoman(section.act))).toBeInTheDocument();
-    }
+    expect(
+      within(dialog).getByRole('link', { name: 'Reservar sesión privada' }),
+    ).toBeInTheDocument();
     const focusable = [...dialog.querySelectorAll<HTMLElement>('a[href], button')];
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
@@ -138,21 +139,21 @@ describe('shell móvil', { timeout: 30_000 }, () => {
     expect(screen.queryByRole('dialog')).toBeNull();
   });
 
-  it('activar un numeral del miliario cierra el menú', () => {
+  it('activar una entrada del menú lo cierra', () => {
     setWidth(375);
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: MOBILE_COPY.openMenu }));
     const dialog = screen.getByRole('dialog');
-    fireEvent.click(within(dialog).getByText(toRoman(1)));
+    fireEvent.click(within(dialog).getByRole('link', { name: 'Proyectos' }));
     expect(screen.queryByRole('dialog')).toBeNull();
   });
 
   it('un rerender del menú abierto no mueve el foco al primer ítem', () => {
     const onClose = vi.fn();
-    const current = SECTIONS[3];
-    expect(current).toBeDefined();
     const { rerender } = render(
-      <MobileNav current={current ?? null} onClose={onClose} open sections={SECTIONS} />,
+      <MemoryRouter>
+        <MobileNav items={PRIMARY_NAV} onClose={onClose} open />
+      </MemoryRouter>,
     );
     const dialog = screen.getByRole('dialog');
     const links = within(dialog).getAllByRole('link');
@@ -163,7 +164,11 @@ describe('shell móvil', { timeout: 30_000 }, () => {
     const nextClose = (): void => {
       onClose();
     };
-    rerender(<MobileNav current={current ?? null} onClose={nextClose} open sections={SECTIONS} />);
+    rerender(
+      <MemoryRouter>
+        <MobileNav items={PRIMARY_NAV} onClose={nextClose} open />
+      </MemoryRouter>,
+    );
     expect(document.activeElement).toBe(mid);
   });
 

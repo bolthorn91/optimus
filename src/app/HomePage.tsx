@@ -1,55 +1,106 @@
-import type { ComponentType } from 'react';
+import { Link } from 'react-router';
 
-import { isAct, SECTIONS, sealOnNavy } from '@/app/sections';
-import { ActThreshold } from '@/motion/ActThreshold';
+import { HOME } from '@/app/homeContent';
+import { ActCta } from '@/components/ActCta';
+import { Disclaimer } from '@/components/Disclaimer';
+import { ProjectCards } from '@/components/ProjectCards';
+import { PROJECTS } from '@/content/projects';
 import { HeroScene } from '@/scenes/00-hero/Scene';
-import { Act1Scene } from '@/scenes/01-escenario-europeo/Scene';
-import { Act2Scene } from '@/scenes/02-seguridad-global/Scene';
-import { Act3Scene } from '@/scenes/03-asimetria-territorial/Scene';
-import { Act4Scene } from '@/scenes/04-marco-legal/Scene';
-import { Act5Scene } from '@/scenes/05-activos-simulador/Scene';
-import { Act67Scene } from '@/scenes/06-firma/Scene';
-import { ContactScene } from '@/scenes/07-contacto/Scene';
 
-type HomeSceneId =
-  'hero' | 'escenario' | 'seguridad' | 'territorio' | 'marco' | 'activos' | 'firma' | 'contacto';
+import './home.css';
 
-const HOME_SCENES: Record<HomeSceneId, ComponentType> = {
-  hero: HeroScene,
-  escenario: Act1Scene,
-  seguridad: Act2Scene,
-  territorio: Act3Scene,
-  marco: Act4Scene,
-  activos: Act5Scene,
-  firma: Act67Scene,
-  contacto: ContactScene,
-};
-
-function homeScene(id: string): ComponentType {
-  if (Object.hasOwn(HOME_SCENES, id)) {
-    return HOME_SCENES[id as HomeSceneId];
-  }
-  throw new Error(`La sección ${id} no monta escena`);
-}
-
+/**
+ * La home es una página de decisión, no el dossier. Cinco bloques después del hero:
+ * oportunidades, método, confianza, calculadora y cierre. El argumentario completo vive en
+ * `/estrategia`; el equipo, en `/nosotros`.
+ */
 export function HomePage() {
   return (
     <>
-      {SECTIONS.flatMap((section, index) => {
-        if (section.hostedBy) return [];
-        const Slot = homeScene(section.id);
-        const scene = <Slot key={section.id} />;
-        const next = SECTIONS[index + 1];
-        if (!next || !isAct(next) || next.hostedBy) return [scene];
-        return [
-          scene,
-          <ActThreshold
-            act={next.act}
-            key={`seal-${String(next.act)}`}
-            onNavy={sealOnNavy(section, next)}
-          />,
-        ];
-      })}
+      <HeroScene />
+
+      <section
+        aria-labelledby="home-projects-title"
+        className="home-section on-light"
+        id="proyectos"
+      >
+        <div className="home-section__head">
+          <p className="home-eyebrow">{HOME.projects.eyebrow}</p>
+          <h2 id="home-projects-title">{HOME.projects.title}</h2>
+          <p className="home-section__intro">{HOME.projects.intro}</p>
+        </div>
+        <ProjectCards limit={3} projects={PROJECTS} variant="featured" />
+        <Link className="cta home-section__cta" to="/proyectos">
+          {HOME.projects.cta}
+        </Link>
+      </section>
+
+      <section
+        aria-labelledby="home-steps-title"
+        className="home-section on-navy"
+        id="como-funciona"
+      >
+        <div className="home-section__head">
+          <p className="home-eyebrow">{HOME.steps.eyebrow}</p>
+          <h2 id="home-steps-title">{HOME.steps.title}</h2>
+          <p className="home-section__intro">{HOME.steps.intro}</p>
+        </div>
+        <ol className="home-steps">
+          {HOME.steps.items.map((item, index) => (
+            <li key={item.title}>
+              <span aria-hidden="true" className="home-steps__number">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section
+        aria-labelledby="home-proof-title"
+        className="home-section on-light"
+        id="por-que-optimvs"
+      >
+        <div className="home-section__head">
+          <p className="home-eyebrow">{HOME.proof.eyebrow}</p>
+          <h2 id="home-proof-title">{HOME.proof.title}</h2>
+        </div>
+        <ul className="home-proof">
+          {HOME.proof.items.map((item) => (
+            <li key={item.label}>
+              <p className="home-proof__label">{item.label}</p>
+              <p>{item.body}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section
+        aria-labelledby="home-calculator-title"
+        className="home-section home-calculator on-navy"
+        id="calculadora"
+      >
+        <div className="home-calculator__copy">
+          <p className="home-eyebrow">{HOME.calculator.eyebrow}</p>
+          <h2 id="home-calculator-title">{HOME.calculator.title}</h2>
+          <p>{HOME.calculator.body}</p>
+        </div>
+        <Link className="home-link" to="/calculadora">
+          {HOME.calculator.cta}
+        </Link>
+      </section>
+
+      <section aria-labelledby="home-close-title" className="home-section home-close on-navy">
+        <div className="home-close__copy">
+          <p className="home-eyebrow">{HOME.close.eyebrow}</p>
+          <h2 id="home-close-title">{HOME.close.title}</h2>
+          <p>{HOME.close.body}</p>
+        </div>
+        <ActCta href="/contacto" label={HOME.close.cta} position="act" />
+        <Disclaimer variant="inline" />
+      </section>
     </>
   );
 }

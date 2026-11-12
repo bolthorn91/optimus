@@ -13,7 +13,7 @@ ejecuta con `/goal docs/product/<slug>-goal-prompt.md`.
 | Campo | Valor |
 |-------|-------|
 | Fase del producto | v1 — sitio de captación, objetivo único: reservar sesión de diagnóstico patrimonial |
-| Superficie | Home de scroll continuo (actos I–VII) + páginas de detalle + legales |
+| Superficie | Home comercial breve + páginas de estrategia, proyectos, calculadora y firma + legales |
 | Estado | Fundación, actos I–VII, páginas de detalle y adaptación móvil hechos en branch `main`. |
 
 ---

@@ -1,23 +1,22 @@
 import { useEffect, useId, useLayoutEffect, useRef } from 'react';
+import { Link, NavLink } from 'react-router';
 
 import { MOBILE_COPY } from '@/app/mobileCopy';
-import { milestoneMarks, navEntries, type Section } from '@/app/sections';
-import { Milestone } from '@/components/Milestone';
+import type { NavItem } from '@/app/navigation';
 
 import './mobile-nav.css';
 
 export interface MobileNavProps {
-  sections: readonly Section[];
+  items: readonly NavItem[];
   open: boolean;
   onClose: () => void;
-  current: Section | null;
+  ctaTo?: string;
 }
 
-export function MobileNav({ sections, open, onClose, current }: MobileNavProps) {
+export function MobileNav({ items, open, onClose, ctaTo = '/contacto' }: MobileNavProps) {
   const titleId = useId();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const onCloseRef = useRef(onClose);
-  const marksFrom = current ?? sections[0];
   onCloseRef.current = onClose;
 
   useLayoutEffect(() => {
@@ -64,26 +63,35 @@ export function MobileNav({ sections, open, onClose, current }: MobileNavProps) 
 
   return (
     <dialog ref={dialogRef} aria-labelledby={titleId} className="mobile-nav">
+      <div className="mobile-nav__head">
+        <p className="mobile-nav__brand">
+          OPTIMVS <span>Capital Protegido</span>
+        </p>
+        <button className="mobile-nav__close" type="button" onClick={onClose}>
+          {MOBILE_COPY.closeMenu}
+        </button>
+      </div>
       <h2 className="visually-hidden" id={titleId}>
         {MOBILE_COPY.menu}
       </h2>
-      {marksFrom ? (
-        <Milestone marks={milestoneMarks(marksFrom, sections)} onNavigate={onClose} />
-      ) : null}
       <nav aria-label="Principal">
         <ul>
-          {navEntries(sections).map((entry) => (
+          {items.map((entry) => (
             <li key={entry.label}>
-              <a href={entry.href} onClick={onClose}>
+              <NavLink
+                className={({ isActive }) => (isActive ? 'is-active' : undefined)}
+                onClick={onClose}
+                to={entry.href}
+              >
                 {entry.label}
-              </a>
+              </NavLink>
             </li>
           ))}
         </ul>
       </nav>
-      <button type="button" onClick={onClose}>
-        {MOBILE_COPY.closeMenu}
-      </button>
+      <Link className="cta mobile-nav__cta" onClick={onClose} to={ctaTo}>
+        Reservar sesión privada
+      </Link>
     </dialog>
   );
 }

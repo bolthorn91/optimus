@@ -256,12 +256,12 @@ describe('Act1Scene', () => {
   });
 
   // ACT1-13
-  it('ACT1-13 · el shell sigue intacto con la escena montada', () => {
+  it('ACT1-13 · el shell sigue intacto con el recorrido completo montado', () => {
+    window.history.pushState({}, '', '/recorrido');
     const { container } = render(<App />);
     expect(container.querySelector('.skip-link')).toHaveTextContent('Saltar al contenido');
     expect(screen.getAllByText('Reservar sesión privada').length).toBeGreaterThan(0);
-    expect(container.querySelector('[data-milestone]')).not.toBeNull();
-    expect(screen.getAllByText('Escenario').length).toBeGreaterThan(0);
+    expect(container.querySelector('[data-milestone]')).toBeNull();
   });
 
   it('a 375 px el acto I es estático, sin ScrollTrigger, con los tres factores y la densidad final', () => {

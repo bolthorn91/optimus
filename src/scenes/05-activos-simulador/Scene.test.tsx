@@ -312,6 +312,7 @@ describe('Act5Scene', () => {
   });
 
   it('VEH-08 · los actos I a IV siguen en el DOM con el acto V y el sello del VI', () => {
+    window.history.pushState({}, '', '/recorrido');
     const { container } = render(<App />);
     expect(screen.getByRole('heading', { name: new RegExp(ACT1.title, 'i') })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: new RegExp(ACT2.title, 'i') })).toBeInTheDocument();

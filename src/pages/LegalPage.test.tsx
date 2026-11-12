@@ -111,7 +111,8 @@ describe('páginas legales, SEO y analítica', () => {
     }
   }, 20_000);
 
-  it('DET-20 · la home y sus actos siguen montados con las páginas nuevas', () => {
+  it('DET-20 · el recorrido completo y sus actos siguen montados con las páginas nuevas', () => {
+    window.history.pushState({}, '', '/recorrido');
     const { container } = render(<App />);
     expect(screen.getByText(HERO.claim)).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: new RegExp(ACT1.title, 'i') })).toBeInTheDocument();
@@ -155,7 +156,7 @@ describe('páginas legales, SEO y analítica', () => {
     );
   });
 
-  it('G7 · el CTA del header y el dossier emiten eventos con posición', () => {
+  it('G7 · el CTA del header emite eventos con posición', () => {
     const events: {
       name: string;
       payload?: Readonly<Record<string, string | number | boolean>>;
@@ -165,11 +166,6 @@ describe('páginas legales, SEO y analítica', () => {
       else events.push({ name, payload });
     });
     const { container } = render(<App />);
-    const dossier = container.querySelector('a[href="/dossier.pdf"]');
-    expect(dossier).not.toBeNull();
-    fireEvent.click(dossier ?? document.body);
-    expect(events.some((event) => event.name === 'dossier_download')).toBe(true);
-
     const header = container.querySelector('a[data-track-position="header"]');
     expect(header).not.toBeNull();
     fireEvent.click(header ?? document.body);
