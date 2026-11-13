@@ -153,9 +153,7 @@ describe('shell', () => {
 
   it('la home nueva conduce a proyectos y a la reserva', () => {
     render(<App />);
-    expect(
-      screen.getByRole('heading', { name: 'Oportunidades en preparación' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Proyectos' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Ver todos los proyectos' })).toHaveAttribute(
       'href',
       '/proyectos',

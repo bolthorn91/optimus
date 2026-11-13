@@ -1,4 +1,5 @@
 import type { LegalId } from '@/content/legal/types';
+import { PROJECTS, projectPath } from '@/content/projects';
 import type { VehicleId } from '@/lib/projection-assumptions';
 
 export type RouteKind =
@@ -8,6 +9,7 @@ export type RouteKind =
   | 'legal'
   | 'contact'
   | 'projects'
+  | 'project-detail'
   | 'calculator'
   | 'company'
   | 'strategy';
@@ -25,6 +27,7 @@ export interface RouteEntry {
   actNumber?: ActNumber;
   vehicleId?: VehicleId;
   legalId?: LegalId;
+  projectSlug?: string;
 }
 
 export interface RouteNav {
@@ -57,13 +60,23 @@ export const ROUTES: readonly RouteEntry[] = [
   {
     path: '/proyectos',
     kind: 'projects',
-    title: 'Proyectos abiertos',
+    title: 'Proyectos',
     description:
-      'Oportunidades de inversión en activos inmobiliarios y financieros en Argentina, con su ficha, inversión inicial y retorno estimado.',
+      'Promociones inmobiliarias en Argentina: Añelo, ONE en Canning, Entre Pinares y Edificio M. Paz.',
     changefreq: 'monthly',
     priority: 0.9,
-    hasPendingData: true,
+    hasPendingData: false,
   },
+  ...PROJECTS.map((project): RouteEntry => ({
+    path: projectPath(project.slug),
+    kind: 'project-detail',
+    projectSlug: project.slug,
+    title: project.name,
+    description: project.summary,
+    changefreq: 'monthly',
+    priority: 0.8,
+    hasPendingData: false,
+  })),
   {
     path: '/estrategia',
     kind: 'strategy',

@@ -11,6 +11,7 @@ import { ContactPage } from '@/pages/ContactPage';
 import { DesignPage } from '@/pages/DesignPage';
 import { LegalPage } from '@/pages/LegalPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
+import { ProjectDetailPage } from '@/pages/ProjectDetailPage';
 import { ProjectsPage } from '@/pages/ProjectsPage';
 import { StrategyPage } from '@/pages/StrategyPage';
 import { VehicleDetailPage } from '@/pages/VehicleDetailPage';
@@ -30,6 +31,11 @@ function elementFor(route: RouteEntry) {
       return <ContactPage />;
     case 'projects':
       return <ProjectsPage />;
+    case 'project-detail':
+      if (route.projectSlug === undefined) {
+        throw new Error(`Ruta de proyecto sin slug: ${route.path}`);
+      }
+      return <ProjectDetailPage slug={route.projectSlug} />;
     case 'calculator':
       return <CalculatorPage />;
     case 'company':

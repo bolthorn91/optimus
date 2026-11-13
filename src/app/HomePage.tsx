@@ -29,7 +29,7 @@ export function HomePage() {
           <h2 id="home-projects-title">{HOME.projects.title}</h2>
           <p className="home-section__intro">{HOME.projects.intro}</p>
         </div>
-        <ProjectCards limit={3} projects={PROJECTS} variant="featured" />
+        <ProjectCards projects={PROJECTS} variant="featured" />
         <Link className="cta home-section__cta" to="/proyectos">
           {HOME.projects.cta}
         </Link>

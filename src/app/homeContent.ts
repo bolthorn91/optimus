@@ -4,10 +4,10 @@
  */
 export const HOME = {
   projects: {
-    eyebrow: 'Proyectos abiertos',
-    title: 'Oportunidades en preparación',
+    eyebrow: 'Cartera',
+    title: 'Proyectos',
     intro:
-      'Estamos cerrando la información de las primeras oportunidades. Cada ficha mostrará el tipo de activo, la inversión inicial y el retorno estimado antes de abrir la reserva.',
+      'Promociones en Argentina. Cada ficha reúne la descripción, los datos disponibles y las imágenes del proyecto. Las condiciones económicas se comparten en la sesión privada.',
     cta: 'Ver todos los proyectos',
   },
   steps: {

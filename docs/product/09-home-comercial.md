@@ -10,6 +10,7 @@ decisión. El argumentario se conserva en páginas propias; la conversión se co
 |---|---|
 | `/` | Home comercial breve |
 | `/proyectos` | Cartera de oportunidades y fichas |
+| `/proyectos/:slug` | Descripción, datos, imágenes y condiciones de cada promoción |
 | `/calculadora` | Simulador completo |
 | `/nosotros` | Firma, fundador, equipo y acompañamiento |
 | `/estrategia` | Tesis y acceso a los siete actos |
@@ -20,8 +21,9 @@ decisión. El argumentario se conserva en páginas propias; la conversión se co
 ## Home
 
 1. Hero con una única acción principal y acceso a proyectos.
-2. Proyectos abiertos: tres fichas de decisión con tipo, ubicación, inversión inicial,
-   retorno estimado y plazo.
+2. Proyectos: fichas con imagen, tipo, ubicación y datos técnicos. Cada ficha es clicable y
+   lleva a su descripción; si no hay apertura comercial, la imagen se sirve en gris con el
+   banner «Próximamente».
 3. Cómo funciona: diagnóstico, estructuración y seguimiento.
 4. Por qué OPTIMVS: España–Argentina, CDI y atención directa.
 5. Calculadora: banda de enlace, sin simulador embebido.
@@ -29,10 +31,12 @@ decisión. El argumentario se conserva en páginas propias; la conversión se co
 
 ## Proyectos
 
-`src/content/projects.ts` define el contrato de ficha. Los campos sin información del cliente
-se sirven con `PendingValue` y deuda **PROY-01**; no se inventan cifras. La home usa la
-variante `featured` (tarjeta compacta y carril horizontal en móvil) y `/proyectos` la ficha
-completa.
+`src/content/projects.ts` define el contrato de ficha. Las cuatro promociones del dossier
+`CARBAJAL.001.pdf` —Añelo, ONE, Entre Pinares y Edificio M. Paz— tienen nombre, ubicación,
+tipo, descripción, datos técnicos e imágenes. El PDF no incluye condiciones económicas de
+inversión, retorno o plazo: estas se comparten en la sesión privada y no se inventan en la
+interfaz. La home usa la variante `featured` (tarjeta compacta y carril horizontal en móvil)
+y `/proyectos` la ficha completa; `/proyectos/:slug` aloja la descripción navegable.
 
 ## Navegación
 

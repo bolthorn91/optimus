@@ -1,10 +1,11 @@
 /*
- * Fichas de proyecto. La retícula es una parte del argumento: tres columnas en escritorio
- * para comparar tipo, inversión y retorno; una sola columna en móvil para leer sin tablas.
+ * Fichas de proyecto. La retícula es una parte del argumento: la imagen identifica la promoción
+ * y los datos técnicos permiten comparar sin convertir la home en un dossier. En móvil, la
+ * variante `featured` se lee como un carril horizontal para no alargar la portada.
  */
 .project-cards {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(16.5rem, 1fr));
   gap: var(--space-m);
   margin: 0;
   padding: 0;
@@ -12,26 +13,92 @@
 }
 
 .project-cards > li {
-  display: grid;
-  align-content: start;
-  gap: var(--space-s);
   min-inline-size: 0;
-  padding: var(--space-m);
+}
+
+.project-card {
+  block-size: 100%;
   border: 1px solid var(--rule);
   background: var(--surface-raised);
+  transition: border-color 160ms ease;
 }
 
-/* En la home la ficha es una tarjeta de decisión; el resumen largo vive en /proyectos. */
-.project-cards--featured .project-card__summary {
-  display: none;
+.project-card:hover,
+.project-card:focus-within {
+  border-color: var(--accent);
 }
 
-.project-card__head {
+.project-card__link {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  block-size: 100%;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.project-card__link:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.project-card__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  margin: 0;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.project-card__media img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  transition: transform 400ms ease;
+}
+
+.project-card:hover .project-card__media img {
+  transform: scale(1.025);
+}
+
+/*
+ * La promoción sin apertura comercial se lee en gris. El banner sigue dentro del enlace de la
+ * ficha, así que también es clicable y lleva a la descripción del proyecto.
+ */
+.project-card--coming-soon .project-card__media img {
+  filter: grayscale(1) contrast(0.92);
+  opacity: 0.72;
+}
+
+.project-card__banner,
+.project-card__status {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.project-card__banner {
+  background: var(--color-navy-deep);
+  color: var(--color-ivory);
+}
+
+.project-card__status {
+  border-block-end: 1px solid var(--accent);
+  background: var(--surface-raised);
+  color: var(--ink-strong);
+}
+
+.project-card__body {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
+  flex-direction: column;
   gap: var(--space-2xs);
+  padding: var(--space-m);
 }
 
 .project-card__type,
@@ -43,22 +110,7 @@
   text-transform: uppercase;
 }
 
-.project-card__location {
-  margin-block-start: calc(var(--space-s) * -1);
-}
-
-.project-card__status {
-  padding: 0.15rem 0.45rem;
-  border: 1px solid var(--accent);
-  color: var(--ink-strong);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.project-cards h3 {
+.project-card h3 {
   margin: 0;
   color: var(--ink-strong);
   font-family: var(--font-display);
@@ -73,53 +125,73 @@
   line-height: 1.55;
 }
 
-.project-card__metrics {
+.project-card__facts {
   display: grid;
-  gap: var(--space-2xs);
-  margin: 0;
-  padding-block: var(--space-s);
-  border-block: 1px solid var(--rule);
+  gap: 0;
+  margin: var(--space-2xs) 0 0;
+  padding: 0;
 }
 
-[data-project-metric] {
+[data-project-fact] {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
-  align-items: baseline;
   gap: var(--space-s);
+  padding-block: var(--space-2xs);
+  border-block-start: 1px solid var(--rule);
 }
 
-[data-project-metric] dt {
+[data-project-fact] dt {
   color: var(--ink-muted);
   font-size: 0.6875rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-[data-project-metric] dd {
+[data-project-fact] dd {
   margin: 0;
   color: var(--ink-strong);
   font-size: var(--text-note);
   text-align: end;
 }
 
-[data-project-metric] [data-pending] {
-  font-size: 0.75rem;
-  text-align: start;
+.project-card__more {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin-block-start: auto;
+  padding-block-start: var(--space-xs);
+  color: var(--ink-strong);
+  font-size: var(--text-note);
+  font-weight: 600;
 }
 
-.project-cards .act-cta {
-  align-self: end;
+.project-card:hover .project-card__more,
+.project-card:focus-within .project-card__more {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
 }
 
-.project-cards__note {
+.project-cards--featured .project-card__summary {
+  display: none;
+}
+
+.project-cards__note,
+.project-cards__empty {
   max-inline-size: var(--measure);
   margin-block-start: var(--space-m);
   color: var(--ink-muted);
   font-size: var(--text-note);
 }
 
-@media (max-width: 64rem) {
-  .project-cards {
+@media (min-width: 64rem) {
+  .project-cards--featured {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 40rem) and (max-width: 63.99rem) {
+  .project-cards--featured {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -130,8 +202,8 @@
   }
 
   /*
-   * En la home, tres fichas apiladas convertirían el bloque en una página entera. Se leen
-   * como un carril horizontal dentro del bloque; en /proyectos se apilan con su ficha completa.
+   * En la home, las fichas se leen como un carril horizontal dentro del bloque; en /proyectos
+   * se apilan con su ficha completa.
    */
   .project-cards--featured {
     grid-template-columns: none;

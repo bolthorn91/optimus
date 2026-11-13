@@ -54,7 +54,7 @@ Bloqueos y decisiones editoriales que el cliente aún no ha cerrado (perfil §7 
 | B-05 | Datos registrales de la sociedad española y de la argentina. Sin ellos las tres páginas legales quedan con marcadores y `noindex` | doc 06 §12.2, doc 07 §12.2 | abierto |
 | B-06 | Retrato profesional de Carlos Carbajal | doc 06 | abierto |
 | B-07 | URLs de los perfiles de Instagram, TikTok, Facebook y LinkedIn | doc 06 | abierto |
-| PROY-01 | Fichas de los proyectos abiertos: nombre, ubicación, tipo, inversión inicial, retorno estimado y plazo. La home y `/proyectos` muestran el marcador «Dato pendiente de confirmación» | doc 00 · home · `/proyectos` | abierto |
+| PROY-01 | Condiciones económicas de las promociones (inversión inicial, retorno estimado y plazo). Nombre, ubicación, tipo, descripción, datos técnicos e imágenes ya están publicados; el PDF no incluye las condiciones y se comparten en la sesión privada | doc 00 · home · `/proyectos` | abierto |
 | E-02 | Redacción correcta de la frase incompleta en la conclusión del acto III. Se reproduce literal por I1; falta una conjunción o un verbo | doc 03 §12.3 | abierto |
 | E-05 | Importe mínimo de inversión, o explicación de cómo se determina | doc 05, doc 06 | abierto |
 | E-07 | Decisión sobre el apartado de modificación climática: se reproduce literal por I1. Cliente: mantener con fuente, reformular o suprimir | doc 02 §12.3 | abierto |

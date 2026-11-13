@@ -16,8 +16,8 @@ npm run build
 npm run build:budget
 ```
 
-Estado de referencia de esta tanda: 61 ficheros de test / 567 tests, build ~6–8 s,
-209,2 KB de primera carga (tope 250) y 252,7 KB de escena WebGL (tope 400).
+Estado de referencia de esta tanda: 62 ficheros de test / 575 tests, build ~6–8 s,
+213,8 KB de primera carga (tope 250) y 252,7 KB de escena WebGL (tope 400).
 
 ## 2. Variables de build
 
@@ -62,7 +62,7 @@ Si faltan las tres de EmailJS, el formulario muestra su estado «no configurado�
 
 - `/` y `/nuestra-estrategia` responden 200.
 - Una ruta inexistente sirve la SPA (HTTP 200 y la página 404 del cliente).
-- `/sitemap.xml` existe y contiene **16 URLs** (las 3 legales en `noindex` quedan fuera).
+- `/sitemap.xml` existe y contiene **20 URLs** (las 3 legales en `noindex` quedan fuera).
 - `/contacto` muestra el formulario completo y conserva el escenario del simulador cuando se llega desde su CTA.
 - `/robots.txt` permite el rastreo y referencia el sitemap.
 - El formulario entrega el correo con todos los campos de la plantilla.

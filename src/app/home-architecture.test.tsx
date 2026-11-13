@@ -24,22 +24,48 @@ describe('arquitectura comercial', () => {
     expect(screen.getAllByRole('link', { name: 'Reservar sesión privada' }).length).toBeGreaterThan(
       0,
     );
+    expect(screen.getByRole('link', { name: /Ver ficha de ONE/ })).toHaveAttribute(
+      'href',
+      '/proyectos/one',
+    );
+    expect(screen.getAllByText('Próximamente').length).toBeGreaterThan(0);
     expect(screen.getByRole('link', { name: 'Ver todos los proyectos' })).toHaveAttribute(
       'href',
       '/proyectos',
     );
   });
 
-  it('la página de proyectos publica las fichas con sus campos y marcadores', () => {
+  it('la página de proyectos publica las fichas con sus datos y enlaces', () => {
     const { container } = renderAt('/proyectos');
-    expect(
-      screen.getByRole('heading', { level: 1, name: 'Proyectos abiertos' }),
-    ).toBeInTheDocument();
-    expect(container.querySelectorAll('[data-project]')).toHaveLength(3);
-    expect(container.textContent).toContain('Inversión inicial');
-    expect(container.textContent).toContain('Retorno estimado');
-    expect(container.textContent).toContain('Dato pendiente de confirmación');
+    expect(screen.getByRole('heading', { level: 1, name: 'Proyectos' })).toBeInTheDocument();
+    expect(container.querySelectorAll('[data-project]')).toHaveLength(4);
+    expect(container.textContent).toContain('Añelo');
+    expect(container.textContent).toContain('ONE');
+    expect(container.textContent).toContain('Entre Pinares');
+    expect(container.textContent).toContain('Edificio M. Paz');
+    expect(container.querySelectorAll('[data-project-status="coming-soon"]')).toHaveLength(4);
+    expect(container.textContent).toContain('Próximamente');
+    expect(container.querySelector('a[href="/proyectos/one"]')).not.toBeNull();
   });
+
+  it('la ficha de una promoción describe el proyecto y ofrece reservar', () => {
+    const { container } = renderAt('/proyectos/one');
+    expect(screen.getByRole('heading', { level: 1, name: 'ONE' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: 'El proyecto' })).toBeInTheDocument();
+    expect(container.textContent).toContain('30.000 m²');
+    expect(container.textContent).toContain('Piscina');
+    expect(container.querySelector('img[alt*="Fachada"]')).not.toBeNull();
+    expect(screen.getByRole('link', { name: 'Ver todos los proyectos' })).toHaveAttribute(
+      'href',
+      '/proyectos',
+    );
+  });
+
+  it('la ficha de proyecto no tiene violaciones axe bloqueantes', async () => {
+    const detail = renderAt('/proyectos/one');
+    await expectNoBlockingAxeViolations(detail.container);
+    detail.unmount();
+  }, 30_000);
 
   it('la calculadora y la firma tienen páginas propias con un h1', () => {
     const calculator = renderAt('/calculadora');
