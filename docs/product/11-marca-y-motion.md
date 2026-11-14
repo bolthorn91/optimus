@@ -42,4 +42,4 @@ usa una versión en oro plano para que no aparezca el halo blanco del render ori
   `IntersectionObserver` + `stroke-dashoffset`; con `prefers-reduced-motion` queda estático y
   sin JS también es visible.
 - El CTA principal del hero usa un barrido navy, cambio de borde y desplazamiento de flecha al
-  hover/focus; el CTA de cabecera mantiene su inversión y desplazamiento de flecha.
+  hover/focus; el CTA de cabecera usa el mismo barrido y mantiene su inversión y flecha.

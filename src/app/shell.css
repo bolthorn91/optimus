@@ -137,7 +137,27 @@
 }
 
 .site-header .cta {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   margin-inline-start: auto;
+}
+
+/* Mismo barrido que el CTA del hero: el color de fondo no cambia de golpe. */
+.site-header .cta::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: '';
+  background: var(--color-navy-deep);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.site-header .cta:hover::before,
+.site-header .cta:focus-visible::before {
+  transform: scaleX(1);
 }
 
 .cta::after {
