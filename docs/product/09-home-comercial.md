@@ -29,6 +29,12 @@ decisión. El argumentario se conserva en páginas propias; la conversión se co
 5. Calculadora: banda de enlace, sin simulador embebido.
 6. Cierre: reserva y descargo.
 
+La marca vive en la cabecera de todas las rutas, el pie y el menú móvil; la pestaña usa
+favicons propios y `og.png` se genera con el logotipo. En el hero, la pista de scroll es un
+icono animado y cada sección lleva su icono de trazo, visible solo en la home; el recorrido
+legado conserva el texto. El detalle de archivos y tamaños está en
+[`11-marca-y-motion.md`](11-marca-y-motion.md).
+
 ## Proyectos
 
 `src/content/projects.ts` define el contrato de ficha. Las cuatro promociones del dossier

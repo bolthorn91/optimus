@@ -17,7 +17,7 @@ npm run build:budget
 ```
 
 Estado de referencia de esta tanda: 62 ficheros de test / 575 tests, build ~6–8 s,
-213,8 KB de primera carga (tope 250) y 252,7 KB de escena WebGL (tope 400).
+214,6 KB de primera carga (tope 250) y 252,7 KB de escena WebGL (tope 400).
 
 ## 2. Variables de build
 
@@ -89,8 +89,9 @@ Render → *Deploys* → despliegue anterior → **Rollback**. Alternativa: reve
 - **Licencias**: SIM-RATES, SAT-LIC-03 y MAP-LIC-02 requieren validación antes de publicar.
 - **SPA sin JS**: A11Y-00-SPA; si se exige contenido sin JavaScript o SEO de texto, hace
   falta prerenderizar.
-- **Assets**: el logo es un PNG sin transparencia real (B-04) y falta el retrato del
-  fundador (B-06). Se ven en la home.
+- **Assets**: los PNG de marca ya tienen alfa y se integran en cabecera, favicon, OG y schema;
+  el SVG recibido envuelve un PNG, así que sigue faltando un vector editable. Falta el retrato
+  del fundador (B-06).
 - **Responsive**: verificado sin scroll horizontal de 320 a 1440 px (TAB-08 cerrado).
 
 El detalle completo está en [`../debt/technical-debt.md`](../debt/technical-debt.md).

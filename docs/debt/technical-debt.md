@@ -50,7 +50,7 @@ Bloqueos y decisiones editoriales que el cliente aún no ha cerrado (perfil §7 
 | B-01 | Teléfonos de España y Argentina: el texto y la cabecera del dossier se contradicen, y los argentinos son placeholders | doc 06, doc 07 | abierto |
 | B-02 | Dominio y correo definitivos: `optimvs.cp.com` parece provisional | doc 06, doc 07 | abierto |
 | B-03 | Mapa de proyección 2050: en el PDF es byte-idéntico al de «actualidad». v1 dibuja un estado derivado (Ártico y EE.UU. en high) marcado como proyección; falta el mapa real del cliente | doc 02 §12.2 | abierto |
-| B-04 | Logotipo vectorial (SVG/AI/EPS) y versiones en negativo y monocromo | doc 00 | abierto |
+| B-04 | Logotipo vectorial editable (SVG/AI/EPS) y versiones en negativo y monocromo. Los PNG derivados ya se integran en cabecera, favicon, OG y schema; el SVG recibido envuelve un PNG | doc 00 | parcial |
 | B-05 | Datos registrales de la sociedad española y de la argentina. Sin ellos las tres páginas legales quedan con marcadores y `noindex` | doc 06 §12.2, doc 07 §12.2 | abierto |
 | B-06 | Retrato profesional de Carlos Carbajal | doc 06 | abierto |
 | B-07 | URLs de los perfiles de Instagram, TikTok, Facebook y LinkedIn | doc 06 | abierto |

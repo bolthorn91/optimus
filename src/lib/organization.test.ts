@@ -10,7 +10,8 @@ describe('datos estructurados Organization', () => {
     expect(schema['@type']).toBe('Organization');
     expect(schema.name).toBe('OPTIMVS Capital Protegido');
     expect(schema.url).toBe('https://example.test/');
-    expect(schema.logo).toBe('https://example.test/og.png');
+    expect(schema.logo).toBe('https://example.test/brand/optimvs-capital-protegido-logo.png');
+    expect(schema.alternateName).toBe('Optimus Capital Protegido');
     expect(schema.location).toEqual([
       { '@type': 'Place', name: 'España' },
       { '@type': 'Place', name: 'Argentina' },

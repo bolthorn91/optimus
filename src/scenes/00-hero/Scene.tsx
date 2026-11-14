@@ -12,6 +12,11 @@ import './scene.css';
 
 const INTRO_DURATION = 1.2;
 
+export interface HeroSceneProps {
+  /** La pista visual de scroll sólo se monta en la home; el recorrido legado conserva su texto. */
+  showScrollCue?: boolean;
+}
+
 function applyIntro(node: HTMLElement, state: HeroIntroState): void {
   node.style.setProperty('--logo-opacity', String(state.logoOpacity));
   node.style.setProperty('--logo-y', `${String(state.logoY)}px`);
@@ -29,7 +34,7 @@ function applyIntro(node: HTMLElement, state: HeroIntroState): void {
   });
 }
 
-export function HeroScene() {
+export function HeroScene({ showScrollCue = false }: HeroSceneProps) {
   const ref = useRef<HTMLElement>(null);
   const lineCountRef = useRef(3);
 
@@ -83,13 +88,49 @@ export function HeroScene() {
             data-track-position="hero"
             href={HERO.primaryCta.href}
           >
-            {HERO.primaryCta.label}
+            <span className="hero-cta__label">{HERO.primaryCta.label}</span>
+            <span aria-hidden="true" className="hero-cta__arrow">
+              →
+            </span>
           </a>
           <a className="hero-cta hero-cta--secondary" href={HERO.secondaryCta.href}>
             {HERO.secondaryCta.label}
           </a>
         </div>
-        <p className="hero-hint">{HERO.scrollHint}</p>
+        {showScrollCue ? (
+          <a aria-label={HERO.scrollHint} className="hero-scroll-cue" href="#proyectos">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 38">
+              <rect
+                fill="none"
+                height="24"
+                rx="5"
+                stroke="currentColor"
+                strokeWidth="1.2"
+                width="10"
+                x="7"
+                y="1"
+              />
+              <path
+                className="hero-scroll-cue__wheel"
+                d="M12 6v7"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="1.2"
+              />
+              <path
+                d="M8 32l4 4 4-4"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.2"
+              />
+            </svg>
+          </a>
+        ) : (
+          <p className="hero-hint">{HERO.scrollHint}</p>
+        )}
       </div>
       <IntroCards items={HERO.intro} />
     </Scene>

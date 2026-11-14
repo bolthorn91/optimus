@@ -21,6 +21,11 @@ describe('arquitectura comercial', () => {
     expect(container.querySelector('#como-funciona')).not.toBeNull();
     expect(container.querySelector('#por-que-optimvs')).not.toBeNull();
     expect(container.querySelector('#calculadora')).not.toBeNull();
+    expect(container.querySelectorAll('.home-section-marker')).toHaveLength(5);
+    expect(screen.getByRole('link', { name: 'Desplácese para continuar' })).toHaveAttribute(
+      'href',
+      '#proyectos',
+    );
     expect(screen.getAllByRole('link', { name: 'Reservar sesión privada' }).length).toBeGreaterThan(
       0,
     );

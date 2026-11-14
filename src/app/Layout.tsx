@@ -74,8 +74,18 @@ export function Layout() {
         Saltar al contenido
       </a>
       <header className="site-header" data-past-hero="true">
-        <Link className="site-header__brand" to="/">
-          OPTIMVS <span>Capital Protegido</span>
+        <Link aria-label="OPTIMVS Capital Protegido — Inicio" className="site-header__brand" to="/">
+          <img
+            alt="OPTIMVS Capital Protegido"
+            className="site-header__emblem"
+            height="153"
+            src="/brand/optimvs-emblem-sm.png"
+            width="180"
+          />
+          <span className="site-header__brand-copy">
+            <span className="site-header__brand-name">OPTIMVS</span>
+            <span className="site-header__brand-sub">Capital Protegido</span>
+          </span>
         </Link>
         {isMobile ? (
           <button
@@ -119,9 +129,18 @@ export function Layout() {
       <footer>
         <div className="footer__top">
           <div className="footer__brand">
-            <p className="footer__wordmark">
-              OPTIMVS <span>Capital Protegido</span>
-            </p>
+            <div className="footer__brand-lockup">
+              <img
+                alt=""
+                className="footer__emblem"
+                height="153"
+                src="/brand/optimvs-emblem-sm.png"
+                width="180"
+              />
+              <p className="footer__wordmark">
+                OPTIMVS <span>Capital Protegido</span>
+              </p>
+            </div>
             <ContactDetails />
           </div>
           <nav aria-label="Navegación" className="footer__col">

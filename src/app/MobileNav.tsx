@@ -64,9 +64,18 @@ export function MobileNav({ items, open, onClose, ctaTo = '/contacto' }: MobileN
   return (
     <dialog ref={dialogRef} aria-labelledby={titleId} className="mobile-nav">
       <div className="mobile-nav__head">
-        <p className="mobile-nav__brand">
-          OPTIMVS <span>Capital Protegido</span>
-        </p>
+        <div className="mobile-nav__brand-lockup">
+          <img
+            alt=""
+            className="mobile-nav__emblem"
+            height="153"
+            src="/brand/optimvs-emblem-sm.png"
+            width="180"
+          />
+          <p className="mobile-nav__brand">
+            OPTIMVS <span>Capital Protegido</span>
+          </p>
+        </div>
         <button className="mobile-nav__close" type="button" onClick={onClose}>
           {MOBILE_COPY.closeMenu}
         </button>

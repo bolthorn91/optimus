@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { HOME } from '@/app/homeContent';
 import { ActCta } from '@/components/ActCta';
 import { Disclaimer } from '@/components/Disclaimer';
+import { HomeSectionMarker } from '@/components/HomeSectionMarker';
 import { ProjectCards } from '@/components/ProjectCards';
 import { PROJECTS } from '@/content/projects';
 import { HeroScene } from '@/scenes/00-hero/Scene';
@@ -17,7 +18,7 @@ import './home.css';
 export function HomePage() {
   return (
     <>
-      <HeroScene />
+      <HeroScene showScrollCue />
 
       <section
         aria-labelledby="home-projects-title"
@@ -25,7 +26,10 @@ export function HomePage() {
         id="proyectos"
       >
         <div className="home-section__head">
-          <p className="home-eyebrow">{HOME.projects.eyebrow}</p>
+          <div className="home-section__kicker">
+            <HomeSectionMarker icon="projects" index={1} />
+            <p className="home-eyebrow">{HOME.projects.eyebrow}</p>
+          </div>
           <h2 id="home-projects-title">{HOME.projects.title}</h2>
           <p className="home-section__intro">{HOME.projects.intro}</p>
         </div>
@@ -41,7 +45,10 @@ export function HomePage() {
         id="como-funciona"
       >
         <div className="home-section__head">
-          <p className="home-eyebrow">{HOME.steps.eyebrow}</p>
+          <div className="home-section__kicker">
+            <HomeSectionMarker icon="method" index={2} />
+            <p className="home-eyebrow">{HOME.steps.eyebrow}</p>
+          </div>
           <h2 id="home-steps-title">{HOME.steps.title}</h2>
           <p className="home-section__intro">{HOME.steps.intro}</p>
         </div>
@@ -64,7 +71,10 @@ export function HomePage() {
         id="por-que-optimvs"
       >
         <div className="home-section__head">
-          <p className="home-eyebrow">{HOME.proof.eyebrow}</p>
+          <div className="home-section__kicker">
+            <HomeSectionMarker icon="trust" index={3} />
+            <p className="home-eyebrow">{HOME.proof.eyebrow}</p>
+          </div>
           <h2 id="home-proof-title">{HOME.proof.title}</h2>
         </div>
         <ul className="home-proof">
@@ -83,7 +93,10 @@ export function HomePage() {
         id="calculadora"
       >
         <div className="home-calculator__copy">
-          <p className="home-eyebrow">{HOME.calculator.eyebrow}</p>
+          <div className="home-section__kicker">
+            <HomeSectionMarker icon="calculator" index={4} />
+            <p className="home-eyebrow">{HOME.calculator.eyebrow}</p>
+          </div>
           <h2 id="home-calculator-title">{HOME.calculator.title}</h2>
           <p>{HOME.calculator.body}</p>
         </div>
@@ -94,7 +107,10 @@ export function HomePage() {
 
       <section aria-labelledby="home-close-title" className="home-section home-close on-navy">
         <div className="home-close__copy">
-          <p className="home-eyebrow">{HOME.close.eyebrow}</p>
+          <div className="home-section__kicker">
+            <HomeSectionMarker icon="contact" index={5} />
+            <p className="home-eyebrow">{HOME.close.eyebrow}</p>
+          </div>
           <h2 id="home-close-title">{HOME.close.title}</h2>
           <p>{HOME.close.body}</p>
         </div>

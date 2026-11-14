@@ -29,17 +29,33 @@
 
 .site-header__brand {
   display: inline-flex;
-  align-items: baseline;
-  gap: var(--space-2xs);
+  align-items: center;
+  gap: var(--space-s);
   color: var(--doc-ink);
+  font-family: var(--font-display);
+  text-decoration: none;
+}
+
+.site-header__emblem {
+  display: block;
+  inline-size: auto;
+  block-size: 2.9rem;
+  max-inline-size: none;
+}
+
+.site-header__brand-copy {
+  display: grid;
+  gap: 0.12rem;
+}
+
+.site-header__brand-name {
   font-family: var(--font-display);
   font-size: var(--text-h4);
   letter-spacing: 0.12em;
   line-height: 1;
-  text-decoration: none;
 }
 
-.site-header__brand span {
+.site-header__brand-sub {
   color: var(--ink-muted);
   font-family: var(--font-body);
   font-size: 0.625rem;
@@ -295,8 +311,22 @@ footer {
   align-items: start;
 }
 
+.footer__brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  margin-block-end: var(--space-s);
+}
+
+.footer__emblem {
+  display: block;
+  inline-size: auto;
+  block-size: 2.5rem;
+  max-inline-size: none;
+}
+
 .footer__wordmark {
-  margin: 0 0 var(--space-s);
+  margin: 0;
   font-family: var(--font-display);
   font-size: var(--text-h3);
   letter-spacing: 0.04em;
@@ -396,6 +426,23 @@ footer {
 }
 
 @media (max-width: 40rem) {
+  .site-header {
+    gap: var(--space-2xs) var(--space-s);
+    padding-inline: var(--space-s);
+  }
+
+  .site-header__brand {
+    gap: var(--space-xs);
+  }
+
+  .site-header__emblem {
+    block-size: 2.35rem;
+  }
+
+  .site-header__brand-name {
+    font-size: 1.25rem;
+  }
+
   footer {
     padding: var(--space-xl) var(--space-m) var(--space-l);
     padding-inline-end: var(--space-m);
@@ -407,6 +454,33 @@ footer {
 
   .footer__sources ul {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 21rem) {
+  .site-header {
+    gap: var(--space-3xs) var(--space-2xs);
+    padding-inline: var(--space-xs);
+  }
+
+  .site-header__brand {
+    gap: var(--space-3xs);
+  }
+
+  .site-header__emblem {
+    block-size: 2rem;
+  }
+
+  .site-header__brand-name {
+    font-size: 1.125rem;
+  }
+
+  .site-header__brand-sub {
+    display: none;
+  }
+
+  .menu-toggle {
+    padding-inline: var(--space-2xs);
   }
 }
 
