@@ -167,7 +167,8 @@
   transition: transform 180ms ease;
 }
 
-.cta:hover {
+.cta:hover,
+.cta:focus-visible {
   border-color: var(--color-gold);
   background: var(--color-navy-deep);
   color: var(--color-gold-high);
