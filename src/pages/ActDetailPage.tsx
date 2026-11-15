@@ -24,7 +24,7 @@ export function ActDetailPage({ actNumber }: { actNumber: ActNumber }) {
     >
       <div className="detail-prose">
         {detail.sections.map((section) => (
-          <section id={section.id} key={section.id}>
+          <section data-reveal="up" id={section.id} key={section.id}>
             {section.heading ? <h2>{section.heading}</h2> : null}
             {(section.paragraphs ?? []).map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>

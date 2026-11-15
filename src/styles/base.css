@@ -1,6 +1,7 @@
 @import './fonts.css';
 @import './tokens.css';
 @import './primitives.css';
+@import './reveal.css';
 
 /* Reset acotado: solo lo que estorba, no una hoja de reset entera. */
 *,

@@ -22,22 +22,22 @@ export function StrategyPage() {
     >
       <div className="detail-prose strategy-page">
         <section id="tesis">
-          <p>
+          <p data-reveal="text">
             La estrategia parte de una lectura del nuevo escenario europeo y de una búsqueda
             deliberada de jurisdicciones con reglas estables. Argentina aparece como el mercado
             donde esa lectura se convierte en una oportunidad concreta para el inversor europeo.
           </p>
-          <p>
+          <p data-reveal="text">
             El argumento completo está desplegado en siete actos. Puede leerlos en orden o ir
             directamente al que necesite; la home ya no repite ese recorrido.
           </p>
         </section>
 
         <section id="actos">
-          <h2>El argumento, acto a acto</h2>
+          <h2 data-reveal="mask">El argumento, acto a acto</h2>
           <ol className="strategy-chapters">
             {ACTS.map((act) => (
-              <li key={act.path}>
+              <li data-reveal="card" key={act.path}>
                 <Link to={act.path}>
                   <span aria-hidden="true" className="strategy-chapters__roman">
                     {toRoman(act.actNumber)}
@@ -53,10 +53,10 @@ export function StrategyPage() {
         </section>
 
         <section id="activos">
-          <h2>Tipos de activo</h2>
+          <h2 data-reveal="mask">Tipos de activo</h2>
           <ul className="strategy-assets">
             {VEHICLES.map((vehicle) => (
-              <li key={vehicle.path}>
+              <li data-reveal="text" key={vehicle.path}>
                 <Link to={vehicle.path}>{vehicle.title}</Link>
               </li>
             ))}

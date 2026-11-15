@@ -10,7 +10,7 @@ export function ProjectsPage() {
       toc={[{ id: 'oportunidades', label: PROJECTS_COPY.pageTitle }]}
     >
       <div className="detail-prose projects-page">
-        <p>{PROJECTS_COPY.pageIntro}</p>
+        <p data-reveal="text">{PROJECTS_COPY.pageIntro}</p>
         <section id="oportunidades">
           <ProjectCards projects={PROJECTS} />
         </section>

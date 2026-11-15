@@ -39,6 +39,7 @@ function RouteCard({
   return (
     <article
       className="act7-route"
+      data-reveal="card"
       data-route={id}
       id={id === 'property' ? 'inmuebles' : 'valores-financieros'}
     >
@@ -72,7 +73,7 @@ function RouteCard({
 
 function Glossary() {
   return (
-    <section className="act7-glossary" id="act7-glosario">
+    <section className="act7-glossary" data-reveal="up" id="act7-glosario">
       <div className="act7-section-head">
         <p className="act7-kicker">Definiciones</p>
         <h2>{ACT67.copy.glossaryHeading}</h2>
@@ -110,8 +111,8 @@ export function Act7DetailPage() {
     >
       <div className="act7-detail">
         <section className="act7-intro" id="entradilla">
-          <p>{introParagraph()}</p>
-          <div className="act7-route-strip">
+          <p data-reveal="text">{introParagraph()}</p>
+          <div className="act7-route-strip" data-reveal="text">
             {ROUTES.map((item, index) => (
               <a
                 href={`#${item.id === 'property' ? 'inmuebles' : 'valores-financieros'}`}
@@ -149,7 +150,7 @@ export function Act7DetailPage() {
           </div>
         </section>
 
-        <section className="act7-organisms" id="act7-organismos">
+        <section className="act7-organisms" data-reveal="up" id="act7-organismos">
           <div className="act7-section-head">
             <p className="act7-kicker">Marco de relación</p>
             <h2>{ACT67.copy.organisationsLabel}</h2>

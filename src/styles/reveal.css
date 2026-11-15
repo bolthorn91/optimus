@@ -1,0 +1,142 @@
+/*
+ * Entradas de página. La animación vive en el pie del sistema, no en cada página: los
+ * componentes sólo declaran `data-reveal`. Así la variante móvil y `prefers-reduced-motion`
+ * se resuelven en un único sitio.
+ */
+[data-reveal] {
+  transition:
+    opacity var(--reveal-duration, 720ms) var(--reveal-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    transform var(--reveal-duration, 720ms) var(--reveal-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    clip-path 900ms var(--reveal-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    filter 720ms var(--reveal-ease, cubic-bezier(0.16, 1, 0.3, 1));
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.is-reveal-pending[data-reveal='up'],
+.is-reveal-pending[data-reveal='card'] {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-distance, 1.25rem), 0);
+}
+
+.is-reveal-pending[data-reveal='text'] {
+  opacity: 0;
+  filter: blur(2px);
+  transform: translate3d(0, 0.65rem, 0);
+}
+
+.is-reveal-pending[data-reveal='mask'] {
+  opacity: 0;
+  filter: blur(3px);
+  transform: translate3d(0, 0.8rem, 0);
+}
+
+.is-reveal-pending[data-reveal='image'] {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-distance, 1.25rem), 0);
+}
+
+[data-reveal='image'] {
+  overflow: hidden;
+}
+
+[data-reveal='image'] img {
+  clip-path: inset(0 0 100% 0);
+  transform: scale(1.045);
+  transition:
+    clip-path 900ms var(--reveal-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    transform 1.1s var(--reveal-ease, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.is-revealed[data-reveal='image'] img {
+  clip-path: inset(0 0 0 0);
+  transform: scale(1);
+}
+
+/* El escalonado se declara en CSS para que el marcado no lleve cálculos de tiempo. */
+.home-steps > li:nth-child(2),
+.home-proof > li:nth-child(2),
+.project-cards > li:nth-child(2),
+.strategy-chapters > li:nth-child(2),
+.project-detail__gallery > figure:nth-child(2),
+.guarantee-cards > li:nth-child(2) {
+  --reveal-delay: 70ms;
+}
+
+.home-steps > li:nth-child(3),
+.home-proof > li:nth-child(3),
+.project-cards > li:nth-child(3),
+.strategy-chapters > li:nth-child(3),
+.project-detail__gallery > figure:nth-child(3),
+.guarantee-cards > li:nth-child(3) {
+  --reveal-delay: 140ms;
+}
+
+.project-cards > li:nth-child(4),
+.project-detail__gallery > figure:nth-child(4),
+.guarantee-cards > li:nth-child(4) {
+  --reveal-delay: 210ms;
+}
+
+.project-detail__gallery > figure:nth-child(5) {
+  --reveal-delay: 280ms;
+}
+
+.project-detail__gallery > figure:nth-child(6) {
+  --reveal-delay: 350ms;
+}
+
+.project-detail__gallery > figure:nth-child(7) {
+  --reveal-delay: 420ms;
+}
+
+.strategy-chapters > li:nth-child(4) {
+  --reveal-delay: 210ms;
+}
+
+.act7-route:nth-child(2) {
+  --reveal-delay: 80ms;
+}
+
+.strategy-chapters > li:nth-child(5) {
+  --reveal-delay: 280ms;
+}
+
+.strategy-chapters > li:nth-child(6) {
+  --reveal-delay: 350ms;
+}
+
+.strategy-chapters > li:nth-child(7) {
+  --reveal-delay: 420ms;
+}
+
+@media (max-width: 47.99rem) {
+  [data-reveal] {
+    --reveal-distance: 0.6rem;
+    --reveal-duration: 560ms;
+  }
+
+  .is-reveal-pending[data-reveal='text'] {
+    filter: none;
+    transform: translate3d(0, 0.4rem, 0);
+  }
+
+  .home-steps > li:nth-child(n),
+  .home-proof > li:nth-child(n),
+  .project-cards > li:nth-child(n),
+  .strategy-chapters > li:nth-child(n),
+  .project-detail__gallery > figure:nth-child(n),
+  .guarantee-cards > li:nth-child(n) {
+    --reveal-delay: 40ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal='image'] img {
+    clip-path: none;
+    filter: none;
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

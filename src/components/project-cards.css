@@ -20,7 +20,10 @@
   block-size: 100%;
   border: 1px solid var(--rule);
   background: var(--surface-raised);
-  transition: border-color 160ms ease;
+  transition:
+    border-color 240ms ease,
+    transform 420ms var(--reveal-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    box-shadow 420ms ease;
 }
 
 .project-card:hover,
@@ -43,6 +46,7 @@
 
 .project-card__media {
   position: relative;
+  isolation: isolate;
   aspect-ratio: 16 / 10;
   margin: 0;
   overflow: hidden;
@@ -50,11 +54,16 @@
 }
 
 .project-card__media img {
+  position: absolute;
+  inset: 0;
   display: block;
   inline-size: 100%;
   block-size: 100%;
   object-fit: cover;
-  transition: transform 400ms ease;
+  transition:
+    transform 900ms var(--reveal-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    filter 650ms ease,
+    opacity 650ms ease;
 }
 
 .project-card:hover .project-card__media img {
@@ -62,12 +71,115 @@
 }
 
 /*
+ * Marco de enfoque: aparece con el color, no antes. El borde se queda en el borde de la
+ * fotografía para que la tarjeta no necesite una segunda caja.
+ */
+.project-card__media::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  content: '';
+  border: 1px solid color-mix(in srgb, var(--color-gold-high) 62%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.985);
+  transition:
+    opacity 360ms ease,
+    transform 700ms var(--reveal-ease, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.project-card:hover .project-card__media::after,
+.project-card:focus-within .project-card__media::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/*
+ * La home enseña la promoción en blanco y negro y la descubre al pasar el cursor. La capa
+ * de color es la misma fotografía, no un filtro intermedio: el barrido conserva el contraste
+ * original y permite animarlo con clip-path.
+ */
+.project-cards--featured .project-card__image--mono {
+  filter: grayscale(1) contrast(0.96) brightness(0.84);
+  transform: scale(1.018);
+}
+
+.project-cards--featured .project-card__image--color {
+  clip-path: inset(0 0 0 100%);
+  opacity: 1;
+  transform: scale(1.035);
+  transition:
+    clip-path 900ms var(--reveal-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    transform 1100ms var(--reveal-ease, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.project-cards--featured .project-card:hover .project-card__image--mono,
+.project-cards--featured .project-card:focus-within .project-card__image--mono {
+  filter: grayscale(0.1) contrast(1) brightness(0.98);
+  transform: scale(1.005);
+}
+
+.project-cards--featured .project-card:hover .project-card__image--color,
+.project-cards--featured .project-card:focus-within .project-card__image--color {
+  clip-path: inset(0 0 0 0);
+  transform: scale(1);
+}
+
+/*
+ * En pantallas táctiles no hay hover fiable: el color llega con la entrada de la tarjeta y
+ * se queda. La coreografía de escritorio no se replica a ciegas en móvil.
+ */
+@media (hover: none) {
+  .project-cards--featured .project-card.is-revealed .project-card__image--color {
+    clip-path: inset(0 0 0 0);
+    transform: scale(1);
+  }
+
+  .project-cards--featured .project-card.is-revealed .project-card__image--mono {
+    filter: grayscale(0) contrast(1) brightness(1);
+    transform: scale(1);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 1.25rem 2.5rem color-mix(in srgb, var(--color-navy-deep) 12%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card,
+  .project-card__media img,
+  .project-card__media::after,
+  .project-cards--featured .project-card__image--color {
+    transition: none;
+  }
+
+  .project-card:hover {
+    box-shadow: none;
+    transform: none;
+  }
+
+  /* Sin movimiento, la foto se entrega en color: el gris es un estado de la coreografía. */
+  .project-cards--featured .project-card__image--color {
+    clip-path: inset(0);
+    transform: none;
+  }
+}
+
+/*
  * La promoción sin apertura comercial se lee en gris. El banner sigue dentro del enlace de la
  * ficha, así que también es clicable y lleva a la descripción del proyecto.
  */
-.project-card--coming-soon .project-card__media img {
+.project-card--coming-soon .project-card__image--mono {
   filter: grayscale(1) contrast(0.92);
   opacity: 0.72;
+}
+
+.project-card--coming-soon .project-card:hover .project-card__image--mono,
+.project-card--coming-soon .project-card:focus-within .project-card__image--mono {
+  opacity: 0.86;
 }
 
 .project-card__banner,

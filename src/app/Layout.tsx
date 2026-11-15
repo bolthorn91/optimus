@@ -7,6 +7,7 @@ import { MobileNav } from '@/app/MobileNav';
 import { FOOTER_NAV, PRIMARY_NAV } from '@/app/navigation';
 import { RouteErrorBoundary } from '@/app/RouteErrorBoundary';
 import { isLegalRoute, ROUTES } from '@/app/routes';
+import { RouteTransition } from '@/app/RouteTransition';
 import {
   applyDocumentPair,
   clearDocumentPair,
@@ -20,6 +21,7 @@ import { ContactDetails } from '@/components/ContactDetails';
 import { Disclaimer } from '@/components/Disclaimer';
 import { PendingValue } from '@/components/PendingValue';
 import { CONTACT } from '@/content/contact';
+import { usePageReveal } from '@/motion/usePageReveal';
 import { useViewport } from '@/motion/useViewport';
 import { contactHref } from '@/scenes/05-activos-simulador/contactHref';
 import {
@@ -45,6 +47,7 @@ export function Layout() {
 
   useScrollRestore(location.pathname, location.hash);
   useSiteAnalytics(null, 0);
+  usePageReveal(location.pathname);
 
   useEffect(() => {
     setMenuOpen(false);
@@ -123,7 +126,9 @@ export function Layout() {
       {isMobile && !isContact ? <StickyCta to={contactTo} /> : null}
       <main id="contenido">
         <RouteErrorBoundary resetKey={location.pathname}>
-          <Outlet />
+          <RouteTransition>
+            <Outlet />
+          </RouteTransition>
         </RouteErrorBoundary>
       </main>
       <footer>

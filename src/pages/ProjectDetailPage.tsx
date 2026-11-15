@@ -24,7 +24,7 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
   return (
     <DetailLayout ctaTo={contactHref(project.vehicle)} title={project.name} toc={toc}>
       <article className="project-detail">
-        <p className="project-detail__meta">
+        <p className="project-detail__meta" data-reveal="text">
           <span>{project.assetType}</span>
           <span>{project.location}</span>
           <span
@@ -43,18 +43,21 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
             src={project.images[0]?.src}
             width="1024"
           />
+          <span aria-hidden="true" className="project-detail__hero-rule" />
         </figure>
 
-        <p className="project-detail__lead">{project.summary}</p>
+        <p className="project-detail__lead" data-reveal="text">
+          {project.summary}
+        </p>
 
-        <section id="resumen">
+        <section data-reveal="up" id="resumen">
           <h2>El proyecto</h2>
           {project.description.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
         </section>
 
-        <section id="ficha">
+        <section data-reveal="up" id="ficha">
           <h2>Datos de la promoción</h2>
           <dl className="project-detail__facts">
             {project.facts.map((fact) => (
@@ -67,7 +70,7 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
         </section>
 
         {project.amenities.length > 0 ? (
-          <section id="amenities">
+          <section data-reveal="up" id="amenities">
             <h2>Amenities</h2>
             <ul className="project-detail__amenities">
               {project.amenities.map((amenity) => (
@@ -78,17 +81,20 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
         ) : null}
 
         <section id="galeria">
-          <h2>Galería</h2>
+          <h2 data-reveal="text">Galería</h2>
           <div className="project-detail__gallery">
-            {project.images.slice(1).map((image) => (
-              <figure key={image.src}>
+            {project.images.slice(1).map((image, index) => (
+              <figure data-reveal="image" key={image.src}>
                 <img alt={image.alt} height="700" loading="lazy" src={image.src} width="1024" />
+                <figcaption aria-hidden="true" className="project-detail__gallery-index">
+                  {String(index + 1).padStart(2, '0')}
+                </figcaption>
               </figure>
             ))}
           </div>
         </section>
 
-        <section id="condiciones">
+        <section data-reveal="up" id="condiciones">
           <h2>Condiciones</h2>
           {isUpcoming ? (
             <p className="project-detail__notice">
@@ -99,7 +105,7 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
           <p>{PROJECTS_COPY.note}</p>
         </section>
 
-        <p className="project-detail__back">
+        <p className="project-detail__back" data-reveal="text">
           <Link to="/proyectos">Ver todos los proyectos</Link>
         </p>
       </article>

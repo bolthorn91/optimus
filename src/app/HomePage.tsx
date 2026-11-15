@@ -26,15 +26,19 @@ export function HomePage() {
         id="proyectos"
       >
         <div className="home-section__head">
-          <div className="home-section__kicker">
+          <div className="home-section__kicker" data-reveal="text">
             <HomeSectionMarker icon="projects" index={1} />
             <p className="home-eyebrow">{HOME.projects.eyebrow}</p>
           </div>
-          <h2 id="home-projects-title">{HOME.projects.title}</h2>
-          <p className="home-section__intro">{HOME.projects.intro}</p>
+          <h2 data-reveal="mask" id="home-projects-title">
+            {HOME.projects.title}
+          </h2>
+          <p className="home-section__intro" data-reveal="text">
+            {HOME.projects.intro}
+          </p>
         </div>
         <ProjectCards projects={PROJECTS} variant="featured" />
-        <Link className="cta home-section__cta" to="/proyectos">
+        <Link className="cta home-section__cta" data-reveal="text" to="/proyectos">
           {HOME.projects.cta}
         </Link>
       </section>
@@ -45,16 +49,20 @@ export function HomePage() {
         id="como-funciona"
       >
         <div className="home-section__head">
-          <div className="home-section__kicker">
+          <div className="home-section__kicker" data-reveal="text">
             <HomeSectionMarker icon="method" index={2} />
             <p className="home-eyebrow">{HOME.steps.eyebrow}</p>
           </div>
-          <h2 id="home-steps-title">{HOME.steps.title}</h2>
-          <p className="home-section__intro">{HOME.steps.intro}</p>
+          <h2 data-reveal="mask" id="home-steps-title">
+            {HOME.steps.title}
+          </h2>
+          <p className="home-section__intro" data-reveal="text">
+            {HOME.steps.intro}
+          </p>
         </div>
         <ol className="home-steps">
           {HOME.steps.items.map((item, index) => (
-            <li key={item.title}>
+            <li data-reveal="card" key={item.title}>
               <span aria-hidden="true" className="home-steps__number">
                 {String(index + 1).padStart(2, '0')}
               </span>
@@ -71,15 +79,17 @@ export function HomePage() {
         id="por-que-optimvs"
       >
         <div className="home-section__head">
-          <div className="home-section__kicker">
+          <div className="home-section__kicker" data-reveal="text">
             <HomeSectionMarker icon="trust" index={3} />
             <p className="home-eyebrow">{HOME.proof.eyebrow}</p>
           </div>
-          <h2 id="home-proof-title">{HOME.proof.title}</h2>
+          <h2 data-reveal="mask" id="home-proof-title">
+            {HOME.proof.title}
+          </h2>
         </div>
         <ul className="home-proof">
           {HOME.proof.items.map((item) => (
-            <li key={item.label}>
+            <li data-reveal="card" key={item.label}>
               <p className="home-proof__label">{item.label}</p>
               <p>{item.body}</p>
             </li>
@@ -93,26 +103,30 @@ export function HomePage() {
         id="calculadora"
       >
         <div className="home-calculator__copy">
-          <div className="home-section__kicker">
+          <div className="home-section__kicker" data-reveal="text">
             <HomeSectionMarker icon="calculator" index={4} />
             <p className="home-eyebrow">{HOME.calculator.eyebrow}</p>
           </div>
-          <h2 id="home-calculator-title">{HOME.calculator.title}</h2>
-          <p>{HOME.calculator.body}</p>
+          <h2 data-reveal="mask" id="home-calculator-title">
+            {HOME.calculator.title}
+          </h2>
+          <p data-reveal="text">{HOME.calculator.body}</p>
         </div>
-        <Link className="home-link" to="/calculadora">
+        <Link className="home-link" data-reveal="text" to="/calculadora">
           {HOME.calculator.cta}
         </Link>
       </section>
 
       <section aria-labelledby="home-close-title" className="home-section home-close on-navy">
         <div className="home-close__copy">
-          <div className="home-section__kicker">
+          <div className="home-section__kicker" data-reveal="text">
             <HomeSectionMarker icon="contact" index={5} />
             <p className="home-eyebrow">{HOME.close.eyebrow}</p>
           </div>
-          <h2 id="home-close-title">{HOME.close.title}</h2>
-          <p>{HOME.close.body}</p>
+          <h2 data-reveal="mask" id="home-close-title">
+            {HOME.close.title}
+          </h2>
+          <p data-reveal="text">{HOME.close.body}</p>
         </div>
         <ActCta href="/contacto" label={HOME.close.cta} position="act" />
         <Disclaimer variant="inline" />

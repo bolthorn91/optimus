@@ -14,9 +14,13 @@ export function PageIntro({ eyebrow, title, intro }: PageIntroProps) {
   return (
     <header className="page-intro on-light">
       <div className="page-intro__inner">
-        <p className="page-intro__eyebrow">{eyebrow}</p>
-        <h1>{title}</h1>
-        <p className="page-intro__copy">{intro}</p>
+        <p className="page-intro__eyebrow" data-reveal="text">
+          {eyebrow}
+        </p>
+        <h1 data-reveal="mask">{title}</h1>
+        <p className="page-intro__copy" data-reveal="text">
+          {intro}
+        </p>
       </div>
     </header>
   );

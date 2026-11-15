@@ -13,6 +13,7 @@ function ProjectCard({ project, variant }: { project: Project; variant: 'default
       className={`project-card project-card--${project.status}`}
       data-project={project.slug}
       data-project-status={project.status}
+      data-reveal="card"
     >
       <Link
         aria-label={`Ver ficha de ${project.name}, ${isUpcoming ? 'próximamente' : 'abierto'}`}
@@ -22,11 +23,23 @@ function ProjectCard({ project, variant }: { project: Project; variant: 'default
         <figure className="project-card__media">
           <img
             alt={project.images[0]?.alt ?? ''}
+            className="project-card__image project-card__image--mono"
             height="700"
             loading="lazy"
             src={project.images[0]?.src}
             width="1024"
           />
+          {variant === 'featured' ? (
+            <img
+              aria-hidden="true"
+              alt=""
+              className="project-card__image project-card__image--color"
+              height="700"
+              loading="lazy"
+              src={project.images[0]?.src}
+              width="1024"
+            />
+          ) : null}
           {isUpcoming ? (
             <span className="project-card__banner">{PROJECTS_COPY.upcomingLabel}</span>
           ) : (
@@ -83,7 +96,9 @@ export function ProjectCards({
           <ProjectCard key={project.slug} project={project} variant={variant} />
         ))}
       </ul>
-      <p className="project-cards__note">{PROJECTS_COPY.note}</p>
+      <p className="project-cards__note" data-reveal="text">
+        {PROJECTS_COPY.note}
+      </p>
     </>
   );
 }

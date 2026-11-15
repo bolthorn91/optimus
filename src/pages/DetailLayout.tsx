@@ -49,7 +49,7 @@ export function DetailLayout({
       <div className="detail-main">{children}</div>
       <SourceList sources={sources} />
       {prev || next ? (
-        <nav aria-label="Actos" className="detail-nav">
+        <nav aria-label="Actos" className="detail-nav" data-reveal="text">
           {prev ? (
             <Link rel="prev" to={prev.href}>
               {DETAIL_COPY.prevAct}: {prev.title}
@@ -64,7 +64,7 @@ export function DetailLayout({
           ) : null}
         </nav>
       ) : null}
-      <p className="detail-cta">
+      <p className="detail-cta" data-reveal="text">
         <Link className="cta" data-track="cta" data-track-position="detail" to={ctaTo}>
           {DETAIL_COPY.cta}
         </Link>

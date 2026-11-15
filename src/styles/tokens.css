@@ -91,6 +91,11 @@
   --radius-s: 2px;
   --radius-m: 4px;
 
+  /* Movimiento editorial: una sola curva para revelados, tarjetas y transición de ruta. */
+  --reveal-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --reveal-duration: 720ms;
+  --reveal-distance: 1.25rem;
+
   /* Puntos de ruptura, para que el documento 08 no los reinvente */
   --bp-tablet: 48rem;
   --bp-desktop: 64rem;

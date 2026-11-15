@@ -26,7 +26,12 @@
 }
 
 .project-detail__hero {
+  position: relative;
   margin: 0;
+  overflow: hidden;
+  background: var(--surface);
+  clip-path: inset(0);
+  animation: project-hero-wipe 960ms var(--reveal-ease) 80ms both;
 }
 
 .project-detail__hero img {
@@ -35,6 +40,47 @@
   block-size: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+}
+
+/*
+ * El filete confirma la entrada de la fotografía y desaparece. No es decoración permanente:
+ * la ficha ya tiene suficientes reglas y el oro debe leerse como un acento.
+ */
+.project-detail__hero-rule {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 0;
+  block-size: 2px;
+  background: linear-gradient(90deg, var(--color-gold-bronze), var(--color-gold-high), transparent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: project-hero-rule 1100ms var(--reveal-ease) 420ms both;
+}
+
+@keyframes project-hero-wipe {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes project-hero-rule {
+  0% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  35% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
 }
 
 .project-detail__lead {
@@ -119,8 +165,25 @@
 }
 
 .project-detail__gallery figure {
+  position: relative;
+  isolation: isolate;
   margin: 0;
+  overflow: hidden;
   background: var(--surface);
+}
+
+.project-detail__gallery figure::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  content: '';
+  border: 1px solid color-mix(in srgb, var(--color-gold-high) 58%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.99);
+  transition:
+    opacity 360ms ease,
+    transform 700ms var(--reveal-ease);
 }
 
 .project-detail__gallery img {
@@ -129,6 +192,60 @@
   block-size: auto;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+  filter: grayscale(1) contrast(0.98) brightness(0.9);
+  transition:
+    transform 1s var(--reveal-ease),
+    filter 650ms ease;
+}
+
+.project-detail__gallery-index {
+  position: absolute;
+  z-index: 3;
+  inset-block-start: var(--space-2xs);
+  inset-inline-end: var(--space-2xs);
+  padding: 0.12rem 0.4rem;
+  border: 1px solid color-mix(in srgb, var(--color-ivory) 34%, transparent);
+  background: color-mix(in srgb, var(--color-navy-deep) 55%, transparent);
+  color: var(--color-ivory);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+  opacity: 0.82;
+  transition:
+    opacity 300ms ease,
+    transform 500ms var(--reveal-ease);
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-detail__gallery figure:hover img {
+    filter: grayscale(0) saturate(1.06) contrast(1);
+    transform: scale(1.045);
+  }
+
+  .project-detail__gallery figure:hover::after {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .project-detail__gallery figure:hover .project-detail__gallery-index {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+@media (min-width: 48rem) {
+  /*
+   * Sólo abrimos la primera foto a todo el ancho cuando hay una galería de tres o más:
+   * con dos imágenes, dos columnas equilibradas funcionan mejor que una fila coja.
+   */
+  .project-detail__gallery:has(figure:nth-child(3)) figure:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .project-detail__gallery:has(figure:nth-child(3)) figure:first-child img {
+    aspect-ratio: 16 / 9;
+  }
 }
 
 .project-detail__notice {
@@ -151,5 +268,38 @@
   .project-detail__facts,
   .project-detail__gallery {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .project-detail__gallery img {
+    filter: none;
+  }
+}
+
+/* En táctil no se puede prometer hover: la galería se entrega en color al revelarse. */
+@media (hover: none) {
+  .project-detail__gallery img {
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-detail__hero,
+  .project-detail__hero-rule {
+    animation: none;
+    clip-path: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .project-detail__gallery img,
+  .project-detail__gallery figure::after,
+  .project-detail__gallery-index {
+    filter: none;
+    transform: none;
+    transition: none;
+  }
+
+  .project-detail__gallery figure:hover img {
+    transform: none;
   }
 }

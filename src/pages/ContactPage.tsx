@@ -45,6 +45,7 @@ export function ContactPage() {
         <section
           aria-labelledby="contact-form-heading"
           className="contact-page__form"
+          data-reveal="up"
           id="formulario"
         >
           <h2 id="contact-form-heading">{CONTACT_SCENE.formHeading}</h2>
@@ -56,7 +57,11 @@ export function ContactPage() {
         </section>
 
         <div className="contact-page__info">
-          <section aria-labelledby="contact-benefits-heading" className="contact-page__benefits">
+          <section
+            aria-labelledby="contact-benefits-heading"
+            className="contact-page__benefits"
+            data-reveal="up"
+          >
             <h2 id="contact-benefits-heading">{CONTACT_SCENE.benefitsHeading}</h2>
             <ul>
               {CONTACT_SCENE.benefits.map((benefit) => (
@@ -68,12 +73,15 @@ export function ContactPage() {
           <section
             aria-labelledby="contact-guarantees-heading"
             className="contact-page__guarantees"
+            data-reveal="up"
           >
             <h2 id="contact-guarantees-heading">{ACT4.guarantees.heading}</h2>
             <GuaranteeCards guarantees={GUARANTEES} />
           </section>
 
-          <ContactDetails />
+          <div data-reveal="up">
+            <ContactDetails />
+          </div>
           <Disclaimer variant="inline" />
         </div>
       </div>

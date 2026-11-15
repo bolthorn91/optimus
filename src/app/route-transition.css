@@ -1,0 +1,63 @@
+.route-stage {
+  position: relative;
+  min-inline-size: 0;
+  animation: route-stage-in var(--route-duration, 520ms)
+    var(--reveal-ease, cubic-bezier(0.16, 1, 0.3, 1)) both;
+}
+
+/*
+ * Un filete de oro recorre la parte superior del contenido al entrar. Se queda en el flujo
+ * del documento, no es una capa fija: en una página larga no acompaña al scroll.
+ */
+.route-stage::before {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: 1px;
+  content: '';
+  background: linear-gradient(90deg, var(--color-gold-bronze), var(--color-gold-high), transparent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: route-line-in 760ms var(--reveal-ease, cubic-bezier(0.16, 1, 0.3, 1)) 80ms both;
+  pointer-events: none;
+}
+
+@keyframes route-stage-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes route-line-in {
+  from {
+    opacity: 0.7;
+    transform: scaleX(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .route-stage {
+    --route-duration: 380ms;
+  }
+
+  .route-stage::before {
+    block-size: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-stage,
+  .route-stage::before {
+    animation: none;
+  }
+}

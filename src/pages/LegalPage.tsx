@@ -22,7 +22,7 @@ export function LegalPage({ document: id }: { document: LegalId }) {
       <div className="detail-prose">
         <PendingNotice fields={pendingFieldsOf(document)} />
         {document.sections.map((section) => (
-          <section id={section.id} key={section.id}>
+          <section data-reveal="up" id={section.id} key={section.id}>
             <h2>{section.heading}</h2>
             {section.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>

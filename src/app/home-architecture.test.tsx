@@ -22,6 +22,9 @@ describe('arquitectura comercial', () => {
     expect(container.querySelector('#por-que-optimvs')).not.toBeNull();
     expect(container.querySelector('#calculadora')).not.toBeNull();
     expect(container.querySelectorAll('.home-section-marker')).toHaveLength(5);
+    expect(container.querySelectorAll('.project-card__image--mono')).toHaveLength(4);
+    expect(container.querySelectorAll('.project-card__image--color')).toHaveLength(4);
+    expect(container.querySelector('[data-route-stage]')).not.toBeNull();
     expect(screen.getByRole('link', { name: 'Desplácese para continuar' })).toHaveAttribute(
       'href',
       '#proyectos',
@@ -49,6 +52,7 @@ describe('arquitectura comercial', () => {
     expect(container.textContent).toContain('Entre Pinares');
     expect(container.textContent).toContain('Edificio M. Paz');
     expect(container.querySelectorAll('[data-project-status="coming-soon"]')).toHaveLength(4);
+    expect(container.querySelectorAll('.project-card__image--color')).toHaveLength(0);
     expect(container.textContent).toContain('Próximamente');
     expect(container.querySelector('a[href="/proyectos/one"]')).not.toBeNull();
   });
@@ -60,6 +64,10 @@ describe('arquitectura comercial', () => {
     expect(container.textContent).toContain('30.000 m²');
     expect(container.textContent).toContain('Piscina');
     expect(container.querySelector('img[alt*="Fachada"]')).not.toBeNull();
+    expect(container.querySelector('.project-detail__hero')).not.toBeNull();
+    expect(
+      container.querySelectorAll('.project-detail__gallery [data-reveal="image"]'),
+    ).toHaveLength(6);
     expect(screen.getByRole('link', { name: 'Ver todos los proyectos' })).toHaveAttribute(
       'href',
       '/proyectos',
