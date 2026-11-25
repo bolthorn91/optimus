@@ -5,7 +5,7 @@ import { ActCta } from '@/components/ActCta';
 import { Disclaimer } from '@/components/Disclaimer';
 import { HomeSectionMarker } from '@/components/HomeSectionMarker';
 import { ProjectCards } from '@/components/ProjectCards';
-import { PROJECTS } from '@/content/projects';
+import { PROJECTS, PROJECTS_PUBLISHED } from '@/content/projects';
 import { HeroScene } from '@/scenes/00-hero/Scene';
 
 import './home.css';
@@ -18,30 +18,36 @@ import './home.css';
 export function HomePage() {
   return (
     <>
-      <HeroScene showScrollCue />
+      <HeroScene
+        scrollTarget={PROJECTS_PUBLISHED ? '#proyectos' : '#como-funciona'}
+        showProjectsCta={PROJECTS_PUBLISHED}
+        showScrollCue
+      />
 
-      <section
-        aria-labelledby="home-projects-title"
-        className="home-section on-light"
-        id="proyectos"
-      >
-        <div className="home-section__head">
-          <div className="home-section__kicker" data-reveal="text">
-            <HomeSectionMarker icon="projects" index={1} />
-            <p className="home-eyebrow">{HOME.projects.eyebrow}</p>
+      {PROJECTS_PUBLISHED ? (
+        <section
+          aria-labelledby="home-projects-title"
+          className="home-section on-light"
+          id="proyectos"
+        >
+          <div className="home-section__head">
+            <div className="home-section__kicker" data-reveal="text">
+              <HomeSectionMarker icon="projects" index={1} />
+              <p className="home-eyebrow">{HOME.projects.eyebrow}</p>
+            </div>
+            <h2 data-reveal="mask" id="home-projects-title">
+              {HOME.projects.title}
+            </h2>
+            <p className="home-section__intro" data-reveal="text">
+              {HOME.projects.intro}
+            </p>
           </div>
-          <h2 data-reveal="mask" id="home-projects-title">
-            {HOME.projects.title}
-          </h2>
-          <p className="home-section__intro" data-reveal="text">
-            {HOME.projects.intro}
-          </p>
-        </div>
-        <ProjectCards projects={PROJECTS} variant="featured" />
-        <Link className="cta home-section__cta" data-reveal="text" to="/proyectos">
-          {HOME.projects.cta}
-        </Link>
-      </section>
+          <ProjectCards projects={PROJECTS} variant="featured" />
+          <Link className="cta home-section__cta" data-reveal="text" to="/proyectos">
+            {HOME.projects.cta}
+          </Link>
+        </section>
+      ) : null}
 
       <section
         aria-labelledby="home-steps-title"
@@ -50,7 +56,7 @@ export function HomePage() {
       >
         <div className="home-section__head">
           <div className="home-section__kicker" data-reveal="text">
-            <HomeSectionMarker icon="method" index={2} />
+            <HomeSectionMarker icon="method" index={PROJECTS_PUBLISHED ? 2 : 1} />
             <p className="home-eyebrow">{HOME.steps.eyebrow}</p>
           </div>
           <h2 data-reveal="mask" id="home-steps-title">
@@ -80,7 +86,7 @@ export function HomePage() {
       >
         <div className="home-section__head">
           <div className="home-section__kicker" data-reveal="text">
-            <HomeSectionMarker icon="trust" index={3} />
+            <HomeSectionMarker icon="trust" index={PROJECTS_PUBLISHED ? 3 : 2} />
             <p className="home-eyebrow">{HOME.proof.eyebrow}</p>
           </div>
           <h2 data-reveal="mask" id="home-proof-title">
@@ -104,7 +110,7 @@ export function HomePage() {
       >
         <div className="home-calculator__copy">
           <div className="home-section__kicker" data-reveal="text">
-            <HomeSectionMarker icon="calculator" index={4} />
+            <HomeSectionMarker icon="calculator" index={PROJECTS_PUBLISHED ? 4 : 3} />
             <p className="home-eyebrow">{HOME.calculator.eyebrow}</p>
           </div>
           <h2 data-reveal="mask" id="home-calculator-title">
@@ -120,7 +126,7 @@ export function HomePage() {
       <section aria-labelledby="home-close-title" className="home-section home-close on-navy">
         <div className="home-close__copy">
           <div className="home-section__kicker" data-reveal="text">
-            <HomeSectionMarker icon="contact" index={5} />
+            <HomeSectionMarker icon="contact" index={PROJECTS_PUBLISHED ? 5 : 4} />
             <p className="home-eyebrow">{HOME.close.eyebrow}</p>
           </div>
           <h2 data-reveal="mask" id="home-close-title">

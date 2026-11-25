@@ -144,7 +144,9 @@ describe('shell móvil', { timeout: 30_000 }, () => {
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: MOBILE_COPY.openMenu }));
     const dialog = screen.getByRole('dialog');
-    fireEvent.click(within(dialog).getByRole('link', { name: 'Proyectos' }));
+    const firstEntry = PRIMARY_NAV[0];
+    expect(firstEntry).toBeDefined();
+    fireEvent.click(within(dialog).getByRole('link', { name: firstEntry?.label ?? '' }));
     expect(screen.queryByRole('dialog')).toBeNull();
   });
 

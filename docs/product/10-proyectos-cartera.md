@@ -1,5 +1,11 @@
 # 10 · Cartera de proyectos
 
+> **Pausa editorial (25/11/2026).** A petición del cliente, la cartera está oculta temporalmente
+> mientras se cierra una colaboración de contenido. `PROJECTS_PUBLISHED` en
+> `src/content/projects.ts` está en `false`: no se publica la sección de la home, ni la entrada
+> de navegación, ni `/proyectos`, ni las fichas, ni sus URLs en el sitemap. No se ha borrado
+> ningún dato ni imagen. Para restaurarla, volver a `true` y desplegar.
+
 Fuente editorial: `CARBAJAL.001.pdf` (12 páginas). Las imágenes se extrajeron de la página
 correspondiente del PDF, se recompusieron en JPG para la web y se guardaron en
 `public/media/proyectos/` con el patrón `<nombredeproyecto>_<numerofoto>.jpg`.

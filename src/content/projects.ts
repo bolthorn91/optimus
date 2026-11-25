@@ -32,6 +32,13 @@ export const PROJECT_STATUS_LABEL: Record<ProjectStatus, string> = {
 };
 
 /**
+ * Pausa temporal pedida por el cliente el 25/11/2026: la cartera de promociones no se publica
+ * mientras se mantiene la conversación con sus posibles colaboradores. El contenido sigue aquí
+ * para volver a activarlo sin reconstruirlo.
+ */
+export const PROJECTS_PUBLISHED = false as boolean;
+
+/**
  * Fichas de las promociones del dossier CARBAJAL.001. Los textos y los datos técnicos salen del
  * PDF; las condiciones económicas no vienen en el documento y se comparten en la sesión privada.
  * Ninguna cifra de inversión o retorno se inventa en la interfaz.

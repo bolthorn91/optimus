@@ -12,23 +12,33 @@ import {
   routeByPath,
   vehicleRoute,
 } from '@/app/routes';
+import { PROJECTS_PUBLISHED } from '@/content/projects';
 
 describe('manifiesto de rutas', () => {
   it('declara la home, contacto, proyectos, estrategia, calculadora, nosotros, siete actos, tres vehículos y tres legales', () => {
     expect(ROUTES.filter((route) => route.kind === 'home')).toHaveLength(1);
     expect(ROUTES.filter((route) => route.kind === 'contact')).toHaveLength(1);
-    expect(ROUTES.filter((route) => route.kind === 'projects')).toHaveLength(1);
-    expect(ROUTES.filter((route) => route.kind === 'project-detail')).toHaveLength(4);
+    expect(ROUTES.filter((route) => route.kind === 'projects')).toHaveLength(
+      PROJECTS_PUBLISHED ? 1 : 0,
+    );
+    expect(ROUTES.filter((route) => route.kind === 'project-detail')).toHaveLength(
+      PROJECTS_PUBLISHED ? 4 : 0,
+    );
     expect(ROUTES.filter((route) => route.kind === 'strategy')).toHaveLength(1);
     expect(ROUTES.filter((route) => route.kind === 'calculator')).toHaveLength(1);
     expect(ROUTES.filter((route) => route.kind === 'company')).toHaveLength(1);
     expect(ROUTES.filter(isActRoute)).toHaveLength(7);
     expect(ROUTES.filter((route) => route.kind === 'vehicle')).toHaveLength(3);
     expect(ROUTES.filter((route) => route.kind === 'legal')).toHaveLength(3);
-    expect(ROUTES).toHaveLength(23);
+    expect(ROUTES).toHaveLength(PROJECTS_PUBLISHED ? 23 : 18);
     expect(homeRoute().path).toBe('/');
     expect(routeByPath('/contacto')?.kind).toBe('contact');
-    expect(routeByPath('/proyectos/one')?.kind).toBe('project-detail');
+    if (PROJECTS_PUBLISHED) {
+      expect(routeByPath('/proyectos/one')?.kind).toBe('project-detail');
+    } else {
+      expect(routeByPath('/proyectos/one')).toBeUndefined();
+      expect(routeByPath('/proyectos')).toBeUndefined();
+    }
   });
 
   it('F1 · las rutas de acto son las siete legibles en español', () => {

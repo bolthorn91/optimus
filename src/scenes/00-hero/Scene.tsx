@@ -1,5 +1,6 @@
 import { useCallback, useRef } from 'react';
 
+import { PROJECTS_PUBLISHED } from '@/content/projects';
 import { SplitText } from '@/motion/gsapSetup';
 import { Scene } from '@/motion/Scene';
 import { useGsapScene } from '@/motion/useGsapScene';
@@ -15,6 +16,9 @@ const INTRO_DURATION = 1.2;
 export interface HeroSceneProps {
   /** La pista visual de scroll sólo se monta en la home; el recorrido legado conserva su texto. */
   showScrollCue?: boolean;
+  /** La cartera de proyectos puede pausarse sin desmontar la escena ni el recorrido legado. */
+  showProjectsCta?: boolean;
+  scrollTarget?: string;
 }
 
 function applyIntro(node: HTMLElement, state: HeroIntroState): void {
@@ -34,7 +38,11 @@ function applyIntro(node: HTMLElement, state: HeroIntroState): void {
   });
 }
 
-export function HeroScene({ showScrollCue = false }: HeroSceneProps) {
+export function HeroScene({
+  showScrollCue = false,
+  showProjectsCta = PROJECTS_PUBLISHED,
+  scrollTarget = '#proyectos',
+}: HeroSceneProps) {
   const ref = useRef<HTMLElement>(null);
   const lineCountRef = useRef(3);
 
@@ -93,12 +101,14 @@ export function HeroScene({ showScrollCue = false }: HeroSceneProps) {
               →
             </span>
           </a>
-          <a className="hero-cta hero-cta--secondary" href={HERO.secondaryCta.href}>
-            {HERO.secondaryCta.label}
-          </a>
+          {showProjectsCta ? (
+            <a className="hero-cta hero-cta--secondary" href={HERO.secondaryCta.href}>
+              {HERO.secondaryCta.label}
+            </a>
+          ) : null}
         </div>
         {showScrollCue ? (
-          <a aria-label={HERO.scrollHint} className="hero-scroll-cue" href="#proyectos">
+          <a aria-label={HERO.scrollHint} className="hero-scroll-cue" href={scrollTarget}>
             <svg aria-hidden="true" focusable="false" viewBox="0 0 24 38">
               <rect
                 fill="none"

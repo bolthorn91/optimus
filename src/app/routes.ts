@@ -1,5 +1,5 @@
 import type { LegalId } from '@/content/legal/types';
-import { PROJECTS, projectPath } from '@/content/projects';
+import { PROJECTS, PROJECTS_PUBLISHED, projectPath } from '@/content/projects';
 import type { VehicleId } from '@/lib/projection-assumptions';
 
 export type RouteKind =
@@ -57,26 +57,30 @@ export const ROUTES: readonly RouteEntry[] = [
     priority: 0.9,
     hasPendingData: true,
   },
-  {
-    path: '/proyectos',
-    kind: 'projects',
-    title: 'Proyectos',
-    description:
-      'Promociones inmobiliarias en Argentina: Añelo, ONE en Canning, Entre Pinares y Edificio M. Paz.',
-    changefreq: 'monthly',
-    priority: 0.9,
-    hasPendingData: false,
-  },
-  ...PROJECTS.map((project): RouteEntry => ({
-    path: projectPath(project.slug),
-    kind: 'project-detail',
-    projectSlug: project.slug,
-    title: project.name,
-    description: project.summary,
-    changefreq: 'monthly',
-    priority: 0.8,
-    hasPendingData: false,
-  })),
+  ...(PROJECTS_PUBLISHED
+    ? [
+        {
+          path: '/proyectos',
+          kind: 'projects' as const,
+          title: 'Proyectos',
+          description:
+            'Promociones inmobiliarias en Argentina: Añelo, ONE en Canning, Entre Pinares y Edificio M. Paz.',
+          changefreq: 'monthly' as const,
+          priority: 0.9,
+          hasPendingData: false,
+        },
+        ...PROJECTS.map((project): RouteEntry => ({
+          path: projectPath(project.slug),
+          kind: 'project-detail',
+          projectSlug: project.slug,
+          title: project.name,
+          description: project.summary,
+          changefreq: 'monthly',
+          priority: 0.8,
+          hasPendingData: false,
+        })),
+      ]
+    : []),
   {
     path: '/estrategia',
     kind: 'strategy',

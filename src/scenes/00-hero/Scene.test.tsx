@@ -40,7 +40,7 @@ describe('HeroScene', () => {
 
   // HERO-06
   it('HERO-06 · los CTA canónicos van a /contacto y /proyectos', () => {
-    render(<HeroScene />);
+    render(<HeroScene showProjectsCta />);
     expect(screen.getByRole('link', { name: 'Reservar sesión privada' })).toHaveAttribute(
       'href',
       '/contacto',

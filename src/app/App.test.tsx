@@ -9,6 +9,7 @@ import { milestoneMarks, SECTIONS, sectionAt } from '@/app/sections';
 import { Milestone } from '@/components/Milestone';
 import { PENDING_LABEL } from '@/components/PendingValue';
 import { CONTACT } from '@/content/contact';
+import { PROJECTS_PUBLISHED } from '@/content/projects';
 import { ScrollTrigger } from '@/motion/gsapSetup';
 import { HERO } from '@/scenes/00-hero/content';
 import { ACT1 } from '@/scenes/01-escenario-europeo/content';
@@ -82,7 +83,11 @@ describe('shell', () => {
   it('muestra el CTA canónico y la navegación principal', () => {
     render(<App />);
     expect(screen.getAllByText('Reservar sesión privada').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('Proyectos').length).toBeGreaterThan(0);
+    if (PROJECTS_PUBLISHED) {
+      expect(screen.getAllByText('Proyectos').length).toBeGreaterThan(0);
+    } else {
+      expect(screen.queryByRole('link', { name: 'Proyectos' })).toBeNull();
+    }
     expect(screen.getAllByText('Estrategia').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Nosotros').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Calculadora').length).toBeGreaterThan(0);
@@ -153,11 +158,16 @@ describe('shell', () => {
 
   it('la home nueva conduce a proyectos y a la reserva', () => {
     render(<App />);
-    expect(screen.getByRole('heading', { name: 'Proyectos' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Ver todos los proyectos' })).toHaveAttribute(
-      'href',
-      '/proyectos',
-    );
+    if (PROJECTS_PUBLISHED) {
+      expect(screen.getByRole('heading', { name: 'Proyectos' })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: 'Ver todos los proyectos' })).toHaveAttribute(
+        'href',
+        '/proyectos',
+      );
+    } else {
+      expect(screen.queryByRole('heading', { name: 'Proyectos' })).toBeNull();
+      expect(screen.queryByRole('link', { name: 'Ver todos los proyectos' })).toBeNull();
+    }
     expect(screen.getAllByRole('link', { name: 'Reservar sesión privada' }).length).toBeGreaterThan(
       0,
     );
